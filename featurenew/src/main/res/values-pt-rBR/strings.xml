@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="fragment_new_checklist_type_checklist_name_hint">Digite um nome para sua checklist.</string>
+    <string name="fragment_new_checklist_example_hint">Ex.: Lista de compras</string>
+</resources>

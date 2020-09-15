@@ -1,0 +1,5 @@
+<resources>
+    <string name="fragment_new_checklist_type_checklist_name_hint">Enter checklist name.</string>
+    <string name="fragment_new_checklist_example_hint">Ex.: Shopping list</string>
+    <string name="fragment_new_checklist_button_continue">Continuar</string>
+</resources>

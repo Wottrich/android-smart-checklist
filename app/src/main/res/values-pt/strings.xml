@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AndroidSmartCheckList</string>
+
+    <!--  Fragment's Label  -->
+    <string name="label_home_fragment">HomeFragment</string>
+
+    <!--  Fragment home  -->
+    <string name="fragment_home_section_checklists">Checklists</string>
+
+    <!--  Row Checklist  -->
+    <string name="row_checklist_see_details">Ver detalhes</string>
+
+</resources>

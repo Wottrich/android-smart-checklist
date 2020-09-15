@@ -1,0 +1,5 @@
+include ':featurenew'
+include ':database'
+include ':tools'
+include ':app'
+rootProject.name = "AndroidSmartCheckList"

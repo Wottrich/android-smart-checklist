@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#263238</color>
+    <color name="colorPrimaryDark">#000a12</color>
+    <color name="colorAccent">#4f5b62</color>
+
+    <color name="color_title">#babdbe</color>
+    <color name="color_subtitle">#eceff1</color>
+    <color name="color_description">#ffffff</color>
+
+    <color name="button_main">#62BC86</color>
+    <color name="button_main_label">#000a12</color>
+    <color name="button_main_disable">#4f5b62</color>
+
+    <color name="background_fab">#ffffff</color>
+    <color name="background_fab_icon">#000</color>
+
+    <color name="border_shape_input_shopping_name_not_focused">#babdbe</color>
+    <color name="border_shape_input_shopping_name_focused">#ffffff</color>
+
+    <color name="grey300">#e0e0e0</color>
+
+</resources>
