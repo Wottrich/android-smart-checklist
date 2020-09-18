@@ -13,12 +13,18 @@ import java.util.*
  *
  */
 
-fun Long?.formatDate () : String? {
-    if (this == null) {
-        return null
-    }
+fun Long?.validAndFormatDate (
+    pattern: String = "dd/MM/yyyy",
+    locale: Locale = Locale.getDefault()
+) : String? {
+    return this?.formatDate(pattern, locale)
+}
 
-    val formatter = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
+private fun Long.formatDate(
+    pattern: String = "dd/MM/yyyy",
+    locale: Locale = Locale.getDefault()
+) : String? {
+    val formatter = SimpleDateFormat(pattern, locale)
     val dateConverted = Date(this)
 
     return try {
@@ -26,5 +32,4 @@ fun Long?.formatDate () : String? {
     } catch (e: Exception) {
         null
     }
-
 }

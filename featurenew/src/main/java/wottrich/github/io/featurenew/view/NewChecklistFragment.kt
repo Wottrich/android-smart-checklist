@@ -9,6 +9,8 @@ import androidx.databinding.DataBindingUtil
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.featurenew.R
 import wottrich.github.io.featurenew.databinding.FragmentNewChecklistBinding
+import wottrich.github.io.featurenew.dialogs.showErrorDialog
+import wottrich.github.io.featurenew.view.NewChecklistViewModel.Companion.ERROR_CONTINUE
 
 class NewChecklistFragment : Fragment() {
 
@@ -28,17 +30,27 @@ class NewChecklistFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
+        setupObservables()
     }
 
+    private fun setupObservables() = viewModel.apply {
+        navigation.observe(viewLifecycleOwner) {
+
+        }
+
+        errorMessage.observe(viewLifecycleOwner) {
+            when(it) {
+                ERROR_CONTINUE -> showErrorDialog(R.string.fragment_new_checklist_error_continue)
+                else -> showErrorDialog(R.string.unknown)
+            }
+        }
+    }
+
+
     private fun setupListeners() {
-        //TODO: finish this
-//        binding.btnContinue.setOnClickListener {
-//            if (viewModel.canContinue()) {
-//
-//            } else {
-//
-//            }
-//        }
+        binding.btnContinue.setOnClickListener {
+            viewModel.nextScreen()
+        }
     }
 
 }

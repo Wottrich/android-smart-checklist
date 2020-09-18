@@ -15,8 +15,7 @@
     <color name="background_fab">#4f5b62</color>
     <color name="background_fab_icon">#fff</color>
 
-    <color name="border_shape_input_shopping_name_not_focused">#babdbe</color>
-    <color name="border_shape_input_shopping_name_focused">#000a12</color>
+    <color name="border_shape_input_shopping_name">#000a12</color>
 
     <color name="grey300">#e0e0e0</color>
 

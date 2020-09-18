@@ -15,6 +15,6 @@ import wottrich.github.io.featurenew.view.NewChecklistViewModel
  
 val featureNewModule = module {
 
-    viewModel { NewChecklistViewModel(get()) }
+    viewModel { NewChecklistViewModel() }
 
 }

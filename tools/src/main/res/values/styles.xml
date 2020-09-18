@@ -24,10 +24,10 @@
 
     <style name="Widget.MaterialComponents.TextInputLayout" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
         <item name="hintTextAppearance">@style/TextAppearance.MaterialComponents.Subtitle2</item>
-        <item name="android:textColor">@color/colorPrimary</item>
-        <item name="hintTextColor">@color/colorPrimary</item>
+        <item name="android:textColor">@color/border_shape_input_shopping_name</item>
+        <item name="hintTextColor">@color/border_shape_input_shopping_name</item>
         <item name="android:paddingBottom">8dp</item>
-        <item name="boxStrokeColor">@color/colorPrimary</item>
+        <item name="boxStrokeColor">@color/border_shape_input_shopping_name</item>
     </style>
 
     <style name="ButtonDefault" parent="Widget.MaterialComponents.Button">
