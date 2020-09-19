@@ -3,9 +3,12 @@ package wottrich.github.io.featurenew.view
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.featurenew.R
 import wottrich.github.io.featurenew.databinding.FragmentNewChecklistBinding
@@ -45,7 +48,6 @@ class NewChecklistFragment : Fragment() {
             }
         }
     }
-
 
     private fun setupListeners() {
         binding.btnContinue.setOnClickListener {

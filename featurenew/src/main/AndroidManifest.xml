@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name="wottrich.github.io.featurenew.view.NewChecklistActivity"
+            android:name=".view.NewChecklistActivity"
             android:windowSoftInputMode="adjustResize"/>
     </application>
 
