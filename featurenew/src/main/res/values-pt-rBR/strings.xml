@@ -2,4 +2,6 @@
 <resources>
     <string name="fragment_new_checklist_type_checklist_name_hint">Digite um nome para sua checklist.</string>
     <string name="fragment_new_checklist_example_hint">Ex.: Lista de compras</string>
+    <string name="fragment_new_checklist_button_continue">Continuar</string>
+    <string name="fragment_new_checklist_error_continue">Preencha todos os campos para continuar</string>
 </resources>

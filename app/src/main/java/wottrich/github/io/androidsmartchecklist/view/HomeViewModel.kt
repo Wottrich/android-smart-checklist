@@ -28,10 +28,4 @@ class HomeViewModel(
         checklists.value
     }
 
-    fun addItem() {
-        viewModelScope.launch {
-            dao.insert(Checklist(name = "Checklist"))
-        }
-    }
-
 }

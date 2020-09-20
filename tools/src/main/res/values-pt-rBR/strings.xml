@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="attention">Atenção</string>
+    <string name="unknown">Erro desconhecido, por favor tente novamente mais tarde</string>
+</resources>

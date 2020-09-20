@@ -4,7 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import wottrich.github.io.tools.extensions.formatDate
+import wottrich.github.io.tools.extensions.validAndFormatDate
 import java.util.*
 
 /**
@@ -28,9 +28,9 @@ data class Checklist(
 ) {
 
     @Ignore
-    val createdDateFormatted: String? = createdDate.timeInMillis.formatDate()
+    val createdDateFormatted: String? = createdDate.timeInMillis.validAndFormatDate()
 
     @Ignore
-    val latestUpdateFormatted: String? = lastUpdate.timeInMillis.formatDate()
+    val latestUpdateFormatted: String? = lastUpdate.timeInMillis.validAndFormatDate()
 
 }
