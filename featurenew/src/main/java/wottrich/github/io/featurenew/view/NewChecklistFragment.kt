@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
@@ -34,11 +35,19 @@ class NewChecklistFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupListeners()
         setupObservables()
+        setupBinding()
+    }
+
+    private fun setupBinding() {
+        binding.apply {
+            lifecycleOwner = viewLifecycleOwner
+            viewModel = this@NewChecklistFragment.viewModel
+        }
     }
 
     private fun setupObservables() = viewModel.apply {
         navigation.observe(viewLifecycleOwner) {
-
+            Toast.makeText(requireContext(), "work", Toast.LENGTH_SHORT).show()
         }
 
         errorMessage.observe(viewLifecycleOwner) {

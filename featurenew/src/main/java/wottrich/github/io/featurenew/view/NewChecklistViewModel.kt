@@ -24,7 +24,7 @@ class NewChecklistViewModel : ViewModel() {
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage = _errorMessage as LiveData<String>
 
-    private fun canContinue () : Boolean = !checklistName.value.isNullOrEmpty()
+    private fun canContinue () : Boolean = checklistName.value?.isEmpty() == false
 
     fun nextScreen() {
         if (canContinue()) {
