@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             android:keepScreenOn="true"
             app:defaultNavHost="true"
-            app:navGraph="@navigation/nav_detail" />
+            app:navGraph="@navigation/nav_new_checklist" />
 
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

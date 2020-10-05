@@ -14,7 +14,7 @@ import wottrich.github.io.database.dao.ChecklistDao
  *
  */
 
-class NewChecklistViewModel : ViewModel() {
+class ChecklistNameViewModel : ViewModel() {
 
     val checklistName = MutableLiveData<String>()
 

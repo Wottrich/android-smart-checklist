@@ -1,11 +1,9 @@
 package wottrich.github.io.featurenew.dialogs
 
 import androidx.annotation.StringRes
-import wottrich.github.io.featurenew.R
-import wottrich.github.io.featurenew.view.NewChecklistFragment
+import androidx.fragment.app.Fragment
+import wottrich.github.io.featurenew.view.ChecklistNameFragment
 import wottrich.github.io.tools.extensions.defaultErrorDialog
-import wottrich.github.io.tools.extensions.neutralButton
-import wottrich.github.io.tools.extensions.showAlertDialog
 
 /**
  * @author Wottrich
@@ -16,10 +14,10 @@ import wottrich.github.io.tools.extensions.showAlertDialog
  *
  */
 
-fun NewChecklistFragment?.showErrorDialog(@StringRes message: Int) {
+fun Fragment?.showErrorDialog(@StringRes message: Int) {
     this?.context?.defaultErrorDialog(message)
 }
 
-fun NewChecklistFragment?.showErrorDialog(message: String) {
+fun Fragment?.showErrorDialog(message: String) {
     this?.context?.defaultErrorDialog(message)
 }

@@ -2,7 +2,8 @@ package wottrich.github.io.featurenew.injection
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import wottrich.github.io.featurenew.view.NewChecklistViewModel
+import wottrich.github.io.featurenew.view.ChecklistNameViewModel
+import wottrich.github.io.featurenew.view.task.TaskListViewModel
 
 /**
  * @author Wottrich
@@ -15,6 +16,7 @@ import wottrich.github.io.featurenew.view.NewChecklistViewModel
  
 val featureNewModule = module {
 
-    viewModel { NewChecklistViewModel() }
+    viewModel { ChecklistNameViewModel() }
+    viewModel { TaskListViewModel() }
 
 }

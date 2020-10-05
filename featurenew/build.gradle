@@ -45,6 +45,7 @@ dependencies {
 
     api project(path: ":database")
     api project(path: ":tools")
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //Test
     testImplementation "junit:junit:$junit_version"

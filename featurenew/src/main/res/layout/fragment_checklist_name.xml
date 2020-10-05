@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="wottrich.github.io.featurenew.view.NewChecklistViewModel"/>
+        <import type="wottrich.github.io.featurenew.view.ChecklistNameViewModel"/>
 
         <variable
             name="viewModel"
-            type="NewChecklistViewModel" />
+            type="ChecklistNameViewModel" />
 
     </data>
 
@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="15dp"
-        tools:context=".view.NewChecklistFragment">
+        tools:context=".view.ChecklistNameFragment">
 
         <com.google.android.material.textview.MaterialTextView
             style="@style/TextViewSection"

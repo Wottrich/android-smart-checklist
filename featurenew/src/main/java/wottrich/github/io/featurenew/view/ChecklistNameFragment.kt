@@ -3,30 +3,29 @@ package wottrich.github.io.featurenew.view
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
-import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.featurenew.R
-import wottrich.github.io.featurenew.databinding.FragmentNewChecklistBinding
+import wottrich.github.io.featurenew.databinding.FragmentChecklistNameBinding
 import wottrich.github.io.featurenew.dialogs.showErrorDialog
-import wottrich.github.io.featurenew.view.NewChecklistViewModel.Companion.ERROR_CONTINUE
+import wottrich.github.io.featurenew.view.ChecklistNameViewModel.Companion.ERROR_CONTINUE
 
-class NewChecklistFragment : Fragment() {
+class ChecklistNameFragment : Fragment() {
 
-    private val viewModel by viewModel<NewChecklistViewModel>()
-    private lateinit var binding: FragmentNewChecklistBinding
+    private val checklistNameFragment = this
+
+    private val viewModel by viewModel<ChecklistNameViewModel>()
+    private lateinit var binding: FragmentChecklistNameBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_new_checklist, container, false
+            inflater, R.layout.fragment_checklist_name, container, false
         )
         return binding.root
     }
@@ -41,7 +40,7 @@ class NewChecklistFragment : Fragment() {
     private fun setupBinding() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = this@NewChecklistFragment.viewModel
+            viewModel = checklistNameFragment.viewModel
         }
     }
 
