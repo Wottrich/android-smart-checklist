@@ -14,14 +14,17 @@ import wottrich.github.io.database.entity.Task
  *
  */
  
-class TaskListViewModel : ViewModel() {
+class TaskListViewModel(
+    private val checklistId: Long?
+) : ViewModel() {
 
     val taskName = MutableLiveData<String>()
 
     private val _errorMessage = MutableLiveData<String>()
     val errorMessage = _errorMessage as LiveData<String>
 
-    private val listOfTaskName = mutableListOf<Task>()
+    private val _tasks = MutableLiveData<List<Task>?>(listOf())
+    val tasks: LiveData<List<Task>?> = _tasks
 
     fun verifyTaskNameToAddItem() {
         val taskName = taskName.value
@@ -33,8 +36,25 @@ class TaskListViewModel : ViewModel() {
     }
 
     private fun addTaskAndClearText(taskName: String) {
-        listOfTaskName.add(generateTask(taskName))
+        val newTaskList = _tasks.value?.toMutableList()?.apply {
+            add(generateTask(taskName))
+        }.orEmpty()
+        _tasks.value = newTaskList
         clearTaskName()
+    }
+
+    fun deleteTask(task: Task) {
+        val newTaskList = _tasks.value?.toMutableList()?.apply {
+            remove(task)
+        }.orEmpty()
+        _tasks.value = newTaskList
+    }
+
+    fun updateTask(task: Task) {
+        val newTaskList = _tasks.value?.toMutableList()?.apply {
+            this.find { it == task }?.isCompleted = !task.isCompleted
+        }.orEmpty()
+        _tasks.value = newTaskList
     }
 
     private fun generateTask(taskName: String): Task {
@@ -47,6 +67,7 @@ class TaskListViewModel : ViewModel() {
 
     companion object {
         const val ERROR_EMPTY_TASK = "TaskListViewModelEmptyTask"
+        const val ERROR_DELETE_TASK = "TaskListViewModelDeleteTask"
     }
 
 }

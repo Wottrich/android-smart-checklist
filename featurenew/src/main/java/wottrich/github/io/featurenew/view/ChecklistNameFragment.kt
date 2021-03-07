@@ -5,13 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.findNavController
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.featurenew.R
 import wottrich.github.io.featurenew.databinding.FragmentChecklistNameBinding
+import wottrich.github.io.featurenew.dialogs.showDefaultErrorMessageDialog
 import wottrich.github.io.featurenew.dialogs.showErrorDialog
-import wottrich.github.io.featurenew.view.ChecklistNameViewModel.Companion.ERROR_CONTINUE
 
 class ChecklistNameFragment : Fragment() {
 
@@ -45,16 +45,18 @@ class ChecklistNameFragment : Fragment() {
     }
 
     private fun setupObservables() = viewModel.apply {
-        navigation.observe(viewLifecycleOwner) {
-            Toast.makeText(requireContext(), "work", Toast.LENGTH_SHORT).show()
-        }
-
-        errorMessage.observe(viewLifecycleOwner) {
-            when(it) {
-                ERROR_CONTINUE -> showErrorDialog(R.string.fragment_new_checklist_error_continue)
-                else -> showErrorDialog(R.string.unknown)
+        action.observe(viewLifecycleOwner) {
+            when (it) {
+                is ChecklistNameAction.NextScreen -> onNextScreen(it)
+                is ChecklistNameAction.ErrorMessage -> showErrorDialog(it.stringRes)
+                else -> showDefaultErrorMessageDialog()
             }
         }
+    }
+
+    private fun onNextScreen(nextScreen: ChecklistNameAction.NextScreen) {
+        val direction = ChecklistNameFragmentDirections.actionChecklistNameFragmentToTaskListFragment(nextScreen.checklistId)
+        findNavController().navigate(direction)
     }
 
     private fun setupListeners() {

@@ -1,7 +1,9 @@
 package wottrich.github.io.featurenew.dialogs
 
+import android.content.Context
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
+import wottrich.github.io.featurenew.R
 import wottrich.github.io.featurenew.view.ChecklistNameFragment
 import wottrich.github.io.tools.extensions.defaultErrorDialog
 
@@ -13,6 +15,10 @@ import wottrich.github.io.tools.extensions.defaultErrorDialog
  * Copyright © 2020 AndroidSmartCheckList. All rights reserved.
  *
  */
+
+fun Fragment.showDefaultErrorMessageDialog() {
+    showErrorDialog(R.string.unknown)
+}
 
 fun Fragment?.showErrorDialog(@StringRes message: Int) {
     this?.context?.defaultErrorDialog(message)

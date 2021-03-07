@@ -1,7 +1,9 @@
 package wottrich.github.io.database.injection
 
+import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import wottrich.github.io.database.AppDatabase
+import wottrich.github.io.database.dao.ChecklistDao
 
 /**
  * @author Wottrich
@@ -14,6 +16,6 @@ import wottrich.github.io.database.AppDatabase
  
 val databaseModule = module {
 
-    single { AppDatabase.getInstance(get()).checklistDao() }
+    single<ChecklistDao> { AppDatabase.getInstance(androidContext()).checklistDao() }
 
 }

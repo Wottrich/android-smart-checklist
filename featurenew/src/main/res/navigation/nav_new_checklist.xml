@@ -8,11 +8,19 @@
         android:id="@+id/checklistNameFragment"
         android:name="wottrich.github.io.featurenew.view.ChecklistNameFragment">
 
+        <action
+            android:id="@+id/action_checklistNameFragment_to_taskListFragment"
+            app:destination="@id/taskListFragment" />
     </fragment>
 
     <fragment
         android:id="@+id/taskListFragment"
-        android:name="wottrich.github.io.featurenew.view.ChecklistNameFragment">
+        android:name="wottrich.github.io.featurenew.view.task.TaskListFragment">
+        <argument android:name="checklistId"
+            app:argType="Long"
+            app:nullable="true"
+            android:defaultValue="@null"
+            />
 
     </fragment>
 

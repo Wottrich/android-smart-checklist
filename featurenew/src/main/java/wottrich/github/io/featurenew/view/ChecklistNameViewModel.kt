@@ -1,9 +1,15 @@
 package wottrich.github.io.featurenew.view
 
+import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import wottrich.github.io.database.dao.ChecklistDao
+import wottrich.github.io.database.entity.Checklist
+import wottrich.github.io.featurenew.R
+import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
  * @author Wottrich
@@ -14,28 +20,32 @@ import wottrich.github.io.database.dao.ChecklistDao
  *
  */
 
-class ChecklistNameViewModel : ViewModel() {
+class ChecklistNameViewModel(
+    private val dispatchersProviders: DispatchersProviders,
+    private val database: ChecklistDao
+) : ViewModel() {
 
     val checklistName = MutableLiveData<String>()
 
-    private val _navigation = MutableLiveData<String>()
-    val navigation = _navigation as LiveData<String>
-
-    private val _errorMessage = MutableLiveData<String>()
-    val errorMessage = _errorMessage as LiveData<String>
+    private val _action = MutableLiveData<ChecklistNameAction>()
+    val action: LiveData<ChecklistNameAction> = _action
 
     private fun canContinue () : Boolean = checklistName.value?.isEmpty() == false
 
     fun nextScreen() {
         if (canContinue()) {
-            _navigation.postValue(checklistName.value)
+            viewModelScope.launch(dispatchersProviders.io) {
+                val itemId = database.insert(Checklist(name = checklistName.value.orEmpty()))
+                _action.postValue(ChecklistNameAction.NextScreen(itemId))
+            }
         } else {
-            _errorMessage.postValue(ERROR_CONTINUE)
+            _action.postValue(ChecklistNameAction.ErrorMessage(R.string.fragment_new_checklist_error_continue))
         }
     }
 
-    companion object {
-        const val ERROR_CONTINUE = "NewChecklistViewModelErrorContinue"
-    }
+}
 
+sealed class ChecklistNameAction {
+    data class NextScreen(val checklistId: Long?): ChecklistNameAction()
+    data class ErrorMessage(@StringRes val stringRes: Int): ChecklistNameAction()
 }

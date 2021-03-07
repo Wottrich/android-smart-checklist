@@ -25,7 +25,7 @@ interface ChecklistDao {
     fun selectAllFromChecklistWhereChecklistIdIs(checklistId: Long): Flow<Checklist>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(checklist: Checklist)
+    suspend fun insert(checklist: Checklist): Long?
 
     @Update
     suspend fun update(checklist: Checklist)

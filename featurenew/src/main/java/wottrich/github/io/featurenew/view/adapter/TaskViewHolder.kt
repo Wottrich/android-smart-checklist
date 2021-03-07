@@ -14,19 +14,29 @@ import wottrich.github.io.tools.extensions.inflater
  * Copyright © 2020 AndroidSmartCheckList. All rights reserved.
  *
  */
- 
+
+sealed class TaskViewHolderAction {
+    data class CheckTask(val task: Task) : TaskViewHolderAction()
+    data class DeleteTask(val task: Task) : TaskViewHolderAction()
+}
+
 class TaskViewHolder(
     private val binding: RowTaskBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(task: Task) {
-        binding.task = task
+    fun bind(task: Task, onAction: (TaskViewHolderAction) -> Unit) {
+        binding.apply {
+            this.task = task
+            this.imgBtnCheck.setOnClickListener { onAction(TaskViewHolderAction.CheckTask(task)) }
+            this.imgBtnDelete.setOnClickListener { onAction(TaskViewHolderAction.DeleteTask(task)) }
+        }
+
     }
 
     companion object {
 
         fun new(parent: ViewGroup): TaskViewHolder {
-            val inflater = parent.context.inflater
+            val inflater = parent.inflater
             return TaskViewHolder(
                 RowTaskBinding.inflate(inflater, parent, false)
             )

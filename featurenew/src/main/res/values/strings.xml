@@ -9,4 +9,8 @@
     <string name="fragment_task_list_click_to_add_item">Click to add item</string>
     <string name="fragment_task_list_add_item">Add</string>
     <string name="fragment_task_list_error_add_item">You cannot add empty task. Please, type a name to continue.</string>
+
+    <string name="row_task_click_to_check_item_description">Completed item, click to incomplete</string>
+    <string name="row_task_click_to_uncheck_item_description">Incomplete item, click to complete</string>
+    <string name="row_task_delete_item">Click to delete item</string>
 </resources>
