@@ -15,11 +15,12 @@ import wottrich.github.io.database.entity.Checklist
  
 class ChecklistViewHolder (private val binding: RowChecklistBinding) : RecyclerView.ViewHolder(binding.root) {
 
-    fun Checklist.bind() {
+    fun Checklist.bind(onClick: (Checklist) -> Unit) {
         val checklist = this
         binding.apply {
             this.checklist = checklist
         }
+        itemView.setOnClickListener { onClick(this) }
     }
 
 }

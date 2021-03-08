@@ -4,4 +4,14 @@
     <string name="fragment_new_checklist_example_hint">Ex.: Lista de compras</string>
     <string name="fragment_new_checklist_button_continue">Continuar</string>
     <string name="fragment_new_checklist_error_continue">Preencha todos os campos para continuar</string>
+
+    <string name="fragment_task_list_title">Insira tarefas na sua checklist:</string>
+    <string name="fragment_task_list_type_task_name_hint">Digite o nome da tarefa</string>
+    <string name="fragment_task_list_click_to_add_item">Clique para adicionar o item</string>
+    <string name="fragment_task_list_add_item">Adicionar</string>
+    <string name="fragment_task_list_error_add_item">Você não pode adicionar uma tarefa vazia. Por favor, digite um nome para continuar.</string>
+
+    <string name="row_task_click_to_check_item_description">Item completo, clique para tornar incompleto</string>
+    <string name="row_task_click_to_uncheck_item_description">Item incompleto, clique para completar</string>
+    <string name="row_task_delete_item">Clique para deletar o item</string>
 </resources>

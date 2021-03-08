@@ -30,7 +30,7 @@ class HomeActivity : AppCompatActivity() {
 
     private fun setupListeners () {
         binding.fabNewChecklist.setOnClickListener {
-            startActivity<NewChecklistActivity>()
+            NewChecklistActivity.start(this)
         }
     }
 }

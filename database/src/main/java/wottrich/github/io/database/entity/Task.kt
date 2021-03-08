@@ -1,6 +1,5 @@
 package wottrich.github.io.database.entity
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import java.util.*
@@ -21,7 +20,7 @@ object TaskType {
 @Entity(tableName = "task")
 data class Task(
     @PrimaryKey(autoGenerate = true)
-    val taskId: Long? = null,
+    var taskId: Long? = null,
     var checklistId: Long? = null,
     var name: String,
     var isCompleted: Boolean = false,
