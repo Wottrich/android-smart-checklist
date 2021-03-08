@@ -17,6 +17,6 @@ import wottrich.github.io.featurenew.view.task.TaskListViewModel
 val featureNewModule = module {
 
     viewModel { ChecklistNameViewModel(get(), get()) }
-    viewModel { (checklistId: Long?) -> TaskListViewModel(checklistId) }
+    viewModel { (checklistId: Long) -> TaskListViewModel(checklistId, get(), get(), get()) }
 
 }

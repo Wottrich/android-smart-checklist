@@ -21,6 +21,7 @@ import wottrich.github.io.database.entity.Checklist
 class ChecklistAdapter(
     context: Context,
     private val items: LiveData<List<Checklist>>,
+    private val onClick: (Checklist) -> Unit,
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 ) : RecyclerView.Adapter<ChecklistViewHolder>() {
 
@@ -37,7 +38,9 @@ class ChecklistAdapter(
 
     override fun onBindViewHolder(holder: ChecklistViewHolder, position: Int) {
         holder.apply {
-            getItem(position)?.bind()
+            getItem(position)?.bind {
+                onClick(it)
+            }
         }
     }
 

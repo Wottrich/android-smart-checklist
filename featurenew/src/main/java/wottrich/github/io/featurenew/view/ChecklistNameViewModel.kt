@@ -36,7 +36,11 @@ class ChecklistNameViewModel(
         if (canContinue()) {
             viewModelScope.launch(dispatchersProviders.io) {
                 val itemId = database.insert(Checklist(name = checklistName.value.orEmpty()))
-                _action.postValue(ChecklistNameAction.NextScreen(itemId))
+                if (itemId != null) {
+                    _action.postValue(ChecklistNameAction.NextScreen(itemId))
+                } else {
+                    _action.postValue(ChecklistNameAction.ErrorMessage(R.string.unknown))
+                }
             }
         } else {
             _action.postValue(ChecklistNameAction.ErrorMessage(R.string.fragment_new_checklist_error_continue))
@@ -46,6 +50,6 @@ class ChecklistNameViewModel(
 }
 
 sealed class ChecklistNameAction {
-    data class NextScreen(val checklistId: Long?): ChecklistNameAction()
+    data class NextScreen(val checklistId: Long): ChecklistNameAction()
     data class ErrorMessage(@StringRes val stringRes: Int): ChecklistNameAction()
 }

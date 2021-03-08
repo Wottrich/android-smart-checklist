@@ -1,21 +1,18 @@
 package wottrich.github.io.featurenew.view.task
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.RecyclerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.featurenew.R
 import wottrich.github.io.featurenew.databinding.FragmentTaskListBinding
+import wottrich.github.io.featurenew.dialogs.showDefaultErrorMessageDialog
 import wottrich.github.io.featurenew.dialogs.showErrorDialog
 import wottrich.github.io.featurenew.view.adapter.TaskAdapter
 import wottrich.github.io.featurenew.view.adapter.TaskViewHolderAction
-import wottrich.github.io.featurenew.view.task.TaskListViewModel.Companion.ERROR_EMPTY_TASK
 
 class TaskListFragment : Fragment() {
 
@@ -28,7 +25,7 @@ class TaskListFragment : Fragment() {
     private lateinit var binding: FragmentTaskListBinding
 
     private val adapter: TaskAdapter by lazy {
-        TaskAdapter(viewModel.tasks.value.orEmpty()).apply {
+        TaskAdapter(listOf()).apply {
             setOnTaskAction(::handleOnTaskAction)
         }
     }
@@ -37,6 +34,7 @@ class TaskListFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        setHasOptionsMenu(true)
         binding = DataBindingUtil.inflate(
             layoutInflater, R.layout.fragment_task_list, container, false
         )
@@ -59,17 +57,17 @@ class TaskListFragment : Fragment() {
     }
 
     private fun setupObservables() {
-        viewModel.apply {
-            tasks.observe(viewLifecycleOwner) {
-                adapter.updateItems(it.orEmpty())
-            }
+        viewModel.action.observe(viewLifecycleOwner, ::handleAction)
+        viewModel.getLiveDataTaskList().observe(viewLifecycleOwner) {
+            adapter.updateItems(it)
+        }
+    }
 
-            errorMessage.observe(viewLifecycleOwner) {
-                when (it) {
-                    ERROR_EMPTY_TASK -> showErrorDialog(R.string.fragment_task_list_error_add_item)
-                    else -> showErrorDialog(R.string.unknown)
-                }
-            }
+    private fun handleAction(action: TaskListAction?) {
+        when (action) {
+            is TaskListAction.UpdateTaskList -> adapter.updateItems(action.taskList)
+            is TaskListAction.ErrorMessage -> showErrorDialog(action.stringRes)
+            null -> showDefaultErrorMessageDialog()
         }
     }
 
@@ -88,6 +86,18 @@ class TaskListFragment : Fragment() {
             is TaskViewHolderAction.DeleteTask -> viewModel.deleteTask(action.task)
             is TaskViewHolderAction.CheckTask -> viewModel.updateTask(action.task)
         }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_check, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.itComplete) {
+            activity?.finish()
+            return true
+        }
+        return super.onOptionsItemSelected(item)
     }
 
 }

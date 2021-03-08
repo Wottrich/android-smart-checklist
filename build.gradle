@@ -17,7 +17,7 @@ buildscript {
         material_version = "1.2.1"
 
         //Navigation
-        navigation_version = "2.3.2"
+        navigation_version = "2.3.3"
 
         //Android
         lifecycle_extensions_version = "2.2.0"

@@ -7,6 +7,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import wottrich.github.io.database.converter.Converters
 import wottrich.github.io.database.dao.ChecklistDao
+import wottrich.github.io.database.dao.TaskDao
 import wottrich.github.io.database.entity.Checklist
 import wottrich.github.io.database.entity.Task
 
@@ -24,6 +25,7 @@ import wottrich.github.io.database.entity.Task
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun checklistDao(): ChecklistDao
+    abstract fun taskDao(): TaskDao
 
     companion object {
 

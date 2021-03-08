@@ -3,6 +3,7 @@ package wottrich.github.io.database.dao
 import androidx.room.*
 import kotlinx.coroutines.flow.Flow
 import wottrich.github.io.database.entity.Checklist
+import wottrich.github.io.database.entity.ChecklistWithTasks
 
 /**
  * @author Wottrich
@@ -22,7 +23,7 @@ interface ChecklistDao {
 
     @Transaction
     @Query("SELECT * FROM checklist WHERE checklistId=:checklistId")
-    fun selectAllFromChecklistWhereChecklistIdIs(checklistId: Long): Flow<Checklist>
+    fun selectAllFromChecklistWhereChecklistIdIs(checklistId: Long): Flow<ChecklistWithTasks>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(checklist: Checklist): Long?

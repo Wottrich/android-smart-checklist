@@ -21,7 +21,7 @@ import androidx.navigation.fragment.NavHostFragment
 fun AppCompatActivity.navHost(@IdRes fragmentContainerViewID: Int)
         = supportFragmentManager.findFragmentById(fragmentContainerViewID) as NavHostFragment
 
-inline fun <reified T: Activity> AppCompatActivity?.startActivity(
+inline fun <reified T: Activity> Activity?.startActivity(
     finishActualActivity: Boolean = false,
     options: Bundle? = null,
     setupIntent: Intent.() -> Unit = {}

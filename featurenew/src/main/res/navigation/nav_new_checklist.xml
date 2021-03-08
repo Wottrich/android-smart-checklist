@@ -17,10 +17,7 @@
         android:id="@+id/taskListFragment"
         android:name="wottrich.github.io.featurenew.view.task.TaskListFragment">
         <argument android:name="checklistId"
-            app:argType="Long"
-            app:nullable="true"
-            android:defaultValue="@null"
-            />
+            app:argType="long" />
 
     </fragment>
 

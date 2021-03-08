@@ -20,7 +20,7 @@ object TaskType {
 @Entity(tableName = "task")
 data class Task(
     @PrimaryKey(autoGenerate = true)
-    val taskId: Long? = null,
+    var taskId: Long? = null,
     var checklistId: Long? = null,
     var name: String,
     var isCompleted: Boolean = false,

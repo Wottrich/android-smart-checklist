@@ -4,6 +4,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import wottrich.github.io.database.AppDatabase
 import wottrich.github.io.database.dao.ChecklistDao
+import wottrich.github.io.database.dao.TaskDao
 
 /**
  * @author Wottrich
@@ -17,5 +18,6 @@ import wottrich.github.io.database.dao.ChecklistDao
 val databaseModule = module {
 
     single<ChecklistDao> { AppDatabase.getInstance(androidContext()).checklistDao() }
+    single<TaskDao> { AppDatabase.getInstance(androidContext()).taskDao() }
 
 }
