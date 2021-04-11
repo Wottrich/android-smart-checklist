@@ -6,6 +6,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.navigation.ui.setupWithNavController
 import com.example.androidsmartchecklist.R
 import com.example.androidsmartchecklist.databinding.ActivityHomeBinding
+import wottrich.github.io.androidsmartchecklist.ComposeActivity
 import wottrich.github.io.featurenew.view.NewChecklistActivity
 import wottrich.github.io.tools.extensions.navHost
 import wottrich.github.io.tools.extensions.startActivity
@@ -22,6 +23,8 @@ class HomeActivity : AppCompatActivity() {
 
         setupBottomAppBarWithNavController()
         setupListeners()
+
+        startActivity<ComposeActivity>()
     }
 
     private fun setupBottomAppBarWithNavController () {
