@@ -31,7 +31,8 @@ fun RowComponent(
             .fillMaxWidth()
             .padding(Dimens.BaseFour.SizeThree)
         Row(
-            modifier = rowModifier
+            modifier = rowModifier,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             LeftContent(
                 iconContent = leftIconContent,

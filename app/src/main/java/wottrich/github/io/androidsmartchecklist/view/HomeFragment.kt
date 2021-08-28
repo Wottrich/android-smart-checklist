@@ -10,9 +10,11 @@ import androidx.lifecycle.Observer
 import com.example.androidsmartchecklist.R
 import com.example.androidsmartchecklist.databinding.FragmentHomeBinding
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
+import wottrich.github.io.androidsmartchecklist.ComposeActivity
 import wottrich.github.io.androidsmartchecklist.view.adapter.ChecklistAdapter
 import wottrich.github.io.database.entity.Checklist
 import wottrich.github.io.featurenew.view.NewChecklistActivity
+import wottrich.github.io.tools.extensions.startActivity
 
 
 class HomeFragment : Fragment() {
@@ -35,6 +37,9 @@ class HomeFragment : Fragment() {
         setupBinding()
         setupObservables()
         setupRecycler()
+        binding.button.setOnClickListener {
+            activity?.startActivity<ComposeActivity>()
+        }
     }
 
     private fun setupBinding () {
