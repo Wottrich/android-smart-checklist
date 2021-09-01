@@ -12,6 +12,8 @@ interface Pallet {
     val secondaryVariant: Color
     val background: Color
     val onPrimary: Color
+    val surface: Color
+    val onSurface: Color
 
     fun build(): Colors
 }
@@ -23,6 +25,8 @@ object LightPallet : Pallet {
     override val secondaryVariant = Color(0xFF88C270)
     override val background = primary
     override val onPrimary = Color(0xFF4F5B62)
+    override val surface = Color(0xFFE8EBEE)
+    override val onSurface = onPrimary
 
     override fun build() = lightColors(
         primary = primary,
@@ -30,7 +34,9 @@ object LightPallet : Pallet {
         secondary = secondary,
         secondaryVariant = secondaryVariant,
         background = background,
-        onPrimary = onPrimary
+        onPrimary = onPrimary,
+        surface = surface,
+        onSurface = onSurface
     )
 }
 
@@ -41,6 +47,8 @@ object DarkPallet : Pallet {
     override val secondaryVariant = Color(0xFF94EFB6)
     override val background = primary
     override val onPrimary = Color(0xFFECEFF1)
+    override val surface = Color(0xFF192124)
+    override val onSurface = onPrimary
 
     override fun build() = darkColors(
         primary = primary,
@@ -48,6 +56,8 @@ object DarkPallet : Pallet {
         secondary = secondary,
         secondaryVariant = secondaryVariant,
         background = background,
-        onPrimary = onPrimary
+        onPrimary = onPrimary,
+        surface = surface,
+        onSurface = onSurface
     )
 }

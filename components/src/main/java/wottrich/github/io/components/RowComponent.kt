@@ -1,11 +1,9 @@
 package wottrich.github.io.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowForward
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,6 +21,7 @@ fun RowComponent(
 
     val boxModifier = modifier
         .fillMaxWidth()
+        .background(MaterialTheme.colors.surface)
 
     Box(
         modifier = boxModifier

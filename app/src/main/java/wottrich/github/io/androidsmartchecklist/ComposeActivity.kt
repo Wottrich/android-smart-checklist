@@ -45,6 +45,7 @@ fun ComposeActivityScreen() {
         modifier = modifier,
         leftContent = {
             TitleRow(text = "Title")
+            SubtitleRow(text = "Subtitle")
         },
         rightIconContent = {
             val deleteModifier = Modifier

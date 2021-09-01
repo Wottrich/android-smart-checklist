@@ -65,8 +65,8 @@ fun BaseTextContent(
 object BaseTextStyle {
     val TitleTextStyle: TextStyle
         @Composable
-        get() = MaterialTheme.typography.subtitle1.copy(color = MaterialTheme.colors.onPrimary)
+        get() = MaterialTheme.typography.h6.copy(color = MaterialTheme.colors.onSurface)
     val SubtitleTextStyle: TextStyle
         @Composable
-        get() = MaterialTheme.typography.body2.copy(color = MaterialTheme.colors.onPrimary)
+        get() = MaterialTheme.typography.subtitle1.copy(color = MaterialTheme.colors.onSurface)
 }

@@ -1,6 +1,10 @@
 package wottrich.github.io.androidsmartchecklist.view
 
 import androidx.lifecycle.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import wottrich.github.io.database.dao.ChecklistDao
 import wottrich.github.io.database.entity.Checklist
@@ -20,12 +24,25 @@ class HomeViewModel(
     private val dispatchers: DispatchersProviders
 ) : ViewModel() {
 
+    private val _homeStateFlow = MutableStateFlow<HomeState>(HomeState.Loading)
+    val homeStateFlow: StateFlow<HomeState> = _homeStateFlow
+
     val checklists: LiveData<List<Checklist>> by lazy {
         return@lazy dao.selectAllFromChecklist().asLiveData(dispatchers.io)
     }
 
     init {
-        checklists.value
+        viewModelScope.launch(dispatchers.io) {
+            dao.selectAllFromChecklist().collect {
+                _homeStateFlow.value = HomeState.Success(it)
+            }
+        }
     }
 
+}
+
+sealed class HomeState {
+    object Loading : HomeState()
+    data class Success(val checklists: List<Checklist>) : HomeState()
+    data class Error(val refreshing: Boolean = false) : HomeState()
 }
