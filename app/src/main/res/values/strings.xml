@@ -3,12 +3,16 @@
     <string name="app_name">AndroidSmartCheckList</string>
 
     <!--  Fragment's Label  -->
-    <string name="label_home_fragment">HomeFragment</string>
+    <string name="label_home_fragment">Welcome!</string>
 
     <!--  Fragment home  -->
     <string name="fragment_home_section_checklists">Checklists</string>
 
     <!--  Row Checklist  -->
     <string name="row_checklist_see_details">See details</string>
+
+    <string name="floating_action_content_description">New checklist</string>
+
+    <string name="navigate_to_checklist_detail">Click to open %s checklist</string>
 
 </resources>

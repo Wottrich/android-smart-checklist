@@ -69,10 +69,10 @@ class NewChecklistActivity : AppCompatActivity(), AppBarConfiguration.OnNavigate
             activity.startActivity<NewChecklistActivity>()
         }
 
-        fun startEditFlow(activity: Activity, checkListId: Long) {
+        fun startEditFlow(activity: Activity, checklistId: Long) {
             activity.startActivity<NewChecklistActivity> {
                 putExtra(INTENT_EDIT_TASK, true)
-                putExtra(INTENT_CHECKLIST_ID, checkListId)
+                putExtra(INTENT_CHECKLIST_ID, checklistId)
             }
         }
 
