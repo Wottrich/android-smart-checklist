@@ -19,16 +19,12 @@ import wottrich.github.io.tools.dispatcher.DispatchersProviders
  */
 
 class HomeViewModel(
-    private val dao: ChecklistDao,
-    private val dispatchers: DispatchersProviders
+    dispatchers: DispatchersProviders,
+    private val dao: ChecklistDao
 ) : ViewModel() {
 
     private val _homeStateFlow = MutableStateFlow(HomeState())
     val homeStateFlow: StateFlow<HomeState> = _homeStateFlow
-
-    val checklists: LiveData<List<Checklist>> by lazy {
-        return@lazy dao.selectAllFromChecklist().asLiveData(dispatchers.io)
-    }
 
     init {
         viewModelScope.launch(dispatchers.io) {
@@ -44,9 +40,3 @@ data class HomeState(
     val isLoading: Boolean = true,
     val checklists: List<Checklist> = emptyList()
 )
-
-sealed class HomeState2 {
-    object Loading : HomeState2()
-    data class Success(val checklists: List<Checklist>) : HomeState2()
-    data class Error(val refreshing: Boolean = false) : HomeState2()
-}
