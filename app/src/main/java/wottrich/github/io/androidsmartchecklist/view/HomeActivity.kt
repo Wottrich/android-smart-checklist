@@ -70,6 +70,9 @@ class HomeActivity : AppCompatActivity() {
             items(checklists) {
                 HomeChecklistItem(checklist = it, onItemClick = onItemClick)
             }
+            item {
+                Spacer(modifier = Modifier.fillMaxWidth().height(56.dp))
+            }
         })
     }
 
