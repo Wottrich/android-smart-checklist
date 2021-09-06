@@ -20,13 +20,13 @@ class NewChecklistActivity : AppCompatActivity(), AppBarConfiguration.OnNavigate
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_new_checklist)
-        navHost.apply {
-            navController.apply {
-                val graph = navInflater.inflate(R.navigation.nav_new_checklist)
-                graph.startDestination = getStartDestination()
-                setGraph(graph, intent.extras)
-            }
-        }
+//        navHost.apply {
+//            navController.apply {
+//                val graph = navInflater.inflate(R.navigation.nav_new_checklist)
+//                graph.startDestination = getStartDestination()
+//                setGraph(graph, intent.extras)
+//            }
+//        }
 
         setupActionBar()
     }
@@ -43,13 +43,13 @@ class NewChecklistActivity : AppCompatActivity(), AppBarConfiguration.OnNavigate
             .build()
     }
 
-    private fun getStartDestination(): Int {
-        return if (intent.getBooleanExtra(INTENT_EDIT_TASK, false)) {
-            R.id.taskListFragment
-        } else {
-            R.id.checklistNameFragment
-        }
-    }
+//    private fun getStartDestination(): Int {
+//        return if (intent.getBooleanExtra(INTENT_EDIT_TASK, false)) {
+//            R.id.taskListFragment
+//        } else {
+//            R.id.checklistNameFragment
+//        }
+//    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {

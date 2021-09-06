@@ -72,16 +72,14 @@ dependencies {
     api "androidx.compose.ui:ui-tooling:$compose_version"
     api "androidx.compose.runtime:runtime:$compose_version"
     api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_runtime_ktx_version"
+    api "androidx.navigation:navigation-compose:$navigation_compose_version"
 
     //Koin Kotlin
-    api "org.koin:koin-core:$koin_version"
-    api "org.koin:koin-core-ext:$koin_version"
+    api "io.insert-koin:koin-core:$koin_version"
 
     //Koin Android
-    api "org.koin:koin-android:$koin_version"
-    api "org.koin:koin-androidx-scope:$koin_version"
-    api "org.koin:koin-androidx-viewmodel:$koin_version"
-    api "org.koin:koin-androidx-fragment:$koin_version"
+    api "io.insert-koin:koin-android:$koin_version"
+    api "io.insert-koin:koin-androidx-compose:$koin_version"
 
     //Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"

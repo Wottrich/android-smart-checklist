@@ -5,6 +5,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import wottrich.github.io.database.dao.ChecklistDao
 import wottrich.github.io.database.entity.Checklist
@@ -25,29 +27,50 @@ class ChecklistNameViewModel(
     private val database: ChecklistDao
 ) : ViewModel() {
 
-    val checklistName = MutableLiveData<String>()
-
     private val _action = MutableLiveData<ChecklistNameAction>()
     val action: LiveData<ChecklistNameAction> = _action
 
-    private fun canContinue () : Boolean = checklistName.value?.isEmpty() == false
+    private val _screenState = MutableStateFlow(ChecklistNameScreenState())
+    val screenState: StateFlow<ChecklistNameScreenState> = _screenState
 
-    fun nextScreen() {
-        if (canContinue()) {
+    private fun canContinue (checklistName: String) : Boolean = checklistName.isNotEmpty()
+
+    fun nextScreen(checklistName: String) {
+        if (canContinue(checklistName)) {
             viewModelScope.launch(dispatchersProviders.io) {
-                val itemId = database.insert(Checklist(name = checklistName.value.orEmpty()))
+                val itemId = database.insert(Checklist(name = checklistName))
                 if (itemId != null) {
-                    _action.postValue(ChecklistNameAction.NextScreen(itemId))
+                    _screenState.value = screenState.value.copy(
+                        isInitialState = false,
+                        isNextScreen = true,
+                        isError = false
+                    )
                 } else {
-                    _action.postValue(ChecklistNameAction.ErrorMessage(R.string.unknown))
+                    _screenState.value = screenState.value.copy(
+                        isInitialState = false,
+                        isNextScreen = false,
+                        isError = true
+                    )
+                    //_action.postValue(ChecklistNameAction.ErrorMessage(R.string.unknown))
                 }
             }
         } else {
-            _action.postValue(ChecklistNameAction.ErrorMessage(R.string.fragment_new_checklist_error_continue))
+            _screenState.value = screenState.value.copy(
+                isInitialState = false,
+                isNextScreen = false,
+                isError = true
+            )
+            //_action.postValue(ChecklistNameAction.ErrorMessage(R.string.fragment_new_checklist_error_continue))
         }
     }
 
 }
+
+data class ChecklistNameScreenState(
+    val isInitialState: Boolean = true,
+    val isNextScreen: Boolean = false,
+    val isError: Boolean = false
+)
 
 sealed class ChecklistNameAction {
     data class NextScreen(val checklistId: Long): ChecklistNameAction()

@@ -1,7 +1,7 @@
 <resources>
-    <string name="fragment_new_checklist_type_checklist_name_hint">Enter checklist name.</string>
-    <string name="fragment_new_checklist_example_hint">Ex.: Shopping list</string>
-    <string name="fragment_new_checklist_button_continue">Next</string>
+    <string name="new_checklist_type_checklist_name_hint">Enter checklist name.</string>
+    <string name="new_checklist_example_hint">Ex.: Shopping list</string>
+    <string name="new_checklist_button_continue">Next</string>
     <string name="fragment_new_checklist_error_continue">Fill all fields to continue</string>
 
     <string name="fragment_task_list_title">Put tasks in your checklist:</string>

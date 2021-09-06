@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="wottrich.github.io.featurenew.view.task.TaskListViewModel"/>
+<!--        <import type="wottrich.github.io.featurenew.view.task.TaskListViewModel"/>-->
 
-        <variable
-            name="viewModel"
-            type="TaskListViewModel" />
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="TaskListViewModel" />-->
 
     </data>
 
@@ -41,12 +41,12 @@
             app:endIconMode="clear_text"
             app:layout_constraintTop_toBottomOf="@id/tvTaskListTitle">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etTaskName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:autofillHints="no"
-                android:text="@={ viewModel.taskName }" />
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/etTaskName"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:autofillHints="no"-->
+<!--                android:text="@={ viewModel.taskName }" />-->
 
         </com.google.android.material.textfield.TextInputLayout>
 

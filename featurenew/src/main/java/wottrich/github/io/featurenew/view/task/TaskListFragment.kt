@@ -16,12 +16,13 @@ import wottrich.github.io.featurenew.view.adapter.TaskViewHolderAction
 
 class TaskListFragment : Fragment() {
 
-    private val args by navArgs<TaskListFragmentArgs>()
+    //private val args by navArgs<TaskListFragmentArgs>()
     private val taskListFragment = this
 
-    private val viewModel by viewModel<TaskListViewModel> {
-        parametersOf(args.checklistId)
-    }
+    private val viewModel by viewModel<TaskListViewModel>()
+//    {
+//        //parametersOf(args.checklistId)
+//    }
     private lateinit var binding: FragmentTaskListBinding
 
     private val adapter: TaskAdapter by lazy {
@@ -52,7 +53,7 @@ class TaskListFragment : Fragment() {
     private fun setupBinding() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = taskListFragment.viewModel
+            //viewModel = taskListFragment.viewModel
         }
     }
 

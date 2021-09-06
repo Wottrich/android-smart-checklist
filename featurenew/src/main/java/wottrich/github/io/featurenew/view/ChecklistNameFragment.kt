@@ -40,7 +40,7 @@ class ChecklistNameFragment : Fragment() {
     private fun setupBinding() {
         binding.apply {
             lifecycleOwner = viewLifecycleOwner
-            viewModel = checklistNameFragment.viewModel
+            //viewModel = checklistNameFragment.viewModel
         }
     }
 
@@ -55,14 +55,14 @@ class ChecklistNameFragment : Fragment() {
     }
 
     private fun onNextScreen(nextScreen: ChecklistNameAction.NextScreen) {
-        val direction = ChecklistNameFragmentDirections.actionChecklistNameFragmentToTaskListFragment(nextScreen.checklistId)
-        findNavController().navigate(direction)
+//        val direction = ChecklistNameFragmentDirections.actionChecklistNameFragmentToTaskListFragment(nextScreen.checklistId)
+//        findNavController().navigate(direction)
     }
 
     private fun setupListeners() {
-        binding.btnContinue.setOnClickListener {
-            viewModel.nextScreen()
-        }
+//        binding.btnContinue.setOnClickListener {
+//            viewModel.nextScreen()
+//        }
     }
 
 }

@@ -5,11 +5,11 @@
 
     <data>
 
-        <import type="wottrich.github.io.featurenew.view.ChecklistNameViewModel"/>
+<!--        <import type="wottrich.github.io.featurenew.view.ChecklistNameViewModel"/>-->
 
-        <variable
-            name="viewModel"
-            type="ChecklistNameViewModel" />
+<!--        <variable-->
+<!--            name="viewModel"-->
+<!--            type="ChecklistNameViewModel" />-->
 
     </data>
 
@@ -25,7 +25,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:text="@string/fragment_new_checklist_type_checklist_name_hint"
+            android:text="@string/new_checklist_type_checklist_name_hint"
             android:maxLines="3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -41,14 +41,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:endIconMode="clear_text"
-            android:hint="@string/fragment_new_checklist_example_hint">
+            android:hint="@string/new_checklist_example_hint">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/etChecklistName"
-                android:autofillHints="no"
-                android:text="@={ viewModel.checklistName }"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+<!--            <com.google.android.material.textfield.TextInputEditText-->
+<!--                android:id="@+id/etChecklistName"-->
+<!--                android:autofillHints="no"-->
+<!--                android:text="@={ viewModel.checklistName }"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"/>-->
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -57,7 +57,7 @@
             app:layout_constraintVertical_bias="1"
             app:layout_constraintTop_toBottomOf="@id/textInputLayoutChecklistName"
             android:theme="@style/AppTheme"
-            android:text="@string/fragment_new_checklist_button_continue"
+            android:text="@string/new_checklist_button_continue"
             style="@style/ButtonDefault"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

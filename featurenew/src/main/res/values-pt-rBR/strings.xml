@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="fragment_new_checklist_type_checklist_name_hint">Digite um nome para sua checklist.</string>
-    <string name="fragment_new_checklist_example_hint">Ex.: Lista de compras</string>
-    <string name="fragment_new_checklist_button_continue">Continuar</string>
+    <string name="new_checklist_type_checklist_name_hint">Digite um nome para sua checklist.</string>
+    <string name="new_checklist_example_hint">Ex.: Lista de compras</string>
+    <string name="new_checklist_button_continue">Continuar</string>
     <string name="fragment_new_checklist_error_continue">Preencha todos os campos para continuar</string>
 
     <string name="fragment_task_list_title">Insira tarefas na sua checklist:</string>

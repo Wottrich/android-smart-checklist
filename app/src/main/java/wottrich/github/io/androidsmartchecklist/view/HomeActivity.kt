@@ -33,6 +33,7 @@ import wottrich.github.io.components.ui.ApplicationTheme
 import wottrich.github.io.components.ui.Sizes
 import wottrich.github.io.database.entity.Checklist
 import wottrich.github.io.featurenew.view.NewChecklistActivity
+import wottrich.github.io.featurenew.view.NewChecklistComposeActivity
 
 
 class HomeActivity : AppCompatActivity() {
@@ -114,6 +115,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun startNewChecklistActivity() {
-        NewChecklistActivity.start(this)
+        NewChecklistComposeActivity.launch(this)
+        //NewChecklistActivity.start(this)
     }
 }

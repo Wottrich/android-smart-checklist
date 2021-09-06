@@ -41,7 +41,7 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //Modules
-    api project(path: ":tools")
+    implementation project(path: ":tools")
 
     //Database
     api "androidx.room:room-runtime:$room_version"
