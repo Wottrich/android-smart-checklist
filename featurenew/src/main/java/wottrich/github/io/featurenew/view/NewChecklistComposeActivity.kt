@@ -6,8 +6,6 @@ import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.Icon
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
@@ -19,6 +17,7 @@ import wottrich.github.io.components.TitleRow
 import wottrich.github.io.components.TopBarContent
 import wottrich.github.io.components.ui.ApplicationTheme
 import wottrich.github.io.featurenew.view.screens.ChecklistNameScreen
+import wottrich.github.io.featurenew.view.screens.TaskListScreen
 import wottrich.github.io.tools.extensions.startActivity
 
 class NewChecklistComposeActivity : AppCompatActivity() {
@@ -56,6 +55,11 @@ class NewChecklistComposeActivity : AppCompatActivity() {
                     route = NewChecklistFlow.ChecklistNameProperties.route
                 ) {
                     ChecklistNameScreen(navHostController)
+                }
+                composable(
+                    route = NewChecklistFlow.ChecklistTasksProperties.routeWithArgument
+                ) {
+                    TaskListScreen()
                 }
             }
         )

@@ -16,11 +16,13 @@ sealed class NewChecklistFlow {
     object ChecklistTasksProperties : BaseNavigationModelImpl(
         route = suffixChecklistFlow("tasks"),
         arguments = listOf(
-            navArgument("checklist") { type = NavType.ParcelableType(Checklist::class.java) }
+            navArgument("checklistId") { type = NavType.StringType }
         )
     ) {
         override val routeWithArgument: String
-            get() = "$route/{checklist}"
+            get() = "$route/{checklistId}"
+
+        fun route(checklistId: String) = "$route/$checklistId"
     }
 
 }

@@ -22,6 +22,7 @@ import wottrich.github.io.components.ui.Sizes
 import wottrich.github.io.components.ui.defaultButtonColors
 import wottrich.github.io.components.ui.defaultOutlinedTextFieldColors
 import wottrich.github.io.featurenew.R
+import wottrich.github.io.featurenew.view.ChecklistNameScreenState
 import wottrich.github.io.featurenew.view.ChecklistNameViewModel
 import wottrich.github.io.featurenew.view.NewChecklistFlow
 
@@ -31,14 +32,18 @@ fun ChecklistNameScreen(
     viewModel: ChecklistNameViewModel = getViewModel()
 ) {
 
-    val state by viewModel.screenState.collectAsState()
+    val state by remember {
+        viewModel.screenState
+    }.collectAsState()
 
-    when {
-        state.isInitialState -> Screen(viewModel = viewModel)
-        state.isNextScreen -> Unit //TODO implement next screen action
-        state.isError -> Unit //TODO implement error state
+    when (state) {
+        ChecklistNameScreenState.CheckListNotCreated -> TODO()
+        ChecklistNameScreenState.InvalidChecklistName -> TODO()
+        is ChecklistNameScreenState.NextScreen -> navHostController.navigate(
+            NewChecklistFlow.ChecklistTasksProperties.route((state as ChecklistNameScreenState.NextScreen).checklistId)
+        )
+        else -> Screen(viewModel = viewModel)
     }
-
 }
 
 @Composable
@@ -70,7 +75,7 @@ private fun Screen(viewModel: ChecklistNameViewModel) {
             modifier = Modifier.fillMaxWidth(),
             enabled = textFieldValue.isNotEmpty(),
             onClick = {
-
+                viewModel.nextScreen(textFieldValue)
             },
             colors = defaultButtonColors()
         ) {
