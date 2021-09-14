@@ -15,13 +15,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navOptions
 import kotlinx.coroutines.InternalCoroutinesApi
 import wottrich.github.io.components.TitleRow
 import wottrich.github.io.components.TopBarContent
 import wottrich.github.io.components.ui.ApplicationTheme
-import wottrich.github.io.featurenew.view.screens.ChecklistNameScreen
-import wottrich.github.io.featurenew.view.screens.TaskListScreen
+import wottrich.github.io.featurenew.view.screens.checklistname.ChecklistNameScreen
+import wottrich.github.io.featurenew.view.screens.tasklist.TaskListScreen
 import wottrich.github.io.tools.extensions.startActivity
 
 @InternalCoroutinesApi
@@ -71,7 +70,8 @@ class NewChecklistComposeActivity : AppCompatActivity() {
                 composable(
                     route = NewChecklistFlow.ChecklistTasksProperties.routeWithArgument
                 ) {
-                    TaskListScreen()
+                    val checklistId = it.arguments?.getString("checklistId").orEmpty()
+                    TaskListScreen(checklistId)
                 }
             }
         )

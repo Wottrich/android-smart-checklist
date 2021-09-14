@@ -1,4 +1,4 @@
-package wottrich.github.io.featurenew.view
+package wottrich.github.io.featurenew.view.screens.checklistname
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

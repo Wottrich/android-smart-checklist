@@ -1,6 +1,7 @@
 package wottrich.github.io.androidsmartchecklist.view
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
@@ -33,7 +34,6 @@ import wottrich.github.io.components.TitleRow
 import wottrich.github.io.components.ui.ApplicationTheme
 import wottrich.github.io.components.ui.Sizes
 import wottrich.github.io.database.entity.Checklist
-import wottrich.github.io.featurenew.view.NewChecklistActivity
 import wottrich.github.io.featurenew.view.NewChecklistComposeActivity
 
 
@@ -48,7 +48,7 @@ class HomeActivity : AppCompatActivity() {
             ApplicationTheme {
                 HomeScaffold(onFloatingActionButtonClick = { startNewChecklistActivity() }) {
                     BuildChecklists { checklistId ->
-                        NewChecklistActivity.startEditFlow(this, checklistId)
+                        Toast.makeText(this, "WIP", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -74,7 +74,9 @@ class HomeActivity : AppCompatActivity() {
                 HomeChecklistItem(checklist = it, onItemClick = onItemClick)
             }
             item {
-                Spacer(modifier = Modifier.fillMaxWidth().height(56.dp))
+                Spacer(modifier = Modifier
+                    .fillMaxWidth()
+                    .height(56.dp))
             }
         })
     }
@@ -113,7 +115,9 @@ class HomeActivity : AppCompatActivity() {
                 }
             )
         }
-        Spacer(modifier = Modifier.fillMaxWidth().height(Sizes.x8))
+        Spacer(modifier = Modifier
+            .fillMaxWidth()
+            .height(Sizes.x8))
     }
 
     private fun startNewChecklistActivity() {

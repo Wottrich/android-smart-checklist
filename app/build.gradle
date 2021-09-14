@@ -26,10 +26,6 @@ android {
         }
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
-
     compileOptions {
         sourceCompatibility java_version
         targetCompatibility java_version
@@ -39,14 +35,15 @@ android {
         jvmTarget = '1.8'
         useIR = true
     }
+
     buildFeatures {
         compose true
     }
+
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
         kotlinCompilerVersion kotlin_version
     }
-
 }
 
 dependencies {

@@ -1,4 +1,4 @@
-package wottrich.github.io.featurenew.view.screens
+package wottrich.github.io.featurenew.view.screens.checklistname
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,7 +19,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
@@ -28,8 +27,6 @@ import wottrich.github.io.components.ui.Sizes
 import wottrich.github.io.components.ui.defaultButtonColors
 import wottrich.github.io.components.ui.defaultOutlinedTextFieldColors
 import wottrich.github.io.featurenew.R
-import wottrich.github.io.featurenew.view.ChecklistNameScreenState
-import wottrich.github.io.featurenew.view.ChecklistNameViewModel
 import wottrich.github.io.tools.observeInLifecycle
 
 @InternalCoroutinesApi

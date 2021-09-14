@@ -4,13 +4,13 @@
     <string name="new_checklist_button_continue">Next</string>
     <string name="fragment_new_checklist_error_continue">Fill all fields to continue</string>
 
-    <string name="fragment_task_list_title">Put tasks in your checklist:</string>
-    <string name="fragment_task_list_type_task_name_hint">Enter a task name</string>
+    <string name="task_list_title">Put tasks in your checklist:</string>
+    <string name="task_list_type_task_name_hint">Enter a task name</string>
     <string name="fragment_task_list_click_to_add_item">Click to add item</string>
-    <string name="fragment_task_list_add_item">Add</string>
+    <string name="task_list_add_item">Add</string>
     <string name="fragment_task_list_error_add_item">You cannot add empty task. Please, type a name to continue.</string>
 
-    <string name="row_task_click_to_check_item_description">Completed item, click to incomplete</string>
-    <string name="row_task_click_to_uncheck_item_description">Incomplete item, click to complete</string>
-    <string name="row_task_delete_item">Click to delete item</string>
+    <string name="task_click_to_check_item_description">Item %s completed, click to turn incomplete</string>
+    <string name="task_click_to_uncheck_item_description">Item %s incomplete, click to turn complete</string>
+    <string name="task_delete_item">Click to delete %s item</string>
 </resources>
