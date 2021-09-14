@@ -24,6 +24,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.androidsmartchecklist.R
+import kotlinx.coroutines.InternalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.androidsmartchecklist.ui.HomeScaffold
 import wottrich.github.io.components.RowComponent
@@ -36,6 +37,7 @@ import wottrich.github.io.featurenew.view.NewChecklistActivity
 import wottrich.github.io.featurenew.view.NewChecklistComposeActivity
 
 
+@InternalCoroutinesApi
 class HomeActivity : AppCompatActivity() {
 
     private val viewModel by viewModel<HomeViewModel>()

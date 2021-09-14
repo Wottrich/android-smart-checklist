@@ -19,7 +19,7 @@ class NewChecklistActivity : AppCompatActivity(), AppBarConfiguration.OnNavigate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_new_checklist)
+//        binding = DataBindingUtil.setContentView(this, R.layout.activity_new_checklist)
 //        navHost.apply {
 //            navController.apply {
 //                val graph = navInflater.inflate(R.navigation.nav_new_checklist)

@@ -6,16 +6,22 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarResult
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.components.TitleRow
 import wottrich.github.io.components.ui.Sizes
@@ -24,32 +30,51 @@ import wottrich.github.io.components.ui.defaultOutlinedTextFieldColors
 import wottrich.github.io.featurenew.R
 import wottrich.github.io.featurenew.view.ChecklistNameScreenState
 import wottrich.github.io.featurenew.view.ChecklistNameViewModel
-import wottrich.github.io.featurenew.view.NewChecklistFlow
+import wottrich.github.io.tools.observeInLifecycle
 
+@InternalCoroutinesApi
 @Composable
 fun ChecklistNameScreen(
-    navHostController: NavHostController,
-    viewModel: ChecklistNameViewModel = getViewModel()
+    scaffoldState: ScaffoldState,
+    viewModel: ChecklistNameViewModel = getViewModel(),
+    onNext: (checklistId: String) -> Unit
 ) {
 
-    val state by remember {
-        viewModel.screenState
-    }.collectAsState()
+    var textFieldValue by rememberSaveable { mutableStateOf("") }
+    viewModel.nextScreenEvent.onEach {
+        onNext(it)
+    }.observeInLifecycle(LocalLifecycleOwner.current)
+    
+    val state by viewModel.state.collectAsState(initial = ChecklistNameScreenState.InitialState)
 
-    when (state) {
-        ChecklistNameScreenState.CheckListNotCreated -> TODO()
-        ChecklistNameScreenState.InvalidChecklistName -> TODO()
-        is ChecklistNameScreenState.NextScreen -> navHostController.navigate(
-            NewChecklistFlow.ChecklistTasksProperties.route((state as ChecklistNameScreenState.NextScreen).checklistId)
-        )
-        else -> Screen(viewModel = viewModel)
+    when {
+        state.hasError -> {
+            val stateError = state as ChecklistNameScreenState.ErrorState
+            LaunchedEffect(scaffoldState.snackbarHostState) {
+                scaffoldState.snackbarHostState.showSnackbar(
+                    stateError.exception?.message.orEmpty()
+                ).let {
+                    if (it == SnackbarResult.Dismissed) {
+                        viewModel.updateState(ChecklistNameScreenState.InitialState)
+                    }
+                }
+            }
+        }
     }
+
+    Screen(
+        textFieldValue = textFieldValue,
+        onTextFieldValueChange = { textFieldValue = it },
+        onConfirm = { viewModel.nextScreen(textFieldValue) }
+    )
 }
 
 @Composable
-private fun Screen(viewModel: ChecklistNameViewModel) {
-
-    var textFieldValue by remember { mutableStateOf("") }
+private fun Screen(
+    textFieldValue: String,
+    onTextFieldValueChange: (String) -> Unit,
+    onConfirm: () -> Unit
+) {
 
     Column(
         modifier = Modifier
@@ -61,9 +86,7 @@ private fun Screen(viewModel: ChecklistNameViewModel) {
 
             OutlinedTextField(
                 value = textFieldValue,
-                onValueChange = {
-                    textFieldValue = it
-                },
+                onValueChange = onTextFieldValueChange,
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = {
                     Text(text = stringResource(id = R.string.new_checklist_example_hint))
@@ -74,9 +97,7 @@ private fun Screen(viewModel: ChecklistNameViewModel) {
         Button(
             modifier = Modifier.fillMaxWidth(),
             enabled = textFieldValue.isNotEmpty(),
-            onClick = {
-                viewModel.nextScreen(textFieldValue)
-            },
+            onClick = onConfirm,
             colors = defaultButtonColors()
         ) {
             Text(text = stringResource(id = R.string.new_checklist_button_continue))

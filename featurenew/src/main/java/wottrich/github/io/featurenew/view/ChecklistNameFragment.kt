@@ -45,19 +45,19 @@ class ChecklistNameFragment : Fragment() {
     }
 
     private fun setupObservables() = viewModel.apply {
-        action.observe(viewLifecycleOwner) {
-            when (it) {
-                is ChecklistNameAction.NextScreen -> onNextScreen(it)
-                is ChecklistNameAction.ErrorMessage -> showErrorDialog(it.stringRes)
-                else -> showDefaultErrorMessageDialog()
-            }
-        }
+//        action.observe(viewLifecycleOwner) {
+//            when (it) {
+//                is ChecklistNameAction.NextScreen -> onNextScreen(it)
+//                is ChecklistNameAction.ErrorMessage -> showErrorDialog(it.stringRes)
+//                else -> showDefaultErrorMessageDialog()
+//            }
+//        }
     }
 
-    private fun onNextScreen(nextScreen: ChecklistNameAction.NextScreen) {
-//        val direction = ChecklistNameFragmentDirections.actionChecklistNameFragmentToTaskListFragment(nextScreen.checklistId)
-//        findNavController().navigate(direction)
-    }
+//    private fun onNextScreen(nextScreen: ChecklistNameAction.NextScreen) {
+////        val direction = ChecklistNameFragmentDirections.actionChecklistNameFragmentToTaskListFragment(nextScreen.checklistId)
+////        findNavController().navigate(direction)
+//    }
 
     private fun setupListeners() {
 //        binding.btnContinue.setOnClickListener {

@@ -1,15 +1,11 @@
 package wottrich.github.io.featurenew.view
 
-import androidx.annotation.StringRes
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import wottrich.github.io.database.dao.ChecklistDao
 import wottrich.github.io.database.entity.Checklist
+import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
@@ -25,46 +21,38 @@ class ChecklistNameViewModel(
     private val dispatchersProviders: DispatchersProviders,
     private val database: ChecklistDao
 ) : ViewModel() {
+    private val _nextScreenEvent = SingleShotEventBus<String>()
+    val nextScreenEvent = _nextScreenEvent.events
 
-    private val _action = MutableLiveData<ChecklistNameAction>()
-    val action: LiveData<ChecklistNameAction> = _action
-
-    private val _screenState: MutableStateFlow<ChecklistNameScreenState> =
-        MutableStateFlow(ChecklistNameScreenState.InitialState)
-    val screenState: StateFlow<ChecklistNameScreenState> = _screenState
-
-    private fun canContinue(checklistName: String): Boolean = checklistName.isNotEmpty()
+    private val _state = SingleShotEventBus<ChecklistNameScreenState>()
+    val state = _state.events
 
     fun nextScreen(checklistName: String) {
-        if (canContinue(checklistName)) {
-            viewModelScope.launch(dispatchersProviders.io) {
-                val itemId = database.insert(Checklist(name = checklistName))
-                if (itemId != null) {
-                    _screenState.value = ChecklistNameScreenState.NextScreen(itemId.toString())
-                } else {
-                    _screenState.value = ChecklistNameScreenState.CheckListNotCreated
-                    //_action.postValue(ChecklistNameAction.ErrorMessage(R.string.unknown))
-                }
+        viewModelScope.launch(dispatchersProviders.io) {
+            val itemId = database.insert(Checklist(name = checklistName))
+            if (itemId != null) {
+                _nextScreenEvent.postEvent(itemId.toString())
+            } else {
+                _state.postEvent(ChecklistNameScreenState.ErrorState(Exception("Invalid checklist")))
             }
-        } else {
-            _screenState.value = ChecklistNameScreenState.InvalidChecklistName
-            //_action.postValue(ChecklistNameAction.ErrorMessage(R.string.fragment_new_checklist_error_continue))
+        }
+    }
+
+    fun updateState(state: ChecklistNameScreenState) {
+        viewModelScope.launch(dispatchersProviders.io) {
+            _state.postEvent(state)
         }
     }
 
 }
 
-sealed class ChecklistNameScreenState {
-
+sealed class ChecklistNameScreenState(
+    val hasError: Boolean = false,
+    val exception: Exception? = null
+) {
     object InitialState : ChecklistNameScreenState()
-    data class NextScreen(val checklistId: String) : ChecklistNameScreenState()
-    object CheckListNotCreated : ChecklistNameScreenState()
-    object InvalidChecklistName : ChecklistNameScreenState()
-
-}
-
-
-sealed class ChecklistNameAction {
-    data class NextScreen(val checklistId: Long) : ChecklistNameAction()
-    data class ErrorMessage(@StringRes val stringRes: Int) : ChecklistNameAction()
+    data class ErrorState(private val errorException: Exception) : ChecklistNameScreenState(
+        true,
+        errorException
+    )
 }
