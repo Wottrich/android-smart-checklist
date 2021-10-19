@@ -34,7 +34,7 @@ import wottrich.github.io.components.TitleRow
 import wottrich.github.io.components.ui.ApplicationTheme
 import wottrich.github.io.components.ui.Sizes
 import wottrich.github.io.database.entity.Checklist
-import wottrich.github.io.featurenew.view.NewChecklistComposeActivity
+import wottrich.github.io.featurenew.view.NewChecklistActivity
 
 
 @InternalCoroutinesApi
@@ -121,7 +121,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun startNewChecklistActivity() {
-        NewChecklistComposeActivity.launch(this)
+        NewChecklistActivity.launch(this)
         //NewChecklistActivity.start(this)
     }
 }

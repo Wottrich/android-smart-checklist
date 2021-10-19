@@ -24,7 +24,7 @@ import wottrich.github.io.featurenew.view.screens.tasklist.TaskListScreen
 import wottrich.github.io.tools.extensions.startActivity
 
 @InternalCoroutinesApi
-class NewChecklistComposeActivity : AppCompatActivity() {
+class NewChecklistActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +55,7 @@ class NewChecklistComposeActivity : AppCompatActivity() {
     private fun AppNavigator(navHostController: NavHostController, scaffoldState: ScaffoldState) {
         NavHost(
             navController = navHostController,
-            startDestination = NewChecklistFlow.ChecklistNameProperties.route,
+            startDestination = getStartDestination(),
             builder = {
                 composable(
                     route = NewChecklistFlow.ChecklistNameProperties.route
@@ -70,17 +70,45 @@ class NewChecklistComposeActivity : AppCompatActivity() {
                 composable(
                     route = NewChecklistFlow.ChecklistTasksProperties.routeWithArgument
                 ) {
-                    val checklistId = it.arguments?.getString("checklistId").orEmpty()
+                    val checklistId = if (isEditFlow()) {
+                        getChecklistIdToEdit()
+                    } else {
+                        it.arguments?.getString("checklistId").orEmpty()
+                    }
                     TaskListScreen(checklistId)
                 }
             }
         )
     }
 
-    companion object {
-        fun launch(activity: Activity) {
-            activity.startActivity<NewChecklistComposeActivity>()
+    private fun getStartDestination() =
+        if (isEditFlow()) {
+            NewChecklistFlow.ChecklistTasksProperties.routeWithArgument
+        } else {
+            NewChecklistFlow.ChecklistNameProperties.route
         }
+
+    private fun getChecklistIdToEdit() =
+        checkNotNull(intent.getStringExtra(CHECKLIST_ID))
+
+    private fun isEditFlow() =
+        intent.getBooleanExtra(IS_EDIT_FLOW, false)
+
+    companion object {
+        const val CHECKLIST_ID = "CHECKLIST_ID"
+        const val IS_EDIT_FLOW = "IS_EDIT_FLOW"
+
+        fun launch(activity: Activity) {
+            activity.startActivity<NewChecklistActivity>()
+        }
+
+        fun launchEditFlow(activity: Activity, checklistId: String) {
+            activity.startActivity<NewChecklistActivity> {
+                this.putExtra(CHECKLIST_ID, checklistId)
+                this.putExtra(IS_EDIT_FLOW, true)
+            }
+        }
+
     }
 
 }

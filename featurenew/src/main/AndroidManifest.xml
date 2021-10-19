@@ -3,7 +3,7 @@
     package="wottrich.github.io.featurenew">
 
     <application>
-        <activity android:name=".view.NewChecklistComposeActivity"
+        <activity android:name=".view.NewChecklistActivity"
             android:windowSoftInputMode="adjustResize"/>
     </application>
 
