@@ -17,6 +17,13 @@ class TaskListComposeViewModel(
     var tasks = mutableStateListOf<Task>()
         private set
 
+    init {
+        viewModelScope.launch(dispatchersProviders.main) {
+            val loadedTasks = taskDao.getTasks(checklistId)
+            tasks.addAll(loadedTasks)
+        }
+    }
+
     fun verifyTaskNameToAddItem(taskName: String) {
         addTaskAndClearText(taskName)
     }

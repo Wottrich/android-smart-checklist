@@ -1,7 +1,6 @@
 package wottrich.github.io.androidsmartchecklist.view
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.clickable
@@ -48,7 +47,7 @@ class HomeActivity : AppCompatActivity() {
             ApplicationTheme {
                 HomeScaffold(onFloatingActionButtonClick = { startNewChecklistActivity() }) {
                     BuildChecklists { checklistId ->
-                        Toast.makeText(this, "WIP", Toast.LENGTH_SHORT).show()
+                        NewChecklistActivity.launchEditFlow(this, checklistId.toString())
                     }
                 }
             }
@@ -122,6 +121,5 @@ class HomeActivity : AppCompatActivity() {
 
     private fun startNewChecklistActivity() {
         NewChecklistActivity.launch(this)
-        //NewChecklistActivity.start(this)
     }
 }

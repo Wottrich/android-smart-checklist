@@ -5,15 +5,19 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.InternalCoroutinesApi
 import wottrich.github.io.components.TitleRow
@@ -35,14 +39,31 @@ class NewChecklistActivity : AppCompatActivity() {
                 Scaffold(
                     scaffoldState = scaffoldState,
                     topBar = {
-                        TopBarContent(title = {
-                            TitleRow(text = "Nova checklist")
-                        }, navigationIcon = {
-                            Icon(
-                                imageVector = Icons.Default.ArrowBack,
-                                contentDescription = "Voltar"
-                            )
-                        }, navigationIconAction = ::onBackPressed)
+                        TopBarContent(
+                            title = {
+                                TitleRow(text = "Nova checklist")
+                            },
+                            navigationIcon = {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowBack,
+                                    contentDescription = "Voltar"
+                                )
+                            },
+                            navigationIconAction = ::onBackPressed,
+                            actionsContent = {
+                                val navBackStackEntry by navHostController.currentBackStackEntryAsState()
+                                val currentRoute = navBackStackEntry?.destination?.route
+                                val editRoute = NewChecklistFlow.ChecklistTasksProperties.routeWithArgument
+                                if(currentRoute == editRoute) {
+                                    IconButton(onClick = { finish() }) {
+                                        Icon(
+                                            imageVector = Icons.Default.Check,
+                                            contentDescription = "Salvar alterações"
+                                        )
+                                    }
+                                }
+                            }
+                        )
                     }
                 ) {
                     AppNavigator(navHostController, scaffoldState)
