@@ -33,6 +33,8 @@ import wottrich.github.io.components.TitleRow
 import wottrich.github.io.components.ui.ApplicationTheme
 import wottrich.github.io.components.ui.Sizes
 import wottrich.github.io.database.entity.Checklist
+import wottrich.github.io.database.entity.Task
+import wottrich.github.io.featurenew.view.ChecklistDetailActivity
 import wottrich.github.io.featurenew.view.NewChecklistActivity
 
 
@@ -46,8 +48,12 @@ class HomeActivity : AppCompatActivity() {
         setContent {
             ApplicationTheme {
                 HomeScaffold(onFloatingActionButtonClick = { startNewChecklistActivity() }) {
-                    BuildChecklists { checklistId ->
-                        NewChecklistActivity.launchEditFlow(this, checklistId.toString())
+                    BuildChecklists { checklist ->
+                        ChecklistDetailActivity.launch(
+                            this,
+                            checklistId = checklist.checklistId.toString(),
+                            checklistName = checklist.name
+                        )
                     }
                 }
             }
@@ -55,7 +61,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun BuildChecklists(onItemClick: (checklistId: Long) -> Unit) {
+    private fun BuildChecklists(onItemClick: (checklist: Checklist) -> Unit) {
         val state by viewModel.homeStateFlow.collectAsState()
         when {
             state.isLoading -> CircularProgressIndicator()
@@ -66,7 +72,7 @@ class HomeActivity : AppCompatActivity() {
     @Composable
     private fun HomeSuccessContent(
         checklists: List<Checklist>,
-        onItemClick: (checklistId: Long) -> Unit
+        onItemClick: (checklist: Checklist) -> Unit
     ) {
         LazyColumn(content = {
             items(checklists) {
@@ -81,7 +87,7 @@ class HomeActivity : AppCompatActivity() {
     }
 
     @Composable
-    fun HomeChecklistItem(checklist: Checklist, onItemClick: (checklistId: Long) -> Unit) {
+    fun HomeChecklistItem(checklist: Checklist, onItemClick: (checklist: Checklist) -> Unit) {
         val surfaceModifier = Modifier.padding(
             top = Sizes.x8,
             start = Sizes.x8,
@@ -90,7 +96,7 @@ class HomeActivity : AppCompatActivity() {
         val rowModifier = Modifier
             .clip(RoundedCornerShape(Sizes.x8))
             .clickable(enabled = checklist.checklistId != null) {
-                checklist.checklistId?.let(onItemClick)
+                onItemClick(checklist)
             }
         Surface(
             modifier = surfaceModifier,

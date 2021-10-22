@@ -8,7 +8,7 @@ import wottrich.github.io.database.dao.TaskDao
 import wottrich.github.io.database.entity.Task
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
-class TaskListComposeViewModel(
+open class TaskListViewModel(
     private val checklistId: String,
     private val dispatchersProviders: DispatchersProviders,
     private val taskDao: TaskDao

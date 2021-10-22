@@ -5,6 +5,8 @@
     <application>
         <activity android:name=".view.NewChecklistActivity"
             android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".view.ChecklistDetailActivity"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

@@ -11,9 +11,12 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -54,7 +57,7 @@ class NewChecklistActivity : AppCompatActivity() {
                                 val navBackStackEntry by navHostController.currentBackStackEntryAsState()
                                 val currentRoute = navBackStackEntry?.destination?.route
                                 val editRoute = NewChecklistFlow.ChecklistTasksProperties.routeWithArgument
-                                if(currentRoute == editRoute) {
+                                if (currentRoute == editRoute) {
                                     IconButton(onClick = { finish() }) {
                                         Icon(
                                             imageVector = Icons.Default.Check,
