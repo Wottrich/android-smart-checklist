@@ -31,6 +31,10 @@ interface ChecklistDao {
     @Query("SELECT * FROM checklist WHERE checklistId=:checklistId")
     fun selectAllFromChecklistWhereChecklistIdIs(checklistId: String): Flow<ChecklistWithTasks>
 
+    @Transaction
+    @Query("SELECT * FROM checklist WHERE checklistId=:checklistId")
+    suspend fun getChecklist(checklistId: String): Checklist
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(checklist: Checklist): Long?
 
