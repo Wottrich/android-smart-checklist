@@ -6,14 +6,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion 31
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -33,8 +31,17 @@ android {
 
     kotlinOptions {
         jvmTarget = java_version.toString()
+        useIR = true
     }
 
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerVersion kotlin_version
+    }
 }
 
 dependencies {
@@ -58,15 +65,20 @@ dependencies {
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_viewmodel_version"
     api "androidx.lifecycle:lifecycle-livedata-ktx:$livedata_lifecycle_version"
 
+    //compose
+    api "androidx.compose.ui:ui:$compose_version"
+    api "androidx.compose.material:material:$compose_version"
+    api "androidx.compose.ui:ui-tooling:$compose_version"
+    api "androidx.compose.runtime:runtime:$compose_version"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_runtime_ktx_version"
+    api "androidx.navigation:navigation-compose:$navigation_compose_version"
+
     //Koin Kotlin
-    api "org.koin:koin-core:$koin_version"
-    api "org.koin:koin-core-ext:$koin_version"
+    api "io.insert-koin:koin-core:$koin_version"
 
     //Koin Android
-    api "org.koin:koin-android:$koin_version"
-    api "org.koin:koin-androidx-scope:$koin_version"
-    api "org.koin:koin-androidx-viewmodel:$koin_version"
-    api "org.koin:koin-androidx-fragment:$koin_version"
+    api "io.insert-koin:koin-android:$koin_version"
+    api "io.insert-koin:koin-androidx-compose:$koin_version"
 
     //Coroutines
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines_version"

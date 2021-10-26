@@ -6,8 +6,8 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion 31
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.example.androidsmartchecklist"
@@ -26,19 +26,24 @@ android {
         }
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
-
     compileOptions {
         sourceCompatibility java_version
         targetCompatibility java_version
     }
 
     kotlinOptions {
-        jvmTarget = java_version.toString()
+        jvmTarget = '1.8'
+        useIR = true
     }
 
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerVersion kotlin_version
+    }
 }
 
 dependencies {
@@ -47,9 +52,13 @@ dependencies {
     //Project
     implementation project(path: ":featurenew")
 
-    //API
-    api project(path: ":database")
-    api project(path: ':tools')
+    //modules
+    implementation project(path: ":database")
+    implementation project(path: ":tools")
+    implementation project(path: ":components")
+
+    //Compose
+    implementation "androidx.activity:activity-compose:$compose_activity_version"
 
     //Test
     testImplementation "junit:junit:$junit_version"

@@ -7,14 +7,12 @@ plugins {
 }
 
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.2"
+    compileSdkVersion 31
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        targetSdkVersion 31
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
@@ -27,25 +25,33 @@ android {
         }
     }
 
-    buildFeatures {
-        dataBinding = true
-    }
-
     compileOptions {
         sourceCompatibility java_version
         targetCompatibility java_version
     }
 
+
     kotlinOptions {
-        jvmTarget = java_version.toString()
+        jvmTarget = '1.8'
+        useIR = true
+    }
+
+    buildFeatures {
+        compose true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerVersion kotlin_version
     }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    api project(path: ":database")
-    api project(path: ":tools")
+    implementation project(path: ":database")
+    implementation project(path: ":tools")
+    implementation project(path: ":components")
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //Test

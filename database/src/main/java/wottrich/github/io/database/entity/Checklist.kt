@@ -1,11 +1,13 @@
 package wottrich.github.io.database.entity
 
+import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
 import wottrich.github.io.tools.extensions.validAndFormatDate
 import java.util.*
+import kotlinx.android.parcel.Parcelize
 
 /**
  * @author Wottrich
@@ -17,6 +19,7 @@ import java.util.*
  */
 
 @Entity(tableName = "checklist")
+@Parcelize
 data class Checklist(
     @PrimaryKey(autoGenerate = true)
     val checklistId: Long? = null,
@@ -25,7 +28,7 @@ data class Checklist(
     val createdDate: Calendar = Calendar.getInstance(),
     @ColumnInfo(name = "last_update")
     var lastUpdate: Calendar = Calendar.getInstance()
-) {
+) : Parcelable {
 
     @Ignore
     val createdDateFormatted: String? = createdDate.timeInMillis.validAndFormatDate()

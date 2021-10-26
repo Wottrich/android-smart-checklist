@@ -1,8 +1,10 @@
 package wottrich.github.io.database.entity
 
 import androidx.room.Entity
+import androidx.room.ForeignKey
+import androidx.room.ForeignKey.CASCADE
 import androidx.room.PrimaryKey
-import java.util.*
+import java.util.Calendar
 
 /**
  * @author Wottrich
@@ -17,7 +19,17 @@ object TaskType {
     const val Normal = 0
 }
 
-@Entity(tableName = "task")
+@Entity(
+    tableName = "task",
+    foreignKeys = [
+        ForeignKey(
+            onDelete = CASCADE,
+            entity = Checklist::class,
+            parentColumns = arrayOf("checklistId"),
+            childColumns = arrayOf("checklistId")
+        )
+    ]
+)
 data class Task(
     @PrimaryKey(autoGenerate = true)
     var taskId: Long? = null,
