@@ -4,16 +4,23 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import org.koin.androidx.compose.getViewModel
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.components.TitleRow
@@ -22,7 +29,6 @@ import wottrich.github.io.components.ui.ApplicationTheme
 import wottrich.github.io.featurenew.view.screens.checklistdetail.ChecklistDetailScreen
 import wottrich.github.io.featurenew.view.screens.checklistdetail.ChecklistDetailState
 import wottrich.github.io.featurenew.view.screens.checklistdetail.ChecklistDetailViewModel
-import wottrich.github.io.featurenew.view.screens.tasklist.TaskListScreen
 import wottrich.github.io.tools.extensions.startActivity
 
 /**
@@ -44,7 +50,11 @@ class ChecklistDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ApplicationTheme {
+                var showDeleteDialog by remember { mutableStateOf(false) }
                 val state by viewModel.stateScreen.collectAsState()
+                if (state == ChecklistDetailState.Delete) {
+                    finish()
+                }
                 Scaffold(
                     topBar = {
                         TopBarContent(
@@ -59,34 +69,13 @@ class ChecklistDetailActivity : AppCompatActivity() {
                             },
                             navigationIconAction = ::onBackPressed,
                             actionsContent = {
-                                //Icon delete
-                                when (state) {
-                                    ChecklistDetailState.Edit -> {
-                                        IconButton(
-                                            onClick = {
-                                                viewModel.changeState(ChecklistDetailState.Overview)
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Default.Check,
-                                                contentDescription = "Concluir edição"
-                                            )
-                                        }
-                                    }
-                                    ChecklistDetailState.Overview -> {
-                                        IconButton(
-                                            onClick = {
-                                                viewModel.changeState(ChecklistDetailState.Edit)
-                                            }
-                                        ) {
-                                            Icon(
-                                                imageVector = Icons.Default.Edit,
-                                                contentDescription = "Editar"
-                                            )
-                                        }
-                                    }
-                                    else -> Unit
+                                IconButton(onClick = { showDeleteDialog = true }) {
+                                    Icon(
+                                        imageVector = Icons.Default.Delete,
+                                        contentDescription = "Deletar"
+                                    )
                                 }
+                                EditIconStateContent(state)
                             }
                         )
                     }
@@ -96,7 +85,65 @@ class ChecklistDetailActivity : AppCompatActivity() {
                         state = state
                     )
                 }
+                DeleteAlertDialogContent(
+                    showDeleteDialog = showDeleteDialog,
+                    onDismiss = {
+                        showDeleteDialog = false
+                    }
+                )
             }
+        }
+    }
+
+    @Composable
+    private fun EditIconStateContent(state: ChecklistDetailState) {
+        when (state) {
+            ChecklistDetailState.Edit -> {
+                IconButton(
+                    onClick = {
+                        viewModel.changeState(ChecklistDetailState.Overview)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = "Concluir edição"
+                    )
+                }
+            }
+            ChecklistDetailState.Overview -> {
+                IconButton(
+                    onClick = {
+                        viewModel.changeState(ChecklistDetailState.Edit)
+                    }
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Edit,
+                        contentDescription = "Editar"
+                    )
+                }
+            }
+            else -> Unit
+        }
+    }
+
+    @Composable
+    private fun DeleteAlertDialogContent(showDeleteDialog: Boolean, onDismiss: () -> Unit) {
+        if (showDeleteDialog) {
+            AlertDialog(
+                onDismissRequest = { onDismiss() },
+                title = { Text("Atenção!") },
+                text = { Text(text = "Você está prestes a deletar esse checklist para sempre, deseja continuar?") },
+                confirmButton = {
+                    Button(onClick = { viewModel.deleteChecklist() }) {
+                        Text(text = "Sim")
+                    }
+                },
+                dismissButton = {
+                    Button(onClick = { onDismiss() }) {
+                        Text(text = "Não")
+                    }
+                }
+            )
         }
     }
 

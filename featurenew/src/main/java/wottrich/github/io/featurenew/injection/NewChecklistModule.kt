@@ -2,8 +2,8 @@ package wottrich.github.io.featurenew.injection
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import wottrich.github.io.featurenew.view.screens.checklistname.ChecklistNameViewModel
 import wottrich.github.io.featurenew.view.screens.checklistdetail.ChecklistDetailViewModel
+import wottrich.github.io.featurenew.view.screens.checklistname.ChecklistNameViewModel
 import wottrich.github.io.featurenew.view.screens.tasklist.TaskListViewModel
 
 /**
@@ -23,7 +23,7 @@ val featureNewModule = module {
     }
 
     viewModel<ChecklistDetailViewModel> { (checklistId: String) ->
-        ChecklistDetailViewModel(checklistId, get(), get())
+        ChecklistDetailViewModel(get(), checklistId, get(), get())
     }
 
 }

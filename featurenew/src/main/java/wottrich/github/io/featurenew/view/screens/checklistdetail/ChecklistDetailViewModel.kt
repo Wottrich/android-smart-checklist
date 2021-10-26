@@ -1,7 +1,10 @@
 package wottrich.github.io.featurenew.view.screens.checklistdetail
 
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import wottrich.github.io.database.dao.ChecklistDao
 import wottrich.github.io.database.dao.TaskDao
 import wottrich.github.io.featurenew.view.screens.tasklist.TaskListViewModel
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
@@ -16,9 +19,10 @@ import wottrich.github.io.tools.dispatcher.DispatchersProviders
  */
 
 class ChecklistDetailViewModel(
-    checklistId: String,
-    dispatchersProviders: DispatchersProviders,
-    taskDao: TaskDao
+    taskDao: TaskDao,
+    private val checklistId: String,
+    private val dispatchersProviders: DispatchersProviders,
+    private val checklistDao: ChecklistDao
 ) : TaskListViewModel(checklistId, dispatchersProviders, taskDao) {
 
     private val _stateScreen =
@@ -28,6 +32,14 @@ class ChecklistDetailViewModel(
 
     fun changeState(state: ChecklistDetailState) {
         _stateScreen.value = state
+    }
+
+    fun deleteChecklist() {
+        viewModelScope.launch(dispatchersProviders.io) {
+            val checklist = checklistDao.getChecklist(checklistId)
+            checklistDao.delete(checklist)
+            changeState(ChecklistDetailState.Delete)
+        }
     }
 
 }

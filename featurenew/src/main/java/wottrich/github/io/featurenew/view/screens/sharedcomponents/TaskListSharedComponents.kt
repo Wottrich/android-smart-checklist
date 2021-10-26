@@ -1,12 +1,22 @@
 package wottrich.github.io.featurenew.view.screens.sharedcomponents
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -96,11 +106,11 @@ fun TaskComponent(
     onDeleteTask: () -> Unit
 ) {
     Surface(
-        modifier = Modifier.clickable { onCheckChange() },
         shape = RoundedCornerShape(Sizes.x8),
         elevation = Sizes.x4
     ) {
         RowComponent(
+            modifier = Modifier.clickable { onCheckChange() },
             leftContent = {
                 TitleRow(text = task.name)
             },
@@ -117,7 +127,10 @@ fun TaskComponent(
                     Icon(
                         tint = MaterialTheme.colors.onSurface,
                         painter = painterResource(id = R.drawable.ic_delete),
-                        contentDescription = stringResource(id = R.string.task_delete_item, task.name),
+                        contentDescription = stringResource(
+                            id = R.string.task_delete_item,
+                            task.name
+                        ),
                         modifier = Modifier
                             .clip(CircleShape)
                             .clickable { onDeleteTask() }
