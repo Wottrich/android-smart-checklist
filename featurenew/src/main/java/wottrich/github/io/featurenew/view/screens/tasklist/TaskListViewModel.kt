@@ -8,7 +8,7 @@ import wottrich.github.io.database.dao.TaskDao
 import wottrich.github.io.database.entity.Task
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
-class TaskListComposeViewModel(
+open class TaskListViewModel(
     private val checklistId: String,
     private val dispatchersProviders: DispatchersProviders,
     private val taskDao: TaskDao
@@ -16,6 +16,13 @@ class TaskListComposeViewModel(
 
     var tasks = mutableStateListOf<Task>()
         private set
+
+    init {
+        viewModelScope.launch(dispatchersProviders.main) {
+            val loadedTasks = taskDao.getTasks(checklistId)
+            tasks.addAll(loadedTasks)
+        }
+    }
 
     fun verifyTaskNameToAddItem(taskName: String) {
         addTaskAndClearText(taskName)
