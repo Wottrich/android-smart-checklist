@@ -4,19 +4,13 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -26,6 +20,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import wottrich.github.io.components.TitleRow
 import wottrich.github.io.components.TopBarContent
 import wottrich.github.io.components.ui.ApplicationTheme
+import wottrich.github.io.featurenew.R
 import wottrich.github.io.featurenew.view.screens.checklistname.ChecklistNameScreen
 import wottrich.github.io.featurenew.view.screens.tasklist.TaskListScreen
 import wottrich.github.io.tools.extensions.startActivity
@@ -44,24 +39,27 @@ class NewChecklistActivity : AppCompatActivity() {
                     topBar = {
                         TopBarContent(
                             title = {
-                                TitleRow(text = "Nova checklist")
+                                TitleRow(text = stringResource(id = R.string.checklist_new_screen_title))
                             },
                             navigationIcon = {
                                 Icon(
                                     imageVector = Icons.Default.ArrowBack,
-                                    contentDescription = "Voltar"
+                                    contentDescription = stringResource(id = R.string.arrow_back_content_description)
                                 )
                             },
                             navigationIconAction = ::onBackPressed,
                             actionsContent = {
                                 val navBackStackEntry by navHostController.currentBackStackEntryAsState()
                                 val currentRoute = navBackStackEntry?.destination?.route
-                                val editRoute = NewChecklistFlow.ChecklistTasksProperties.routeWithArgument
-                                if (currentRoute == editRoute) {
+                                val isAddTaskScreen =
+                                    NewChecklistFlow.ChecklistTasksProperties.routeWithArgument
+                                if (currentRoute == isAddTaskScreen) {
                                     IconButton(onClick = { finish() }) {
                                         Icon(
                                             imageVector = Icons.Default.Check,
-                                            contentDescription = "Salvar alterações"
+                                            contentDescription = stringResource(
+                                                id = R.string.checklist_new_save_changes
+                                            )
                                         )
                                     }
                                 }
@@ -97,7 +95,7 @@ class NewChecklistActivity : AppCompatActivity() {
                     val checklistId = if (isEditFlow()) {
                         getChecklistIdToEdit()
                     } else {
-                        it.arguments?.getString("checklistId").orEmpty()
+                        it.arguments?.getString(CHECKLIST_ID_ARGUMENT).orEmpty()
                     }
                     TaskListScreen(checklistId)
                 }
@@ -119,20 +117,13 @@ class NewChecklistActivity : AppCompatActivity() {
         intent.getBooleanExtra(IS_EDIT_FLOW, false)
 
     companion object {
+        const val CHECKLIST_ID_ARGUMENT = "checklistId"
         const val CHECKLIST_ID = "CHECKLIST_ID"
         const val IS_EDIT_FLOW = "IS_EDIT_FLOW"
 
         fun launch(activity: Activity) {
             activity.startActivity<NewChecklistActivity>()
         }
-
-        fun launchEditFlow(activity: Activity, checklistId: String) {
-            activity.startActivity<NewChecklistActivity> {
-                this.putExtra(CHECKLIST_ID, checklistId)
-                this.putExtra(IS_EDIT_FLOW, true)
-            }
-        }
-
     }
 
 }

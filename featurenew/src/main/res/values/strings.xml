@@ -13,4 +13,12 @@
     <string name="task_click_to_check_item_description">Item %s completed, click to turn incomplete</string>
     <string name="task_click_to_uncheck_item_description">Item %s incomplete, click to turn complete</string>
     <string name="task_delete_item">Click to delete %s item</string>
+    <string name="checklist_delete_checklist_content_description">Click to delete checklist (confirmation required)</string>
+    <string name="checklist_edit_checklist_content_description">Click to edit checklist</string>
+    <string name="checklist_finish_edit_content_description">Click to finish checklist edit</string>
+    <string name="checklist_delete_checklist_confirm_label">You are about to delete this checklist forever, do you want to continue?</string>
+
+    <!--  New checklist flow  -->
+    <string name="checklist_new_screen_title">New checklist!</string>
+    <string name="checklist_new_save_changes">Click to finish adding new items to the checklist</string>
 </resources>

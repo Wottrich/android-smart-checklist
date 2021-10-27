@@ -33,7 +33,7 @@ class ChecklistNameViewModel(
             if (itemId != null) {
                 _nextScreenEvent.postEvent(itemId.toString())
             } else {
-                _state.postEvent(ChecklistNameScreenState.ErrorState(Exception("Invalid checklist")))
+                _state.postEvent(ChecklistNameScreenState.InvalidChecklistState)
             }
         }
     }
@@ -46,13 +46,7 @@ class ChecklistNameViewModel(
 
 }
 
-sealed class ChecklistNameScreenState(
-    val hasError: Boolean = false,
-    val exception: Exception? = null
-) {
+sealed class ChecklistNameScreenState(val hasError: Boolean = false) {
     object InitialState : ChecklistNameScreenState()
-    data class ErrorState(private val errorException: Exception) : ChecklistNameScreenState(
-        true,
-        errorException
-    )
+    object InvalidChecklistState : ChecklistNameScreenState(hasError = true)
 }

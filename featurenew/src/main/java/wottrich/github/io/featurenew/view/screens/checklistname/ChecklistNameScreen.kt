@@ -4,18 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
-import androidx.compose.material.OutlinedTextField
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarResult
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
@@ -45,12 +36,10 @@ fun ChecklistNameScreen(
     val state by viewModel.state.collectAsState(initial = ChecklistNameScreenState.InitialState)
 
     when {
-        state.hasError -> {
-            val stateError = state as ChecklistNameScreenState.ErrorState
+        state.hasError && state is ChecklistNameScreenState.InvalidChecklistState -> {
+            val stringError = stringResource(id = R.string.unknown)
             LaunchedEffect(scaffoldState.snackbarHostState) {
-                scaffoldState.snackbarHostState.showSnackbar(
-                    stateError.exception?.message.orEmpty()
-                ).let {
+                scaffoldState.snackbarHostState.showSnackbar(stringError).let {
                     if (it == SnackbarResult.Dismissed) {
                         viewModel.updateState(ChecklistNameScreenState.InitialState)
                     }
