@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
+import androidx.lifecycle.Lifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -81,12 +82,14 @@ class NewChecklistActivity : AppCompatActivity() {
             builder = {
                 composable(
                     route = NewChecklistFlow.ChecklistNameProperties.route
-                ) {
+                ) { navBackStackEntry ->
                     ChecklistNameScreen(scaffoldState) {
-                        navHostController.popBackStack()
-                        navHostController.navigate(
-                            NewChecklistFlow.ChecklistTasksProperties.route(it)
-                        )
+                        if (navBackStackEntry.lifecycle.currentState == Lifecycle.State.RESUMED) {
+                            navHostController.popBackStack()
+                            navHostController.navigate(
+                                NewChecklistFlow.ChecklistTasksProperties.route(it)
+                            )
+                        }
                     }
                 }
                 composable(

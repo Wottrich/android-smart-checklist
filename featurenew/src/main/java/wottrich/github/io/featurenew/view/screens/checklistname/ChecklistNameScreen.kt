@@ -29,10 +29,10 @@ fun ChecklistNameScreen(
 ) {
 
     var textFieldValue by rememberSaveable { mutableStateOf("") }
-    viewModel.nextScreenEvent.onEach {
-        onNext(it)
-    }.observeInLifecycle(LocalLifecycleOwner.current)
-    
+//    viewModel.nextScreenEvent.onEach {
+//        onNext(it)
+//    }.observeInLifecycle(LocalLifecycleOwner.current)
+
     val state by viewModel.state.collectAsState(initial = ChecklistNameScreenState.InitialState)
 
     when {
@@ -46,12 +46,17 @@ fun ChecklistNameScreen(
                 }
             }
         }
+        state is ChecklistNameScreenState.NextScreen -> {
+            onNext((state as ChecklistNameScreenState.NextScreen).checklistId)
+        }
     }
 
     Screen(
         textFieldValue = textFieldValue,
         onTextFieldValueChange = { textFieldValue = it },
-        onConfirm = { viewModel.nextScreen(textFieldValue) }
+        onConfirm = {
+            viewModel.nextScreen(textFieldValue)
+        }
     )
 }
 
