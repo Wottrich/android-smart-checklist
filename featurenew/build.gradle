@@ -51,7 +51,7 @@ dependencies {
 
     implementation project(path: ":database")
     implementation project(path: ":tools")
-    implementation project(path: ":components")
+    implementation project(path: ':baseui')
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     //Test

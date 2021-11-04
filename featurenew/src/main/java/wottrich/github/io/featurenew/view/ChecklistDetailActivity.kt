@@ -14,9 +14,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import wottrich.github.io.components.TitleRow
-import wottrich.github.io.components.TopBarContent
-import wottrich.github.io.components.ui.ApplicationTheme
+import wottrich.github.io.baseui.TitleRow
+import wottrich.github.io.baseui.TopBarContent
+import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.featurenew.R
 import wottrich.github.io.featurenew.view.screens.checklistdetail.ChecklistDetailScreen
 import wottrich.github.io.featurenew.view.screens.checklistdetail.ChecklistDetailState

@@ -8,17 +8,14 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.onEach
 import org.koin.androidx.compose.getViewModel
-import wottrich.github.io.components.TitleRow
-import wottrich.github.io.components.ui.Sizes
-import wottrich.github.io.components.ui.defaultButtonColors
-import wottrich.github.io.components.ui.defaultOutlinedTextFieldColors
+import wottrich.github.io.baseui.TitleRow
+import wottrich.github.io.baseui.ui.Dimens
+import wottrich.github.io.baseui.ui.defaultButtonColors
+import wottrich.github.io.baseui.ui.defaultOutlinedTextFieldColors
 import wottrich.github.io.featurenew.R
-import wottrich.github.io.tools.observeInLifecycle
 
 @InternalCoroutinesApi
 @Composable
@@ -29,10 +26,6 @@ fun ChecklistNameScreen(
 ) {
 
     var textFieldValue by rememberSaveable { mutableStateOf("") }
-//    viewModel.nextScreenEvent.onEach {
-//        onNext(it)
-//    }.observeInLifecycle(LocalLifecycleOwner.current)
-
     val state by viewModel.state.collectAsState(initial = ChecklistNameScreenState.InitialState)
 
     when {
@@ -70,7 +63,7 @@ private fun Screen(
     Column(
         modifier = Modifier
             .fillMaxHeight()
-            .padding(all = Sizes.x12)
+            .padding(all = Dimens.BaseFour.SizeThree)
     ) {
         Column(modifier = Modifier.weight(1f)) {
             TitleRow(text = stringResource(id = R.string.new_checklist_type_checklist_name_hint))

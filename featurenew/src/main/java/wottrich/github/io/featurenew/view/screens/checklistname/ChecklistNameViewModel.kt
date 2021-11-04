@@ -21,8 +21,6 @@ class ChecklistNameViewModel(
     private val dispatchersProviders: DispatchersProviders,
     private val database: ChecklistDao
 ) : ViewModel() {
-    private val _nextScreenEvent = SingleShotEventBus<String>()
-    val nextScreenEvent = _nextScreenEvent.events
 
     private val _state = SingleShotEventBus<ChecklistNameScreenState>()
     val state = _state.events
@@ -32,7 +30,6 @@ class ChecklistNameViewModel(
             val itemId = database.insert(Checklist(name = checklistName))
             if (itemId != null) {
                 _state.postEvent(ChecklistNameScreenState.NextScreen(itemId.toString()))
-                //_nextScreenEvent.postEvent(itemId.toString())
             } else {
                 _state.postEvent(ChecklistNameScreenState.InvalidChecklistState)
             }
