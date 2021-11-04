@@ -17,12 +17,13 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.InternalCoroutinesApi
-import wottrich.github.io.components.TitleRow
-import wottrich.github.io.components.TopBarContent
-import wottrich.github.io.components.ui.ApplicationTheme
+import wottrich.github.io.baseui.TitleRow
+import wottrich.github.io.baseui.TopBarContent
+import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.featurenew.R
 import wottrich.github.io.featurenew.view.screens.checklistname.ChecklistNameScreen
 import wottrich.github.io.featurenew.view.screens.tasklist.TaskListScreen
+import wottrich.github.io.tools.extensions.isResumedState
 import wottrich.github.io.tools.extensions.startActivity
 
 @InternalCoroutinesApi
@@ -81,45 +82,30 @@ class NewChecklistActivity : AppCompatActivity() {
             builder = {
                 composable(
                     route = NewChecklistFlow.ChecklistNameProperties.route
-                ) {
+                ) { navBackStackEntry ->
                     ChecklistNameScreen(scaffoldState) {
-                        navHostController.popBackStack()
-                        navHostController.navigate(
-                            NewChecklistFlow.ChecklistTasksProperties.route(it)
-                        )
+                        if (navBackStackEntry.lifecycle.isResumedState()) {
+                            navHostController.popBackStack()
+                            navHostController.navigate(
+                                NewChecklistFlow.ChecklistTasksProperties.route(it)
+                            )
+                        }
                     }
                 }
                 composable(
                     route = NewChecklistFlow.ChecklistTasksProperties.routeWithArgument
                 ) {
-                    val checklistId = if (isEditFlow()) {
-                        getChecklistIdToEdit()
-                    } else {
-                        it.arguments?.getString(CHECKLIST_ID_ARGUMENT).orEmpty()
-                    }
-                    TaskListScreen(checklistId)
+                    TaskListScreen(it.arguments?.getString(CHECKLIST_ID_ARGUMENT).orEmpty())
                 }
             }
         )
     }
 
     private fun getStartDestination() =
-        if (isEditFlow()) {
-            NewChecklistFlow.ChecklistTasksProperties.routeWithArgument
-        } else {
-            NewChecklistFlow.ChecklistNameProperties.route
-        }
-
-    private fun getChecklistIdToEdit() =
-        checkNotNull(intent.getStringExtra(CHECKLIST_ID))
-
-    private fun isEditFlow() =
-        intent.getBooleanExtra(IS_EDIT_FLOW, false)
+        NewChecklistFlow.ChecklistNameProperties.route
 
     companion object {
         const val CHECKLIST_ID_ARGUMENT = "checklistId"
-        const val CHECKLIST_ID = "CHECKLIST_ID"
-        const val IS_EDIT_FLOW = "IS_EDIT_FLOW"
 
         fun launch(activity: Activity) {
             activity.startActivity<NewChecklistActivity>()

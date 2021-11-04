@@ -3,4 +3,4 @@ include ':database'
 include ':tools'
 include ':app'
 rootProject.name = "AndroidSmartCheckList"
-include ':components'
+include ':baseui'

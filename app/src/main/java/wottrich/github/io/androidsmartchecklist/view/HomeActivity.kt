@@ -27,13 +27,12 @@ import com.example.androidsmartchecklist.R
 import kotlinx.coroutines.InternalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.androidsmartchecklist.ui.HomeScaffold
-import wottrich.github.io.components.RowComponent
-import wottrich.github.io.components.SubtitleRow
-import wottrich.github.io.components.TitleRow
-import wottrich.github.io.components.ui.ApplicationTheme
-import wottrich.github.io.components.ui.Sizes
+import wottrich.github.io.baseui.RowComponent
+import wottrich.github.io.baseui.SubtitleRow
+import wottrich.github.io.baseui.TitleRow
+import wottrich.github.io.baseui.ui.ApplicationTheme
+import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.database.entity.Checklist
-import wottrich.github.io.database.entity.Task
 import wottrich.github.io.featurenew.view.ChecklistDetailActivity
 import wottrich.github.io.featurenew.view.NewChecklistActivity
 
@@ -79,9 +78,11 @@ class HomeActivity : AppCompatActivity() {
                 HomeChecklistItem(checklist = it, onItemClick = onItemClick)
             }
             item {
-                Spacer(modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp))
+                Spacer(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(56.dp)
+                )
             }
         })
     }
@@ -89,19 +90,19 @@ class HomeActivity : AppCompatActivity() {
     @Composable
     fun HomeChecklistItem(checklist: Checklist, onItemClick: (checklist: Checklist) -> Unit) {
         val surfaceModifier = Modifier.padding(
-            top = Sizes.x8,
-            start = Sizes.x8,
-            end = Sizes.x8
+            top = Dimens.BaseFour.SizeTwo,
+            start = Dimens.BaseFour.SizeTwo,
+            end = Dimens.BaseFour.SizeTwo
         )
         val rowModifier = Modifier
-            .clip(RoundedCornerShape(Sizes.x8))
+            .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
             .clickable(enabled = checklist.checklistId != null) {
                 onItemClick(checklist)
             }
         Surface(
             modifier = surfaceModifier,
-            shape = RoundedCornerShape(Sizes.x8),
-            elevation = Sizes.x4
+            shape = RoundedCornerShape(Dimens.BaseFour.SizeTwo),
+            elevation = Dimens.BaseFour.SizeOne
         ) {
             RowComponent(
                 modifier = rowModifier,
@@ -120,9 +121,11 @@ class HomeActivity : AppCompatActivity() {
                 }
             )
         }
-        Spacer(modifier = Modifier
-            .fillMaxWidth()
-            .height(Sizes.x8))
+        Spacer(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(Dimens.BaseFour.SizeTwo)
+        )
     }
 
     private fun startNewChecklistActivity() {

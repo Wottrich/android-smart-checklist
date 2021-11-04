@@ -1,27 +1,16 @@
 package wottrich.github.io.featurenew.view.screens.tasklist
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
-import wottrich.github.io.components.RowComponent
-import wottrich.github.io.components.TitleRow
-import wottrich.github.io.components.ui.Sizes
-import wottrich.github.io.components.ui.defaultButtonColors
-import wottrich.github.io.components.ui.defaultOutlinedTextFieldColors
+import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.database.entity.Task
-import wottrich.github.io.featurenew.R
 import wottrich.github.io.featurenew.view.screens.sharedcomponents.TaskListBody
 import wottrich.github.io.featurenew.view.screens.sharedcomponents.TaskListHeader
 
@@ -68,7 +57,7 @@ private fun Screen(
         modifier = Modifier
             .background(MaterialTheme.colors.background)
             .fillMaxHeight()
-            .padding(horizontal = Sizes.x12)
+            .padding(horizontal = Dimens.BaseFour.SizeThree)
     ) {
         TaskListHeader(textFieldValue, onTextFieldValueChange, onAddItem)
         TaskListBody(

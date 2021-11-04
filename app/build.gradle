@@ -55,7 +55,7 @@ dependencies {
     //modules
     implementation project(path: ":database")
     implementation project(path: ":tools")
-    implementation project(path: ":components")
+    implementation project(path: ':baseui')
 
     //Compose
     implementation "androidx.activity:activity-compose:$compose_activity_version"
