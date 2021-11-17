@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">AndroidSmartCheckList</string>
+    <string name="app_name">Smart Checklist</string>
 
     <!--  Fragment's Label  -->
     <string name="label_home_fragment">Bem-vindo(a)!</string>
