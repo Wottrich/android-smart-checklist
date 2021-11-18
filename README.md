@@ -1,6 +1,6 @@
 <h1 align="center">Smart Checklist</h1></br>
 <p align="center">  
-Um aplicativo para organizar o seu dia. Crie listas de tarefas e conclua elas com rapidez e praticidade
+Um aplicativo para organizar o seu dia. Crie listas de tarefas e conclua elas com rapidez e praticidade.
 </p>
 
 <p align="center">
@@ -15,15 +15,15 @@ Um aplicativo para organizar o seu dia. Crie listas de tarefas e conclua elas co
 # Tech Stack
 
 Nivel de projeto
-- SDK Level minino: 21+
-- 100% do aplicativo desenvolvido em Kotlin (v1.5.21)
+- SDK Level minino: 21+.
+- 100% do aplicativo desenvolvido em Kotlin (v1.5.21).
 
 Jetpack
 - Compose - Para desvolvimento das UIs do app utilizei Compose.
 - ComposeNavigation - Para navigação entre os fluxos foi utilizado Compose Navigation.
 - Room Database - Para salvar as informações localmente foi utilizado Room.
-- Material Components
-- ViewModel
+- Material Components.
+- ViewModel.
 
 Arquitetura
 - Arquiterura MVVM com UDF - (View-State-ViewModel-Model).
