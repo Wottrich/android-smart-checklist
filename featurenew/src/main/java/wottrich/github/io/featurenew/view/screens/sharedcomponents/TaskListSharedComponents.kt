@@ -1,22 +1,32 @@
 package wottrich.github.io.featurenew.view.screens.sharedcomponents
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import wottrich.github.io.baseui.RowComponent
-import wottrich.github.io.baseui.TitleRow
+import wottrich.github.io.baseui.SingleRow
 import wottrich.github.io.baseui.ui.Dimens
-import wottrich.github.io.baseui.ui.defaultButtonColors
-import wottrich.github.io.baseui.ui.defaultOutlinedTextFieldColors
+import wottrich.github.io.baseui.ui.color.defaultButtonColors
+import wottrich.github.io.baseui.ui.color.defaultOutlinedTextFieldColors
 import wottrich.github.io.database.entity.Task
 import wottrich.github.io.featurenew.R
 
@@ -36,9 +46,11 @@ fun TaskListHeader(
     onAddItem: (() -> Unit)
 ) {
     Column {
-        TitleRow(
+        SingleRow(
             modifier = Modifier.padding(vertical = Dimens.BaseFour.SizeTwo),
-            text = stringResource(id = R.string.task_list_title)
+            primary = {
+                Text(text = stringResource(id = R.string.task_list_title))
+            }
         )
         OutlinedTextField(
             value = textFieldValue,
@@ -102,7 +114,11 @@ fun TaskComponent(
         RowComponent(
             modifier = Modifier.clickable { onCheckChange() },
             leftContent = {
-                TitleRow(text = task.name)
+                SingleRow(
+                    primary = {
+                        Text(text = task.name)
+                    }
+                )
             },
             rightIconContent = {
 

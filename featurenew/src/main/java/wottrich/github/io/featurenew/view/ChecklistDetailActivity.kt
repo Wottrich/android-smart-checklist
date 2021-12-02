@@ -4,23 +4,33 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
-import wottrich.github.io.baseui.TitleRow
+import wottrich.github.io.baseui.SingleRow
 import wottrich.github.io.baseui.TopBarContent
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.featurenew.R
-import wottrich.github.io.featurenew.view.screens.checklistdetail.ChecklistDetailScreen
-import wottrich.github.io.featurenew.view.screens.checklistdetail.ChecklistDetailState
 import wottrich.github.io.featurenew.view.screens.checklistdetail.ChecklistDetailViewModel
+import wottrich.github.io.featurenew.view.screens.checklistdetail.TaskListComponent
+import wottrich.github.io.featurenew.view.screens.checklistdetail.TaskListState
 import wottrich.github.io.tools.extensions.startActivity
 
 /**
@@ -44,14 +54,14 @@ class ChecklistDetailActivity : AppCompatActivity() {
             ApplicationTheme {
                 var showDeleteDialog by remember { mutableStateOf(false) }
                 val screenState by viewModel.stateScreen.collectAsState()
-                if (screenState == ChecklistDetailState.Delete) {
+                if (screenState == TaskListState.Delete) {
                     finish()
                 }
                 Scaffold(
                     topBar = {
                         TopBarContent(
                             title = {
-                                TitleRow(text = getChecklistName())
+                                SingleRow(primary = { Text(text = getChecklistName()) })
                             },
                             navigationIcon = {
                                 Icon(
@@ -71,9 +81,12 @@ class ChecklistDetailActivity : AppCompatActivity() {
                         )
                     }
                 ) {
-                    ChecklistDetailScreen(
-                        viewModel = viewModel,
-                        state = screenState
+                    TaskListComponent(
+                        state = screenState,
+                        tasks = viewModel.tasks,
+                        onAddClicked = viewModel::onAddClicked,
+                        onUpdateClicked = viewModel::onUpdateClicked,
+                        onDeleteClicked = viewModel::onDeleteClicked
                     )
                 }
                 DeleteAlertDialogContent(
@@ -88,7 +101,7 @@ class ChecklistDetailActivity : AppCompatActivity() {
 
     @Composable
     private fun TopBarActionsContent(
-        screenState: ChecklistDetailState,
+        screenState: TaskListState,
         onDelete: (() -> Unit)
     ) {
         IconButton(onClick = onDelete) {
@@ -103,12 +116,12 @@ class ChecklistDetailActivity : AppCompatActivity() {
     }
 
     @Composable
-    private fun EditIconStateContent(state: ChecklistDetailState) {
+    private fun EditIconStateContent(state: TaskListState) {
         when (state) {
-            ChecklistDetailState.Edit -> {
+            TaskListState.Edit -> {
                 IconButton(
                     onClick = {
-                        viewModel.changeState(ChecklistDetailState.Overview)
+                        viewModel.changeState(TaskListState.Overview)
                     }
                 ) {
                     Icon(
@@ -119,10 +132,10 @@ class ChecklistDetailActivity : AppCompatActivity() {
                     )
                 }
             }
-            ChecklistDetailState.Overview -> {
+            TaskListState.Overview -> {
                 IconButton(
                     onClick = {
-                        viewModel.changeState(ChecklistDetailState.Edit)
+                        viewModel.changeState(TaskListState.Edit)
                     }
                 ) {
                     Icon(

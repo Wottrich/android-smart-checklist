@@ -26,11 +26,11 @@ class ChecklistDetailViewModel(
 ) : TaskListViewModel(checklistId, dispatchersProviders, taskDao) {
 
     private val _stateScreen =
-        MutableStateFlow<ChecklistDetailState>(ChecklistDetailState.Overview)
+        MutableStateFlow<TaskListState>(TaskListState.Overview)
 
     val stateScreen = _stateScreen.asStateFlow()
 
-    fun changeState(state: ChecklistDetailState) {
+    fun changeState(state: TaskListState) {
         _stateScreen.value = state
     }
 
@@ -38,14 +38,14 @@ class ChecklistDetailViewModel(
         viewModelScope.launch(dispatchersProviders.io) {
             val checklist = checklistDao.getChecklist(checklistId)
             checklistDao.delete(checklist)
-            changeState(ChecklistDetailState.Delete)
+            changeState(TaskListState.Delete)
         }
     }
 
 }
 
-sealed class ChecklistDetailState {
-    object Overview : ChecklistDetailState()
-    object Edit : ChecklistDetailState()
-    object Delete : ChecklistDetailState()
+sealed class TaskListState {
+    object Overview : TaskListState()
+    object Edit : TaskListState()
+    object Delete : TaskListState()
 }

@@ -2,7 +2,7 @@ package wottrich.github.io.androidsmartchecklist.injection
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import wottrich.github.io.androidsmartchecklist.view.HomeViewModel
+import wottrich.github.io.androidsmartchecklist.view.DrawerViewModel
 
 /**
  * @author Wottrich
@@ -15,6 +15,6 @@ import wottrich.github.io.androidsmartchecklist.view.HomeViewModel
  
 val featureHomeModules = module {
 
-    viewModel { HomeViewModel(get(), get()) }
+    viewModel { DrawerViewModel(get(), get()) }
 
 }

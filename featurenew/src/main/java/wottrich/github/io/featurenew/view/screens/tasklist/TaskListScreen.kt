@@ -31,14 +31,14 @@ fun TaskListScreen(
             textFieldValue = it
         },
         onAddItem = {
-            viewModel.verifyTaskNameToAddItem(textFieldValue)
+            viewModel.onAddClicked(textFieldValue)
             textFieldValue = ""
         },
         onCheckChange = {
-            viewModel.updateTask(it)
+            viewModel.onUpdateClicked(it)
         },
         onDeleteTask = {
-            viewModel.deleteTask(it)
+            viewModel.onDeleteClicked(it)
         }
     )
 }

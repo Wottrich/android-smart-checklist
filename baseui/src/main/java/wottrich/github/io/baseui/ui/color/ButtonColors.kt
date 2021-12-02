@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui.ui
+package wottrich.github.io.baseui.ui.color
 
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ContentAlpha

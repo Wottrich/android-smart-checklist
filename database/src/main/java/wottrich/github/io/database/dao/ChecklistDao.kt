@@ -32,6 +32,10 @@ interface ChecklistDao {
     fun selectAllFromChecklistWhereChecklistIdIs(checklistId: String): Flow<ChecklistWithTasks>
 
     @Transaction
+    @Query("SELECT * FROM checklist")
+    fun selectAllChecklistWithTasks(): Flow<List<ChecklistWithTasks>>
+
+    @Transaction
     @Query("SELECT * FROM checklist WHERE checklistId=:checklistId")
     suspend fun getChecklist(checklistId: String): Checklist
 

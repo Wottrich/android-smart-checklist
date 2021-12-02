@@ -27,7 +27,9 @@ data class Checklist(
     @ColumnInfo(name = "created_date")
     val createdDate: Calendar = Calendar.getInstance(),
     @ColumnInfo(name = "last_update")
-    var lastUpdate: Calendar = Calendar.getInstance()
+    var lastUpdate: Calendar = Calendar.getInstance(),
+    @ColumnInfo(name = "is_selected")
+    var isSelected: Boolean = false
 ) : Parcelable {
 
     @Ignore

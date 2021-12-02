@@ -4,10 +4,16 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
@@ -17,7 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.InternalCoroutinesApi
-import wottrich.github.io.baseui.TitleRow
+import wottrich.github.io.baseui.SingleRow
 import wottrich.github.io.baseui.TopBarContent
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.featurenew.R
@@ -40,12 +46,17 @@ class NewChecklistActivity : AppCompatActivity() {
                     topBar = {
                         TopBarContent(
                             title = {
-                                TitleRow(text = stringResource(id = R.string.checklist_new_screen_title))
+                                SingleRow(
+                                    primary = {
+                                        Text(text = stringResource(id = R.string.checklist_new_screen_title))
+                                    }
+                                )
                             },
                             navigationIcon = {
                                 Icon(
                                     imageVector = Icons.Default.ArrowBack,
-                                    contentDescription = stringResource(id = R.string.arrow_back_content_description)
+                                    contentDescription = stringResource(id = R.string.arrow_back_content_description),
+                                    tint = MaterialTheme.colors.onPrimary
                                 )
                             },
                             navigationIconAction = ::onBackPressed,

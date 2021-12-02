@@ -5,7 +5,7 @@ buildscript {
         java_version = JavaVersion.VERSION_1_8
 
         //Kotlin
-        kotlin_version = "1.5.21"
+        kotlin_version = "1.5.31"
         core_ktx_version = "1.6.0"
 
         //Coroutines
@@ -25,7 +25,7 @@ buildscript {
         livedata_lifecycle_version = "2.4.0-alpha03"
 
         //Compose
-        compose_version = '1.0.2'
+        compose_version = '1.1.0-beta02'
         navigation_compose_version = '2.4.0-alpha08'
         compose_activity_version = '1.3.0-alpha05'
 

@@ -24,18 +24,18 @@ open class TaskListViewModel(
         }
     }
 
-    fun verifyTaskNameToAddItem(taskName: String) {
+    fun onAddClicked(taskName: String) {
         addTaskAndClearText(taskName)
     }
 
-    fun deleteTask(task: Task) {
+    fun onDeleteClicked(task: Task) {
         viewModelScope.launch(dispatchersProviders.io) {
             tasks.remove(task)
             taskDao.delete(task)
         }
     }
 
-    fun updateTask(task: Task) {
+    fun onUpdateClicked(task: Task) {
         viewModelScope.launch(dispatchersProviders.io) {
             tasks.find { it.taskId == task.taskId }?.let { taskToUpdate ->
                 taskToUpdate.isCompleted = !task.isCompleted
