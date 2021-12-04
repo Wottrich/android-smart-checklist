@@ -21,7 +21,7 @@ object ColorsDarkPallet {
     val primary = Color(0xFF536C79)
     val primaryVariant = Color(0xFF000A12)
     val secondary = Color(0xFF62BC86)
-    val secondaryVariant = Color(0xFF94EFB6)
+    val secondaryVariant = Color(0xFF12612F)
     val background = Color(0xFF263238)
     val surface = Color(0xFF192124)
     val error = Color(0xFFFF4444)

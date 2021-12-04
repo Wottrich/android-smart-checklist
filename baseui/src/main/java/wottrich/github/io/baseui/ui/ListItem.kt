@@ -1,14 +1,6 @@
 package wottrich.github.io.baseui.ui
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -21,6 +13,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import wottrich.github.io.baseui.StyledText
 import wottrich.github.io.baseui.TwoLine
+import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 /**
  * @author Wottrich
@@ -179,7 +172,7 @@ object RowDefaults {
     @Composable
     fun title(
         text: String,
-        color: Color = SmartChecklistTheme.textColors.primary,
+        color: Color = SmartChecklistTheme.colors.onPrimary,
         fontWeight: FontWeight = FontWeight.Normal
     ): TextState {
         return TextState(
@@ -199,7 +192,7 @@ object RowDefaults {
     @Composable
     fun description(
         text: String,
-        color: Color = SmartChecklistTheme.textColors.primary,
+        color: Color = SmartChecklistTheme.colors.onPrimary,
         fontWeight: FontWeight = FontWeight.Normal
     ): TextState {
         return TextState(
@@ -220,7 +213,7 @@ object RowDefaults {
     @Composable
     fun text(
         text: String,
-        color: Color = SmartChecklistTheme.textColors.primary,
+        color: Color = SmartChecklistTheme.colors.onPrimary,
         fontWeight: FontWeight = FontWeight.Normal,
         style: TextStyle
     ): TextState {

@@ -1,9 +1,7 @@
 package wottrich.github.io.baseui.ui
 
 import androidx.compose.runtime.compositionLocalOf
-import wottrich.github.io.baseui.ui.color.LightColors
-import wottrich.github.io.baseui.ui.pallet.TextLightPallet
-import wottrich.github.io.baseui.ui.pallet.TextPallet
+import wottrich.github.io.baseui.ui.pallet.lightColors
 
 /**
  * @author Wottrich
@@ -15,9 +13,5 @@ import wottrich.github.io.baseui.ui.pallet.TextPallet
  */
 
 val LocalSmartChecklistColors = compositionLocalOf {
-    LightColors
-}
-
-val LocalSmartChecklistTextColors = compositionLocalOf<TextPallet> {
-    TextLightPallet
+    lightColors()
 }

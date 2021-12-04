@@ -1,7 +1,6 @@
 package wottrich.github.io.baseui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -9,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import wottrich.github.io.baseui.ui.SmartChecklistTheme
+import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun SingleRow(
@@ -42,8 +41,8 @@ fun TwoLine(
 @Composable
 fun StyledText(
     textStyle: TextStyle,
-    alpha: Float = 1f,// LocalContentAlpha.current,
-    contentColor: Color = SmartChecklistTheme.textColors.primary,
+    alpha: Float = LocalContentAlpha.current,
+    contentColor: Color = SmartChecklistTheme.colors.onPrimary,
     content: @Composable (() -> Unit)
 ) {
     CompositionLocalProvider(
