@@ -75,7 +75,8 @@ class HomeActivity : AppCompatActivity() {
                         checklistState = checklistState,
                         onAddItemClicked = homeViewModel::onAddItemClicked,
                         onUpdateItemClicked = homeViewModel::onUpdateItemClicked,
-                        onDeleteItemClicked = homeViewModel::onDeleteItemClicked
+                        onDeleteItemClicked = homeViewModel::onDeleteItemClicked,
+                        onNewChecklistClicked = ::startNewChecklistActivity
                     )
                     DeleteAlertDialogContent(
                         showDeleteDialog = showDeleteDialog,

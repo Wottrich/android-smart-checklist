@@ -25,6 +25,7 @@ fun ChecklistSelectedContent(
     onAddItemClicked: (String) -> Unit,
     onUpdateItemClicked: (Task) -> Unit,
     onDeleteItemClicked: (Task) -> Unit,
+    onNewChecklistClicked: () -> Unit
 ) {
     if (checklistState.homeViewState == HomeViewState.Loading) {
         CircularProgressIndicator()
@@ -39,8 +40,7 @@ fun ChecklistSelectedContent(
                 onDeleteClicked = onDeleteItemClicked
             )
         } else {
-            // TODO implement empty state
-            Text("Empty")
+            ChecklistEmptyState(onNewChecklistClicked)
         }
     }
 }

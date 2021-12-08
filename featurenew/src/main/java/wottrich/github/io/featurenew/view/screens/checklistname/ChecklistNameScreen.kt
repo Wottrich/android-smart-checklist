@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.InternalCoroutinesApi
 import org.koin.androidx.compose.getViewModel
-import wottrich.github.io.baseui.SingleRow
+import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.baseui.ui.color.defaultOutlinedTextFieldColors
@@ -77,7 +77,7 @@ private fun Screen(
             .padding(all = Dimens.BaseFour.SizeThree)
     ) {
         Column(modifier = Modifier.weight(1f)) {
-            SingleRow(
+            TextOneLine(
                 primary = {
                     Text(text = stringResource(id = R.string.new_checklist_type_checklist_name_hint))
                 }

@@ -19,8 +19,9 @@ import androidx.compose.ui.composed
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import wottrich.github.io.baseui.StyledText
-import wottrich.github.io.baseui.TwoLine
+import wottrich.github.io.baseui.TextTwoLine
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 /**
@@ -112,7 +113,7 @@ private fun RowTextContent(
     secondary: RowDefaults.TextState? = null,
     alignment: Alignment.Horizontal
 ) {
-    TwoLine(
+    TextTwoLine(
         primary = {
             Text(
                 text = primary.text,
@@ -134,6 +135,21 @@ private fun RowTextContent(
     )
 }
 
+@Composable
+fun TextStateComponent(
+    modifier: Modifier = Modifier,
+    textState: RowDefaults.TextState
+) {
+    Text(
+        modifier = modifier,
+        text = textState.text,
+        color = textState.color,
+        fontWeight = textState.fontWeight,
+        textAlign = textState.textAlign,
+        style = textState.style
+    )
+}
+
 
 object RowDefaults {
 
@@ -141,12 +157,14 @@ object RowDefaults {
     fun title(
         text: String,
         color: Color = SmartChecklistTheme.colors.onPrimary,
-        fontWeight: FontWeight = FontWeight.Normal
+        fontWeight: FontWeight = FontWeight.Normal,
+        textAlign: TextAlign? = null
     ): TextState {
         return TextState(
             text,
             color = color,
             fontWeight = fontWeight,
+            textAlign = textAlign,
             style = MaterialTheme.typography.h6
         )
     }
@@ -155,12 +173,14 @@ object RowDefaults {
     fun description(
         text: String,
         color: Color = SmartChecklistTheme.colors.onPrimary,
-        fontWeight: FontWeight = FontWeight.Normal
+        fontWeight: FontWeight = FontWeight.Normal,
+        textAlign: TextAlign? = null
     ): TextState {
         return TextState(
             text,
             color = color,
             fontWeight = fontWeight,
+            textAlign = textAlign,
             style = MaterialTheme.typography.subtitle1
         )
     }
@@ -170,15 +190,17 @@ object RowDefaults {
         text: String,
         color: Color = SmartChecklistTheme.colors.onPrimary,
         fontWeight: FontWeight = FontWeight.Normal,
+        textAlign: TextAlign? = null,
         style: TextStyle
     ): TextState {
-        return TextState(text = text, color = color, fontWeight = fontWeight, style = style)
+        return TextState(text = text, color = color, fontWeight = fontWeight, textAlign = textAlign, style = style)
     }
 
     data class TextState(
         val text: String,
         val color: Color,
         val fontWeight: FontWeight,
-        val style: TextStyle
+        val textAlign: TextAlign?,
+        val style: TextStyle,
     )
 }

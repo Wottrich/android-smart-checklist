@@ -23,7 +23,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import wottrich.github.io.baseui.RowComponent
-import wottrich.github.io.baseui.SingleRow
+import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.baseui.ui.color.defaultOutlinedTextFieldColors
@@ -46,7 +46,7 @@ fun TaskListHeader(
     onAddItem: (() -> Unit)
 ) {
     Column {
-        SingleRow(
+        TextOneLine(
             modifier = Modifier.padding(vertical = Dimens.BaseFour.SizeTwo),
             primary = {
                 Text(text = stringResource(id = R.string.task_list_title))
@@ -114,7 +114,7 @@ fun TaskComponent(
         RowComponent(
             modifier = Modifier.clickable { onCheckChange() },
             leftContent = {
-                SingleRow(
+                TextOneLine(
                     primary = {
                         Text(text = task.name)
                     }
