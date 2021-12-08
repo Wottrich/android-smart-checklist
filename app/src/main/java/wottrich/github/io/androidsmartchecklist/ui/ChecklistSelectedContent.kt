@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import wottrich.github.io.androidsmartchecklist.view.HomeState
 import wottrich.github.io.androidsmartchecklist.view.HomeViewState
 import wottrich.github.io.database.entity.Task
-import wottrich.github.io.featurenew.view.screens.checklistdetail.ChecklistScreen
+import wottrich.github.io.featurenew.view.screens.checklistdetail.TaskListComponent
 import wottrich.github.io.featurenew.view.screens.checklistdetail.TaskListState
 
 /**
@@ -20,28 +20,26 @@ import wottrich.github.io.featurenew.view.screens.checklistdetail.TaskListState
 
 @Composable
 fun ChecklistSelectedContent(
+    tasks: List<Task>,
     checklistState: HomeState,
-    onChangeState: (HomeViewState) -> Unit,
     onAddItemClicked: (String) -> Unit,
     onUpdateItemClicked: (Task) -> Unit,
     onDeleteItemClicked: (Task) -> Unit,
-    onConfirmDeleteChecklist: () -> Unit
 ) {
-    if (checklistState.isLoading) {
+    if (checklistState.homeViewState == HomeViewState.Loading) {
         CircularProgressIndicator()
     } else {
         val checklistWithTasks = checklistState.checklistWithTasks
         if (checklistWithTasks != null) {
-            ChecklistScreen(
+            TaskListComponent(
                 state = checklistState.homeViewState.toTaskListState(),
-                checklistWithTasks = checklistWithTasks,
-                onChangeState = { onChangeState(it.toHomeViewState()) },
-                onAddItemClicked = onAddItemClicked,
-                onUpdateItemClicked = onUpdateItemClicked,
-                onDeleteItemClicked = onDeleteItemClicked,
-                onConfirmDeleteChecklist = onConfirmDeleteChecklist
+                tasks = tasks,
+                onAddClicked = onAddItemClicked,
+                onUpdateClicked = onUpdateItemClicked,
+                onDeleteClicked = onDeleteItemClicked
             )
         } else {
+            // TODO implement empty state
             Text("Empty")
         }
     }
@@ -49,16 +47,7 @@ fun ChecklistSelectedContent(
 
 private fun HomeViewState.toTaskListState(): TaskListState {
     return when (this) {
-        HomeViewState.Delete -> TaskListState.Delete
         HomeViewState.Edit -> TaskListState.Edit
-        HomeViewState.Overview -> TaskListState.Overview
-    }
-}
-
-private fun TaskListState.toHomeViewState(): HomeViewState {
-    return when (this) {
-        TaskListState.Delete -> HomeViewState.Delete
-        TaskListState.Edit -> HomeViewState.Edit
-        TaskListState.Overview -> HomeViewState.Overview
+        else -> TaskListState.Overview
     }
 }

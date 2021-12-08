@@ -19,11 +19,12 @@ class GetUpdateSelectedChecklistUseCase(
     suspend operator fun invoke(checklist: Checklist) {
         val currentSelectedChecklist = checklistDao.selectSelectedChecklist(true)
         currentSelectedChecklist?.isSelected = false
-        currentSelectedChecklist?.let {
-            checklistDao.update(currentSelectedChecklist)
-        }
         checklist.isSelected = true
-        checklistDao.update(checklist)
+        if (currentSelectedChecklist == null) {
+            checklistDao.update(checklist)
+        } else {
+            checklistDao.updateChecklists(listOf(currentSelectedChecklist, checklist))
+        }
     }
 
 }

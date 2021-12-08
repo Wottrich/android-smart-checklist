@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import wottrich.github.io.database.dao.ChecklistDao
-import wottrich.github.io.database.entity.Checklist
+import wottrich.github.io.database.entity.ChecklistWithTasks
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
@@ -29,7 +29,7 @@ class DrawerViewModel(
 
     init {
         viewModelScope.launch(dispatchers.io) {
-            dao.observeChecklistsUpdate().collect {
+            dao.observeChecklistsWithTaskUpdate().collect {
                 _drawerStateFlow.value =
                     drawerStateFlow.value.copy(isLoading = false, checklists = it)
             }
@@ -40,5 +40,5 @@ class DrawerViewModel(
 
 data class HomeDrawerState(
     val isLoading: Boolean = true,
-    val checklists: List<Checklist> = emptyList()
+    val checklists: List<ChecklistWithTasks> = emptyList()
 )

@@ -29,11 +29,7 @@ interface ChecklistDao {
 
     @Transaction
     @Query("SELECT * FROM checklist")
-    suspend fun selectAllChecklists(): List<Checklist>
-
-    @Transaction
-    @Query("SELECT * FROM checklist WHERE checklistId=:checklistId")
-    fun selectAllFromChecklistWhereChecklistIdIs(checklistId: String): Flow<ChecklistWithTasks>
+    fun observeChecklistsWithTaskUpdate() : Flow<List<ChecklistWithTasks>>
 
     @Transaction
     @Query("SELECT * FROM checklist")
@@ -45,7 +41,7 @@ interface ChecklistDao {
 
     @Transaction
     @Query("SELECT * FROM checklist WHERE is_selected=:isSelected")
-    suspend fun observeSelectedChecklistWithTasks(isSelected: Boolean): Flow<ChecklistWithTasks?>
+    fun observeSelectedChecklistWithTasks(isSelected: Boolean): Flow<List<ChecklistWithTasks>>
 
     @Transaction
     @Query("SELECT * FROM checklist WHERE checklistId=:checklistId")
@@ -56,6 +52,9 @@ interface ChecklistDao {
 
     @Update
     suspend fun update(checklist: Checklist)
+
+    @Update
+    suspend fun updateChecklists(checklists: List<Checklist>)
 
     @Delete
     suspend fun delete(checklist: Checklist)

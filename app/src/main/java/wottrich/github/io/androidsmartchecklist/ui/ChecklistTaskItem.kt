@@ -1,17 +1,18 @@
 package wottrich.github.io.androidsmartchecklist.ui
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion
+import androidx.compose.ui.unit.dp
 import wottrich.github.io.baseui.ui.Dimens.BaseFour
 import wottrich.github.io.baseui.ui.ListItem
 import wottrich.github.io.baseui.ui.ListItemStartTextContent
 import wottrich.github.io.baseui.ui.RowDefaults
+import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 import wottrich.github.io.database.entity.Checklist
 
 /**
@@ -23,35 +24,48 @@ import wottrich.github.io.database.entity.Checklist
  *
  */
 
+private val ChecklistItemBorderStroke = 1.dp
+
 @Composable
-fun ChecklistTaskItem(
+fun ChecklistItem(
     checklist: Checklist,
     onItemClick: () -> Unit
 ) {
-    val surfaceModifier = Modifier.padding(
-        top = BaseFour.SizeTwo,
-        start = BaseFour.SizeTwo,
-        end = BaseFour.SizeTwo
-    )
-
     val modifier = Modifier
         .clickable(enabled = checklist.checklistId != null) {
             onItemClick()
         }
 
-    ItemContent(modifier, surfaceModifier, checklist)
+    ItemContent(modifier, checklist)
 }
 
 @Composable
 private fun ItemContent(
     modifier: Modifier,
-    surfaceModifier: Modifier,
     checklist: Checklist
 ) {
+
+    val shape = RoundedCornerShape(BaseFour.SizeTwo)
+
+    val paddingModifier = Modifier.padding(
+        top = BaseFour.SizeTwo,
+        start = BaseFour.SizeTwo,
+        end = BaseFour.SizeTwo
+    )
+
+    val surfaceModifier = if (checklist.isSelected) {
+        paddingModifier.border(
+            width = ChecklistItemBorderStroke,
+            color = SmartChecklistTheme.colors.onPrimary,
+            shape = shape
+        )
+    } else paddingModifier
+
     Surface(
         modifier = surfaceModifier,
-        shape = RoundedCornerShape(BaseFour.SizeTwo),
-        elevation = BaseFour.SizeOne
+        shape = shape,
+        elevation = BaseFour.SizeOne,
+        color = SmartChecklistTheme.colors.onSurface
     ) {
         ListItem(
             modifier = modifier,
