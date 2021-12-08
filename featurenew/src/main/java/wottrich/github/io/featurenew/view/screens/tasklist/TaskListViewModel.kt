@@ -3,31 +3,36 @@ package wottrich.github.io.featurenew.view.screens.tasklist
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import wottrich.github.io.database.entity.Task
-import wottrich.github.io.featurenew.domain.usecase.AddTaskUseCase
-import wottrich.github.io.featurenew.domain.usecase.DeleteTaskUseCase
-import wottrich.github.io.featurenew.domain.usecase.LoadTaskUseCase
-import wottrich.github.io.featurenew.domain.usecase.UpdateTaskUseCase
-import wottrich.github.io.featurenew.extensions.updateLocalTaskList
+import wottrich.github.io.featurenew.domain.usecase.GetAddTaskUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetChangeTaskStatusUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetLoadTaskUseCase
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 open class TaskListViewModel(
     private val checklistId: String,
     private val dispatchersProviders: DispatchersProviders,
-    private val getLoadTaskUseCase: LoadTaskUseCase,
-    private val getAddTaskUseCase: AddTaskUseCase,
-    private val getDeleteTaskUseCase: DeleteTaskUseCase,
-    private val getUpdateTaskUseCase: UpdateTaskUseCase,
+    private val getLoadTaskUseCase: GetLoadTaskUseCase,
+    private val getAddTaskUseCase: GetAddTaskUseCase,
+    private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
+    private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
 ) : ViewModel() {
 
     var tasks = mutableStateListOf<Task>()
         private set
 
     init {
-        viewModelScope.launch(dispatchersProviders.main) {
-            val loadedTasks = getLoadTaskUseCase(checklistId)
-            tasks.addAll(loadedTasks)
+        viewModelScope.launch(dispatchersProviders.io) {
+            getLoadTaskUseCase(checklistId).collect {
+                withContext(dispatchersProviders.main) {
+                    tasks.clear()
+                    tasks.addAll(it)
+                }
+            }
         }
     }
 
@@ -38,21 +43,18 @@ open class TaskListViewModel(
     fun onDeleteClicked(task: Task) {
         viewModelScope.launch(dispatchersProviders.io) {
             getDeleteTaskUseCase(task)
-            tasks.remove(task)
         }
     }
 
     fun onUpdateClicked(task: Task) {
         viewModelScope.launch(dispatchersProviders.io) {
-            tasks.updateLocalTaskList(task)
-            getUpdateTaskUseCase(task)
+            getChangeTaskStatusUseCase(task)
         }
     }
 
     private fun addTaskAndClearText(taskName: String) {
         viewModelScope.launch(dispatchersProviders.io) {
-            val task = getAddTaskUseCase(checklistId.toLong(), taskName)
-            tasks.add(task)
+            getAddTaskUseCase(checklistId.toLong(), taskName)
         }
     }
 

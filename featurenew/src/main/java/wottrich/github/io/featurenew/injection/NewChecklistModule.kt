@@ -1,11 +1,15 @@
 package wottrich.github.io.featurenew.injection
 
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.Module
 import org.koin.dsl.module
-import wottrich.github.io.featurenew.domain.usecase.AddTaskUseCase
-import wottrich.github.io.featurenew.domain.usecase.DeleteTaskUseCase
-import wottrich.github.io.featurenew.domain.usecase.LoadTaskUseCase
-import wottrich.github.io.featurenew.domain.usecase.UpdateTaskUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetAddTaskUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetChangeTaskStatusUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetDeleteChecklistUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetLoadTaskUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetSelectedChecklistUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetUpdateSelectedChecklistUseCase
 import wottrich.github.io.featurenew.view.screens.checklistname.ChecklistNameViewModel
 import wottrich.github.io.featurenew.view.screens.tasklist.TaskListViewModel
 
@@ -20,10 +24,8 @@ import wottrich.github.io.featurenew.view.screens.tasklist.TaskListViewModel
  
 val featureNewModule = module {
 
-    factory { AddTaskUseCase(get()) }
-    factory { DeleteTaskUseCase(get()) }
-    factory { UpdateTaskUseCase(get()) }
-    factory { LoadTaskUseCase(get()) }
+    injectTaskUseCase()
+    injectChecklistUseCase()
 
     viewModel { ChecklistNameViewModel(get(), get()) }
     viewModel<TaskListViewModel> { (checklistId: String) ->
@@ -34,4 +36,17 @@ val featureNewModule = module {
 //        ChecklistDetailViewModel(get(), checklistId, get(), get())
 //    }
 
+}
+
+fun Module.injectChecklistUseCase() {
+    factory { GetDeleteChecklistUseCase(get()) }
+    factory { GetSelectedChecklistUseCase(get()) }
+    factory { GetUpdateSelectedChecklistUseCase(get()) }
+}
+
+fun Module.injectTaskUseCase() {
+    factory { GetAddTaskUseCase(get()) }
+    factory { GetDeleteTaskUseCase(get()) }
+    factory { GetChangeTaskStatusUseCase(get()) }
+    factory { GetLoadTaskUseCase(get()) }
 }

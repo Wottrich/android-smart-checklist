@@ -20,7 +20,7 @@ class GetSelectedChecklistUseCase(private val checklistDao: ChecklistDao) {
     suspend operator fun invoke(): Flow<ChecklistWithTasks?> {
         return flow {
             checklistDao.observeSelectedChecklistWithTasks(true).collect {
-                var selectedChecklist = it
+                var selectedChecklist = it.firstOrNull()
                 if (selectedChecklist == null) {
                     selectedChecklist = checklistDao.selectAllChecklistWithTasks().firstOrNull()
                     if (selectedChecklist != null) {

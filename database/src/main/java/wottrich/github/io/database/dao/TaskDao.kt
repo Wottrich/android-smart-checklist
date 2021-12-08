@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import kotlinx.coroutines.flow.Flow
 import wottrich.github.io.database.entity.Task
 
 /**
@@ -22,7 +23,7 @@ interface TaskDao {
 
     @Transaction
     @Query("SELECT * FROM task WHERE checklistId=:checklistId")
-    suspend fun getTasks(checklistId: String): List<Task>
+    fun observeTasksUpdate(checklistId: String): Flow<List<Task>>
 
     @Insert
     suspend fun insert(task: Task): Long?
