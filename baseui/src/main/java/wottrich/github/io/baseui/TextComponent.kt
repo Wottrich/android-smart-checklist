@@ -11,7 +11,7 @@ import androidx.compose.ui.text.TextStyle
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
-fun SingleRow(
+fun TextOneLine(
     modifier: Modifier = Modifier,
     primary: @Composable () -> Unit,
     horizontalAlignment: Alignment.Horizontal = Alignment.Start
@@ -22,7 +22,7 @@ fun SingleRow(
 }
 
 @Composable
-fun TwoLine(
+fun TextTwoLine(
     modifier: Modifier = Modifier,
     primary: @Composable () -> Unit,
     secondary: @Composable () -> Unit,

@@ -23,7 +23,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.InternalCoroutinesApi
-import wottrich.github.io.baseui.SingleRow
+import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.TopBarContent
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.featurenew.R
@@ -46,7 +46,7 @@ class NewChecklistActivity : AppCompatActivity() {
                     topBar = {
                         TopBarContent(
                             title = {
-                                SingleRow(
+                                TextOneLine(
                                     primary = {
                                         Text(text = stringResource(id = R.string.checklist_new_screen_title))
                                     }
