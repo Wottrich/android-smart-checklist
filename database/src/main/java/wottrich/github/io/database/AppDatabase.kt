@@ -20,7 +20,10 @@ import wottrich.github.io.database.entity.Task
  *
  */
 
-@Database(entities = [Checklist::class, Task::class], version = 1, exportSchema = false)
+private const val CURRENT_DATABASE_VERSION = 2
+private const val OLD_DATABASE_VERSION = 1
+
+@Database(entities = [Checklist::class, Task::class], version = CURRENT_DATABASE_VERSION, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
 
@@ -41,10 +44,9 @@ abstract class AppDatabase: RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
-            return Room.databaseBuilder(
-                context, AppDatabase::class.java,
-                DATABASE_NAME
-            ).build()
+            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+                .fallbackToDestructiveMigrationFrom(OLD_DATABASE_VERSION)
+                .build()
         }
 
     }

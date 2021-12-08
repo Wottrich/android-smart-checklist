@@ -10,6 +10,7 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import wottrich.github.io.baseui.ui.Dimens
+import wottrich.github.io.database.entity.Task
 import wottrich.github.io.featurenew.view.screens.sharedcomponents.TaskListBody
 import wottrich.github.io.featurenew.view.screens.sharedcomponents.TaskListHeader
 
@@ -24,9 +25,12 @@ import wottrich.github.io.featurenew.view.screens.sharedcomponents.TaskListHeade
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun ChecklistDetailScreen(
-    viewModel: ChecklistDetailViewModel,
-    state: ChecklistDetailState
+fun TaskListComponent(
+    state: TaskListState,
+    tasks: List<Task>,
+    onAddClicked: (String) -> Unit,
+    onUpdateClicked: (Task) -> Unit,
+    onDeleteClicked: (Task) -> Unit
 ) {
 
     var textFieldValue by remember { mutableStateOf("") }
@@ -37,25 +41,21 @@ fun ChecklistDetailScreen(
             .fillMaxHeight()
             .padding(horizontal = Dimens.BaseFour.SizeThree)
     ) {
-        AnimatedVisibility(visible = state == ChecklistDetailState.Edit) {
+        AnimatedVisibility(visible = state == TaskListState.Edit) {
             TaskListHeader(
                 textFieldValue = textFieldValue,
                 onTextFieldValueChange = { textFieldValue = it },
                 onAddItem = {
-                    viewModel.verifyTaskNameToAddItem(textFieldValue)
+                    onAddClicked(textFieldValue)
                     textFieldValue = ""
                 }
             )
         }
         TaskListBody(
-            taskList = viewModel.tasks,
-            showDeleteItem = state == ChecklistDetailState.Edit,
-            onCheckChange = {
-                viewModel.updateTask(it)
-            },
-            onDeleteTask = {
-                viewModel.deleteTask(it)
-            }
+            taskList = tasks,
+            showDeleteItem = state == TaskListState.Edit,
+            onCheckChange = onUpdateClicked,
+            onDeleteTask = onDeleteClicked
         )
     }
 

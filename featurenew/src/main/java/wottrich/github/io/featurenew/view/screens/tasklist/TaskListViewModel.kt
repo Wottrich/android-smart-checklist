@@ -3,60 +3,59 @@ package wottrich.github.io.featurenew.view.screens.tasklist
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import wottrich.github.io.database.dao.TaskDao
+import kotlinx.coroutines.withContext
 import wottrich.github.io.database.entity.Task
+import wottrich.github.io.featurenew.domain.usecase.GetAddTaskUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetChangeTaskStatusUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetLoadTaskUseCase
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 open class TaskListViewModel(
     private val checklistId: String,
     private val dispatchersProviders: DispatchersProviders,
-    private val taskDao: TaskDao
+    private val getLoadTaskUseCase: GetLoadTaskUseCase,
+    private val getAddTaskUseCase: GetAddTaskUseCase,
+    private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
+    private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
 ) : ViewModel() {
 
     var tasks = mutableStateListOf<Task>()
         private set
 
     init {
-        viewModelScope.launch(dispatchersProviders.main) {
-            val loadedTasks = taskDao.getTasks(checklistId)
-            tasks.addAll(loadedTasks)
+        viewModelScope.launch(dispatchersProviders.io) {
+            getLoadTaskUseCase(checklistId).collect {
+                withContext(dispatchersProviders.main) {
+                    tasks.clear()
+                    tasks.addAll(it)
+                }
+            }
         }
     }
 
-    fun verifyTaskNameToAddItem(taskName: String) {
+    fun onAddClicked(taskName: String) {
         addTaskAndClearText(taskName)
     }
 
-    fun deleteTask(task: Task) {
+    fun onDeleteClicked(task: Task) {
         viewModelScope.launch(dispatchersProviders.io) {
-            tasks.remove(task)
-            taskDao.delete(task)
+            getDeleteTaskUseCase(task)
         }
     }
 
-    fun updateTask(task: Task) {
+    fun onUpdateClicked(task: Task) {
         viewModelScope.launch(dispatchersProviders.io) {
-            tasks.find { it.taskId == task.taskId }?.let { taskToUpdate ->
-                taskToUpdate.isCompleted = !task.isCompleted
-                val indexOfUpdateTask = tasks.indexOf(task)
-                tasks[indexOfUpdateTask] = taskToUpdate
-                taskDao.update(task)
-            }
+            getChangeTaskStatusUseCase(task)
         }
     }
 
     private fun addTaskAndClearText(taskName: String) {
         viewModelScope.launch(dispatchersProviders.io) {
-            val task = generateTask(taskName)
-            val taskId = taskDao.insert(task)
-            task.taskId = taskId
-            tasks.add(task)
+            getAddTaskUseCase(checklistId.toLong(), taskName)
         }
-    }
-
-    private fun generateTask(taskName: String): Task {
-        return Task(checklistId = checklistId.toLong(), name = taskName)
     }
 
 }

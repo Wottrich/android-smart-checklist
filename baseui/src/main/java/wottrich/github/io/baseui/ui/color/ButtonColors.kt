@@ -1,18 +1,18 @@
-package wottrich.github.io.baseui.ui
+package wottrich.github.io.baseui.ui.color
 
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
+import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun defaultButtonColors(): ButtonColors = DefaultButtonColor(
-    backgroundColor = MaterialTheme.colors.secondary,
+    backgroundColor = SmartChecklistTheme.colors.secondary,
     contentColor = Color.White,
-    disabledBackgroundColor = MaterialTheme.colors.secondaryVariant,
+    disabledBackgroundColor = SmartChecklistTheme.colors.secondaryVariant,
     disabledContentColor = Color.White.copy(alpha = ContentAlpha.disabled)
 )
 

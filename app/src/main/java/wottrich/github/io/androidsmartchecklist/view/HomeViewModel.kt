@@ -1,42 +1,121 @@
 package wottrich.github.io.androidsmartchecklist.view
 
-import androidx.lifecycle.*
+import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import wottrich.github.io.database.dao.ChecklistDao
-import wottrich.github.io.database.entity.Checklist
+import kotlinx.coroutines.withContext
+import wottrich.github.io.database.entity.ChecklistWithTasks
+import wottrich.github.io.database.entity.Task
+import wottrich.github.io.featurenew.domain.usecase.GetAddTaskUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetChangeTaskStatusUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetDeleteChecklistUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetSelectedChecklistUseCase
+import wottrich.github.io.featurenew.domain.usecase.GetUpdateSelectedChecklistUseCase
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
  * @author Wottrich
  * @author wottrich78@gmail.com
- * @since 12/09/2020
+ * @since 06/12/2021
  *
- * Copyright © 2020 AndroidSmartCheckList. All rights reserved.
+ * Copyright © 2021 AndroidSmartCheckList. All rights reserved.
  *
  */
 
 class HomeViewModel(
-    dispatchers: DispatchersProviders,
-    private val dao: ChecklistDao
+    private val dispatchers: DispatchersProviders,
+    private val getUpdateSelectedChecklistUseCase: GetUpdateSelectedChecklistUseCase,
+    private val getSelectedChecklistUseCase: GetSelectedChecklistUseCase,
+    private val getDeleteChecklistUseCase: GetDeleteChecklistUseCase,
+    private val getAddTaskUseCase: GetAddTaskUseCase,
+    private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
+    private val getDeleteTaskUseCase: GetDeleteTaskUseCase
 ) : ViewModel() {
 
     private val _homeStateFlow = MutableStateFlow(HomeState())
-    val homeStateFlow: StateFlow<HomeState> = _homeStateFlow
+    val homeStateFlow = _homeStateFlow.asStateFlow()
+
+    var tasks = mutableStateListOf<Task>()
+        private set
 
     init {
         viewModelScope.launch(dispatchers.io) {
-            dao.selectAllFromChecklist().collect {
-                _homeStateFlow.value = homeStateFlow.value.copy(isLoading = false, checklists = it)
+            getSelectedChecklistUseCase().collect { selectedChecklist ->
+                handleSelectedChecklist(selectedChecklist)
+                withContext(dispatchers.main) {
+                    tasks.clear()
+                    tasks.addAll(selectedChecklist?.tasks.orEmpty())
+                }
             }
         }
+    }
+
+    fun onChangeState(state: HomeViewState) {
+        _homeStateFlow.value = homeStateFlow.value.copy(homeViewState = state)
+    }
+
+    fun onAddItemClicked(taskName: String) {
+        val checklistId = homeStateFlow.value.checklistWithTasks?.checklist?.checklistId
+        checklistId?.let {
+            viewModelScope.launch(dispatchers.io) {
+                getAddTaskUseCase(it, taskName)
+            }
+        }
+    }
+
+    fun onUpdateItemClicked(task: Task) {
+        viewModelScope.launch(dispatchers.io) {
+            getChangeTaskStatusUseCase(task)
+        }
+    }
+
+    fun onDeleteItemClicked(task: Task) {
+        viewModelScope.launch(dispatchers.io) {
+            getDeleteTaskUseCase(task)
+        }
+    }
+
+    fun onDeleteChecklist() {
+        viewModelScope.launch(dispatchers.io) {
+            homeStateFlow.value.checklistWithTasks?.checklist?.let {
+                getDeleteChecklistUseCase(it)
+            }
+        }
+    }
+
+    fun onChecklistClicked(checklistWithTasks: ChecklistWithTasks) {
+        viewModelScope.launch(dispatchers.main) {
+            if (!checklistWithTasks.checklist.isSelected) {
+                _homeStateFlow.value = homeStateFlow.value.copy(homeViewState = HomeViewState.Loading)
+                getUpdateSelectedChecklistUseCase(checklistWithTasks.checklist)
+            }
+        }
+    }
+
+    private fun handleSelectedChecklist(selectedChecklist: ChecklistWithTasks?) {
+        val currentViewState = homeStateFlow.value.homeViewState
+        val nextViewState = if (currentViewState == HomeViewState.Loading) HomeViewState.Overview
+        else currentViewState
+        _homeStateFlow.value = homeStateFlow.value.copy(
+            homeViewState = nextViewState,
+            checklistWithTasks = selectedChecklist
+        )
     }
 
 }
 
 data class HomeState(
-    val isLoading: Boolean = true,
-    val checklists: List<Checklist> = emptyList()
+    val homeViewState: HomeViewState = HomeViewState.Loading,
+    val checklistWithTasks: ChecklistWithTasks? = null
 )
+
+sealed class HomeViewState {
+    object Loading : HomeViewState()
+    object Overview : HomeViewState()
+    object Edit : HomeViewState()
+}
