@@ -18,6 +18,9 @@ object AppModule {
 
     val appModule = listOf(
 
+        //Splash
+        splashModule,
+
         //Features
         featureHomeModules,
         checklistModule,
