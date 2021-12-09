@@ -3,6 +3,9 @@ package wottrich.github.io.androidsmartchecklist.view
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import github.io.wottrich.checklist.domain.usecase.GetDeleteChecklistUseCase
+import github.io.wottrich.checklist.domain.usecase.GetSelectedChecklistUseCase
+import github.io.wottrich.checklist.domain.usecase.GetUpdateSelectedChecklistUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -10,12 +13,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import wottrich.github.io.database.entity.ChecklistWithTasks
 import wottrich.github.io.database.entity.Task
-import wottrich.github.io.featurenew.domain.usecase.GetAddTaskUseCase
-import wottrich.github.io.featurenew.domain.usecase.GetChangeTaskStatusUseCase
-import wottrich.github.io.featurenew.domain.usecase.GetDeleteChecklistUseCase
-import wottrich.github.io.featurenew.domain.usecase.GetDeleteTaskUseCase
-import wottrich.github.io.featurenew.domain.usecase.GetSelectedChecklistUseCase
-import wottrich.github.io.featurenew.domain.usecase.GetUpdateSelectedChecklistUseCase
+import wottrich.github.io.publicandroid.domain.usecase.GetAddTaskUseCase
+import wottrich.github.io.publicandroid.domain.usecase.GetChangeTaskStatusUseCase
+import wottrich.github.io.publicandroid.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
@@ -91,7 +91,8 @@ class HomeViewModel(
     fun onChecklistClicked(checklistWithTasks: ChecklistWithTasks) {
         viewModelScope.launch(dispatchers.main) {
             if (!checklistWithTasks.checklist.isSelected) {
-                _homeStateFlow.value = homeStateFlow.value.copy(homeViewState = HomeViewState.Loading)
+                _homeStateFlow.value =
+                    homeStateFlow.value.copy(homeViewState = HomeViewState.Loading)
                 getUpdateSelectedChecklistUseCase(checklistWithTasks.checklist)
             }
         }

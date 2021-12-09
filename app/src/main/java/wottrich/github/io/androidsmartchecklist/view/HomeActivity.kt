@@ -7,25 +7,19 @@ import androidx.compose.material.AlertDialog
 import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.res.stringResource
+import github.io.wottrich.checklist.presentation.activity.NewChecklistActivity
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.androidsmartchecklist.R.string
-import wottrich.github.io.androidsmartchecklist.ui.ChecklistSelectedContent
 import wottrich.github.io.androidsmartchecklist.ui.DrawerContent
+import wottrich.github.io.androidsmartchecklist.ui.HomeContentComponent
 import wottrich.github.io.androidsmartchecklist.ui.HomeScaffold
 import wottrich.github.io.androidsmartchecklist.ui.HomeTopBarActionsContent
 import wottrich.github.io.baseui.ui.ApplicationTheme
-import wottrich.github.io.featurenew.R
-import wottrich.github.io.featurenew.view.NewChecklistActivity
 
 @InternalCoroutinesApi
 class HomeActivity : AppCompatActivity() {
@@ -70,9 +64,9 @@ class HomeActivity : AppCompatActivity() {
                         )
                     }
                 ) {
-                    ChecklistSelectedContent(
-                        tasks = homeViewModel.tasks,
+                    HomeContentComponent(
                         checklistState = checklistState,
+                        tasks = homeViewModel.tasks,
                         onAddItemClicked = homeViewModel::onAddItemClicked,
                         onUpdateItemClicked = homeViewModel::onUpdateItemClicked,
                         onDeleteItemClicked = homeViewModel::onDeleteItemClicked,

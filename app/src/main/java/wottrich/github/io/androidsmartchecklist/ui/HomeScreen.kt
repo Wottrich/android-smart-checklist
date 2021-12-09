@@ -8,8 +8,8 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.androidsmartchecklist.view.HomeViewState
-import wottrich.github.io.featurenew.R.string
 
 /**
  * @author Wottrich
@@ -35,7 +35,7 @@ fun HomeTopBarActionsContent(
         Icon(
             imageVector = Icons.Default.Delete,
             contentDescription = stringResource(
-                id = string.checklist_delete_checklist_content_description
+                id = R.string.checklist_delete_checklist_content_description
             )
         )
     }
@@ -57,7 +57,7 @@ private fun EditIconStateContent(
                 Icon(
                     imageVector = Icons.Default.Check,
                     contentDescription = stringResource(
-                        id = string.checklist_finish_edit_content_description
+                        id = R.string.checklist_finish_edit_content_description
                     )
                 )
             }
@@ -71,7 +71,7 @@ private fun EditIconStateContent(
                 Icon(
                     imageVector = Icons.Default.Edit,
                     contentDescription = stringResource(
-                        id = string.checklist_edit_checklist_content_description
+                        id = R.string.checklist_edit_checklist_content_description
                     )
                 )
             }

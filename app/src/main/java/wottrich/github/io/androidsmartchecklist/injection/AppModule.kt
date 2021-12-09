@@ -1,7 +1,8 @@
 package wottrich.github.io.androidsmartchecklist.injection
 
+import github.io.wottrich.checklist.di.checklistModule
 import wottrich.github.io.database.injection.databaseModule
-import wottrich.github.io.featurenew.injection.featureNewModule
+import wottrich.github.io.impl.di.taskModule
 import wottrich.github.io.tools.injection.toolsDispatcherModule
 
 /**
@@ -19,7 +20,8 @@ object AppModule {
 
         //Features
         featureHomeModules,
-        featureNewModule,
+        checklistModule,
+        taskModule,
 
         //Database
         databaseModule,
