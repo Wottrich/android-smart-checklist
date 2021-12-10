@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.ui
+package wottrich.github.io.androidsmartchecklist.presentation.ui
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,7 +9,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import wottrich.github.io.androidsmartchecklist.view.HomeDrawerState
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerState
 import wottrich.github.io.database.entity.ChecklistWithTasks
 
 /**
@@ -22,7 +22,7 @@ import wottrich.github.io.database.entity.ChecklistWithTasks
  */
 
 @Composable
-fun DrawerContent(
+fun HomeDrawerContent(
     state: HomeDrawerState,
     onItemClick: (checklist: ChecklistWithTasks) -> Unit
 ) {
@@ -39,7 +39,7 @@ private fun HomeDrawerSuccessContent(
 ) {
     LazyColumn(content = {
         items(checklists) { item ->
-            ChecklistItem(checklist = item.checklist) {
+            HomeDrawerChecklistItemComponent(checklist = item.checklist) {
                 onItemClick(item)
             }
         }

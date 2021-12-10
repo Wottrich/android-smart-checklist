@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.ui
+package wottrich.github.io.androidsmartchecklist.presentation.ui
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -20,7 +20,7 @@ import wottrich.github.io.baseui.ui.TextStateComponent
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
 
 @Composable
-fun ChecklistEmptyState(onNewChecklistClicked: () -> Unit) {
+fun HomeEmptyStateComponent(onNewChecklistClicked: () -> Unit) {
 
     Surface(
         modifier = Modifier.padding(
@@ -68,5 +68,5 @@ fun ChecklistEmptyState(onNewChecklistClicked: () -> Unit) {
 @Preview(showBackground = true)
 @Composable
 fun ChecklistEmptyStatePreview() {
-    ChecklistEmptyState { }
+    HomeEmptyStateComponent { }
 }

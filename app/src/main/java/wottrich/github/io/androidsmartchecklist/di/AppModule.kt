@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.injection
+package wottrich.github.io.androidsmartchecklist.di
 
 import github.io.wottrich.checklist.di.checklistModule
 import wottrich.github.io.database.injection.databaseModule

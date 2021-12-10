@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.view
+package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel

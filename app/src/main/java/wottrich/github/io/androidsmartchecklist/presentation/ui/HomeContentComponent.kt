@@ -1,9 +1,9 @@
-package wottrich.github.io.androidsmartchecklist.ui
+package wottrich.github.io.androidsmartchecklist.presentation.ui
 
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import wottrich.github.io.androidsmartchecklist.view.HomeState
-import wottrich.github.io.androidsmartchecklist.view.HomeViewState
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewState
 import wottrich.github.io.database.entity.Task
 import wottrich.github.io.publicandroid.presentation.ui.TaskContentComponent
 
@@ -38,7 +38,7 @@ fun HomeContentComponent(
                 onDeleteClicked = onDeleteItemClicked
             )
         } else {
-            ChecklistEmptyState(onNewChecklistClicked)
+            HomeEmptyStateComponent(onNewChecklistClicked)
         }
     }
 }

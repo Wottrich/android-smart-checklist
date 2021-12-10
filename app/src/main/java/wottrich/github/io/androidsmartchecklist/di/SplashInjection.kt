@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.injection
+package wottrich.github.io.androidsmartchecklist.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.view
+package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

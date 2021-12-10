@@ -14,7 +14,6 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.SplashViewModel
-import wottrich.github.io.androidsmartchecklist.view.HomeActivity
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.RowDefaults

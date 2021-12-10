@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.view
+package wottrich.github.io.androidsmartchecklist.presentation.activity
 
 import android.os.Bundle
 import androidx.activity.compose.setContent
@@ -15,10 +15,14 @@ import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.androidsmartchecklist.R.string
-import wottrich.github.io.androidsmartchecklist.ui.DrawerContent
-import wottrich.github.io.androidsmartchecklist.ui.HomeContentComponent
-import wottrich.github.io.androidsmartchecklist.ui.HomeScaffold
-import wottrich.github.io.androidsmartchecklist.ui.HomeTopBarActionsContent
+import wottrich.github.io.androidsmartchecklist.presentation.ui.HomeContentComponent
+import wottrich.github.io.androidsmartchecklist.presentation.ui.HomeDrawerContent
+import wottrich.github.io.androidsmartchecklist.presentation.ui.HomeScaffold
+import wottrich.github.io.androidsmartchecklist.presentation.ui.HomeTopBarActionsContent
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.DrawerViewModel
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewState
 import wottrich.github.io.baseui.ui.ApplicationTheme
 
 @InternalCoroutinesApi
@@ -42,7 +46,7 @@ class HomeActivity : AppCompatActivity() {
                     drawerState = drawerState,
                     coroutineScope = rememberCoroutineScope,
                     drawerContent = {
-                        DrawerContent(
+                        HomeDrawerContent(
                             state = homeDrawerState,
                             onItemClick = {
                                 homeViewModel.onChecklistClicked(it)

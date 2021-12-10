@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.ui
+package wottrich.github.io.androidsmartchecklist.presentation.ui
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -9,7 +9,7 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import wottrich.github.io.androidsmartchecklist.R
-import wottrich.github.io.androidsmartchecklist.view.HomeViewState
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewState
 
 /**
  * @author Wottrich
@@ -19,11 +19,6 @@ import wottrich.github.io.androidsmartchecklist.view.HomeViewState
  * Copyright © 2021 AndroidSmartCheckList. All rights reserved.
  *
  */
- 
-@Composable
-fun HomeScreen() {
-
-}
 
 @Composable
 fun HomeTopBarActionsContent(
