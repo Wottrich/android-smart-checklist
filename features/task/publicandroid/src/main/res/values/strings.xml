@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--  Task Header  -->
+    <string name="task_header_list_title">Put tasks in your checklist:</string>
+    <string name="task_header_type_task_name_hint">Enter a task name</string>
+    <string name="task_header_add_item">Add</string>
+
+    <!--  Task Item Component  -->
+    <string name="task_item_component_delete_item">Click to delete %s item</string>
+    <string name="task_item_component_click_to_check_item_description">Item %s completed, click to turn incomplete</string>
+    <string name="task_item_component_click_to_uncheck_item_description">Item %s incomplete, click to turn complete</string>
+
+</resources>

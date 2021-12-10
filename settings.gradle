@@ -1,6 +1,10 @@
-include ':featurenew'
+rootProject.name = "AndroidSmartCheckList"
 include ':database'
 include ':tools'
 include ':app'
-rootProject.name = "AndroidSmartCheckList"
 include ':baseui'
+include ':features:checklist:impl'
+include ':features:checklist:public'
+include ':features:task:impl'
+include ':features:task:public'
+include ':features:task:publicandroid'

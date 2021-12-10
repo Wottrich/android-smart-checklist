@@ -3,7 +3,7 @@ package wottrich.github.io.androidsmartchecklist
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
-import wottrich.github.io.androidsmartchecklist.injection.AppModule
+import wottrich.github.io.androidsmartchecklist.di.AppModule
 
 /**
  * @author Wottrich

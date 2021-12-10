@@ -48,21 +48,21 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion compose_version
         kotlinCompilerVersion kotlin_version
+        kotlinCompilerExtensionVersion = compose_kotlin_compiler
     }
 }
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
-    //Project
-    implementation project(path: ":featurenew")
-
     //modules
     implementation project(path: ":database")
     implementation project(path: ":tools")
     implementation project(path: ":baseui")
+    implementation project(path: ":features:checklist:impl")
+    implementation project(path: ":features:task:impl")
+    implementation project(path: ":features:task:publicandroid")
 
     //Compose
     implementation "androidx.activity:activity-compose:$compose_activity_version"

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="checklist_name_screen_type_checklist_name_hint">Enter checklist name.</string>
+    <string name="checklist_name_screen_example_hint">Ex.: Shopping list</string>
+    <string name="checklist_name_screen_button_continue">Next</string>
+
+    <string name="new_checklist_activity_screen_title">New checklist!</string>
+    <string name="new_checklist_activity_save_changes">Click to finish adding new items to the checklist</string>
+
+</resources>

@@ -19,4 +19,9 @@
 
     <string name="checklist_empty_state_new_checklist_button">New checklist</string>
 
+    <string name="checklist_delete_checklist_content_description">Click to delete checklist (confirmation required)</string>
+    <string name="checklist_edit_checklist_content_description">Click to edit checklist</string>
+    <string name="checklist_finish_edit_content_description">Click to finish checklist edit</string>
+    <string name="checklist_delete_checklist_confirm_label">You are about to delete this checklist forever, do you want to continue?</string>
+
 </resources>
