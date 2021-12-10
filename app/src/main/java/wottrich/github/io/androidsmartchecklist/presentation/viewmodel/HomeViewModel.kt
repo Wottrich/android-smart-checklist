@@ -55,6 +55,12 @@ class HomeViewModel(
         }
     }
 
+    fun onChangeEditModeClicked() {
+        val state = if (homeStateFlow.value.isEditViewState) HomeViewState.Overview
+        else HomeViewState.Edit
+        onChangeState(state)
+    }
+
     fun onChangeState(state: HomeViewState) {
         _homeStateFlow.value = homeStateFlow.value.copy(homeViewState = state)
     }
@@ -113,7 +119,10 @@ class HomeViewModel(
 data class HomeState(
     val homeViewState: HomeViewState = HomeViewState.Loading,
     val checklistWithTasks: ChecklistWithTasks? = null
-)
+) {
+    val isEditViewState: Boolean
+        get() = homeViewState == HomeViewState.Edit
+}
 
 sealed class HomeViewState {
     object Loading : HomeViewState()

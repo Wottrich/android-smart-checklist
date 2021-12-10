@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.presentation.ui
+package wottrich.github.io.androidsmartchecklist.presentation.ui.content
 
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.Edit
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import wottrich.github.io.androidsmartchecklist.R
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewState
 
 /**
  * @author Wottrich
@@ -22,9 +21,9 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewS
 
 @Composable
 fun HomeTopBarActionsContent(
-    state: HomeViewState,
+    isEditMode: Boolean,
     onShowDeleteConfirmDialog: (() -> Unit),
-    onChangeState: (HomeViewState) -> Unit
+    onChangeState: () -> Unit
 ) {
     IconButton(onClick = onShowDeleteConfirmDialog) {
         Icon(
@@ -34,19 +33,19 @@ fun HomeTopBarActionsContent(
             )
         )
     }
-    EditIconStateContent(state = state, onChangeState = onChangeState)
+    EditIconStateContent(isEditMode = isEditMode, onChangeState = onChangeState)
 }
 
 @Composable
 private fun EditIconStateContent(
-    state: HomeViewState,
-    onChangeState: (HomeViewState) -> Unit
+    isEditMode: Boolean,
+    onChangeState: () -> Unit
 ) {
-    when (state) {
-        HomeViewState.Edit -> {
+    when (isEditMode) {
+        true -> {
             IconButton(
                 onClick = {
-                    onChangeState(HomeViewState.Overview)
+                    onChangeState()
                 }
             ) {
                 Icon(
@@ -57,10 +56,10 @@ private fun EditIconStateContent(
                 )
             }
         }
-        HomeViewState.Overview -> {
+        false -> {
             IconButton(
                 onClick = {
-                    onChangeState(HomeViewState.Edit)
+                    onChangeState()
                 }
             ) {
                 Icon(
@@ -71,6 +70,5 @@ private fun EditIconStateContent(
                 )
             }
         }
-        else -> Unit
     }
 }

@@ -1,7 +1,8 @@
-package wottrich.github.io.androidsmartchecklist.presentation.ui
+package wottrich.github.io.androidsmartchecklist.presentation.ui.content
 
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
+import wottrich.github.io.androidsmartchecklist.presentation.ui.HomeEmptyStateComponent
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewState
 import wottrich.github.io.database.entity.Task

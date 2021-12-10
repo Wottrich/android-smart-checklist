@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.presentation.ui
+package wottrich.github.io.androidsmartchecklist.presentation.ui.content
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.shape.CircleShape

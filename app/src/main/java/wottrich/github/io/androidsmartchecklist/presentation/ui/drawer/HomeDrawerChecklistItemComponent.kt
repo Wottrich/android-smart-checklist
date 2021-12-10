@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.presentation.ui
+package wottrich.github.io.androidsmartchecklist.presentation.ui.drawer
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable

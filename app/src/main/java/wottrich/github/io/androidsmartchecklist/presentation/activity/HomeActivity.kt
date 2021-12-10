@@ -3,8 +3,6 @@ package wottrich.github.io.androidsmartchecklist.presentation.activity
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
@@ -13,13 +11,9 @@ import github.io.wottrich.checklist.presentation.activity.NewChecklistActivity
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
-import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.androidsmartchecklist.R.string
-import wottrich.github.io.androidsmartchecklist.presentation.ui.HomeContentComponent
-import wottrich.github.io.androidsmartchecklist.presentation.ui.HomeDrawerContent
-import wottrich.github.io.androidsmartchecklist.presentation.ui.HomeScaffold
-import wottrich.github.io.androidsmartchecklist.presentation.ui.HomeTopBarActionsContent
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.DrawerViewModel
+import wottrich.github.io.androidsmartchecklist.presentation.ui.content.*
+import wottrich.github.io.androidsmartchecklist.presentation.ui.drawer.HomeDrawerStatefulContent
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewState
@@ -28,7 +22,6 @@ import wottrich.github.io.baseui.ui.ApplicationTheme
 @InternalCoroutinesApi
 class HomeActivity : AppCompatActivity() {
 
-    private val drawerViewModel by viewModel<DrawerViewModel>()
     private val homeViewModel by viewModel<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,20 +29,17 @@ class HomeActivity : AppCompatActivity() {
         setContent {
             ApplicationTheme {
                 val checklistState by homeViewModel.homeStateFlow.collectAsState()
-                val homeDrawerState by drawerViewModel.drawerStateFlow.collectAsState()
                 val scaffoldState = rememberScaffoldState()
                 val drawerState = scaffoldState.drawerState
                 val rememberCoroutineScope = rememberCoroutineScope()
-                var showDeleteDialog by remember { mutableStateOf(false) }
+                var showDeleteDialog by remember { mutableStateOf(DeleteAlertDialogState.HIDE) }
                 HomeScaffold(
                     scaffoldState = scaffoldState,
                     drawerState = drawerState,
                     coroutineScope = rememberCoroutineScope,
                     drawerContent = {
-                        HomeDrawerContent(
-                            state = homeDrawerState,
-                            onItemClick = {
-                                homeViewModel.onChecklistClicked(it)
+                        HomeDrawerStatefulContent(
+                            onCloseDrawer = {
                                 rememberCoroutineScope.launch {
                                     drawerState.close()
                                 }
@@ -62,9 +52,11 @@ class HomeActivity : AppCompatActivity() {
                     },
                     actionContent = {
                         HomeTopBarActionsContent(
-                            state = checklistState.homeViewState,
-                            onShowDeleteConfirmDialog = { showDeleteDialog = true },
-                            onChangeState = homeViewModel::onChangeState
+                            isEditMode = checklistState.isEditViewState,
+                            onShowDeleteConfirmDialog = {
+                                showDeleteDialog = DeleteAlertDialogState.SHOW
+                            },
+                            onChangeState = homeViewModel::onChangeEditModeClicked
                         )
                     }
                 ) {
@@ -77,13 +69,13 @@ class HomeActivity : AppCompatActivity() {
                         onNewChecklistClicked = ::startNewChecklistActivity
                     )
                     DeleteAlertDialogContent(
-                        showDeleteDialog = showDeleteDialog,
+                        deleteAlertDialogState = showDeleteDialog,
                         onConfirmDeleteChecklist = {
                             homeViewModel.onDeleteChecklist()
-                            showDeleteDialog = false
+                            showDeleteDialog = DeleteAlertDialogState.HIDE
                         },
                         onDismiss = {
-                            showDeleteDialog = false
+                            showDeleteDialog = DeleteAlertDialogState.HIDE
                         }
                     )
                 }
@@ -103,31 +95,6 @@ class HomeActivity : AppCompatActivity() {
                     checkNotNull(checklistState.checklistWithTasks.checklist)
                 Text(text = checklist.name)
             }
-        }
-    }
-
-    @Composable
-    private fun DeleteAlertDialogContent(
-        showDeleteDialog: Boolean,
-        onConfirmDeleteChecklist: () -> Unit,
-        onDismiss: () -> Unit
-    ) {
-        if (showDeleteDialog) {
-            AlertDialog(
-                onDismissRequest = { onDismiss() },
-                title = { Text(stringResource(id = R.string.attention)) },
-                text = { Text(text = stringResource(id = R.string.checklist_delete_checklist_confirm_label)) },
-                confirmButton = {
-                    Button(onClick = { onConfirmDeleteChecklist() }) {
-                        Text(text = stringResource(id = R.string.yes))
-                    }
-                },
-                dismissButton = {
-                    Button(onClick = { onDismiss() }) {
-                        Text(text = stringResource(id = R.string.no))
-                    }
-                }
-            )
         }
     }
 
