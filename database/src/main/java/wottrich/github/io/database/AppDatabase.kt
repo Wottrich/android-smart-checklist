@@ -10,6 +10,8 @@ import wottrich.github.io.database.dao.ChecklistDao
 import wottrich.github.io.database.dao.TaskDao
 import wottrich.github.io.database.entity.Checklist
 import wottrich.github.io.database.entity.Task
+import wottrich.github.io.database.migration.MIGRATION_I_II
+import wottrich.github.io.database.version.DatabaseVersions
 
 /**
  * @author Wottrich
@@ -20,10 +22,7 @@ import wottrich.github.io.database.entity.Task
  *
  */
 
-private const val CURRENT_DATABASE_VERSION = 2
-private const val OLD_DATABASE_VERSION = 1
-
-@Database(entities = [Checklist::class, Task::class], version = CURRENT_DATABASE_VERSION, exportSchema = false)
+@Database(entities = [Checklist::class, Task::class], version = DatabaseVersions.currentVersion, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
 
@@ -45,7 +44,7 @@ abstract class AppDatabase: RoomDatabase() {
 
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-                .fallbackToDestructiveMigrationFrom(OLD_DATABASE_VERSION)
+                .addMigrations(MIGRATION_I_II)
                 .build()
         }
 

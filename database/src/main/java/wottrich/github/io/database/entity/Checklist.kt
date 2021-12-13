@@ -5,9 +5,9 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
-import wottrich.github.io.tools.extensions.validAndFormatDate
-import java.util.*
+import java.util.Calendar
 import kotlinx.android.parcel.Parcelize
+import wottrich.github.io.tools.extensions.validAndFormatDate
 
 /**
  * @author Wottrich
@@ -28,7 +28,7 @@ data class Checklist(
     val createdDate: Calendar = Calendar.getInstance(),
     @ColumnInfo(name = "last_update")
     var lastUpdate: Calendar = Calendar.getInstance(),
-    @ColumnInfo(name = "is_selected")
+    @ColumnInfo(name = "is_selected", defaultValue = "FALSE")
     var isSelected: Boolean = false
 ) : Parcelable {
 
