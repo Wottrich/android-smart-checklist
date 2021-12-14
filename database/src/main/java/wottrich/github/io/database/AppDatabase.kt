@@ -10,6 +10,8 @@ import wottrich.github.io.database.dao.ChecklistDao
 import wottrich.github.io.database.dao.TaskDao
 import wottrich.github.io.database.entity.Checklist
 import wottrich.github.io.database.entity.Task
+import wottrich.github.io.database.migration.MIGRATION_I_II
+import wottrich.github.io.database.version.DatabaseVersions
 
 /**
  * @author Wottrich
@@ -20,7 +22,7 @@ import wottrich.github.io.database.entity.Task
  *
  */
 
-@Database(entities = [Checklist::class, Task::class], version = 1, exportSchema = false)
+@Database(entities = [Checklist::class, Task::class], version = DatabaseVersions.currentVersion, exportSchema = true)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
 
@@ -41,10 +43,9 @@ abstract class AppDatabase: RoomDatabase() {
         }
 
         private fun buildDatabase(context: Context): AppDatabase {
-            return Room.databaseBuilder(
-                context, AppDatabase::class.java,
-                DATABASE_NAME
-            ).build()
+            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+                .addMigrations(MIGRATION_I_II)
+                .build()
         }
 
     }
