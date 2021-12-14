@@ -22,7 +22,7 @@ import wottrich.github.io.database.version.DatabaseVersions
  *
  */
 
-@Database(entities = [Checklist::class, Task::class], version = DatabaseVersions.currentVersion, exportSchema = false)
+@Database(entities = [Checklist::class, Task::class], version = DatabaseVersions.currentVersion, exportSchema = true)
 @TypeConverters(Converters::class)
 abstract class AppDatabase: RoomDatabase() {
 
