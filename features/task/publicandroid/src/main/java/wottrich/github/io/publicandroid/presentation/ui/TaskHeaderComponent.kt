@@ -21,7 +21,7 @@ fun TaskHeaderComponent(
     onTextFieldValueChange: ((String) -> Unit),
     onAddItem: (() -> Unit)
 ) {
-    Column {
+    Column(modifier = Modifier.padding(horizontal = Dimens.BaseFour.SizeThree)) {
         TextOneLine(
             modifier = Modifier.padding(vertical = Dimens.BaseFour.SizeTwo),
             primary = {
