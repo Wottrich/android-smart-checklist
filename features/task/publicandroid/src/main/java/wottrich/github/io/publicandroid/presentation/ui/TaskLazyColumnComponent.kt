@@ -1,6 +1,9 @@
 package wottrich.github.io.publicandroid.presentation.ui
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
@@ -29,7 +32,6 @@ fun TaskLazyColumnComponent(
                     )
                 }
             }
-        },
-        contentPadding = PaddingValues(vertical = Dimens.BaseFour.SizeTwo)
+        }
     )
 }

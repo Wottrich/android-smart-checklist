@@ -1,10 +1,21 @@
 package wottrich.github.io.androidsmartchecklist.presentation.ui.content
 
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.*
+import androidx.compose.material.BottomAppBar
+import androidx.compose.material.DrawerState
+import androidx.compose.material.FabPosition
+import androidx.compose.material.FloatingActionButton
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.graphics.Color
@@ -23,7 +34,7 @@ fun HomeScaffold(
     onFloatingActionButtonClick: () -> Unit,
     onTitleContent: @Composable () -> Unit,
     actionContent: @Composable RowScope.() -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
@@ -67,7 +78,7 @@ fun HomeScaffold(
         drawerContent = {
             drawerContent()
         }
-    ) {
-        content()
+    ) { innerPadding ->
+        content(innerPadding)
     }
 }
