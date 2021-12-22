@@ -1,6 +1,7 @@
 package wottrich.github.io.publicandroid.presentation.ui
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Icon
@@ -26,6 +27,7 @@ fun TaskItemComponent(
     onDeleteTask: () -> Unit
 ) {
     Surface(
+        modifier = Modifier.padding(horizontal = Dimens.BaseFour.SizeThree),
         shape = RoundedCornerShape(Dimens.BaseFour.SizeTwo),
         elevation = Dimens.BaseFour.SizeOne
     ) {
