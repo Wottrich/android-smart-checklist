@@ -1,5 +1,6 @@
 package wottrich.github.io.publicandroid.presentation.ui
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
@@ -33,23 +34,8 @@ fun TaskItemComponent(
     ) {
         RowComponent(
             modifier = Modifier.clickable { onCheckChange() },
-            leftContent = {
-                TextOneLine(
-                    primary = {
-                        Text(text = task.name)
-                    }
-                )
-            },
-            rightIconContent = {
-
-                IconCompletableTaskContent(
-                    taskName = task.name,
-                    isCompletedTask = task.isCompleted
-                ) {
-                    onCheckChange()
-                }
-
-                if (showDeleteItem) {
+            leftIconContent = {
+                AnimatedVisibility(visible = showDeleteItem) {
                     Icon(
                         tint = MaterialTheme.colors.onSurface,
                         painter = painterResource(id = R.drawable.ic_delete),
@@ -61,6 +47,21 @@ fun TaskItemComponent(
                             .clip(CircleShape)
                             .clickable { onDeleteTask() }
                     )
+                }
+            },
+            leftContent = {
+                TextOneLine(
+                    primary = {
+                        Text(text = task.name)
+                    }
+                )
+            },
+            rightIconContent = {
+                IconCompletableTaskContent(
+                    taskName = task.name,
+                    isCompletedTask = task.isCompleted
+                ) {
+                    onCheckChange()
                 }
             }
         )
