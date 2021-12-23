@@ -28,8 +28,8 @@ import wottrich.github.io.androidsmartchecklist.presentation.ui.content.HomeScaf
 import wottrich.github.io.androidsmartchecklist.presentation.ui.content.HomeTopBarActionsContent
 import wottrich.github.io.androidsmartchecklist.presentation.ui.drawer.HomeDrawerStatefulContent
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiState
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewState
 import wottrich.github.io.baseui.ui.ApplicationTheme
 
 @InternalCoroutinesApi
@@ -64,13 +64,15 @@ class HomeActivity : AppCompatActivity() {
                         TopBarTitleContent(checklistState)
                     },
                     actionContent = {
-                        HomeTopBarActionsContent(
-                            isEditMode = checklistState.isEditViewState,
-                            onShowDeleteConfirmDialog = {
-                                showDeleteDialog = DeleteAlertDialogState.SHOW
-                            },
-                            onChangeState = homeViewModel::onChangeEditModeClicked
-                        )
+                        if (checklistState.shouldShowActionContent()) {
+                            HomeTopBarActionsContent(
+                                isEditMode = checklistState.isEditUiState,
+                                onShowDeleteConfirmDialog = {
+                                    showDeleteDialog = DeleteAlertDialogState.SHOW
+                                },
+                                onChangeState = homeViewModel::onChangeEditModeClicked
+                            )
+                        }
                     }
                 ) {
                     Box(
@@ -103,7 +105,7 @@ class HomeActivity : AppCompatActivity() {
     @Composable
     private fun TopBarTitleContent(checklistState: HomeState) {
         when {
-            checklistState.homeViewState == HomeViewState.Loading -> Unit
+            checklistState.homeUiState == HomeUiState.Loading -> Unit
             checklistState.checklistWithTasks == null -> {
                 Text(text = stringResource(id = string.label_home_fragment))
             }

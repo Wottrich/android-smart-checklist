@@ -37,7 +37,7 @@ class HomeViewModel(
     private val getDeleteTaskUseCase: GetDeleteTaskUseCase
 ) : ViewModel() {
 
-    private val _homeStateFlow = MutableStateFlow(HomeState())
+    private val _homeStateFlow = MutableStateFlow(HomeState.Initial)
     val homeStateFlow = _homeStateFlow.asStateFlow()
 
     var tasks = mutableStateListOf<Task>()
@@ -56,13 +56,11 @@ class HomeViewModel(
     }
 
     fun onChangeEditModeClicked() {
-        val state = if (homeStateFlow.value.isEditViewState) HomeViewState.Overview
-        else HomeViewState.Edit
-        onChangeState(state)
+        onChangeState(HomeUiState.Overview(isEditing = !homeStateFlow.value.isEditUiState))
     }
 
-    fun onChangeState(state: HomeViewState) {
-        _homeStateFlow.value = homeStateFlow.value.copy(homeViewState = state)
+    fun onChangeState(state: HomeUiState) {
+        _homeStateFlow.value = homeStateFlow.value.copy(homeUiState = state)
     }
 
     fun onAddItemClicked(taskName: String) {
@@ -94,38 +92,47 @@ class HomeViewModel(
         }
     }
 
-    fun onChecklistClicked(checklistWithTasks: ChecklistWithTasks) {
-        viewModelScope.launch(dispatchers.main) {
-            if (!checklistWithTasks.checklist.isSelected) {
-                _homeStateFlow.value =
-                    homeStateFlow.value.copy(homeViewState = HomeViewState.Loading)
-                getUpdateSelectedChecklistUseCase(checklistWithTasks.checklist)
-            }
-        }
-    }
-
     private fun handleSelectedChecklist(selectedChecklist: ChecklistWithTasks?) {
-        val currentViewState = homeStateFlow.value.homeViewState
-        val nextViewState = if (currentViewState == HomeViewState.Loading) HomeViewState.Overview
-        else currentViewState
+        val currentViewState = homeStateFlow.value.homeUiState
+        val hasSelectedChecklist = selectedChecklist != null
+        val nextUiState = when {
+            shouldVerifyUiStateToUpdate(currentViewState) -> getNextUiState(hasSelectedChecklist)
+            hasSelectedChecklist -> currentViewState
+            else -> HomeUiState.Empty
+        }
         _homeStateFlow.value = homeStateFlow.value.copy(
-            homeViewState = nextViewState,
+            homeUiState = nextUiState,
             checklistWithTasks = selectedChecklist
         )
     }
 
+    private fun shouldVerifyUiStateToUpdate(currentUiState: HomeUiState): Boolean {
+        return currentUiState == HomeUiState.Loading || currentUiState == HomeUiState.Empty
+    }
+
+    private fun getNextUiState(hasSelectedChecklist: Boolean) =
+        if (hasSelectedChecklist) HomeUiState.Overview(false) else HomeUiState.Empty
+
 }
 
 data class HomeState(
-    val homeViewState: HomeViewState = HomeViewState.Loading,
-    val checklistWithTasks: ChecklistWithTasks? = null
+    val homeUiState: HomeUiState,
+    val checklistWithTasks: ChecklistWithTasks?
 ) {
-    val isEditViewState: Boolean
-        get() = homeViewState == HomeViewState.Edit
+    val isEditUiState: Boolean
+        get() = homeUiState is HomeUiState.Overview && homeUiState.isEditing
+
+    fun shouldShowActionContent(): Boolean {
+        return homeUiState is HomeUiState.Overview
+    }
+
+    companion object {
+        val Initial = HomeState(HomeUiState.Loading, null)
+    }
 }
 
-sealed class HomeViewState {
-    object Loading : HomeViewState()
-    object Overview : HomeViewState()
-    object Edit : HomeViewState()
+sealed class HomeUiState {
+    object Loading : HomeUiState()
+    data class Overview(val isEditing: Boolean = false) : HomeUiState()
+    object Empty : HomeUiState()
 }
