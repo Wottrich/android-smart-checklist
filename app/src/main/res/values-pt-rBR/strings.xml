@@ -16,7 +16,7 @@
 
     <string name="navigate_to_checklist_detail">Clique para ir para os detalhes do checklist %s</string>
 
-    <string name="checklist_empty_state">Crie sua primeira checklist clicando no botão abaixo\nou clicando no + láaa embaixo.</string>
+    <string name="checklist_empty_state">Crie sua primeira checklist clicando no botão abaixo.</string>
 
     <string name="checklist_empty_state_new_checklist_button">Nova checklist</string>
 

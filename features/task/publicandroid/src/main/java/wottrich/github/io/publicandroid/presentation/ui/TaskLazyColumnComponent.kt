@@ -32,6 +32,9 @@ fun TaskLazyColumnComponent(
                     )
                 }
             }
+            item {
+                Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
+            }
         }
     )
 }

@@ -56,10 +56,15 @@ class HomeActivity : AppCompatActivity() {
                                 rememberCoroutineScope.launch {
                                     drawerState.close()
                                 }
+                            },
+                            onAddNewChecklist = {
+                                startNewChecklistActivity()
+                                rememberCoroutineScope.launch {
+                                    drawerState.close()
+                                }
                             }
                         )
                     },
-                    onFloatingActionButtonClick = { startNewChecklistActivity() },
                     onTitleContent = {
                         TopBarTitleContent(checklistState)
                     },
