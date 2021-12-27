@@ -53,7 +53,6 @@ fun HomeScaffold(
                 actions = actionContent
             )
         },
-//        bottomBar = { BottomAppBar(cutoutShape = CircleShape, content = { /*empty*/ }) },
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true,
         drawerContent = {
