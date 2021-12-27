@@ -1,12 +1,10 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
-import android.content.ClipData
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import github.io.wottrich.checklist.domain.usecase.GetDeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.usecase.GetSelectedChecklistUseCase
-import github.io.wottrich.checklist.domain.usecase.GetUpdateSelectedChecklistUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collect
@@ -18,7 +16,6 @@ import wottrich.github.io.publicandroid.domain.usecase.GetAddTaskUseCase
 import wottrich.github.io.publicandroid.domain.usecase.GetChangeTaskStatusUseCase
 import wottrich.github.io.publicandroid.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
-import wottrich.github.io.tools.utils.Clipboard
 
 /**
  * @author Wottrich
@@ -31,13 +28,11 @@ import wottrich.github.io.tools.utils.Clipboard
 
 class HomeViewModel(
     private val dispatchers: DispatchersProviders,
-    private val getUpdateSelectedChecklistUseCase: GetUpdateSelectedChecklistUseCase,
     private val getSelectedChecklistUseCase: GetSelectedChecklistUseCase,
     private val getDeleteChecklistUseCase: GetDeleteChecklistUseCase,
     private val getAddTaskUseCase: GetAddTaskUseCase,
     private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
     private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
-    private val clipboard: Clipboard
 ) : ViewModel() {
 
     private val _homeStateFlow = MutableStateFlow(HomeState.Initial)
@@ -95,33 +90,30 @@ class HomeViewModel(
         }
     }
 
-    fun onShareChecklist() {
-        homeStateFlow.value.checklistWithTasks?.let {
-            val checklistName = it.checklist.name
-            val clipData = ClipData.newPlainText(checklistName, it.toString())
-            clipboard.copy(clipData)
-        }
-    }
-
     private fun handleSelectedChecklist(selectedChecklist: ChecklistWithTasks?) {
-        val currentViewState = homeStateFlow.value.homeUiState
-        val hasSelectedChecklist = selectedChecklist != null
-        val nextUiState = when {
-            shouldVerifyUiStateToUpdate(currentViewState) -> getNextUiState(hasSelectedChecklist)
-            hasSelectedChecklist -> currentViewState
-            else -> HomeUiState.Empty
-        }
+        val nextUiState = getNextUiState(selectedChecklist)
         _homeStateFlow.value = homeStateFlow.value.copy(
             homeUiState = nextUiState,
             checklistWithTasks = selectedChecklist
         )
     }
 
+    private fun getNextUiState(selectedChecklist: ChecklistWithTasks?): HomeUiState {
+        val currentViewState = homeStateFlow.value.homeUiState
+        val hasSelectedChecklist = selectedChecklist != null
+        return when {
+            shouldVerifyUiStateToUpdate(currentViewState) ->
+                getNextUiStateBySelectedState(hasSelectedChecklist)
+            hasSelectedChecklist -> currentViewState
+            else -> HomeUiState.Empty
+        }
+    }
+
     private fun shouldVerifyUiStateToUpdate(currentUiState: HomeUiState): Boolean {
         return currentUiState == HomeUiState.Loading || currentUiState == HomeUiState.Empty
     }
 
-    private fun getNextUiState(hasSelectedChecklist: Boolean) =
+    private fun getNextUiStateBySelectedState(hasSelectedChecklist: Boolean) =
         if (hasSelectedChecklist) HomeUiState.Overview(false) else HomeUiState.Empty
 
 }

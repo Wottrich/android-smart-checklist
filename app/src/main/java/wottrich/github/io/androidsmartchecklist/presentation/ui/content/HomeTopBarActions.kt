@@ -34,7 +34,7 @@ import wottrich.github.io.androidsmartchecklist.R
 fun RowScope.HomeTopBarActionsContent(
     isEditMode: Boolean,
     onShowDeleteConfirmDialog: (() -> Unit),
-    onShare: () -> Unit,
+    onCopyChecklist: () -> Unit,
     onChangeState: () -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -42,14 +42,14 @@ fun RowScope.HomeTopBarActionsContent(
     IconButton(onClick = { isExpanded = true }) {
         Icon(
             imageVector = Icons.Default.MoreVert,
-            contentDescription = ""
+            contentDescription = stringResource(id = R.string.checklist_more_options_content_description)
         )
     }
     DropdownMenuActions(
         isExpanded = isExpanded,
         dismissDropdownMenu = { isExpanded = false },
         onShowDeleteConfirmDialog = onShowDeleteConfirmDialog,
-        onShare = onShare
+        onCopyChecklist = onCopyChecklist
     )
 }
 
@@ -58,7 +58,7 @@ private fun DropdownMenuActions(
     isExpanded: Boolean,
     dismissDropdownMenu: () -> Unit,
     onShowDeleteConfirmDialog: () -> Unit,
-    onShare: () -> Unit,
+    onCopyChecklist: () -> Unit,
 ) {
     DropdownMenu(
         expanded = isExpanded,
@@ -68,9 +68,9 @@ private fun DropdownMenuActions(
             dismissDropdownMenu()
             onShowDeleteConfirmDialog()
         }
-        ShareDropdownMenuItem {
+        CopyChecklistDropdownMenuItem {
             dismissDropdownMenu()
-            onShare()
+            onCopyChecklist()
         }
     }
 }
@@ -91,17 +91,17 @@ private fun DeleteDropdownMenuItem(onShowDeleteConfirmDialog: () -> Unit) {
 }
 
 @Composable
-private fun ShareDropdownMenuItem(onShare: () -> Unit) {
+private fun CopyChecklistDropdownMenuItem(onCopyChecklist: () -> Unit) {
     val onShareClickContentDescription = stringResource(
-        id = R.string.checklist_share_content_description
+        id = R.string.checklist_copy_content_description
     )
     DropdownMenuItem(
         modifier = Modifier.semantics {
             contentDescription = onShareClickContentDescription
         },
-        onClick = onShare
+        onClick = onCopyChecklist
     ) {
-        Text(text = stringResource(id = R.string.checklist_share_label))
+        Text(text = stringResource(id = R.string.checklist_copy_label))
     }
 }
 

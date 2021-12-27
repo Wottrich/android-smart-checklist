@@ -24,8 +24,6 @@ val featureHomeModules = module {
             get(),
             get(),
             get(),
-            get(),
-            get(),
             get()
         )
     }
