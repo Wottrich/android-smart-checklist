@@ -1,74 +1,174 @@
 package wottrich.github.io.androidsmartchecklist.presentation.ui.content
 
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Edit
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.DrawerState
+import androidx.compose.material.Text
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import wottrich.github.io.androidsmartchecklist.R
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
+import wottrich.github.io.androidsmartchecklist.R.string
+import wottrich.github.io.androidsmartchecklist.presentation.ui.content.DeleteAlertDialogState.HIDE
+import wottrich.github.io.androidsmartchecklist.presentation.ui.content.DeleteAlertDialogState.SHOW
+import wottrich.github.io.androidsmartchecklist.presentation.ui.drawer.HomeDrawerStatefulContent
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiState
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
 
 /**
  * @author Wottrich
  * @author wottrich78@gmail.com
- * @since 07/12/2021
+ * @since 27/12/2021
  *
  * Copyright © 2021 AndroidSmartCheckList. All rights reserved.
  *
  */
 
 @Composable
-fun HomeTopBarActionsContent(
-    isEditMode: Boolean,
-    onShowDeleteConfirmDialog: (() -> Unit),
-    onChangeState: () -> Unit
+fun HomeScreen(
+    onAddNewChecklist: () -> Unit,
+    onCopyChecklist: (String) -> Unit,
+    homeViewModel: HomeViewModel = getViewModel()
 ) {
-    IconButton(onClick = onShowDeleteConfirmDialog) {
-        Icon(
-            imageVector = Icons.Default.Delete,
-            contentDescription = stringResource(
-                id = R.string.checklist_delete_checklist_content_description
+    val checklistState by homeViewModel.homeStateFlow.collectAsState()
+    val scaffoldState = rememberScaffoldState()
+    val drawerState = scaffoldState.drawerState
+    val rememberCoroutineScope = rememberCoroutineScope()
+    var showDeleteDialog by remember { mutableStateOf(HIDE) }
+    HomeScaffold(
+        scaffoldState = scaffoldState,
+        drawerState = drawerState,
+        coroutineScope = rememberCoroutineScope,
+        drawerContent = {
+            DrawerContent(
+                rememberCoroutineScope,
+                drawerState,
+                onAddNewChecklist
             )
+        },
+        onTitleContent = {
+            TopBarTitleContent(checklistState)
+        },
+        actionContent = {
+            TopBarActionContent(
+                checklistState,
+                onCopyChecklist,
+                homeViewModel,
+                onShowDeleteDialog = { showDeleteDialog = SHOW }
+            )
+        }
+    ) {
+        Screen(it, checklistState, homeViewModel, onAddNewChecklist)
+        DeleteDialog(
+            showDeleteDialog,
+            homeViewModel,
+            onHideDialog = { showDeleteDialog = HIDE }
         )
     }
-    EditIconStateContent(isEditMode = isEditMode, onChangeState = onChangeState)
 }
 
 @Composable
-private fun EditIconStateContent(
-    isEditMode: Boolean,
-    onChangeState: () -> Unit
+private fun DrawerContent(
+    rememberCoroutineScope: CoroutineScope,
+    drawerState: DrawerState,
+    onAddNewChecklist: () -> Unit
 ) {
-    when (isEditMode) {
-        true -> {
-            IconButton(
-                onClick = {
-                    onChangeState()
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = stringResource(
-                        id = R.string.checklist_finish_edit_content_description
-                    )
-                )
+    HomeDrawerStatefulContent(
+        onCloseDrawer = {
+            rememberCoroutineScope.launch {
+                drawerState.close()
+            }
+        },
+        onAddNewChecklist = {
+            onAddNewChecklist()
+            rememberCoroutineScope.launch {
+                drawerState.close()
             }
         }
-        false -> {
-            IconButton(
-                onClick = {
-                    onChangeState()
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(
-                        id = R.string.checklist_edit_checklist_content_description
-                    )
-                )
-            }
+    )
+}
+
+@Composable
+private fun RowScope.TopBarActionContent(
+    checklistState: HomeState,
+    onCopyChecklist: (String) -> Unit,
+    homeViewModel: HomeViewModel,
+    onShowDeleteDialog: () -> Unit
+) {
+    if (checklistState.shouldShowActionContent()) {
+        HomeTopBarActionsContent(
+            isEditMode = checklistState.isEditUiState,
+            onShowDeleteConfirmDialog = onShowDeleteDialog,
+            onCopyChecklist = {
+                onCopyChecklist(checklistState.checklistWithTasks.toString())
+            },
+            onChangeState = homeViewModel::onChangeEditModeClicked
+        )
+    }
+}
+
+@Composable
+private fun Screen(
+    paddingValues: PaddingValues,
+    checklistState: HomeState,
+    homeViewModel: HomeViewModel,
+    onAddNewChecklist: () -> Unit
+) {
+    Box(
+        modifier = Modifier.padding(paddingValues)
+    ) {
+        HomeContentComponent(
+            checklistState = checklistState,
+            tasks = homeViewModel.tasks,
+            onAddItemClicked = homeViewModel::onAddItemClicked,
+            onUpdateItemClicked = homeViewModel::onUpdateItemClicked,
+            onDeleteItemClicked = homeViewModel::onDeleteItemClicked,
+            onNewChecklistClicked = onAddNewChecklist
+        )
+    }
+}
+
+@Composable
+private fun DeleteDialog(
+    showDeleteDialog: DeleteAlertDialogState,
+    homeViewModel: HomeViewModel,
+    onHideDialog: () -> Unit
+) {
+    DeleteAlertDialogContent(
+        deleteAlertDialogState = showDeleteDialog,
+        onConfirmDeleteChecklist = {
+            homeViewModel.onDeleteChecklist()
+            onHideDialog()
+        },
+        onDismiss = {
+            onHideDialog()
+        }
+    )
+}
+
+@Composable
+private fun TopBarTitleContent(checklistState: HomeState) {
+    when {
+        checklistState.homeUiState == HomeUiState.Loading -> Unit
+        checklistState.checklistWithTasks == null -> {
+            Text(text = stringResource(id = string.label_home_fragment))
+        }
+        else -> {
+            val checklist =
+                checkNotNull(checklistState.checklistWithTasks.checklist)
+            Text(text = checklist.name)
         }
     }
 }
