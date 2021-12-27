@@ -75,6 +75,9 @@ class HomeActivity : AppCompatActivity() {
                                 onShowDeleteConfirmDialog = {
                                     showDeleteDialog = DeleteAlertDialogState.SHOW
                                 },
+                                onShare = {
+                                    homeViewModel.onShareChecklist()
+                                },
                                 onChangeState = homeViewModel::onChangeEditModeClicked
                             )
                         }

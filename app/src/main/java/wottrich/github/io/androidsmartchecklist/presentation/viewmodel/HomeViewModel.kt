@@ -1,5 +1,6 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
+import android.content.ClipData
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -17,6 +18,7 @@ import wottrich.github.io.publicandroid.domain.usecase.GetAddTaskUseCase
 import wottrich.github.io.publicandroid.domain.usecase.GetChangeTaskStatusUseCase
 import wottrich.github.io.publicandroid.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
+import wottrich.github.io.tools.utils.Clipboard
 
 /**
  * @author Wottrich
@@ -34,7 +36,8 @@ class HomeViewModel(
     private val getDeleteChecklistUseCase: GetDeleteChecklistUseCase,
     private val getAddTaskUseCase: GetAddTaskUseCase,
     private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
-    private val getDeleteTaskUseCase: GetDeleteTaskUseCase
+    private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
+    private val clipboard: Clipboard
 ) : ViewModel() {
 
     private val _homeStateFlow = MutableStateFlow(HomeState.Initial)
@@ -89,6 +92,14 @@ class HomeViewModel(
             homeStateFlow.value.checklistWithTasks?.checklist?.let {
                 getDeleteChecklistUseCase(it)
             }
+        }
+    }
+
+    fun onShareChecklist() {
+        homeStateFlow.value.checklistWithTasks?.let {
+            val checklistName = it.checklist.name
+            val clipData = ClipData.newPlainText(checklistName, it.toString())
+            clipboard.copy(clipData)
         }
     }
 

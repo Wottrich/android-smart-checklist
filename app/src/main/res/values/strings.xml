@@ -19,6 +19,9 @@
 
     <string name="checklist_empty_state_new_checklist_button">New checklist</string>
 
+    <string name="checklist_share_content_description">Click to share checklist between applications</string>
+    <string name="checklist_share_label">Share</string>
+    <string name="checklist_delete_label">Delete checklist</string>
     <string name="checklist_delete_checklist_content_description">Click to delete checklist (confirmation required)</string>
     <string name="checklist_edit_checklist_content_description">Click to edit checklist</string>
     <string name="checklist_finish_edit_content_description">Click to finish checklist edit</string>
