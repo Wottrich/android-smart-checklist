@@ -9,6 +9,7 @@ import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
@@ -26,10 +27,12 @@ fun HomeScaffold(
     drawerContent: @Composable () -> Unit,
     onTitleContent: @Composable () -> Unit,
     actionContent: @Composable RowScope.() -> Unit,
+    snackbarHost: @Composable (SnackbarHostState) -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
+        snackbarHost = snackbarHost,
         topBar = {
             TopAppBar(
                 navigationIcon = {
