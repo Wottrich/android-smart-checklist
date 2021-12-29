@@ -1,7 +1,6 @@
 package wottrich.github.io.tools
 
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
 
 /**
@@ -9,12 +8,10 @@ import kotlinx.coroutines.flow.receiveAsFlow
  * once even after orientation changes
  */
 class SingleShotEventBus<T> {
+    private val _events = Channel<T>()
+    val events = _events.receiveAsFlow() // expose as flow
 
-    private val _events = Channel<T>(Channel.BUFFERED)
-    val events: Flow<T> = _events.receiveAsFlow()
-
-    suspend fun postEvent(event: T) {
-        _events.send(event)
+    suspend fun emit(event: T) {
+        _events.send(event) // suspends on buffer overflow
     }
-
 }

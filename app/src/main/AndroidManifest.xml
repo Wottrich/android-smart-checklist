@@ -17,7 +17,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".presentation.activity.HomeActivity"/>
+        <activity android:name=".presentation.activity.HomeActivity"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

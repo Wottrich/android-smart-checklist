@@ -51,7 +51,7 @@ class HomeDrawerViewModel(
     private fun onItemClicked(checklistWithTasks: ChecklistWithTasks) {
         viewModelScope.launch(dispatchers.io) {
             getUpdateSelectedChecklistUseCase(checklistWithTasks.checklist)
-            _drawerEffectFlow.postEvent(HomeDrawerEffect.CloseDrawer)
+            _drawerEffectFlow.emit(HomeDrawerEffect.CloseDrawer)
             // Observer applied at init will update content with new value
             // on the other hand if the observer doesn't exist
             // we should call _drawerStateFlow.value = HomeDrawerState.Content(listUpdated)

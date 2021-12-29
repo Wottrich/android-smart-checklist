@@ -21,9 +21,12 @@ fun TaskLazyColumnComponent(
     LazyColumn(
         content = {
             items(taskList) { task ->
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
 
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
                     TaskItemComponent(
                         task = task,
                         showDeleteItem = showDeleteItem,
