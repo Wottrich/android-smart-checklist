@@ -18,6 +18,7 @@ class SmartChecklistColors(
     onBackground: Color,
     onSurface: Color,
     onError: Color,
+    status: StatusColors,
     isLight: Boolean
 ) {
 
@@ -45,6 +46,8 @@ class SmartChecklistColors(
         private set
     var onError by mutableStateOf(onError)
         private set
+    var status by mutableStateOf(status)
+        private set
     var isLight by mutableStateOf(isLight)
         internal set
 
@@ -61,6 +64,7 @@ class SmartChecklistColors(
         onBackground: Color = this.onBackground,
         onSurface: Color = this.onSurface,
         onError: Color = this.onError,
+        status: StatusColors = this.status,
         isLight: Boolean = this.isLight
     ): SmartChecklistColors = SmartChecklistColors(
         primary,
@@ -75,6 +79,7 @@ class SmartChecklistColors(
         onBackground,
         onSurface,
         onError,
+        status,
         isLight
     )
 
@@ -91,5 +96,6 @@ class SmartChecklistColors(
         onBackground = other.onBackground
         onSurface = other.onSurface
         onError = other.onError
+        status = other.status
     }
 }

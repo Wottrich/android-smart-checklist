@@ -117,7 +117,11 @@ class RippleCompleted(private val isCompleted: Boolean) : RippleTheme {
 
     @Composable
     override fun defaultColor(): Color {
-        return if (isCompleted) Color.Red else SmartChecklistTheme.colors.secondary
+        return if (isCompleted) {
+            SmartChecklistTheme.colors.status.negative
+        } else {
+            SmartChecklistTheme.colors.status.positive
+        }
     }
 
     @Composable

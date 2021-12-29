@@ -29,4 +29,8 @@
     <string name="checklist_more_options_content_description">Clique para ver mais opções</string>
     <string name="checklist_delete_checklist_confirm_label">Você está prestes a deletar esse checklist para sempre, deseja continuar?</string>
 
+    <string name="snackbar_uncompleted_task_message">agora está incompleta.</string>
+    <string name="snackbar_completed_task_message">agora está completada.</string>
+    <string name="snackbar_checklist_deleted">Checklist deleta com sucesso.</string>
+
 </resources>
