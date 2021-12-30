@@ -8,5 +8,6 @@
 
     <string name="task_item_component_click_to_check_item_description">Item %s completo, clique para tornar incompleto</string>
     <string name="task_item_component_click_to_uncheck_item_description">Item %s incompleto, clique para completar</string>
+    <string name="task_list_completed_tasks_header">Tarefas completadas</string>
 
 </resources>
