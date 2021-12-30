@@ -44,7 +44,7 @@ fun TaskHeaderComponent(
         )
         Button(
             modifier = Modifier
-                .padding(vertical = Dimens.BaseFour.SizeTwo)
+                .padding(top = Dimens.BaseFour.SizeTwo)
                 .fillMaxWidth(),
             enabled = textFieldValue.isNotEmpty(),
             onClick = onAddItem,

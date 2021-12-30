@@ -18,26 +18,41 @@ fun TaskLazyColumnComponent(
     onDeleteTask: (Task) -> Unit,
     showDeleteItem: Boolean = true
 ) {
+    val list = taskList.asReversed()
     LazyColumn(
         content = {
-            items(taskList) { task ->
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
-                    TaskItemComponent(
-                        task = task,
-                        showDeleteItem = showDeleteItem,
-                        onCheckChange = { onCheckChange(task) },
-                        onDeleteTask = { onDeleteTask(task) }
-                    )
-                }
+            items(list) { task ->
+                TaskItem(
+                    task = task,
+                    showDeleteItem = showDeleteItem,
+                    onCheckChange = onCheckChange,
+                    onDeleteTask = onDeleteTask
+                )
             }
             item {
-                Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
+                Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTen))
             }
         }
     )
+}
+
+@Composable
+fun TaskItem(
+    task: Task,
+    showDeleteItem: Boolean,
+    onCheckChange: (Task) -> Unit,
+    onDeleteTask: (Task) -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+    ) {
+        Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
+        TaskItemComponent(
+            task = task,
+            showDeleteItem = showDeleteItem,
+            onCheckChange = { onCheckChange(task) },
+            onDeleteTask = { onDeleteTask(task) }
+        )
+    }
 }

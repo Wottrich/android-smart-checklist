@@ -7,6 +7,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -17,10 +18,12 @@ import androidx.compose.material.ripple.RippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextDecoration
 import wottrich.github.io.baseui.RowComponent
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
@@ -39,7 +42,9 @@ fun TaskItemComponent(
         LocalRippleTheme provides RippleCompleted(task.isCompleted)
     ) {
         Surface(
-            modifier = Modifier.padding(horizontal = Dimens.BaseFour.SizeThree),
+            modifier = Modifier
+                .padding(horizontal = Dimens.BaseFour.SizeThree)
+                .alpha(getItemAlpha(isCompleted = task.isCompleted)),
             shape = RoundedCornerShape(Dimens.BaseFour.SizeTwo),
             elevation = Dimens.BaseFour.SizeOne
         ) {
@@ -63,7 +68,10 @@ fun TaskItemComponent(
                 leftContent = {
                     TextOneLine(
                         primary = {
-                            Text(text = task.name)
+                            Text(
+                                text = task.name,
+                                textDecoration = getTextDecoration(task.isCompleted)
+                            )
                         }
                     )
                 },
@@ -78,6 +86,15 @@ fun TaskItemComponent(
             )
         }
     }
+}
+
+private fun getTextDecoration(isCompleted: Boolean): TextDecoration? {
+    return if (isCompleted) TextDecoration.LineThrough else null
+}
+
+@Composable
+private fun getItemAlpha(isCompleted: Boolean): Float {
+    return if (isCompleted) ContentAlpha.medium else ContentAlpha.high
 }
 
 @OptIn(ExperimentalAnimationApi::class)
