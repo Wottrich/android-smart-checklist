@@ -10,6 +10,5 @@
     <string name="task_item_component_delete_item">Click to delete %s item</string>
     <string name="task_item_component_click_to_check_item_description">Item %s completed, click to turn incomplete</string>
     <string name="task_item_component_click_to_uncheck_item_description">Item %s incomplete, click to turn complete</string>
-    <string name="task_list_completed_tasks_header">Tasks completed</string>
 
 </resources>

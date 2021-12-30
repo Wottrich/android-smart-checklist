@@ -44,11 +44,7 @@ fun TaskItemComponent(
         Surface(
             modifier = Modifier
                 .padding(horizontal = Dimens.BaseFour.SizeThree)
-                .alpha(
-                    getItemAlpha(
-                        isCompleted = task.isCompleted
-                    )
-                ),
+                .alpha(getItemAlpha(isCompleted = task.isCompleted)),
             shape = RoundedCornerShape(Dimens.BaseFour.SizeTwo),
             elevation = Dimens.BaseFour.SizeOne
         ) {
