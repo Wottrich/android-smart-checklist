@@ -24,12 +24,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.unit.dp
 import wottrich.github.io.baseui.RowComponent
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 import wottrich.github.io.database.entity.Task
 import wottrich.github.io.publicandroid.R
+
+private val TaskItemShape = RoundedCornerShape(Dimens.BaseFour.SizeTwo)
 
 @Composable
 fun TaskItemComponent(
@@ -45,11 +48,11 @@ fun TaskItemComponent(
             modifier = Modifier
                 .padding(horizontal = Dimens.BaseFour.SizeThree)
                 .alpha(getItemAlpha(isCompleted = task.isCompleted)),
-            shape = RoundedCornerShape(Dimens.BaseFour.SizeTwo),
-            elevation = Dimens.BaseFour.SizeOne
+            shape = TaskItemShape,
+            elevation = 1.dp
         ) {
             RowComponent(
-                modifier = Modifier.clickable { onCheckChange() },
+                modifier = Modifier.clickable { onCheckChange() }.clip(TaskItemShape),
                 leftIconContent = {
                     AnimatedVisibility(visible = showDeleteItem) {
                         Icon(
