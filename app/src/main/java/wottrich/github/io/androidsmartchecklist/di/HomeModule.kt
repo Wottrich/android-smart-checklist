@@ -16,7 +16,7 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewM
  
 val featureHomeModules = module {
 
-    viewModel { HomeDrawerViewModel(get(), get(), get()) }
+    viewModel { HomeDrawerViewModel(get(), get(), get(), get()) }
     viewModel {
         HomeViewModel(
             get(),

@@ -18,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun HomeScaffold(
@@ -34,7 +35,17 @@ fun HomeScaffold(
         scaffoldState = scaffoldState,
         snackbarHost = snackbarHost,
         topBar = {
+
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        isFloatingActionButtonDocked = true,
+        drawerBackgroundColor = SmartChecklistTheme.colors.background,
+        drawerContent = {
+            drawerContent()
+        },
+        bottomBar = {
             TopAppBar(
+
                 navigationIcon = {
                     IconButton(
                         onClick = {
@@ -55,11 +66,6 @@ fun HomeScaffold(
                 },
                 actions = actionContent
             )
-        },
-        floatingActionButtonPosition = FabPosition.Center,
-        isFloatingActionButtonDocked = true,
-        drawerContent = {
-            drawerContent()
         }
     ) { innerPadding ->
         content(innerPadding)

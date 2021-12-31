@@ -7,8 +7,6 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -20,6 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.androidsmartchecklist.presentation.ui.shared.EditIconStateContent
 
 /**
  * @author Wottrich
@@ -102,42 +101,5 @@ private fun CopyChecklistDropdownMenuItem(onCopyChecklist: () -> Unit) {
         onClick = onCopyChecklist
     ) {
         Text(text = stringResource(id = R.string.checklist_copy_label))
-    }
-}
-
-@Composable
-private fun EditIconStateContent(
-    isEditMode: Boolean,
-    onChangeState: () -> Unit
-) {
-    when (isEditMode) {
-        true -> {
-            IconButton(
-                onClick = {
-                    onChangeState()
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Check,
-                    contentDescription = stringResource(
-                        id = R.string.checklist_finish_edit_content_description
-                    )
-                )
-            }
-        }
-        false -> {
-            IconButton(
-                onClick = {
-                    onChangeState()
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Edit,
-                    contentDescription = stringResource(
-                        id = R.string.checklist_edit_checklist_content_description
-                    )
-                )
-            }
-        }
     }
 }

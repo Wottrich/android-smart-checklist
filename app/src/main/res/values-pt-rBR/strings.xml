@@ -29,6 +29,11 @@
     <string name="checklist_more_options_content_description">Clique para ver mais opções</string>
     <string name="checklist_delete_checklist_confirm_label">Você está prestes a deletar esse checklist para sempre, deseja continuar?</string>
 
+    <!--  Drawer  -->
+    <string name="drawer_your_checklists_header_label">Suas checklists</string>
+    <string name="drawer_checklist_completed">Completa</string>
+    <string name="drawer_checklist_uncompleted">Incompleta</string>
+
     <string name="snackbar_uncompleted_task_message">agora está incompleta.</string>
     <string name="snackbar_completed_task_message">agora está completada.</string>
     <string name="snackbar_checklist_deleted">Checklist deleta com sucesso.</string>
