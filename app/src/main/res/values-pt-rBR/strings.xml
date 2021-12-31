@@ -16,13 +16,26 @@
 
     <string name="navigate_to_checklist_detail">Clique para ir para os detalhes do checklist %s</string>
 
-    <string name="checklist_empty_state">Crie sua primeira checklist clicando no botão abaixo\nou clicando no + láaa embaixo.</string>
+    <string name="checklist_empty_state">Crie sua primeira checklist clicando no botão abaixo.</string>
 
     <string name="checklist_empty_state_new_checklist_button">Nova checklist</string>
 
+    <string name="checklist_copy_content_description">Clique para copiar a checklist entre aplicativos</string>
+    <string name="checklist_copy_label">Copiar</string>
+    <string name="checklist_delete_label">Deletar checklist</string>
     <string name="checklist_delete_checklist_content_description">Clique para deletar a checklist (Requer dupla confirmação)</string>
     <string name="checklist_edit_checklist_content_description">Clique para editar a checklist</string>
     <string name="checklist_finish_edit_content_description">Clique para concluir a edição da checklist</string>
+    <string name="checklist_more_options_content_description">Clique para ver mais opções</string>
     <string name="checklist_delete_checklist_confirm_label">Você está prestes a deletar esse checklist para sempre, deseja continuar?</string>
+
+    <!--  Drawer  -->
+    <string name="drawer_your_checklists_header_label">Suas checklists</string>
+    <string name="drawer_checklist_completed">Completa</string>
+    <string name="drawer_checklist_uncompleted">Incompleta</string>
+
+    <string name="snackbar_uncompleted_task_message">agora está incompleta.</string>
+    <string name="snackbar_completed_task_message">agora está completada.</string>
+    <string name="snackbar_checklist_deleted">Checklist deleta com sucesso.</string>
 
 </resources>

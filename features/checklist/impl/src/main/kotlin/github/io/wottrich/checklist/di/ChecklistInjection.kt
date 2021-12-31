@@ -1,5 +1,6 @@
 package github.io.wottrich.checklist.di
 
+import github.io.wottrich.checklist.domain.usecase.GetAddChecklistUseCase
 import github.io.wottrich.checklist.domain.usecase.GetChecklistWithTaskUseCase
 import github.io.wottrich.checklist.domain.usecase.GetDeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.usecase.GetSelectedChecklistUseCase
@@ -19,6 +20,7 @@ private fun Module.injectViewModels() {
 }
 
 private fun Module.injectUseCases() {
+    factory { GetAddChecklistUseCase(get()) }
     factory { GetChecklistWithTaskUseCase(get()) }
     factory { GetDeleteChecklistUseCase(get()) }
     factory { GetSelectedChecklistUseCase(get()) }

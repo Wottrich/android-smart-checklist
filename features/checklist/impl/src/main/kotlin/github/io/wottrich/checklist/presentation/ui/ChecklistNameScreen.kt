@@ -1,15 +1,27 @@
 package github.io.wottrich.checklist.presentation.ui
 
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
-import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import github.io.wottrich.checklist.presentation.viewmodel.ChecklistNameScreenState
+import github.io.wottrich.checklist.presentation.viewmodel.ChecklistNameUiEffects
+import github.io.wottrich.checklist.presentation.viewmodel.ChecklistNameUiEffects.InvalidChecklistState
 import github.io.wottrich.checklist.presentation.viewmodel.ChecklistNameViewModel
 import github.io.wottrich.impl.R
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
@@ -24,39 +36,35 @@ fun ChecklistNameScreen(
     onNext: (checklistId: String) -> Unit
 ) {
 
-    var textFieldValue by rememberSaveable { mutableStateOf("") }
-    val state by viewModel.state.collectAsState(initial = ChecklistNameScreenState.InitialState)
+    val state by viewModel.state.collectAsState()
+    val effects = viewModel.effects
 
-    when {
-        state.hasError && state is ChecklistNameScreenState.InvalidChecklistState -> {
-            val stringError = stringResource(id = R.string.unknown)
-            LaunchedEffect(scaffoldState.snackbarHostState) {
-                scaffoldState.snackbarHostState.showSnackbar(stringError).let {
-                    if (it == SnackbarResult.Dismissed) {
-                        viewModel.updateState(ChecklistNameScreenState.InitialState)
-                    }
+    val stringError = stringResource(id = R.string.unknown)
+    LaunchedEffect(key1 = effects) {
+        effects.collect { effect ->
+            when (effect) {
+                is ChecklistNameUiEffects.NextScreen -> onNext(effect.checklistId)
+                InvalidChecklistState -> {
+                    scaffoldState.snackbarHostState.showSnackbar(stringError)
                 }
             }
-        }
-        state is ChecklistNameScreenState.NextScreen -> {
-            onNext((state as ChecklistNameScreenState.NextScreen).checklistId)
         }
     }
 
     Screen(
-        textFieldValue = textFieldValue,
-        onTextFieldValueChange = { textFieldValue = it },
-        onConfirm = {
-            viewModel.nextScreen(textFieldValue)
-        }
+        textFieldValue = state.checklistName,
+        isConfirmButtonEnabled = state.isConfirmButtonEnabled,
+        onTextFieldValueChange = viewModel::onTextChange,
+        onConfirmButtonClicked = viewModel::onConfirmButtonClicked
     )
 }
 
 @Composable
 private fun Screen(
     textFieldValue: String,
+    isConfirmButtonEnabled: Boolean,
     onTextFieldValueChange: (String) -> Unit,
-    onConfirm: () -> Unit
+    onConfirmButtonClicked: () -> Unit
 ) {
 
     Column(
@@ -85,8 +93,8 @@ private fun Screen(
         }
         Button(
             modifier = Modifier.fillMaxWidth(),
-            enabled = textFieldValue.isNotEmpty(),
-            onClick = onConfirm,
+            enabled = isConfirmButtonEnabled,
+            onClick = onConfirmButtonClicked,
             colors = defaultButtonColors()
         ) {
             Text(text = stringResource(id = R.string.checklist_name_screen_button_continue))

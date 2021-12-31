@@ -1,20 +1,30 @@
 package wottrich.github.io.androidsmartchecklist.presentation.ui.drawer
 
-import androidx.compose.foundation.border
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.composed
-import androidx.compose.ui.unit.dp
-import wottrich.github.io.baseui.ui.Dimens.BaseFour
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.baseui.ui.ListItem
+import wottrich.github.io.baseui.ui.ListItemEndTextContent
 import wottrich.github.io.baseui.ui.ListItemStartTextContent
 import wottrich.github.io.baseui.ui.RowDefaults
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 import wottrich.github.io.database.entity.Checklist
+import wottrich.github.io.database.entity.ChecklistWithTasks
 
 /**
  * @author Wottrich
@@ -25,62 +35,111 @@ import wottrich.github.io.database.entity.Checklist
  *
  */
 
-private val ChecklistItemBorderStroke = 1.dp
-private val ChecklistItemShape = RoundedCornerShape(BaseFour.SizeTwo)
-
 @Composable
 fun HomeDrawerChecklistItemComponent(
-    checklist: Checklist,
-    onItemClick: () -> Unit
+    isEditModeEnabled: Boolean,
+    checklistWithTasks: ChecklistWithTasks,
+    onItemClick: () -> Unit,
+    onDeleteItemClicked: () -> Unit
 ) {
+    val checklist = checklistWithTasks.checklist
+    val tasks = checklistWithTasks.tasks
+    val hasIncompleteItem = tasks.any { !it.isCompleted }
+    val numberOfItems = tasks.size
+    val numberOfCompleteItems = tasks.filter { it.isCompleted }.size
+    val description = "$numberOfCompleteItems / $numberOfItems"
     val modifier = Modifier
         .clickable(enabled = checklist.checklistId != null) {
             onItemClick()
         }
 
-    ItemContent(modifier, checklist)
+    ItemContent(
+        modifier,
+        isEditModeEnabled,
+        checklist,
+        hasIncompleteItem,
+        description,
+        onDeleteItemClicked
+    )
+    Divider()
 }
 
 @Composable
 private fun ItemContent(
     modifier: Modifier,
-    checklist: Checklist
+    isEditModeEnabled: Boolean,
+    checklist: Checklist,
+    hasIncompleteItem: Boolean,
+    description: String,
+    onDeleteItemClicked: () -> Unit
 ) {
-
-    val surfaceModifier = Modifier.checklistItemPadding().addBorderIfSelected(checklist.isSelected)
-
-    Surface(
-        modifier = surfaceModifier,
-        shape = ChecklistItemShape,
-        elevation = BaseFour.SizeOne,
-        color = SmartChecklistTheme.colors.onSurface
-    ) {
-        ListItem(
-            modifier = modifier,
-            startContent = {
-                ListItemStartTextContent(
-                    primary = RowDefaults.title(text = checklist.name),
-                    secondary = RowDefaults.description(text = checklist.latestUpdateFormatted.orEmpty()),
+    ListItem(
+        modifier = modifier.background(Color.Transparent),
+        startIcon = {
+            Row(
+                modifier = Modifier.wrapContentSize(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                DeleteIcon(
+                    isEditModeEnabled = isEditModeEnabled,
+                    onDeleteItemClicked = onDeleteItemClicked
                 )
             }
-        )
+        },
+        startContent = {
+            ListItemStartTextContent(
+                primary = RowDefaults.title(text = checklist.name),
+                secondary = RowDefaults.description(
+                    text = getSecondaryText(hasIncompleteItem = hasIncompleteItem),
+                    color = getSecondaryColor(hasIncompleteItem = hasIncompleteItem)
+                )
+            )
+        },
+        endContent = {
+            ListItemEndTextContent(
+                primary = RowDefaults.description(text = description)
+            )
+        },
+        endIcon = {
+            if (checklist.isSelected) {
+                Icon(imageVector = Icons.Default.Check, contentDescription = null)
+            }
+        }
+    )
+}
+
+@Composable
+private fun getSecondaryText(hasIncompleteItem: Boolean): String {
+    val textId = if (hasIncompleteItem) {
+        R.string.drawer_checklist_uncompleted
+    } else {
+        R.string.drawer_checklist_completed
+    }
+    return stringResource(id = textId)
+}
+
+@Composable
+private fun getSecondaryColor(hasIncompleteItem: Boolean): Color {
+    return if (hasIncompleteItem) {
+        SmartChecklistTheme.colors.status.negative
+    } else {
+        SmartChecklistTheme.colors.status.positive
     }
 }
 
-private fun Modifier.addBorderIfSelected(isSelected: Boolean): Modifier =
-    composed {
-        if (isSelected) {
-            this.border(
-                width = ChecklistItemBorderStroke,
-                color = SmartChecklistTheme.colors.onPrimary,
-                shape = ChecklistItemShape
-            )
-        } else this
+@Composable
+private fun RowScope.DeleteIcon(
+    isEditModeEnabled: Boolean,
+    onDeleteItemClicked: () -> Unit
+) {
+    AnimatedVisibility(
+        visible = isEditModeEnabled
+    ) {
+        Icon(
+            modifier = Modifier.clickable { onDeleteItemClicked() },
+            imageVector = Icons.Default.Delete,
+            contentDescription = null
+        )
     }
-
-fun Modifier.checklistItemPadding(): Modifier =
-    composed { Modifier.padding(
-        top = BaseFour.SizeTwo,
-        start = BaseFour.SizeTwo,
-        end = BaseFour.SizeTwo
-    ) }
+}

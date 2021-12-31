@@ -15,13 +15,27 @@
 
     <string name="navigate_to_checklist_detail">Click to open %s checklist</string>
 
-    <string name="checklist_empty_state">Create your first checklist clicking below\nor clicking the + button at the bottom.</string>
+    <string name="checklist_empty_state">Create your first checklist clicking below.</string>
 
     <string name="checklist_empty_state_new_checklist_button">New checklist</string>
 
+    <string name="checklist_copy_content_description">Click to copy checklist between applications</string>
+    <string name="checklist_copy_label">Copy</string>
+    <string name="checklist_delete_label">Delete checklist</string>
     <string name="checklist_delete_checklist_content_description">Click to delete checklist (confirmation required)</string>
-    <string name="checklist_edit_checklist_content_description">Click to edit checklist</string>
-    <string name="checklist_finish_edit_content_description">Click to finish checklist edit</string>
+    <string name="checklist_edit_checklist_content_description">Click to edit</string>
+    <string name="checklist_finish_edit_content_description">Click to finish edit</string>
+    <string name="checklist_more_options_content_description">Click to see more options</string>
     <string name="checklist_delete_checklist_confirm_label">You are about to delete this checklist forever, do you want to continue?</string>
+
+    <!--  Drawer  -->
+    <string name="drawer_your_checklists_header_label">Your checklists</string>
+    <string name="drawer_checklist_completed">Completed</string>
+    <string name="drawer_checklist_uncompleted">Incomplete</string>
+
+    <!--  Snackbar message  -->
+    <string name="snackbar_uncompleted_task_message">moved to uncompled</string>
+    <string name="snackbar_completed_task_message">moved to completed</string>
+    <string name="snackbar_checklist_deleted">Checklist deleted with success.</string>
 
 </resources>

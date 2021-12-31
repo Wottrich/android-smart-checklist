@@ -3,12 +3,15 @@ package wottrich.github.io.publicandroid.presentation.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
@@ -35,11 +38,13 @@ fun TaskHeaderComponent(
             placeholder = {
                 Text(text = stringResource(id = R.string.task_header_type_task_name_hint))
             },
+            keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { onAddItem() }),
             colors = defaultOutlinedTextFieldColors()
         )
         Button(
             modifier = Modifier
-                .padding(vertical = Dimens.BaseFour.SizeTwo)
+                .padding(top = Dimens.BaseFour.SizeTwo)
                 .fillMaxWidth(),
             enabled = textFieldValue.isNotEmpty(),
             onClick = onAddItem,

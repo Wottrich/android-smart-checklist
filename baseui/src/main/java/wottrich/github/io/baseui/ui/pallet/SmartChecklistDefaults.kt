@@ -14,6 +14,7 @@ fun lightColors(
     onSecondary: Color = ColorsLightPallet.onSecondary,
     onBackground: Color = ColorsLightPallet.onBackground,
     onSurface: Color = ColorsLightPallet.onSurface,
+    status: StatusColors = statusColors(true),
     onError: Color = ColorsLightPallet.onError
 ): SmartChecklistColors = SmartChecklistColors(
     primary,
@@ -28,6 +29,7 @@ fun lightColors(
     onBackground,
     onSurface,
     onError,
+    status,
     isLight = true
 )
 
@@ -43,6 +45,7 @@ fun darkColors(
     onSecondary: Color = ColorsDarkPallet.onSecondary,
     onBackground: Color = ColorsDarkPallet.onBackground,
     onSurface: Color = ColorsDarkPallet.onSurface,
+    status: StatusColors = statusColors(false),
     onError: Color = ColorsDarkPallet.onError
 ): SmartChecklistColors = SmartChecklistColors(
     primary,
@@ -57,5 +60,6 @@ fun darkColors(
     onBackground,
     onSurface,
     onError,
+    status,
     isLight = false
 )

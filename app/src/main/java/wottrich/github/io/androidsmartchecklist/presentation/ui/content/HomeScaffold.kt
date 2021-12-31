@@ -2,28 +2,23 @@ package wottrich.github.io.androidsmartchecklist.presentation.ui.content
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.BottomAppBar
 import androidx.compose.material.DrawerState
 import androidx.compose.material.FabPosition
-import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun HomeScaffold(
@@ -31,15 +26,26 @@ fun HomeScaffold(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     drawerState: DrawerState = scaffoldState.drawerState,
     drawerContent: @Composable () -> Unit,
-    onFloatingActionButtonClick: () -> Unit,
     onTitleContent: @Composable () -> Unit,
     actionContent: @Composable RowScope.() -> Unit,
+    snackbarHost: @Composable (SnackbarHostState) -> Unit,
     content: @Composable (PaddingValues) -> Unit
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
+        snackbarHost = snackbarHost,
         topBar = {
+
+        },
+        floatingActionButtonPosition = FabPosition.Center,
+        isFloatingActionButtonDocked = true,
+        drawerBackgroundColor = SmartChecklistTheme.colors.background,
+        drawerContent = {
+            drawerContent()
+        },
+        bottomBar = {
             TopAppBar(
+
                 navigationIcon = {
                     IconButton(
                         onClick = {
@@ -60,23 +66,6 @@ fun HomeScaffold(
                 },
                 actions = actionContent
             )
-        },
-        bottomBar = { BottomAppBar(cutoutShape = CircleShape, content = { /*empty*/ }) },
-        floatingActionButton = {
-            FloatingActionButton(onClick = onFloatingActionButtonClick) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_round_add),
-                    contentDescription = stringResource(
-                        id = R.string.floating_action_content_description
-                    ),
-                    tint = Color.White
-                )
-            }
-        },
-        floatingActionButtonPosition = FabPosition.Center,
-        isFloatingActionButtonDocked = true,
-        drawerContent = {
-            drawerContent()
         }
     ) { innerPadding ->
         content(innerPadding)

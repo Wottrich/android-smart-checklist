@@ -2,9 +2,8 @@ package wottrich.github.io.androidsmartchecklist.presentation.ui.content
 
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import wottrich.github.io.androidsmartchecklist.presentation.ui.HomeEmptyStateComponent
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewState
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiState
 import wottrich.github.io.database.entity.Task
 import wottrich.github.io.publicandroid.presentation.ui.TaskContentComponent
 
@@ -26,20 +25,19 @@ fun HomeContentComponent(
     onDeleteItemClicked: (Task) -> Unit,
     onNewChecklistClicked: () -> Unit
 ) {
-    if (checklistState.homeViewState == HomeViewState.Loading) {
+    if (checklistState.homeUiState == HomeUiState.Loading) {
         CircularProgressIndicator()
     } else {
-        val checklistWithTasks = checklistState.checklistWithTasks
-        if (checklistWithTasks != null) {
-            TaskContentComponent(
+        when (checklistState.homeUiState) {
+            is HomeUiState.Overview -> TaskContentComponent(
                 tasks = tasks,
-                isEditMode = checklistState.homeViewState == HomeViewState.Edit,
+                isEditMode = checklistState.isEditUiState,
                 onAddClicked = onAddItemClicked,
                 onUpdateClicked = onUpdateItemClicked,
                 onDeleteClicked = onDeleteItemClicked
             )
-        } else {
-            HomeEmptyStateComponent(onNewChecklistClicked)
+            is HomeUiState.Empty -> HomeEmptyStateComponent(onNewChecklistClicked)
+            else -> Unit
         }
     }
 }
