@@ -33,7 +33,7 @@ interface ChecklistDao {
 
     @Transaction
     @Query("SELECT * FROM checklist")
-    fun selectAllChecklistWithTasks(): List<ChecklistWithTasks>
+    suspend fun selectAllChecklistWithTasks(): List<ChecklistWithTasks>
 
     @Transaction
     @Query("SELECT * FROM checklist WHERE is_selected=:isSelected")
