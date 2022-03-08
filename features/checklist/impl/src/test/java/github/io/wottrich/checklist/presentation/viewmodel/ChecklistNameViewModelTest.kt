@@ -18,7 +18,7 @@ class ChecklistNameViewModelTest : BaseUnitTest() {
     private lateinit var getAddChecklistUseCase: GetAddChecklistUseCase
 
     @Before
-    fun setUp() {
+    override fun setUp() {
         getAddChecklistUseCase = mockk()
         sut = ChecklistNameViewModel(
             coroutinesTestRule.dispatchers,
@@ -47,7 +47,23 @@ class ChecklistNameViewModelTest : BaseUnitTest() {
     }
 
     @Test
-    fun `WHEN on confirm button is clicked THEN create checklist must be called`() = runBlockingUnitTest {
+    fun `GIVEN item id not null WHEN on confirm button is clicked THEN create checklist must be called`() = runBlockingUnitTest {
+        val expectedChecklistId = 0L
+        val expectedName = "Name test"
+        coEvery { getAddChecklistUseCase.invoke(any()) } returns expectedChecklistId
+
+        sut.onTextChange(expectedName)
+        sut.onConfirmButtonClicked()
+
+        coVerify(exactly = 1) { getAddChecklistUseCase.invoke(expectedName) }
+
+        val value = sut.effects.firstOrNull() as? ChecklistNameUiEffects.NextScreen
+        assertNotNull(value)
+        assertEquals(expectedChecklistId.toString(), value!!.checklistId)
+    }
+
+    @Test
+    fun `GIVEN item id null WHEN on confirm button is clicked THEN effects must notify invalid actions`() = runBlockingUnitTest {
         val expectedChecklistId = 0L
         val expectedName = "Name test"
         coEvery { getAddChecklistUseCase.invoke(any()) } returns expectedChecklistId

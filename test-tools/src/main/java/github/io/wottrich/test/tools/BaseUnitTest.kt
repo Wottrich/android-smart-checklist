@@ -3,6 +3,7 @@ package github.io.wottrich.test.tools
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineScope
+import org.junit.Before
 import org.junit.Rule
 
 /**
@@ -17,6 +18,9 @@ import org.junit.Rule
 @OptIn(ExperimentalCoroutinesApi::class)
 abstract class BaseUnitTest {
 
+    @Before
+    open fun setUp() {}
+
     @Rule
     @JvmField
     val instantExecutorRule = InstantTaskExecutorRule()
@@ -26,5 +30,13 @@ abstract class BaseUnitTest {
 
     fun runBlockingUnitTest(block: suspend TestCoroutineScope.() -> Unit) =
         coroutinesTestRule.runBlockingUnitTest(block)
+
+    fun <T> getSuspendValue(block: suspend TestCoroutineScope.() -> T): T {
+        var value: T? = null
+        coroutinesTestRule.runBlockingUnitTest {
+            value = block()
+        }
+        return checkNotNull(value)
+    }
 
 }

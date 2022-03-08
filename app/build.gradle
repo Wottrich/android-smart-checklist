@@ -82,7 +82,9 @@ dependencies {
     implementation "androidx.activity:activity-compose:$compose_activity_version"
 
     //Test
+    testImplementation project(path: ":test-tools")
     testImplementation "junit:junit:$junit_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
 
     //Test instrumental
     androidTestImplementation "androidx.test.ext:junit:$junit_ext_version"
