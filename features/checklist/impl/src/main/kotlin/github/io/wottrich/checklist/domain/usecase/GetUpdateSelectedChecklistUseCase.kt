@@ -24,5 +24,4 @@ class GetUpdateSelectedChecklistUseCase(private val checklistDao: ChecklistDao) 
             checklistDao.updateChecklists(listOf(currentSelectedChecklist, checklist))
         }
     }
-
 }
