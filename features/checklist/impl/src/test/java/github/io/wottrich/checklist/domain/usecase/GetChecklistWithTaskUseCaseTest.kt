@@ -29,7 +29,7 @@ class GetChecklistWithTaskUseCaseTest : BaseUnitTest() {
     private lateinit var checklistDao: ChecklistDao
 
     @Before
-    fun setUp() {
+    override fun setUp() {
         checklistDao = mockk()
         sut = GetChecklistWithTaskUseCase(checklistDao)
     }
