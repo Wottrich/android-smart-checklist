@@ -13,9 +13,7 @@ import wottrich.github.io.database.entity.Checklist
  */
 
 class GetDeleteChecklistUseCase(private val checklistDao: ChecklistDao) {
-
     suspend operator fun invoke(checklist: Checklist) {
         checklistDao.delete(checklist)
     }
-
 }
