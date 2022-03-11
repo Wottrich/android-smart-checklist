@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Divider
 import androidx.compose.material.Icon
@@ -18,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.ListItem
 import wottrich.github.io.baseui.ui.ListItemEndTextContent
 import wottrich.github.io.baseui.ui.ListItemStartTextContent
@@ -61,7 +63,7 @@ fun HomeDrawerChecklistItemComponent(
         description,
         onDeleteItemClicked
     )
-    Divider()
+    Divider(Modifier.padding(start = Dimens.BaseFour.SizeFive))
 }
 
 @Composable
