@@ -5,24 +5,23 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import wottrich.github.io.androidsmartchecklist.presentation.ui.content.DeleteAlertDialogState.HIDE
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
 
 @Composable
 fun HomeTaskListScreen(
-    it: PaddingValues,
-    checklistState: HomeState,
+    paddingValues: PaddingValues,
     homeViewModel: HomeViewModel,
+    checklistState: HomeState,
+    showDeleteDialog: DeleteAlertDialogState,
     onAddNewChecklist: () -> Unit,
-    showDeleteDialog: DeleteAlertDialogState
+    onHideDeleteDialog: () -> Unit,
 ) {
-    var showDeleteDialog1 = showDeleteDialog
-    Screen(it, checklistState, homeViewModel, onAddNewChecklist)
+    Screen(paddingValues, checklistState, homeViewModel, onAddNewChecklist)
     DeleteDialog(
-        showDeleteDialog1,
+        showDeleteDialog,
         homeViewModel,
-        onHideDialog = { showDeleteDialog1 = HIDE }
+        onHideDialog = { onHideDeleteDialog() }
     )
 }
 

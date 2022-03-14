@@ -26,6 +26,7 @@ import wottrich.github.io.androidsmartchecklist.presentation.ui.drawer.HomeDrawe
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiState
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
+import wottrich.github.io.baseui.ui.ApplicationTheme
 
 /**
  * @author Wottrich
@@ -40,6 +41,22 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewM
 fun HomeScreen(
     onAddNewChecklist: () -> Unit,
     onCopyChecklist: (String) -> Unit,
+    onChecklistSettings: (checklistId: String) -> Unit
+) {
+    ApplicationTheme {
+        Screen(
+            onAddNewChecklist = onAddNewChecklist,
+            onCopyChecklist = onCopyChecklist,
+            onChecklistSettings = onChecklistSettings
+        )
+    }
+}
+
+@Composable
+private fun Screen(
+    onAddNewChecklist: () -> Unit,
+    onCopyChecklist: (String) -> Unit,
+    onChecklistSettings: (checklistId: String) -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -75,9 +92,10 @@ fun HomeScreen(
         },
         actionContent = {
             TopBarActionContent(
-                checklistState,
-                onCopyChecklist,
-                homeViewModel,
+                checklistState = checklistState,
+                onCopyChecklist = onCopyChecklist,
+                onChecklistSettings = { onChecklistSettings("TODO") },
+                homeViewModel = homeViewModel,
                 onShowDeleteDialog = { showDeleteDialog = SHOW }
             )
         },
@@ -89,8 +107,17 @@ fun HomeScreen(
                 )
             }
         }
-    ) {
-        HomeTaskListScreen(it, checklistState, homeViewModel, onAddNewChecklist, showDeleteDialog)
+    ) { paddingValues ->
+        HomeTaskListScreen(
+            paddingValues = paddingValues,
+            homeViewModel = homeViewModel,
+            checklistState = checklistState,
+            showDeleteDialog = showDeleteDialog,
+            onAddNewChecklist = onAddNewChecklist,
+            onHideDeleteDialog = {
+                showDeleteDialog = HIDE
+            }
+        )
     }
 }
 
@@ -133,6 +160,7 @@ private fun TopBarTitleContent(checklistState: HomeState) {
 private fun RowScope.TopBarActionContent(
     checklistState: HomeState,
     onCopyChecklist: (String) -> Unit,
+    onChecklistSettings: () -> Unit,
     homeViewModel: HomeViewModel,
     onShowDeleteDialog: () -> Unit
 ) {
@@ -143,6 +171,7 @@ private fun RowScope.TopBarActionContent(
             onCopyChecklist = {
                 onCopyChecklist(checklistState.checklistWithTasks.toString())
             },
+            onChecklistSettings = onChecklistSettings,
             onChangeState = homeViewModel::onChangeEditModeClicked
         )
     }

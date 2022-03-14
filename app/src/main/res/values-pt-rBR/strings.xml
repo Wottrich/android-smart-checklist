@@ -20,10 +20,12 @@
 
     <string name="checklist_empty_state_new_checklist_button">Nova checklist</string>
 
-    <string name="checklist_copy_content_description">Clique para copiar a checklist entre aplicativos</string>
     <string name="checklist_copy_label">Copiar</string>
+    <string name="checklist_copy_content_description">Clique para copiar a checklist entre aplicativos</string>
     <string name="checklist_delete_label">Deletar checklist</string>
     <string name="checklist_delete_checklist_content_description">Clique para deletar a checklist (Requer dupla confirmação)</string>
+    <string name="checklist_settings_screen_label">Configurações</string>
+    <string name="checklist_settings_screen_content_description">Clique para ir para a tela de configurações</string>
     <string name="checklist_edit_checklist_content_description">Clique para editar a checklist</string>
     <string name="checklist_finish_edit_content_description">Clique para concluir a edição da checklist</string>
     <string name="checklist_more_options_content_description">Clique para ver mais opções</string>

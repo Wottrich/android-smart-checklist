@@ -1,7 +1,7 @@
 package github.io.wottrich.checklist.navigation
 
 import androidx.navigation.NavType
-import androidx.navigation.compose.navArgument
+import androidx.navigation.navArgument
 import wottrich.github.io.tools.BaseNavigationModelImpl
 
 private fun suffixChecklistFlow(route: String) = "newchecklist/$route"
