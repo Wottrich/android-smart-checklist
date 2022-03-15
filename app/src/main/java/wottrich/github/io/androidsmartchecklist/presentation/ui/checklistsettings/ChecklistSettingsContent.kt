@@ -6,7 +6,9 @@ import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -29,9 +31,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import github.io.wottrich.impl.R.string
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.CHECK_ALL
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
 import wottrich.github.io.baseui.TopBarContent
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.Dimens
+import wottrich.github.io.baseui.ui.Dimens.BaseFour
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 
@@ -63,59 +69,79 @@ private fun Screen(onBackButton: () -> Unit) {
             )
         }
     ) {
-
-        var isLeftClicked by remember { mutableStateOf(true) }
-        val transition = updateTransition(isLeftClicked, "UpdateTransition")
-        val animatedFloat = transition.animateFloat(
-            transitionSpec = { tween(500) },
-            label = "UpdateTransitionAnimation"
-        ) {
-            if (it) -1f else 1f
-        }
-        val align = BiasAlignment(animatedFloat.value, 0f)
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = Dimens.BaseFour.SizeFour)
-                .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
-                .background(SmartChecklistTheme.colors.surface)
-                .height(Dimens.BaseFour.SizeTen)
-        ) {
-            Box(
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .fillMaxWidth(0.5f)
-                    .align(align)
-                    .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
-                    .background(SmartChecklistTheme.colors.secondaryVariant)
-            )
-            Row(modifier = Modifier.fillMaxHeight()) {
-                Text(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f)
-                        .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
-                        .clickable { isLeftClicked = true }
-                        .padding(vertical = Dimens.BaseFour.SizeTwo)
-                        .padding(start = Dimens.BaseFour.SizeTwo),
-                    text = "Check all",
-                    color = SmartChecklistTheme.colors.onSurface,
-                    textAlign = TextAlign.Center
-                )
-                Text(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .weight(1f)
-                        .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
-                        .clickable { isLeftClicked = false }
-                        .padding(vertical = Dimens.BaseFour.SizeTwo)
-                        .padding(end = Dimens.BaseFour.SizeTwo),
-                    text = "Uncheck\nAll",
-                    color = SmartChecklistTheme.colors.onSurface,
-                    textAlign = TextAlign.Center
-                )
+        Column {
+            var isCheckAllTasksChecked by remember {
+                mutableStateOf(CHECK_ALL)
             }
+            Switcher(
+                state = isCheckAllTasksChecked,
+                condition = { if (isCheckAllTasksChecked == CHECK_ALL) -1f else 1f },
+                firstOption = {
+                    SwitcherOptionsContent(label = "Check All") {
+                        isCheckAllTasksChecked = CHECK_ALL
+                    }
+                },
+                secondOption = {
+                    SwitcherOptionsContent(label = "Uncheck All") {
+                        isCheckAllTasksChecked = UNCHECK_ALL
+                    }
+                }
+            )
         }
     }
+}
+
+@Composable
+private fun <T> Switcher(
+    state: T,
+    condition: (T) -> Float,
+    firstOption: @Composable() RowScope.() -> Unit,
+    secondOption: @Composable() RowScope.() -> Unit,
+) {
+    val transition = updateTransition(state, "UpdateTransition")
+    val animatedFloat = transition.animateFloat(
+        transitionSpec = { tween(500) },
+        label = "UpdateTransitionAnimation"
+    ) {
+        condition(it)
+    }
+    val align = BiasAlignment(animatedFloat.value, 0f)
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = BaseFour.SizeFour)
+            .clip(RoundedCornerShape(BaseFour.SizeTwo))
+            .background(SmartChecklistTheme.colors.surface)
+            .height(BaseFour.SizeTen)
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxHeight()
+                .fillMaxWidth(0.5f)
+                .align(align)
+                .clip(RoundedCornerShape(BaseFour.SizeTwo))
+                .background(SmartChecklistTheme.colors.secondaryVariant)
+        )
+        Row(modifier = Modifier.fillMaxHeight()) {
+            firstOption()
+            secondOption()
+        }
+    }
+}
+
+@Composable
+private fun RowScope.SwitcherOptionsContent(label: String, onClick: () -> Unit) {
+    Text(
+        modifier = Modifier
+            .fillMaxHeight()
+            .weight(1f)
+            .clip(RoundedCornerShape(BaseFour.SizeTwo))
+            .clickable { onClick() }
+            .padding(vertical = BaseFour.SizeTwo)
+            .padding(end = BaseFour.SizeTwo),
+        text = label,
+        color = SmartChecklistTheme.colors.onSurface,
+        textAlign = TextAlign.Center
+    )
 }
