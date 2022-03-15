@@ -14,7 +14,14 @@ class ChecklistSettingsViewModel(
     private val _uiState = MutableStateFlow(ChecklistSettingUiState())
     val uiState = _uiState.asStateFlow()
 
-    fun onUncheckAllTasksClicked() {
+    fun onChangeSwitcher(tasksAction: ChecklistSettingsAllTasksAction) {
+        when (tasksAction) {
+            CHECK_ALL -> onCheckAllTasksClicked()
+            UNCHECK_ALL -> onUncheckAllTasksClicked()
+        }
+    }
+
+    private fun onUncheckAllTasksClicked() {
         val allTasksActionValue = if (uiState.value.allTasksAction == UNCHECK_ALL) null
         else UNCHECK_ALL
         _uiState.value = uiState.value.copy(
@@ -23,7 +30,7 @@ class ChecklistSettingsViewModel(
         )
     }
 
-    fun onCheckAllTasksClicked() {
+    private fun onCheckAllTasksClicked() {
         val allTasksActionValue = if (uiState.value.allTasksAction == CHECK_ALL) null
         else CHECK_ALL
         _uiState.value = uiState.value.copy(
@@ -35,7 +42,6 @@ class ChecklistSettingsViewModel(
     fun onConfirmSelection() {
 
     }
-
 }
 
 data class ChecklistSettingUiState(

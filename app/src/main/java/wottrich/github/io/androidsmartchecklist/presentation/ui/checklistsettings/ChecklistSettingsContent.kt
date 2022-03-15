@@ -9,11 +9,14 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
@@ -21,23 +24,25 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import github.io.wottrich.impl.R.string
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction
+import org.koin.androidx.compose.getViewModel
+import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.CHECK_ALL
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
 import wottrich.github.io.baseui.TopBarContent
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.Dimens
-import wottrich.github.io.baseui.ui.Dimens.BaseFour
+import wottrich.github.io.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 
@@ -51,7 +56,10 @@ fun ChecklistSettingsScreen(
 }
 
 @Composable
-private fun Screen(onBackButton: () -> Unit) {
+private fun Screen(
+    onBackButton: () -> Unit,
+    viewModel: ChecklistSettingsViewModel = getViewModel()
+) {
     Scaffold(
         topBar = {
             TopBarContent(
@@ -69,31 +77,53 @@ private fun Screen(onBackButton: () -> Unit) {
             )
         }
     ) {
+        val state by viewModel.uiState.collectAsState()
         Column {
-            var isCheckAllTasksChecked by remember {
-                mutableStateOf(CHECK_ALL)
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = Dimens.BaseFour.SizeFour)
+                    .padding(top = Dimens.BaseFour.SizeTwo)
+            ) {
+                Text(text = stringResource(id = R.string.checklist_settings_screen_task_action_label))
+                Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
+                Switcher(
+                    state = state.allTasksAction,
+                    condition = { if (state.allTasksAction == CHECK_ALL) -1f else 1f },
+                    firstOption = {
+                        SwitcherOptionsContent(label = stringResource(id = R.string.checklist_settings_screen_check_all_label)) {
+                            viewModel.onChangeSwitcher(CHECK_ALL)
+                        }
+                    },
+                    secondOption = {
+                        SwitcherOptionsContent(label = stringResource(id = R.string.checklist_settings_screen_uncheck_all_label)) {
+                            viewModel.onChangeSwitcher(UNCHECK_ALL)
+                        }
+                    }
+                )
             }
-            Switcher(
-                state = isCheckAllTasksChecked,
-                condition = { if (isCheckAllTasksChecked == CHECK_ALL) -1f else 1f },
-                firstOption = {
-                    SwitcherOptionsContent(label = "Check All") {
-                        isCheckAllTasksChecked = CHECK_ALL
-                    }
-                },
-                secondOption = {
-                    SwitcherOptionsContent(label = "Uncheck All") {
-                        isCheckAllTasksChecked = UNCHECK_ALL
-                    }
-                }
-            )
+
+            val confirmStringResource = stringResource(id = R.string.confirm)
+            Button(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(all = Dimens.BaseFour.SizeTwo)
+                    .semantics {
+                        contentDescription = confirmStringResource
+                    },
+                onClick = { viewModel.onConfirmSelection() },
+                colors = defaultButtonColors(),
+                enabled = state.isConfirmButtonEnabled
+            ) {
+                Text(text = confirmStringResource)
+            }
         }
     }
 }
 
 @Composable
 private fun <T> Switcher(
-    state: T,
+    state: T?,
     condition: (T) -> Float,
     firstOption: @Composable() RowScope.() -> Unit,
     secondOption: @Composable() RowScope.() -> Unit,
@@ -103,25 +133,28 @@ private fun <T> Switcher(
         transitionSpec = { tween(500) },
         label = "UpdateTransitionAnimation"
     ) {
-        condition(it)
+        if (it == null) -1f else condition(it)
     }
     val align = BiasAlignment(animatedFloat.value, 0f)
 
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = BaseFour.SizeFour)
-            .clip(RoundedCornerShape(BaseFour.SizeTwo))
+            .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
             .background(SmartChecklistTheme.colors.surface)
-            .height(BaseFour.SizeTen)
+            .height(Dimens.BaseFour.SizeTen)
     ) {
         Box(
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth(0.5f)
                 .align(align)
-                .clip(RoundedCornerShape(BaseFour.SizeTwo))
-                .background(SmartChecklistTheme.colors.secondaryVariant)
+                .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
+                .background(
+                    SmartChecklistTheme.colors.secondaryVariant.copy(
+                        alpha = if (state != null) ContentAlpha.high else ContentAlpha.disabled
+                    )
+                )
         )
         Row(modifier = Modifier.fillMaxHeight()) {
             firstOption()
@@ -136,10 +169,10 @@ private fun RowScope.SwitcherOptionsContent(label: String, onClick: () -> Unit) 
         modifier = Modifier
             .fillMaxHeight()
             .weight(1f)
-            .clip(RoundedCornerShape(BaseFour.SizeTwo))
+            .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
             .clickable { onClick() }
-            .padding(vertical = BaseFour.SizeTwo)
-            .padding(end = BaseFour.SizeTwo),
+            .padding(vertical = Dimens.BaseFour.SizeTwo)
+            .padding(end = Dimens.BaseFour.SizeTwo),
         text = label,
         color = SmartChecklistTheme.colors.onSurface,
         textAlign = TextAlign.Center
