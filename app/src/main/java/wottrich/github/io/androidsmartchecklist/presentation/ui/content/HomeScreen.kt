@@ -94,7 +94,11 @@ private fun Screen(
             TopBarActionContent(
                 checklistState = checklistState,
                 onCopyChecklist = onCopyChecklist,
-                onChecklistSettings = { onChecklistSettings("TODO") },
+                onChecklistSettings = {
+                    checklistState.checklistWithTasks?.checklist?.checklistId?.let {
+                        onChecklistSettings(it.toString())
+                    }
+                },
                 homeViewModel = homeViewModel,
                 onShowDeleteDialog = { showDeleteDialog = SHOW }
             )
@@ -178,7 +182,7 @@ private fun RowScope.TopBarActionContent(
 }
 
 
-
 @Preview
 @Composable
-fun Preview() {}
+fun Preview() {
+}

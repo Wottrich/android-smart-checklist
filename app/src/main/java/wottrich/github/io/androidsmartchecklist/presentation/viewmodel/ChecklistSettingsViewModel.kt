@@ -4,15 +4,24 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.CHECK_ALL
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
+import wottrich.github.io.publicandroid.domain.usecase.ChangeTasksCompletedStatusUseCase
+import wottrich.github.io.publicandroid.domain.usecase.GetTasksUseCase
+import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 class ChecklistSettingsViewModel(
-    dispatchersProviders: DispatchersProviders
+    dispatchersProviders: DispatchersProviders,
+    private val checklistId: String,
+    private val getTasksUseCase: GetTasksUseCase,
+    private val changeTasksCompletedStatusUseCase: ChangeTasksCompletedStatusUseCase
 ) : BaseViewModel(dispatchersProviders) {
 
     private val _uiState = MutableStateFlow(ChecklistSettingUiState())
     val uiState = _uiState.asStateFlow()
+
+    private val _uiEffect = SingleShotEventBus<ChecklistSettingUiEffect>()
+    val uiEffect = _uiEffect.events
 
     fun onChangeSwitcher(tasksAction: ChecklistSettingsAllTasksAction) {
         when (tasksAction) {
@@ -39,9 +48,20 @@ class ChecklistSettingsViewModel(
         )
     }
 
-    fun onConfirmSelection() {
-
+    fun onConfirmClicked() {
+        launchIO {
+            val tasks = getTasksUseCase(checklistId)
+            changeTasksCompletedStatusUseCase(
+                tasks = tasks,
+                isCompleted = uiState.value.allTasksAction == CHECK_ALL
+            )
+            _uiEffect.emit(ChecklistSettingUiEffect.CloseScreen)
+        }
     }
+}
+
+sealed class ChecklistSettingUiEffect {
+    object CloseScreen : ChecklistSettingUiEffect()
 }
 
 data class ChecklistSettingUiState(

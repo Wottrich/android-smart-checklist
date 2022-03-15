@@ -24,6 +24,7 @@ import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.BiasAlignment
@@ -34,8 +35,11 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import github.io.wottrich.impl.R.string
+import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.getViewModel
+import org.koin.core.parameter.parametersOf
 import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingUiEffect.CloseScreen
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.CHECK_ALL
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
@@ -48,23 +52,51 @@ import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun ChecklistSettingsScreen(
-    onBackButton: () -> Unit
+    checklistId: String,
+    onCloseScreen: () -> Unit
 ) {
     ApplicationTheme {
-        Screen(onBackButton)
+        ScreenAndEffects(checklistId, onCloseScreen)
+    }
+}
+
+@Composable
+private fun ScreenAndEffects(
+    checklistId: String,
+    onCloseScreen: () -> Unit,
+    viewModel: ChecklistSettingsViewModel = getViewModel {
+        parametersOf(checklistId)
+    }
+) {
+    Effects(viewModel, onCloseScreen)
+    Screen(onCloseScreen, viewModel)
+}
+
+@Composable
+private fun Effects(
+    viewModel: ChecklistSettingsViewModel,
+    onCloseScreen: () -> Unit
+) {
+    val effects = viewModel.uiEffect
+    LaunchedEffect(key1 = effects) {
+        effects.collect {
+            when (it) {
+                CloseScreen -> onCloseScreen()
+            }
+        }
     }
 }
 
 @Composable
 private fun Screen(
     onBackButton: () -> Unit,
-    viewModel: ChecklistSettingsViewModel = getViewModel()
+    viewModel: ChecklistSettingsViewModel
 ) {
     Scaffold(
         topBar = {
             TopBarContent(
                 title = {
-                    Text("Checklist Settings Screen")
+                    Text("Settings Screen")
                 },
                 navigationIcon = {
                     Icon(
@@ -111,7 +143,7 @@ private fun Screen(
                     .semantics {
                         contentDescription = confirmStringResource
                     },
-                onClick = { viewModel.onConfirmSelection() },
+                onClick = { viewModel.onConfirmClicked() },
                 colors = defaultButtonColors(),
                 enabled = state.isConfirmButtonEnabled
             ) {

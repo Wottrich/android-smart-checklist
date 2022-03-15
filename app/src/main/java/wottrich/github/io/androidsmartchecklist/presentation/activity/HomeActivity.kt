@@ -9,9 +9,12 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -21,6 +24,8 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import wottrich.github.io.androidsmartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.androidsmartchecklist.presentation.ui.content.HomeScreen
 import wottrich.github.io.tools.extensions.shareIntentText
+
+class InvalidChecklistId : Exception("Checklist id must not be null")
 
 @InternalCoroutinesApi
 @OptIn(ExperimentalAnimationApi::class)
@@ -51,17 +56,24 @@ class HomeActivity : AppCompatActivity() {
                             onAddNewChecklist = ::startNewChecklistActivity,
                             onCopyChecklist = ::shareIntentText,
                             onChecklistSettings = {
-                                navHostController.navigate(
+                                val route =
                                     NavigationHome.Destinations.ChecklistSettingsScreen.route
-                                )
+                                        .replace("{checklistId}", it)
+                                navHostController.navigate(route)
                             }
                         )
                     }
                     defaultComposableAnimation(
-                        route = NavigationHome.Destinations.ChecklistSettingsScreen.route
-                    ) {
+                        route = NavigationHome.Destinations.ChecklistSettingsScreen.route,
+                        arguments = listOf(
+                            navArgument("checklistId") { type = NavType.StringType }
+                        )
+                    ) { navBackStackEntry ->
+                        val checklistId = navBackStackEntry.arguments?.getString("checklistId")
+                            ?: throw InvalidChecklistId()
                         ChecklistSettingsScreen(
-                            onBackButton = {
+                            checklistId,
+                            onCloseScreen = {
                                 navHostController.popBackStack()
                             }
                         )
@@ -77,10 +89,12 @@ class HomeActivity : AppCompatActivity() {
 
     private fun NavGraphBuilder.defaultComposableAnimation(
         route: String,
+        arguments: List<NamedNavArgument> = emptyList(),
         content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
     ) {
         composable(
             route = route,
+            arguments = arguments,
             enterTransition = {
                 slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tween(700))
             },
@@ -105,6 +119,7 @@ object NavigationHome {
 
     sealed class Destinations(val route: String) {
         object HomeScreen : Destinations(route = "HomeScreen")
-        object ChecklistSettingsScreen : Destinations(route = "ChecklistSettingsScreen")
+        object ChecklistSettingsScreen :
+            Destinations(route = "ChecklistSettingsScreen/{checklistId}")
     }
 }
