@@ -27,6 +27,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import wottrich.github.io.baseui.RowComponent
 import wottrich.github.io.baseui.TextOneLine
+import wottrich.github.io.baseui.icons.ClickableDeleteIcon
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 import wottrich.github.io.database.entity.Task
@@ -52,19 +53,17 @@ fun TaskItemComponent(
             elevation = 1.dp
         ) {
             RowComponent(
-                modifier = Modifier.clickable { onCheckChange() }.clip(TaskItemShape),
+                modifier = Modifier
+                    .clickable { onCheckChange() }
+                    .clip(TaskItemShape),
                 leftIconContent = {
                     AnimatedVisibility(visible = showDeleteItem) {
-                        Icon(
-                            tint = MaterialTheme.colors.onSurface,
-                            painter = painterResource(id = R.drawable.ic_delete),
+                        ClickableDeleteIcon(
                             contentDescription = stringResource(
                                 id = R.string.task_item_component_delete_item,
                                 task.name
                             ),
-                            modifier = Modifier
-                                .clip(CircleShape)
-                                .clickable { onDeleteTask() }
+                            onClick = onDeleteTask
                         )
                     }
                 },
