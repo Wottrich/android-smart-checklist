@@ -13,11 +13,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -162,6 +167,26 @@ private fun HomeDrawerSuccessContent(
                 )
             }
             EditableComponent(isEditModeEnabled = isEditModeEnabled, onEditMode = onEditMode)
+        }
+        Divider(
+            modifier = Modifier.fillMaxWidth()
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            TextButton(
+                modifier = Modifier.weight(1f),
+                onClick = { /*TODO*/ }
+            ) {
+                Text(text = "Sobre nós")
+            }
+
+            TextButton(
+                modifier = Modifier.weight(1f),
+                onClick = { /*TODO*/ }
+            ) {
+                Text(text = "Ajuda")
+            }
         }
     }
 }
