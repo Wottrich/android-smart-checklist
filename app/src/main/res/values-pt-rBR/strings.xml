@@ -20,6 +20,9 @@
 
     <string name="checklist_empty_state_new_checklist_button">Nova checklist</string>
 
+    <!-- Home drawer -->
+    <string name="home_drawer_checklist_selected_label">Selecionada</string>
+
     <string name="checklist_copy_label">Copiar</string>
     <string name="checklist_copy_content_description">Clique para copiar a checklist entre aplicativos</string>
     <string name="checklist_delete_label">Deletar checklist</string>
