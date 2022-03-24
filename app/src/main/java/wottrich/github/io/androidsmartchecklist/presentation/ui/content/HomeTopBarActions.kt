@@ -34,6 +34,7 @@ fun RowScope.HomeTopBarActionsContent(
     isEditMode: Boolean,
     onShowDeleteConfirmDialog: (() -> Unit),
     onCopyChecklist: () -> Unit,
+    onChecklistSettings: () -> Unit,
     onChangeState: () -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -48,7 +49,8 @@ fun RowScope.HomeTopBarActionsContent(
         isExpanded = isExpanded,
         dismissDropdownMenu = { isExpanded = false },
         onShowDeleteConfirmDialog = onShowDeleteConfirmDialog,
-        onCopyChecklist = onCopyChecklist
+        onCopyChecklist = onCopyChecklist,
+        onChecklistSettings = onChecklistSettings
     )
 }
 
@@ -58,6 +60,7 @@ private fun DropdownMenuActions(
     dismissDropdownMenu: () -> Unit,
     onShowDeleteConfirmDialog: () -> Unit,
     onCopyChecklist: () -> Unit,
+    onChecklistSettings: () -> Unit
 ) {
     DropdownMenu(
         expanded = isExpanded,
@@ -70,6 +73,10 @@ private fun DropdownMenuActions(
         CopyChecklistDropdownMenuItem {
             dismissDropdownMenu()
             onCopyChecklist()
+        }
+        ChecklistSettingsDropdownMenuItem {
+            dismissDropdownMenu()
+            onChecklistSettings()
         }
     }
 }
@@ -101,5 +108,20 @@ private fun CopyChecklistDropdownMenuItem(onCopyChecklist: () -> Unit) {
         onClick = onCopyChecklist
     ) {
         Text(text = stringResource(id = R.string.checklist_copy_label))
+    }
+}
+
+@Composable
+private fun ChecklistSettingsDropdownMenuItem(onChecklistSettings: () -> Unit) {
+    val onShareClickContentDescription = stringResource(
+        id = R.string.checklist_settings_screen_content_description
+    )
+    DropdownMenuItem(
+        modifier = Modifier.semantics {
+            contentDescription = onShareClickContentDescription
+        },
+        onClick = onChecklistSettings
+    ) {
+        Text(text = stringResource(id = R.string.checklist_settings_screen_label))
     }
 }

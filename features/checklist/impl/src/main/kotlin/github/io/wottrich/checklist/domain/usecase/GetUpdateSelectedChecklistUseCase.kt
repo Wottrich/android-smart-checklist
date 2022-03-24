@@ -12,10 +12,7 @@ import wottrich.github.io.database.entity.Checklist
  *
  */
 
-class GetUpdateSelectedChecklistUseCase(
-    private val checklistDao: ChecklistDao
-) {
-
+class GetUpdateSelectedChecklistUseCase(private val checklistDao: ChecklistDao) {
     suspend operator fun invoke(checklist: Checklist) {
         val currentSelectedChecklist = checklistDao.selectSelectedChecklist(true)
         currentSelectedChecklist?.isSelected = false
@@ -26,5 +23,4 @@ class GetUpdateSelectedChecklistUseCase(
             checklistDao.updateChecklists(listOf(currentSelectedChecklist, checklist))
         }
     }
-
 }

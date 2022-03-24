@@ -20,19 +20,34 @@
 
     <string name="checklist_empty_state_new_checklist_button">Nova checklist</string>
 
-    <string name="checklist_copy_content_description">Clique para copiar a checklist entre aplicativos</string>
+    <!-- Home drawer -->
+    <string name="home_drawer_checklist_selected_label">Selecionada</string>
+
     <string name="checklist_copy_label">Copiar</string>
+    <string name="checklist_copy_content_description">Clique para copiar a checklist entre aplicativos</string>
     <string name="checklist_delete_label">Deletar checklist</string>
     <string name="checklist_delete_checklist_content_description">Clique para deletar a checklist (Requer dupla confirmação)</string>
+    <string name="checklist_settings_screen_label">Configurações</string>
+    <string name="checklist_settings_screen_content_description">Clique para ir para a tela de configurações</string>
     <string name="checklist_edit_checklist_content_description">Clique para editar a checklist</string>
     <string name="checklist_finish_edit_content_description">Clique para concluir a edição da checklist</string>
     <string name="checklist_more_options_content_description">Clique para ver mais opções</string>
     <string name="checklist_delete_checklist_confirm_label">Você está prestes a deletar esse checklist para sempre, deseja continuar?</string>
 
+    <!-- Settings -->
+    <string name="checklist_settings_screen_title">Tela de configuração</string>
+    <string name="checklist_settings_screen_task_action_label">Ações nas tasks:</string>
+    <string name="checklist_settings_screen_check_all_label">Marcar todas</string>
+    <string name="checklist_settings_screen_uncheck_all_label">Desmarcar todas</string>
+
     <!--  Drawer  -->
     <string name="drawer_your_checklists_header_label">Suas checklists</string>
     <string name="drawer_checklist_completed">Completa</string>
     <string name="drawer_checklist_uncompleted">Incompleta</string>
+
+    <!-- Drawer bottom items -->
+    <string name="drawer_bottom_items_about_us">Sobre nós</string>
+    <string name="drawer_bottom_items_help">Ajuda</string>
 
     <string name="snackbar_uncompleted_task_message">agora está incompleta.</string>
     <string name="snackbar_completed_task_message">agora está completada.</string>

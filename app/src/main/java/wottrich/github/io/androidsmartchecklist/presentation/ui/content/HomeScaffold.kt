@@ -34,9 +34,7 @@ fun HomeScaffold(
     Scaffold(
         scaffoldState = scaffoldState,
         snackbarHost = snackbarHost,
-        topBar = {
-
-        },
+        topBar = {},
         floatingActionButtonPosition = FabPosition.Center,
         isFloatingActionButtonDocked = true,
         drawerBackgroundColor = SmartChecklistTheme.colors.background,
@@ -44,30 +42,39 @@ fun HomeScaffold(
             drawerContent()
         },
         bottomBar = {
-            TopAppBar(
-
-                navigationIcon = {
-                    IconButton(
-                        onClick = {
-                            coroutineScope.launch {
-                                drawerState.open()
-                            }
-                        }
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Menu,
-                            contentDescription = "Menu",
-                            tint = MaterialTheme.colors.onPrimary
-                        )
-                    }
-                },
-                title = {
-                    onTitleContent()
-                },
-                actions = actionContent
-            )
+            HomeTopBar(coroutineScope, drawerState, onTitleContent, actionContent)
         }
     ) { innerPadding ->
         content(innerPadding)
     }
+}
+
+@Composable
+private fun HomeTopBar(
+    coroutineScope: CoroutineScope,
+    drawerState: DrawerState,
+    onTitleContent: @Composable () -> Unit,
+    actionContent: @Composable() (RowScope.() -> Unit)
+) {
+    TopAppBar(
+        navigationIcon = {
+            IconButton(
+                onClick = {
+                    coroutineScope.launch {
+                        drawerState.open()
+                    }
+                }
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Menu,
+                    contentDescription = "Menu",
+                    tint = MaterialTheme.colors.onPrimary
+                )
+            }
+        },
+        title = {
+            onTitleContent()
+        },
+        actions = actionContent
+    )
 }

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="support_help_overview_title">Ajuda</string>
+    <string name="support_help_overview_tutorial_label">Tutoriais</string>
+    <string name="support_help_overview_tutorial_how_delete_tasks">Como deletar tarefas</string>
+    <string name="support_help_overview_tutorial_how_delete_tasks_explain">Para deletar uma tarefa basta você deslizar o card da tarefa para esquerda</string>
+</resources>

@@ -5,4 +5,5 @@
     <string name="arrow_back_content_description">Back</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="confirm">Confirm</string>
 </resources>

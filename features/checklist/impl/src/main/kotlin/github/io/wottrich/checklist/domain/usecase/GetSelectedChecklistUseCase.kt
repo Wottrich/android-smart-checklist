@@ -16,7 +16,6 @@ import wottrich.github.io.database.entity.ChecklistWithTasks
  */
 
 class GetSelectedChecklistUseCase(private val checklistDao: ChecklistDao) {
-
     suspend operator fun invoke(): Flow<ChecklistWithTasks?> {
         return flow {
             checklistDao.observeSelectedChecklistWithTasks(true).collect {
@@ -33,5 +32,4 @@ class GetSelectedChecklistUseCase(private val checklistDao: ChecklistDao) {
             }
         }
     }
-
 }
