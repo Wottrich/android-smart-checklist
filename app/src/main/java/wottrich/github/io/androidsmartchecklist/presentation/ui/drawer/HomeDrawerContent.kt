@@ -14,15 +14,11 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
-import androidx.compose.material.Icon
-import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -52,6 +48,8 @@ import wottrich.github.io.database.entity.ChecklistWithTasks
 fun HomeDrawerStatefulContent(
     onCloseDrawer: () -> Unit,
     onAddNewChecklist: () -> Unit,
+    onAboutUsClick: () -> Unit,
+    onHelpClick: () -> Unit,
     viewModel: HomeDrawerViewModel = getViewModel()
 ) {
     val state by viewModel.drawerStateFlow.collectAsState()
@@ -76,7 +74,9 @@ fun HomeDrawerStatefulContent(
         onAddNewChecklist = onAddNewChecklist,
         onEditMode = {
             viewModel.processEvent(HomeDrawerEvent.EditModeClicked)
-        }
+        },
+        onAboutUsClick = onAboutUsClick,
+        onHelpClick = onHelpClick
     )
 
 }
@@ -87,7 +87,9 @@ private fun HomeDrawerStateless(
     onItemClick: (checklist: ChecklistWithTasks) -> Unit,
     onDeleteChecklist: (checklist: ChecklistWithTasks) -> Unit,
     onAddNewChecklist: () -> Unit,
-    onEditMode: () -> Unit
+    onEditMode: () -> Unit,
+    onAboutUsClick: () -> Unit,
+    onHelpClick: () -> Unit
 ) {
     when (state) {
         is HomeDrawerState.Loading -> CircularProgressIndicator()
@@ -97,7 +99,9 @@ private fun HomeDrawerStateless(
             onItemClick = onItemClick,
             onDeleteChecklist = onDeleteChecklist,
             onAddNewChecklist = onAddNewChecklist,
-            onEditMode = onEditMode
+            onEditMode = onEditMode,
+            onAboutUsClick = onAboutUsClick,
+            onHelpClick = onHelpClick
         )
     }
 }
@@ -109,7 +113,9 @@ private fun HomeDrawerSuccessContent(
     onItemClick: (checklist: ChecklistWithTasks) -> Unit,
     onDeleteChecklist: (checklist: ChecklistWithTasks) -> Unit,
     onAddNewChecklist: () -> Unit,
-    onEditMode: () -> Unit
+    onEditMode: () -> Unit,
+    onAboutUsClick: () -> Unit,
+    onHelpClick: () -> Unit
 ) {
     val buttonContentDescription = stringResource(id = R.string.floating_action_content_description)
     Column(
@@ -171,23 +177,10 @@ private fun HomeDrawerSuccessContent(
         Divider(
             modifier = Modifier.fillMaxWidth()
         )
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            TextButton(
-                modifier = Modifier.weight(1f),
-                onClick = { /*TODO*/ }
-            ) {
-                Text(text = "Sobre nós")
-            }
-
-            TextButton(
-                modifier = Modifier.weight(1f),
-                onClick = { /*TODO*/ }
-            ) {
-                Text(text = "Ajuda")
-            }
-        }
+        HelpAboutUsContent(
+            onAboutUsClick = onAboutUsClick,
+            onHelpClick = onHelpClick
+        )
     }
 }
 

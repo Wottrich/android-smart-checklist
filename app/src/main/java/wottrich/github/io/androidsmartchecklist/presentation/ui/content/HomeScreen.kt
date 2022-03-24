@@ -41,13 +41,17 @@ import wottrich.github.io.baseui.ui.ApplicationTheme
 fun HomeScreen(
     onAddNewChecklist: () -> Unit,
     onCopyChecklist: (String) -> Unit,
-    onChecklistSettings: (checklistId: String) -> Unit
+    onChecklistSettings: (checklistId: String) -> Unit,
+    onAboutUsClick: () -> Unit,
+    onHelpClick: () -> Unit,
 ) {
     ApplicationTheme {
         Screen(
             onAddNewChecklist = onAddNewChecklist,
             onCopyChecklist = onCopyChecklist,
-            onChecklistSettings = onChecklistSettings
+            onChecklistSettings = onChecklistSettings,
+            onAboutUsClick = onAboutUsClick,
+            onHelpClick = onHelpClick
         )
     }
 }
@@ -57,6 +61,8 @@ private fun Screen(
     onAddNewChecklist: () -> Unit,
     onCopyChecklist: (String) -> Unit,
     onChecklistSettings: (checklistId: String) -> Unit,
+    onAboutUsClick: () -> Unit,
+    onHelpClick: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -82,9 +88,11 @@ private fun Screen(
         coroutineScope = coroutineScope,
         drawerContent = {
             DrawerContent(
-                coroutineScope,
-                drawerState,
-                onAddNewChecklist
+                rememberCoroutineScope = coroutineScope,
+                drawerState = drawerState,
+                onAddNewChecklist = onAddNewChecklist,
+                onAboutUsClick = onAboutUsClick,
+                onHelpClick = onHelpClick
             )
         },
         onTitleContent = {
@@ -129,19 +137,30 @@ private fun Screen(
 private fun DrawerContent(
     rememberCoroutineScope: CoroutineScope,
     drawerState: DrawerState,
-    onAddNewChecklist: () -> Unit
+    onAddNewChecklist: () -> Unit,
+    onAboutUsClick: () -> Unit,
+    onHelpClick: () -> Unit
 ) {
+    fun closeDrawerState() {
+        rememberCoroutineScope.launch {
+            drawerState.close()
+        }
+    }
     HomeDrawerStatefulContent(
         onCloseDrawer = {
-            rememberCoroutineScope.launch {
-                drawerState.close()
-            }
+            closeDrawerState()
         },
         onAddNewChecklist = {
             onAddNewChecklist()
-            rememberCoroutineScope.launch {
-                drawerState.close()
-            }
+            closeDrawerState()
+        },
+        onAboutUsClick = {
+            onAboutUsClick()
+            closeDrawerState()
+        },
+        onHelpClick = {
+            onHelpClick()
+            closeDrawerState()
         }
     )
 }
