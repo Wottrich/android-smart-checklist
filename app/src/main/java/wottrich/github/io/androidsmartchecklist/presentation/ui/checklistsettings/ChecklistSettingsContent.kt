@@ -17,12 +17,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Button
 import androidx.compose.material.ContentAlpha
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -34,16 +30,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
-import github.io.wottrich.impl.R.string
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.androidsmartchecklist.R.string
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingUiEffect.CloseScreen
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.CHECK_ALL
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
 import wottrich.github.io.baseui.TopBarContent
+import wottrich.github.io.baseui.icons.ArrowBackIcon
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
@@ -96,14 +93,10 @@ private fun Screen(
         topBar = {
             TopBarContent(
                 title = {
-                    Text("Settings Screen")
+                    Text(stringResource(id = string.checklist_settings_screen_title))
                 },
                 navigationIcon = {
-                    Icon(
-                        imageVector = Icons.Default.ArrowBack,
-                        contentDescription = stringResource(id = string.arrow_back_content_description),
-                        tint = MaterialTheme.colors.onPrimary
-                    )
+                    ArrowBackIcon()
                 },
                 navigationIconAction = onBackButton
             )
