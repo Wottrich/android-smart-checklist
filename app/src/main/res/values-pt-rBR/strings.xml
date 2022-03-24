@@ -45,6 +45,10 @@
     <string name="drawer_checklist_completed">Completa</string>
     <string name="drawer_checklist_uncompleted">Incompleta</string>
 
+    <!-- Drawer bottom items -->
+    <string name="drawer_bottom_items_about_us">Sobre nós</string>
+    <string name="drawer_bottom_items_help">Ajuda</string>
+
     <string name="snackbar_uncompleted_task_message">agora está incompleta.</string>
     <string name="snackbar_completed_task_message">agora está completada.</string>
     <string name="snackbar_checklist_deleted">Checklist deleta com sucesso.</string>
