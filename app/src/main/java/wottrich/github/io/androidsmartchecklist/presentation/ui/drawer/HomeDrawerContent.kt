@@ -1,9 +1,9 @@
 package wottrich.github.io.androidsmartchecklist.presentation.ui.drawer
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,15 +13,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Divider
-import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -36,7 +32,6 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawe
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 import wottrich.github.io.database.entity.ChecklistWithTasks
 
 /**
@@ -130,7 +125,6 @@ private fun HomeDrawerSuccessContent(
                                 )
                             }
                         )
-                        Divider()
                     }
                 }
                 items(checklists) { item ->
@@ -150,21 +144,10 @@ private fun HomeDrawerSuccessContent(
                 }
             }
         )
-        Column(modifier = Modifier.background(SmartChecklistTheme.colors.surface)) {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = Dimens.BaseFour.SizeTwo),
-                horizontalArrangement = Arrangement.End
-            ) {
-                EditIconStateContent(
-                    isEditMode = isEditModeEnabled,
-                    onChangeState = onEditMode
-                )
-            }
+        Row {
             Button(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .weight(1f)
                     .padding(all = Dimens.BaseFour.SizeTwo)
                     .semantics {
                         contentDescription = buttonContentDescription
@@ -172,14 +155,30 @@ private fun HomeDrawerSuccessContent(
                 onClick = { onAddNewChecklist() },
                 colors = defaultButtonColors(),
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.ic_round_add),
-                    contentDescription = stringResource(
-                        id = R.string.floating_action_content_description
-                    ),
-                    tint = Color.White
+                Text(
+                    text = stringResource(
+                        id = R.string.new_checklist_activity_screen_title
+                    ).uppercase()
                 )
             }
+            EditableComponent(isEditModeEnabled = isEditModeEnabled, onEditMode = onEditMode)
         }
+    }
+}
+
+@Composable
+private fun RowScope.EditableComponent(
+    isEditModeEnabled: Boolean,
+    onEditMode: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .padding(all = Dimens.BaseFour.SizeTwo),
+        horizontalArrangement = Arrangement.End
+    ) {
+        EditIconStateContent(
+            isEditMode = isEditModeEnabled,
+            onChangeState = onEditMode
+        )
     }
 }

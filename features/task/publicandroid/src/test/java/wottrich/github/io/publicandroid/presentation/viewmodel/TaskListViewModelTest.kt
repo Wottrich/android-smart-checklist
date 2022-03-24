@@ -13,12 +13,12 @@ import wottrich.github.io.database.entity.Task
 import wottrich.github.io.publicandroid.domain.usecase.GetAddTaskUseCase
 import wottrich.github.io.publicandroid.domain.usecase.GetChangeTaskStatusUseCase
 import wottrich.github.io.publicandroid.domain.usecase.GetDeleteTaskUseCase
-import wottrich.github.io.publicandroid.domain.usecase.GetLoadTaskUseCase
+import wottrich.github.io.publicandroid.domain.usecase.ObserveTasksUseCase
 
 class TaskListViewModelTest : BaseUnitTest() {
 
     private lateinit var sut: TaskListViewModel
-    private lateinit var getLoadTaskUseCase: GetLoadTaskUseCase
+    private lateinit var observeTasksUseCase: ObserveTasksUseCase
     private lateinit var getAddTaskUseCase: GetAddTaskUseCase
     private lateinit var getDeleteTaskUseCase: GetDeleteTaskUseCase
     private lateinit var getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase
@@ -36,7 +36,7 @@ class TaskListViewModelTest : BaseUnitTest() {
 
     @Before
     override fun setUp() {
-        getLoadTaskUseCase = mockk()
+        observeTasksUseCase = mockk()
         getAddTaskUseCase = mockk()
         getDeleteTaskUseCase = mockk()
         getChangeTaskStatusUseCase = mockk()
@@ -47,7 +47,7 @@ class TaskListViewModelTest : BaseUnitTest() {
         mockGetLoadTaskUseCase()
         sut = getSut()
         assertEquals(dummyTasks, sut.tasks)
-        verify(exactly = 1) { getLoadTaskUseCase.invoke(dummyChecklistId) }
+        verify(exactly = 1) { observeTasksUseCase.invoke(dummyChecklistId) }
     }
 
     @Test
@@ -86,7 +86,7 @@ class TaskListViewModelTest : BaseUnitTest() {
     }
 
     private fun mockGetLoadTaskUseCase() {
-        coEvery { getLoadTaskUseCase.invoke(dummyChecklistId) } returns flow {
+        coEvery { observeTasksUseCase.invoke(dummyChecklistId) } returns flow {
             emit(dummyTasks)
         }
     }
@@ -107,7 +107,7 @@ class TaskListViewModelTest : BaseUnitTest() {
     private fun getSut() = TaskListViewModel(
         dummyChecklistId,
         coroutinesTestRule.dispatchers,
-        getLoadTaskUseCase,
+        observeTasksUseCase,
         getAddTaskUseCase,
         getDeleteTaskUseCase,
         getChangeTaskStatusUseCase
