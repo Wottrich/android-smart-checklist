@@ -5,4 +5,5 @@
     <string name="arrow_back_content_description">Voltar</string>
     <string name="yes">Sim</string>
     <string name="no">Não</string>
+    <string name="confirm">Confirmar</string>
 </resources>

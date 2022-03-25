@@ -30,7 +30,8 @@ fun TaskContentComponent(
     onAddClicked: (String) -> Unit,
     onUpdateClicked: (Task) -> Unit,
     onDeleteClicked: (Task) -> Unit,
-    isEditMode: Boolean = true,
+    showHeaderComponent: Boolean = true,
+    showDeleteIcon: Boolean = true,
 ) {
 
     var textFieldValue by remember { mutableStateOf("") }
@@ -40,7 +41,7 @@ fun TaskContentComponent(
             .background(MaterialTheme.colors.background)
             .fillMaxHeight()
     ) {
-        AnimatedVisibility(visible = isEditMode) {
+        AnimatedVisibility(visible = showHeaderComponent) {
             TaskHeaderComponent(
                 textFieldValue = textFieldValue,
                 onTextFieldValueChange = { textFieldValue = it },
@@ -52,7 +53,7 @@ fun TaskContentComponent(
         }
         TaskLazyColumnComponent(
             taskList = tasks,
-            showDeleteItem = isEditMode,
+            showDeleteItem = showDeleteIcon,
             onCheckChange = onUpdateClicked,
             onDeleteTask = onDeleteClicked
         )

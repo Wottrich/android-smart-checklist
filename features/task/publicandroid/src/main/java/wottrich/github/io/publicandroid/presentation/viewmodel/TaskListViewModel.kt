@@ -10,13 +10,13 @@ import wottrich.github.io.database.entity.Task
 import wottrich.github.io.publicandroid.domain.usecase.GetAddTaskUseCase
 import wottrich.github.io.publicandroid.domain.usecase.GetChangeTaskStatusUseCase
 import wottrich.github.io.publicandroid.domain.usecase.GetDeleteTaskUseCase
-import wottrich.github.io.publicandroid.domain.usecase.GetLoadTaskUseCase
+import wottrich.github.io.publicandroid.domain.usecase.ObserveTasksUseCase
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 class TaskListViewModel(
     private val checklistId: String,
     private val dispatchersProviders: DispatchersProviders,
-    private val getLoadTaskUseCase: GetLoadTaskUseCase,
+    private val observeTasksUseCase: ObserveTasksUseCase,
     private val getAddTaskUseCase: GetAddTaskUseCase,
     private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
     private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
@@ -27,7 +27,7 @@ class TaskListViewModel(
 
     init {
         viewModelScope.launch(dispatchersProviders.io) {
-            getLoadTaskUseCase(checklistId).collect {
+            observeTasksUseCase(checklistId).collect {
                 withContext(dispatchersProviders.main) {
                     tasks.clear()
                     tasks.addAll(it)

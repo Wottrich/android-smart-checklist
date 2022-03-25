@@ -1,6 +1,6 @@
 package wottrich.github.io.tools
 
-import androidx.navigation.compose.NamedNavArgument
+import androidx.navigation.NamedNavArgument
 
 interface BaseNavigationModel {
     val route: String

@@ -25,11 +25,18 @@ interface TaskDao {
     @Query("SELECT * FROM task WHERE checklistId=:checklistId")
     fun observeTasksUpdate(checklistId: String): Flow<List<Task>>
 
+    @Transaction
+    @Query("SELECT * FROM task WHERE checklistId=:checklistId")
+    suspend fun getTasks(checklistId: String): List<Task>
+
     @Insert
     suspend fun insert(task: Task): Long?
 
     @Update
     suspend fun update(task: Task)
+
+    @Update
+    suspend fun updateTasks(tasks: List<Task>)
 
     @Delete
     suspend fun delete(task: Task)

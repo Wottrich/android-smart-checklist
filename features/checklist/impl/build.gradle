@@ -48,4 +48,8 @@ dependencies {
     implementation project(path: ":features:task:publicandroid")
     implementation project(path: ":database")
     implementation project(path: ":baseui")
+
+    testImplementation project(path: ":test-tools")
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
 }
