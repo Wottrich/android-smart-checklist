@@ -22,13 +22,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
+
     compileOptions {
         sourceCompatibility java_version
         targetCompatibility java_version
@@ -52,7 +46,7 @@ android {
 dependencies {
 
     implementation project(path: ":tools")
-    implementation project(path: ":database")
+    implementation project(path: ':datasource')
     implementation project(path: ":baseui")
 
     testImplementation project(path: ":test-tools")

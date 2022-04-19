@@ -45,7 +45,7 @@ android {
 dependencies {
 
     implementation project(path: ":tools")
-    implementation project(path: ":database")
+    implementation project(path: ':datasource')
     implementation project(path: ":baseui")
 
     testImplementation project(path: ":test-tools")

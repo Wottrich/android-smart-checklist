@@ -1,8 +1,8 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
+import github.io.wottrich.checklist.domain.usecase.DeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.usecase.GetChecklistWithTaskUseCase
-import github.io.wottrich.checklist.domain.usecase.GetDeleteChecklistUseCase
-import github.io.wottrich.checklist.domain.usecase.GetUpdateSelectedChecklistUseCase
+import github.io.wottrich.checklist.domain.usecase.UpdateSelectedChecklistUseCase
 import github.io.wottrich.test.tools.BaseUnitTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -13,16 +13,16 @@ import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import org.junit.Test
-import wottrich.github.io.database.entity.Checklist
-import wottrich.github.io.database.entity.ChecklistWithTasks
-import wottrich.github.io.database.entity.Task
+import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.Task
 
 class HomeDrawerViewModelTest : BaseUnitTest() {
 
     private lateinit var sut: HomeDrawerViewModel
     private lateinit var getChecklistWithTaskUseCase: GetChecklistWithTaskUseCase
-    private lateinit var getUpdateSelectedChecklistUseCase: GetUpdateSelectedChecklistUseCase
-    private lateinit var getDeleteChecklistUseCase: GetDeleteChecklistUseCase
+    private lateinit var updateSelectedChecklistUseCase: UpdateSelectedChecklistUseCase
+    private lateinit var deleteChecklistUseCase: DeleteChecklistUseCase
 
     private val dummyChecklistId = 0L
     private val dummyTask = Task(
@@ -54,8 +54,8 @@ class HomeDrawerViewModelTest : BaseUnitTest() {
 
     override fun setUp() {
         getChecklistWithTaskUseCase = mockk()
-        getUpdateSelectedChecklistUseCase = mockk()
-        getDeleteChecklistUseCase = mockk()
+        updateSelectedChecklistUseCase = mockk()
+        deleteChecklistUseCase = mockk()
     }
 
     @Test
@@ -84,7 +84,7 @@ class HomeDrawerViewModelTest : BaseUnitTest() {
         sut.processEvent(HomeDrawerEvent.ItemClicked(dummyChecklistWithTasks))
 
         coVerify(exactly = 1) {
-            getUpdateSelectedChecklistUseCase(dummyChecklistWithTasks.checklist)
+            updateSelectedChecklistUseCase(dummyChecklistWithTasks.checklist)
         }
         val effect = getSuspendValue { sut.drawerEffectFlow.first() }
         assertTrue(effect is HomeDrawerEffect.CloseDrawer)
@@ -98,7 +98,7 @@ class HomeDrawerViewModelTest : BaseUnitTest() {
         sut.processEvent(HomeDrawerEvent.DeleteChecklistClicked(dummyChecklistWithTasks))
 
         coVerify(exactly = 1) {
-            getDeleteChecklistUseCase(dummyChecklistWithTasks.checklist)
+            deleteChecklistUseCase(dummyChecklistWithTasks.checklist)
         }
     }
 
@@ -109,19 +109,19 @@ class HomeDrawerViewModelTest : BaseUnitTest() {
     }
 
     private fun mockGetUpdateSelectedChecklistUseCase(checklist: Checklist) {
-        coEvery { getUpdateSelectedChecklistUseCase.invoke(checklist) } returns Unit
+        coEvery { updateSelectedChecklistUseCase.invoke(checklist) } returns Unit
     }
 
     private fun mockGetDeleteChecklistUseCase(checklist: Checklist) {
-        coEvery { getDeleteChecklistUseCase.invoke(checklist) } returns Unit
+        coEvery { deleteChecklistUseCase.invoke(checklist) } returns Unit
     }
 
 
     private fun getSut() = HomeDrawerViewModel(
         coroutinesTestRule.dispatchers,
         getChecklistWithTaskUseCase,
-        getUpdateSelectedChecklistUseCase,
-        getDeleteChecklistUseCase
+        updateSelectedChecklistUseCase,
+        deleteChecklistUseCase
     )
 
 }

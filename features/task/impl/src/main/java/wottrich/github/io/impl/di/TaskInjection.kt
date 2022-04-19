@@ -1,25 +1,16 @@
 package wottrich.github.io.impl.di
 
-import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
 import org.koin.dsl.module
-import wottrich.github.io.publicandroid.domain.usecase.ChangeTasksCompletedStatusUseCase
-import wottrich.github.io.publicandroid.domain.usecase.GetAddTaskUseCase
-import wottrich.github.io.publicandroid.domain.usecase.GetChangeTaskStatusUseCase
-import wottrich.github.io.publicandroid.domain.usecase.GetDeleteTaskUseCase
-import wottrich.github.io.publicandroid.domain.usecase.GetTasksUseCase
-import wottrich.github.io.publicandroid.domain.usecase.ObserveTasksUseCase
-import wottrich.github.io.publicandroid.presentation.viewmodel.TaskListViewModel
+import wottrich.github.io.impl.domain.usecase.ChangeTasksCompletedStatusUseCase
+import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase
+import wottrich.github.io.impl.domain.usecase.GetChangeTaskStatusUseCase
+import wottrich.github.io.impl.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.impl.domain.usecase.GetTasksUseCase
+import wottrich.github.io.impl.domain.usecase.ObserveTasksUseCase
 
 val taskModule = module {
     injectUseCases()
-    injectViewModels()
-}
-
-private fun Module.injectViewModels() {
-    viewModel { (checklistId: String) ->
-        TaskListViewModel(checklistId, get(), get(), get(), get(), get())
-    }
 }
 
 private fun Module.injectUseCases() {

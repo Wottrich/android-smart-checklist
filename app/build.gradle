@@ -71,17 +71,21 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
 
     //modules
-    implementation project(path: ":database")
+    implementation project(path: ':datasource')
     implementation project(path: ":tools")
     implementation project(path: ":baseui")
     implementation project(path: ":features:checklist:impl")
     implementation project(path: ":features:task:impl")
-    implementation project(path: ":features:task:publicandroid")
+    implementation project(path: ":features:newchecklist:impl")
+    implementation project(path: ":features:newchecklist:public")
     implementation project(path: ":ui-aboutus")
     implementation project(path: ":ui-support")
 
     //Compose
     implementation "androidx.activity:activity-compose:$compose_activity_version"
+
+    // System UI controller
+    implementation "com.google.accompanist:accompanist-systemuicontroller:$system_ui_controller"
 
     //Test
     testImplementation project(path: ":test-tools")

@@ -33,7 +33,7 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawe
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.database.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.ChecklistWithTasks
 
 /**
  * @author Wottrich

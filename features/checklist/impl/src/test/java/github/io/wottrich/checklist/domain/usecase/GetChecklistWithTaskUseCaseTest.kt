@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Test
-import wottrich.github.io.database.dao.ChecklistDao
-import wottrich.github.io.database.entity.Checklist
-import wottrich.github.io.database.entity.ChecklistWithTasks
-import wottrich.github.io.database.entity.Task
+import wottrich.github.io.datasource.dao.ChecklistDao
+import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.Task
 
 /**
  * @author Wottrich

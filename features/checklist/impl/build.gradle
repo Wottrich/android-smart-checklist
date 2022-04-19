@@ -45,8 +45,7 @@ dependencies {
 
     implementation project(path: ":tools")
     implementation project(path: ":features:checklist:public")
-    implementation project(path: ":features:task:publicandroid")
-    implementation project(path: ":database")
+    implementation project(path: ':datasource')
     implementation project(path: ":baseui")
 
     testImplementation project(path: ":test-tools")

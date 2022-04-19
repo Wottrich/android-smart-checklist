@@ -1,6 +1,6 @@
 package github.io.wottrich.checklist.presentation.viewmodel
 
-import github.io.wottrich.checklist.domain.usecase.GetAddChecklistUseCase
+import github.io.wottrich.checklist.domain.usecase.AddChecklistUseCase
 import github.io.wottrich.test.tools.BaseUnitTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -15,14 +15,14 @@ class ChecklistNameViewModelTest : BaseUnitTest() {
 
     private lateinit var sut: ChecklistNameViewModel
 
-    private lateinit var getAddChecklistUseCase: GetAddChecklistUseCase
+    private lateinit var addChecklistUseCase: AddChecklistUseCase
 
     @Before
     override fun setUp() {
-        getAddChecklistUseCase = mockk()
+        addChecklistUseCase = mockk()
         sut = ChecklistNameViewModel(
             coroutinesTestRule.dispatchers,
-            getAddChecklistUseCase
+            addChecklistUseCase
         )
     }
 
@@ -50,12 +50,12 @@ class ChecklistNameViewModelTest : BaseUnitTest() {
     fun `GIVEN item id not null WHEN on confirm button is clicked THEN create checklist must be called`() = runBlockingUnitTest {
         val expectedChecklistId = 0L
         val expectedName = "Name test"
-        coEvery { getAddChecklistUseCase.invoke(any()) } returns expectedChecklistId
+        coEvery { addChecklistUseCase.invoke(any()) } returns expectedChecklistId
 
         sut.onTextChange(expectedName)
         sut.onConfirmButtonClicked()
 
-        coVerify(exactly = 1) { getAddChecklistUseCase.invoke(expectedName) }
+        coVerify(exactly = 1) { addChecklistUseCase.invoke(expectedName) }
 
         val value = sut.effects.firstOrNull() as? ChecklistNameUiEffects.NextScreen
         assertNotNull(value)
@@ -66,12 +66,12 @@ class ChecklistNameViewModelTest : BaseUnitTest() {
     fun `GIVEN item id null WHEN on confirm button is clicked THEN effects must notify invalid actions`() = runBlockingUnitTest {
         val expectedChecklistId = 0L
         val expectedName = "Name test"
-        coEvery { getAddChecklistUseCase.invoke(any()) } returns expectedChecklistId
+        coEvery { addChecklistUseCase.invoke(any()) } returns expectedChecklistId
 
         sut.onTextChange(expectedName)
         sut.onConfirmButtonClicked()
 
-        coVerify(exactly = 1) { getAddChecklistUseCase.invoke(expectedName) }
+        coVerify(exactly = 1) { addChecklistUseCase.invoke(expectedName) }
 
         val value = sut.effects.firstOrNull() as? ChecklistNameUiEffects.NextScreen
         assertNotNull(value)

@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="github.io.wottrich.impl"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest package="github.io.wottrich.impl">
 
     <application>
-        <activity android:name="github.io.wottrich.checklist.presentation.activity.NewChecklistActivity"
-            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>
