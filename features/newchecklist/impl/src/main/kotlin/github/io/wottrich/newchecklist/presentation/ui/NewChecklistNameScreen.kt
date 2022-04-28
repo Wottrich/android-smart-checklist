@@ -2,6 +2,7 @@ package github.io.wottrich.newchecklist.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -29,7 +30,6 @@ import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiEff
 import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiEffect.InvalidChecklistState
 import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiState
 import github.io.wottrich.newchecklist.presentation.viewmodels.NewChecklistNameViewModel
-import kotlinx.coroutines.flow.collect
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.Dimens.BaseFour
@@ -63,6 +63,7 @@ fun NewChecklistNameScreen(
             )
             Screen(
                 state = state,
+                contentPaddingValues = it,
                 onTextFieldValueChange = {
                     viewModel.onTextChange(it)
                 },
@@ -77,6 +78,7 @@ fun NewChecklistNameScreen(
 @Composable
 private fun Screen(
     state: NewChecklistNameUiState,
+    contentPaddingValues: PaddingValues,
     onTextFieldValueChange: (String) -> Unit,
     onDoneButtonClicked: () -> Unit
 ) {
@@ -84,6 +86,7 @@ private fun Screen(
     Column(
         modifier = Modifier
             .fillMaxHeight()
+            .padding(contentPaddingValues)
             .padding(all = BaseFour.SizeThree)
     ) {
         Column(
@@ -91,20 +94,11 @@ private fun Screen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-//            TextOneLine(
-//                primary = {
-//                    Text(text = stringResource(id = R.string.checklist_name_screen_type_checklist_name_hint))
-//                }
-//            )
-//
-//            Spacer(modifier = Modifier.height(BaseFour.SizeTwo))
-
             TextField(
                 value = state.checklistName,
                 onValueChange = onTextFieldValueChange,
                 modifier = Modifier.fillMaxWidth(),
                 placeholder = {
-//                    Text(text = stringResource(id = R.string.checklist_name_screen_example_hint))
                     Text(text = stringResource(id = R.string.checklist_name_screen_type_checklist_name_hint))
                 },
                 colors = defaultOutlinedTextFieldColors()

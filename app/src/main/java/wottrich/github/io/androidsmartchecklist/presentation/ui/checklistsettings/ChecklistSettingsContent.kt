@@ -30,7 +30,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.FlowCollector
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.androidsmartchecklist.R
@@ -69,6 +70,7 @@ private fun ScreenAndEffects(
     Screen(onCloseScreen, viewModel)
 }
 
+@OptIn(InternalCoroutinesApi::class)
 @Composable
 private fun Effects(
     viewModel: ChecklistSettingsViewModel,
@@ -76,11 +78,13 @@ private fun Effects(
 ) {
     val effects = viewModel.uiEffect
     LaunchedEffect(key1 = effects) {
-        effects.collect {
-            when (it) {
-                CloseScreen -> onCloseScreen()
+        effects.collect(
+            FlowCollector {
+                when (it) {
+                    CloseScreen -> onCloseScreen()
+                }
             }
-        }
+        )
     }
 }
 
@@ -103,7 +107,9 @@ private fun Screen(
         }
     ) {
         val state by viewModel.uiState.collectAsState()
-        Column {
+        Column(
+            modifier = Modifier.padding(it)
+        ) {
             Column(
                 modifier = Modifier
                     .weight(1f)

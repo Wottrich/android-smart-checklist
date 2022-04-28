@@ -1,7 +1,8 @@
 package github.io.wottrich.checklist.domain.usecase
 
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import wottrich.github.io.datasource.dao.ChecklistDao
 import wottrich.github.io.datasource.entity.ChecklistWithTasks
@@ -16,20 +17,23 @@ import wottrich.github.io.datasource.entity.ChecklistWithTasks
  */
 
 class GetSelectedChecklistUseCase(private val checklistDao: ChecklistDao) {
+    @OptIn(InternalCoroutinesApi::class)
     suspend operator fun invoke(): Flow<ChecklistWithTasks?> {
         return flow {
-            checklistDao.observeSelectedChecklistWithTasks(true).collect {
-                var selectedChecklist = it.firstOrNull()
-                if (selectedChecklist == null) {
-                    selectedChecklist = checklistDao.selectAllChecklistWithTasks().firstOrNull()
-                    if (selectedChecklist != null) {
-                        val checklist = selectedChecklist.checklist
-                        checklist.isSelected = true
-                        checklistDao.update(checklist)
+            checklistDao.observeSelectedChecklistWithTasks(true).collect(
+                FlowCollector<List<ChecklistWithTasks>> { value ->
+                    var selectedChecklist = value.firstOrNull()
+                    if (selectedChecklist == null) {
+                        selectedChecklist = checklistDao.selectAllChecklistWithTasks().firstOrNull()
+                        if (selectedChecklist != null) {
+                            val checklist = selectedChecklist.checklist
+                            checklist.isSelected = true
+                            checklistDao.update(checklist)
+                        }
                     }
+                    emit(selectedChecklist)
                 }
-                emit(selectedChecklist)
-            }
+            )
         }
     }
 }
