@@ -6,7 +6,6 @@ import github.io.wottrich.checklist.domain.usecase.UpdateSelectedChecklistUseCas
 import github.io.wottrich.test.tools.BaseUnitTest
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertTrue
@@ -16,6 +15,7 @@ import org.junit.Test
 import wottrich.github.io.datasource.entity.Checklist
 import wottrich.github.io.datasource.entity.ChecklistWithTasks
 import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.tools.base.successEmptyResult
 
 class HomeDrawerViewModelTest : BaseUnitTest() {
 
@@ -103,17 +103,17 @@ class HomeDrawerViewModelTest : BaseUnitTest() {
     }
 
     private fun mockGetChecklistWithTaskUseCase() {
-        every { getChecklistWithTaskUseCase.invoke() } returns flow {
-            emit(dummyListOfChecklistWithTasks)
+        coEvery { getChecklistWithTaskUseCase.invoke() } returns flow {
+            emit(Result.success(dummyListOfChecklistWithTasks))
         }
     }
 
     private fun mockGetUpdateSelectedChecklistUseCase(checklist: Checklist) {
-        coEvery { updateSelectedChecklistUseCase.invoke(checklist) } returns Unit
+        coEvery { updateSelectedChecklistUseCase.invoke(checklist) } returns successEmptyResult()
     }
 
     private fun mockGetDeleteChecklistUseCase(checklist: Checklist) {
-        coEvery { deleteChecklistUseCase.invoke(checklist) } returns Unit
+        coEvery { deleteChecklistUseCase.invoke(checklist) } returns successEmptyResult()
     }
 
 

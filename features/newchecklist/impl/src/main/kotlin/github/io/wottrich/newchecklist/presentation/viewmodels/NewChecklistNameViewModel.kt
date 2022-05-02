@@ -40,7 +40,7 @@ class NewChecklistNameViewModel(
         launchIO {
             val checklistName = state.value.checklistName
             val newChecklist = Checklist(name = checklistName)
-            val itemId = addNewChecklistUseCase(newChecklist)
+            val itemId = addNewChecklistUseCase(newChecklist).getOrNull()
             val checklistWithId = newChecklist.copy(checklistId = itemId)
             updateSelectedChecklistUseCase(checklistWithId)
             if (itemId != null) {

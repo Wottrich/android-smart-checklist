@@ -39,14 +39,12 @@ class CoroutinesTestRule(
         Dispatchers.setMain(testDispatchers)
     }
 
-    @ExperimentalCoroutinesApi
     override fun finished(description: Description?) {
         super.finished(description)
         Dispatchers.resetMain()
         testDispatchers.cleanupTestCoroutines()
     }
 
-    @ExperimentalCoroutinesApi
     fun runBlockingUnitTest(block: suspend TestCoroutineScope.() -> Unit) =
         testDispatchers.runBlockingTest(block)
 

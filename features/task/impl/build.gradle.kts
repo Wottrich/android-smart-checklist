@@ -39,6 +39,8 @@ dependencies {
 
     kotlinAndCoreKtx()
 
+    moduleTools()
+
     implementation(project(path = ":features:task:public"))
     implementation(project(path = ":baseui"))
     implementation(project(path = ":datasource"))

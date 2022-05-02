@@ -4,7 +4,9 @@ import androidx.lifecycle.viewModelScope
 import github.io.wottrich.checklist.domain.usecase.DeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.usecase.GetChecklistWithTaskUseCase
 import github.io.wottrich.checklist.domain.usecase.UpdateSelectedChecklistUseCase
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -25,6 +27,7 @@ import wottrich.github.io.tools.dispatcher.DispatchersProviders
  *
  */
 
+@OptIn(InternalCoroutinesApi::class)
 class HomeDrawerViewModel(
     dispatchers: DispatchersProviders,
     private val getChecklistWithTaskUseCase: GetChecklistWithTaskUseCase,
@@ -41,9 +44,13 @@ class HomeDrawerViewModel(
 
     init {
         viewModelScope.launch(dispatchers.io) {
-            getChecklistWithTaskUseCase().collect {
-                _drawerStateFlow.value = HomeDrawerState.Content(it)
-            }
+            getChecklistWithTaskUseCase().collect(
+                FlowCollector {
+                    it.onSuccess {
+                        _drawerStateFlow.value = HomeDrawerState.Content(it)
+                    }
+                }
+            )
         }
     }
 

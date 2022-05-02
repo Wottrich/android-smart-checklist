@@ -6,6 +6,9 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import wottrich.github.io.datasource.dao.ChecklistDao
 import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.tools.base.FlowableUseCase
+import wottrich.github.io.tools.base.UseCase
+import wottrich.github.io.tools.base.UseCase.None
 
 /**
  * @author Wottrich
@@ -16,9 +19,9 @@ import wottrich.github.io.datasource.entity.ChecklistWithTasks
  *
  */
 
-class GetSelectedChecklistUseCase(private val checklistDao: ChecklistDao) {
+class GetSelectedChecklistUseCase(private val checklistDao: ChecklistDao) : FlowableUseCase<UseCase.None, ChecklistWithTasks?>() {
     @OptIn(InternalCoroutinesApi::class)
-    suspend operator fun invoke(): Flow<ChecklistWithTasks?> {
+    override suspend fun execute(params: None): Flow<Result<ChecklistWithTasks?>> {
         return flow {
             checklistDao.observeSelectedChecklistWithTasks(true).collect(
                 FlowCollector<List<ChecklistWithTasks>> { value ->
@@ -31,7 +34,7 @@ class GetSelectedChecklistUseCase(private val checklistDao: ChecklistDao) {
                             checklistDao.update(checklist)
                         }
                     }
-                    emit(selectedChecklist)
+                    emit(Result.success(selectedChecklist))
                 }
             )
         }

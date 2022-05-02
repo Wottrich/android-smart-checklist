@@ -50,7 +50,7 @@ class ChecklistNameViewModelTest : BaseUnitTest() {
     fun `GIVEN item id not null WHEN on confirm button is clicked THEN create checklist must be called`() = runBlockingUnitTest {
         val expectedChecklistId = 0L
         val expectedName = "Name test"
-        coEvery { addChecklistUseCase.invoke(any()) } returns expectedChecklistId
+        coEvery { addChecklistUseCase.invoke(any()) } returns Result.success(expectedChecklistId)
 
         sut.onTextChange(expectedName)
         sut.onConfirmButtonClicked()
@@ -66,7 +66,7 @@ class ChecklistNameViewModelTest : BaseUnitTest() {
     fun `GIVEN item id null WHEN on confirm button is clicked THEN effects must notify invalid actions`() = runBlockingUnitTest {
         val expectedChecklistId = 0L
         val expectedName = "Name test"
-        coEvery { addChecklistUseCase.invoke(any()) } returns expectedChecklistId
+        coEvery { addChecklistUseCase.invoke(any()) } returns Result.success(expectedChecklistId)
 
         sut.onTextChange(expectedName)
         sut.onConfirmButtonClicked()

@@ -1,6 +1,6 @@
 object Versions {
 
-    const val kotlinVersion = "1.6.10"
+    const val kotlinVersion = "1.6.20"
     const val coreKtxVersion = "1.7.0"
     const val coroutinesVersion = "1.5.2"
 
@@ -11,7 +11,7 @@ object Versions {
     const val koinVersion = "3.1.5"
 
     //Compose
-    const val composeVersion = "1.2.0-alpha07"
+    const val composeVersion = "1.2.0-alpha08"
     const val composeActivityVersion = "1.3.1"
     const val composeNavigationVersion = "2.5.0-alpha04"
     const val composeNavigationAnimationAccompanistVersion = "0.22.0-rc"

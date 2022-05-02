@@ -3,7 +3,9 @@ package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 import androidx.compose.runtime.mutableStateListOf
 import github.io.wottrich.checklist.domain.usecase.DeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.usecase.GetSelectedChecklistUseCase
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,6 +28,7 @@ import wottrich.github.io.tools.dispatcher.DispatchersProviders
  *
  */
 
+@OptIn(InternalCoroutinesApi::class)
 class HomeViewModel(
     dispatchers: DispatchersProviders,
     private val getSelectedChecklistUseCase: GetSelectedChecklistUseCase,
@@ -48,13 +51,16 @@ class HomeViewModel(
 
     init {
         launchIO {
-            getSelectedChecklistUseCase().collect { selectedChecklist ->
-                handleSelectedChecklist(selectedChecklist)
-                withContext(dispatchers.main) {
-                    tasks.clear()
-                    tasks.addAll(selectedChecklist?.tasks.orEmpty())
+            getSelectedChecklistUseCase().collect(
+                FlowCollector { selectedChecklistResult ->
+                    val selectedChecklist = selectedChecklistResult.getOrNull()
+                    handleSelectedChecklist(selectedChecklist)
+                    withContext(dispatchers.main) {
+                        tasks.clear()
+                        tasks.addAll(selectedChecklist?.tasks.orEmpty())
+                    }
                 }
-            }
+            )
         }
 
         launchIO {
@@ -146,7 +152,7 @@ class HomeViewModel(
     private suspend fun handleAddNewTaskAction(taskName: String) {
         val checklistId = homeStateFlow.value.checklistWithTasks?.checklist?.checklistId
         checklistId?.let {
-            getAddTaskUseCase(it, taskName)
+            getAddTaskUseCase(GetAddTaskUseCase.Params(checklistId = it, taskName = taskName))
         }
     }
 

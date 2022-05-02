@@ -2,10 +2,18 @@ package wottrich.github.io.impl.domain.usecase
 
 import wottrich.github.io.datasource.dao.TaskDao
 import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.impl.domain.usecase.ChangeTasksCompletedStatusUseCase.Params
+import wottrich.github.io.tools.base.KotlinResultUseCase
+import wottrich.github.io.tools.base.UseCase
+import wottrich.github.io.tools.base.UseCase.Empty
+import wottrich.github.io.tools.base.successEmptyResult
 
-class ChangeTasksCompletedStatusUseCase(private val taskDao: TaskDao) {
-    suspend operator fun invoke(tasks: List<Task>, isCompleted: Boolean) {
-        val tasksToUpdate = tasks.map { it.copy(isCompleted = isCompleted) }
+class ChangeTasksCompletedStatusUseCase(private val taskDao: TaskDao) : KotlinResultUseCase<Params, UseCase.Empty>() {
+    override suspend fun execute(params: Params): Result<Empty> {
+        val tasksToUpdate = params.tasks.map { it.copy(isCompleted = params.isCompleted) }
         taskDao.updateTasks(tasksToUpdate)
+        return successEmptyResult()
     }
+
+    data class Params(val tasks: List<Task>, val isCompleted: Boolean)
 }

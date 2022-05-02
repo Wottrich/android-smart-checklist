@@ -30,6 +30,8 @@ object Libs {
     const val composeMaterial = "androidx.compose.material:material:${Versions.composeVersion}"
     const val composeActivity =
         "androidx.activity:activity-compose:${Versions.composeActivityVersion}"
+    const val composeCompiler = "androidx.compose.compiler:compiler:${Versions.composeVersion}"
+
     const val placeholder =
         "com.google.accompanist:accompanist-placeholder:${Versions.accompanistVersion}"
     const val systemUiControllerAccompanist =
@@ -83,6 +85,7 @@ fun DependencyHandlerScope.composeUi() {
     "implementation"(Libs.composeRuntime)
     "implementation"(Libs.composeMaterial)
     "implementation"(Libs.composeActivity)
+    "implementation"(Libs.composeCompiler)
     "implementation"(Libs.placeholder)
 }
 

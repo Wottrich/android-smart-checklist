@@ -50,10 +50,12 @@ class ChecklistSettingsViewModel(
 
     fun onConfirmClicked() {
         launchIO {
-            val tasks = getTasksUseCase(checklistId)
+            val tasks = getTasksUseCase(checklistId).getOrNull().orEmpty()
             changeTasksCompletedStatusUseCase(
-                tasks = tasks,
-                isCompleted = uiState.value.allTasksAction == CHECK_ALL
+                ChangeTasksCompletedStatusUseCase.Params(
+                    tasks = tasks,
+                    isCompleted = uiState.value.allTasksAction == CHECK_ALL
+                )
             )
             _uiEffect.emit(ChecklistSettingUiEffect.CloseScreen)
         }

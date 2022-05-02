@@ -2,6 +2,7 @@ package github.io.wottrich.checklist.domain.usecase
 
 import wottrich.github.io.datasource.dao.ChecklistDao
 import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.tools.base.KotlinResultUseCase
 
 /**
  * @author Wottrich
@@ -12,8 +13,12 @@ import wottrich.github.io.datasource.entity.Checklist
  *
  */
 
-class AddChecklistUseCase(private val checklistDao: ChecklistDao) {
-    suspend operator fun invoke(checklistName: String): Long? {
-        return checklistDao.insert(Checklist(name = checklistName))
+class AddChecklistUseCase(private val checklistDao: ChecklistDao) : KotlinResultUseCase<String, Long?>() {
+    override suspend fun execute(params: String): Result<Long?> {
+        return try {
+            Result.success(checklistDao.insert(Checklist(name = params)))
+        } catch (ex: Exception) {
+            Result.failure(ex)
+        }
     }
 }

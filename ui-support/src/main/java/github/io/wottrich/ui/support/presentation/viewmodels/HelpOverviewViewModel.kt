@@ -16,8 +16,11 @@ class HelpOverviewViewModel(
     val uiState = _uiState.asStateFlow()
 
     init {
-        val items = getHelpOverviewItemsUseCase()
-        _uiState.value = uiState.value.copy(helpItems = items)
+        launchIO {
+            getHelpOverviewItemsUseCase().onSuccess { items ->
+                _uiState.value = uiState.value.copy(helpItems = items)
+            }
+        }
     }
 }
 

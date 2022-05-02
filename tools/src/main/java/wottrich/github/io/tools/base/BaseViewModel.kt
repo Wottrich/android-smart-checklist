@@ -7,6 +7,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.launch
+import org.koin.core.context.GlobalContext
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
@@ -19,7 +20,7 @@ import wottrich.github.io.tools.dispatcher.DispatchersProviders
  */
 
 abstract class BaseViewModel(
-    private val dispatchersProviders: DispatchersProviders
+    private val dispatchersProviders: DispatchersProviders = GlobalContext.get().get()
 ) : ViewModel() {
 
     fun io() = viewModelScope.coroutineContext + dispatchersProviders.io

@@ -39,6 +39,7 @@ dependencies {
 
     kotlinAndCoreKtx()
     moduleTools()
+    composeUi()
     coroutines()
     unitTest(true)
     instrumentalTest(true)
