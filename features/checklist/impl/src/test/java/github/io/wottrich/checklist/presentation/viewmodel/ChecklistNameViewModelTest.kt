@@ -10,6 +10,7 @@ import junit.framework.Assert.assertNotNull
 import kotlinx.coroutines.flow.firstOrNull
 import org.junit.Before
 import org.junit.Test
+import wottrich.github.io.tools.base.Result
 
 class ChecklistNameViewModelTest : BaseUnitTest() {
 
@@ -19,7 +20,7 @@ class ChecklistNameViewModelTest : BaseUnitTest() {
 
     @Before
     override fun setUp() {
-        addChecklistUseCase = mockk()
+        addChecklistUseCase = mockk(relaxed = true)
         sut = ChecklistNameViewModel(
             coroutinesTestRule.dispatchers,
             addChecklistUseCase
@@ -51,6 +52,9 @@ class ChecklistNameViewModelTest : BaseUnitTest() {
         val expectedChecklistId = 0L
         val expectedName = "Name test"
         coEvery { addChecklistUseCase.invoke(any()) } returns Result.success(expectedChecklistId)
+
+        val value1 = addChecklistUseCase("value")
+        println(value1)
 
         sut.onTextChange(expectedName)
         sut.onConfirmButtonClicked()

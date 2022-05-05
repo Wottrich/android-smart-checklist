@@ -44,6 +44,7 @@ dependencies {
     implementation(project(path = ":features:task:public"))
     implementation(project(path = ":baseui"))
     implementation(project(path = ":datasource"))
+    testImplementation(project(path = ":test-tools"))
 
     composeUi()
 

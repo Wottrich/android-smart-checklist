@@ -3,6 +3,7 @@ package github.io.wottrich.ui.support.domain
 import github.io.wottrich.ui.support.R
 import github.io.wottrich.ui.support.data.HelpOverviewItem
 import wottrich.github.io.tools.base.KotlinResultUseCase
+import wottrich.github.io.tools.base.Result
 import wottrich.github.io.tools.base.UseCase
 import wottrich.github.io.tools.base.UseCase.None
 

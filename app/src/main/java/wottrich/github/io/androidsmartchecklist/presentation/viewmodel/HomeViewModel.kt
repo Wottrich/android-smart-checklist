@@ -151,8 +151,13 @@ class HomeViewModel(
 
     private suspend fun handleAddNewTaskAction(taskName: String) {
         val checklistId = homeStateFlow.value.checklistWithTasks?.checklist?.checklistId
-        checklistId?.let {
-            getAddTaskUseCase(GetAddTaskUseCase.Params(checklistId = it, taskName = taskName))
+        if (checklistId != null) {
+            getAddTaskUseCase(
+                GetAddTaskUseCase.Params(
+                    checklistId = checklistId,
+                    taskName = taskName
+                )
+            )
         }
     }
 
