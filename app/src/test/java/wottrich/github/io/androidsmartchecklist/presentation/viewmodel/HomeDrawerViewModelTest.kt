@@ -15,6 +15,7 @@ import org.junit.Test
 import wottrich.github.io.datasource.entity.Checklist
 import wottrich.github.io.datasource.entity.ChecklistWithTasks
 import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.tools.base.Result
 import wottrich.github.io.tools.base.successEmptyResult
 
 class HomeDrawerViewModelTest : BaseUnitTest() {
