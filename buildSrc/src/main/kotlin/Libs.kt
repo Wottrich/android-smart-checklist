@@ -22,6 +22,7 @@ object Libs {
     const val insertKoinAndroid = "io.insert-koin:koin-android:${Versions.koinVersion}"
     const val insertKoinAndroidCompose =
         "io.insert-koin:koin-androidx-compose:${Versions.koinVersion}"
+    const val insertKoinTest = "io.insert-koin:koin-test:${Versions.koinVersion}"
 
     //Compose
     const val composeUi = "androidx.compose.ui:ui:${Versions.composeVersion}"
@@ -112,6 +113,7 @@ fun DependencyHandlerScope.unitTest(asImplementation: Boolean = false) {
     expression(Libs.mockK)
     expression(Libs.coreTesting)
     expression(Libs.junit)
+    expression(Libs.insertKoinTest)
 }
 
 fun DependencyHandlerScope.instrumentalTest(asImplementation: Boolean = true) {
