@@ -53,9 +53,6 @@ class ChecklistNameViewModelTest : BaseUnitTest() {
         val expectedName = "Name test"
         coEvery { addChecklistUseCase.invoke(any()) } returns Result.success(expectedChecklistId)
 
-        val value1 = addChecklistUseCase("value")
-        println(value1)
-
         sut.onTextChange(expectedName)
         sut.onConfirmButtonClicked()
 

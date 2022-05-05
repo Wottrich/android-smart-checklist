@@ -55,7 +55,7 @@ class GetChecklistWithTaskUseCaseTest : BaseUnitTest() {
 
         sut().collect(
             FlowCollector {
-                assertEquals(expectedList, it)
+                assertEquals(expectedList, it.getOrNull())
             }
         )
         verify { checklistDao.observeChecklistsWithTaskUpdate() }

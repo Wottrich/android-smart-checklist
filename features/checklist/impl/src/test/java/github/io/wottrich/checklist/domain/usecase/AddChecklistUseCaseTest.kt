@@ -35,7 +35,7 @@ class AddChecklistUseCaseTest : BaseUnitTest() {
         val expectedNameInsert = "Lucas"
         coEvery { checklistDao.insert(any()) } returns expectedItemId
 
-        val itemId = sut(expectedNameInsert)
+        val itemId = sut(expectedNameInsert).getOrNull()
 
         assertEquals(expectedItemId, itemId)
         coVerify(exactly = 1) { checklistDao.insert(any()) }

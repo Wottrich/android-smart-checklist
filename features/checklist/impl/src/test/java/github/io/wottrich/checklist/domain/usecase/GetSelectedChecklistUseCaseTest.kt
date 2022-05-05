@@ -63,8 +63,8 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
 
             sut().collect(
                 FlowCollector {
-                    assertNotNull(it)
-                    assertEquals(expectedSelectedChecklist, it)
+                    assertNotNull(it.getOrNull())
+                    assertEquals(expectedSelectedChecklist, it.getOrNull())
                 }
             )
 
@@ -94,8 +94,8 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
 
             sut().collect(
                 FlowCollector {
-                    assertNotNull(it)
-                    assertEquals(expectedSelectedChecklist, it)
+                    assertNotNull(it.getOrNull())
+                    assertEquals(expectedSelectedChecklist, it.getOrNull())
                 }
             )
 
@@ -116,7 +116,7 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
 
             sut().collect(
                 FlowCollector {
-                    assertNull(it)
+                    assertNull(it.getOrNull())
                 }
             )
 
