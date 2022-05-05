@@ -56,7 +56,7 @@ abstract class FlowableUseCase<Params, ReturnType>(
 
 abstract class KotlinResultUseCase<Params, ReturnType>(
     private val appDispatchersProviders: DispatchersProviders = GlobalContext.get().get()
-) : UseCase<Params, Result<ReturnType>> {
+) : UseCase<Params, Result<ReturnType>> where ReturnType : Any? {
 
     @Suppress("UNCHECKED_CAST")
     override suspend operator fun invoke(params: Params): Result<ReturnType> {
@@ -71,13 +71,15 @@ abstract class KotlinResultUseCase<Params, ReturnType>(
     private suspend fun invokeImpl(params: Params): Result<ReturnType> {
         return appendRequestInAsyncThread {
             try {
-                if (params == null) {
-                    throw Exception("params is requested")
-                }
+                if (params == null) { throw Exception("params is requested") }
                 val result = execute(params)
-                postResultInSaveThread { result }
+                postResultInSaveThread {
+                    result
+                }
             } catch (ex: Exception) {
-                postResultInSaveThread { Result.failure(ex) }
+                postResultInSaveThread {
+                    Result.failure(ex)
+                }
             }
         }
     }
@@ -93,7 +95,6 @@ abstract class KotlinResultUseCase<Params, ReturnType>(
             block.invoke(this)
         }
     }
-
 }
 
 fun successEmptyResult(): Result<Empty> = Result.success(Empty())

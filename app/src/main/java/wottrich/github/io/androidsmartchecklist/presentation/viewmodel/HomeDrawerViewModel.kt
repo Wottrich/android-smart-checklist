@@ -16,6 +16,7 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawe
 import wottrich.github.io.datasource.entity.ChecklistWithTasks
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
+import wottrich.github.io.tools.base.onSuccess
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
