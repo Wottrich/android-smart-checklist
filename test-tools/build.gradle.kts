@@ -41,6 +41,7 @@ dependencies {
     moduleTools()
     composeUi()
     coroutines()
+    koin()
     unitTest(true)
     instrumentalTest(true)
 

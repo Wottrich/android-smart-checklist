@@ -15,8 +15,10 @@ import org.junit.Rule
  *
  */
 
+private val MAIN_INJECTION_RULE = KoinTestRule()
+
 @OptIn(ExperimentalCoroutinesApi::class)
-abstract class BaseUnitTest {
+abstract class BaseUnitTest(injectionTestRuleImpl: InjectionTestRule = MAIN_INJECTION_RULE) {
 
     @Before
     open fun setUp() {}
@@ -27,6 +29,9 @@ abstract class BaseUnitTest {
 
     @get:Rule
     val coroutinesTestRule = CoroutinesTestRule()
+
+    @get:Rule
+    val injectionTestRule = injectionTestRuleImpl
 
     fun runBlockingUnitTest(block: suspend TestCoroutineScope.() -> Unit) =
         coroutinesTestRule.runBlockingUnitTest(block)
