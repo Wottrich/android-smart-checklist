@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="checklist_name_screen_type_checklist_name_hint">Escolha o nome para sua checklist</string>
+    <string name="checklist_name_create_checklist_button">Pronto</string>
+</resources>

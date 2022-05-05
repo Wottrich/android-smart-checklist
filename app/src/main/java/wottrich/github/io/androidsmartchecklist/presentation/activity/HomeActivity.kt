@@ -16,7 +16,8 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import github.io.wottrich.checklist.presentation.activity.NewChecklistActivity
+import github.io.wottrich.newchecklist.navigation.NavigatorNewChecklist
+import github.io.wottrich.newchecklist.navigation.newChecklistNavigation
 import github.io.wottrich.ui.aboutus.data.model.AboutUsContentModel
 import github.io.wottrich.ui.aboutus.presentation.ui.AboutUsScreen
 import github.io.wottrich.ui.support.navigation.NavigationSupport
@@ -24,6 +25,7 @@ import github.io.wottrich.ui.support.navigation.supportNavigation
 import kotlinx.coroutines.InternalCoroutinesApi
 import wottrich.github.io.androidsmartchecklist.BuildConfig
 import wottrich.github.io.androidsmartchecklist.presentation.activity.NavigationHome.Destinations
+import wottrich.github.io.androidsmartchecklist.presentation.ui.StatusBarColor
 import wottrich.github.io.androidsmartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.androidsmartchecklist.presentation.ui.content.HomeScreen
 import wottrich.github.io.baseui.navigation.defaultComposableAnimation
@@ -40,6 +42,7 @@ class HomeActivity : AppCompatActivity() {
         setContent {
             val navController = rememberAnimatedNavController()
             AppNavigator(navHostController = navController)
+            StatusBarColor()
         }
     }
 
@@ -50,6 +53,7 @@ class HomeActivity : AppCompatActivity() {
             startDestination = NavigationHome.route,
             builder = {
                 homeNavigation(navHostController)
+                newChecklistNavigation(navHostController)
                 supportNavigation(navHostController)
             }
         )
@@ -64,7 +68,9 @@ class HomeActivity : AppCompatActivity() {
                 route = Destinations.HomeScreen.route
             ) {
                 HomeScreen(
-                    onAddNewChecklist = ::startNewChecklistActivity,
+                    onAddNewChecklist = {
+                        navHostController.navigate(NavigatorNewChecklist.route)
+                    },
                     onCopyChecklist = ::shareIntentText,
                     onChecklistSettings = {
                         val route =
@@ -110,10 +116,6 @@ class HomeActivity : AppCompatActivity() {
                 )
             }
         }
-    }
-
-    private fun startNewChecklistActivity() {
-        NewChecklistActivity.launch(this)
     }
 
     private fun openPlayStore() {

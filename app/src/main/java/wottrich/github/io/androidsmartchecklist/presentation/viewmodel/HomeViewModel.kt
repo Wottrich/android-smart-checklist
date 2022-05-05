@@ -1,19 +1,20 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
 import androidx.compose.runtime.mutableStateListOf
-import github.io.wottrich.checklist.domain.usecase.GetDeleteChecklistUseCase
+import github.io.wottrich.checklist.domain.usecase.DeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.usecase.GetSelectedChecklistUseCase
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.withContext
-import wottrich.github.io.database.entity.ChecklistWithTasks
-import wottrich.github.io.database.entity.Task
-import wottrich.github.io.publicandroid.domain.usecase.GetAddTaskUseCase
-import wottrich.github.io.publicandroid.domain.usecase.GetChangeTaskStatusUseCase
-import wottrich.github.io.publicandroid.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase
+import wottrich.github.io.impl.domain.usecase.GetChangeTaskStatusUseCase
+import wottrich.github.io.impl.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
@@ -27,10 +28,11 @@ import wottrich.github.io.tools.dispatcher.DispatchersProviders
  *
  */
 
+@OptIn(InternalCoroutinesApi::class)
 class HomeViewModel(
     dispatchers: DispatchersProviders,
     private val getSelectedChecklistUseCase: GetSelectedChecklistUseCase,
-    private val getDeleteChecklistUseCase: GetDeleteChecklistUseCase,
+    private val deleteChecklistUseCase: DeleteChecklistUseCase,
     private val getAddTaskUseCase: GetAddTaskUseCase,
     private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
     private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
@@ -49,13 +51,16 @@ class HomeViewModel(
 
     init {
         launchIO {
-            getSelectedChecklistUseCase().collect { selectedChecklist ->
-                handleSelectedChecklist(selectedChecklist)
-                withContext(dispatchers.main) {
-                    tasks.clear()
-                    tasks.addAll(selectedChecklist?.tasks.orEmpty())
+            getSelectedChecklistUseCase().collect(
+                FlowCollector { selectedChecklistResult ->
+                    val selectedChecklist = selectedChecklistResult.getOrNull()
+                    handleSelectedChecklist(selectedChecklist)
+                    withContext(dispatchers.main) {
+                        tasks.clear()
+                        tasks.addAll(selectedChecklist?.tasks.orEmpty())
+                    }
                 }
-            }
+            )
         }
 
         launchIO {
@@ -146,8 +151,13 @@ class HomeViewModel(
 
     private suspend fun handleAddNewTaskAction(taskName: String) {
         val checklistId = homeStateFlow.value.checklistWithTasks?.checklist?.checklistId
-        checklistId?.let {
-            getAddTaskUseCase(it, taskName)
+        if (checklistId != null) {
+            getAddTaskUseCase(
+                GetAddTaskUseCase.Params(
+                    checklistId = checklistId,
+                    taskName = taskName
+                )
+            )
         }
     }
 
@@ -174,7 +184,7 @@ class HomeViewModel(
     private fun handleDeleteChecklistAction() {
         launchIO {
             homeStateFlow.value.checklistWithTasks?.checklist?.let {
-                getDeleteChecklistUseCase(it)
+                deleteChecklistUseCase(it)
                 _uiEffects.emit(HomeUiEffects.SnackbarChecklistDelete)
             }
         }

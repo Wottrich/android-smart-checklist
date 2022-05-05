@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
  *
  */
  
-object AppDispatcher : DispatchersProviders {
+    object AppDispatcher : DispatchersProviders {
     override val main: CoroutineDispatcher = Dispatchers.Main
     override val io: CoroutineDispatcher = Dispatchers.IO
 }

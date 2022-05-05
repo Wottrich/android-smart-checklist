@@ -17,7 +17,6 @@ import androidx.compose.material.Divider
 import androidx.compose.material.Icon
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.font.FontWeight.Companion
 import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.ListItem
@@ -33,8 +31,8 @@ import wottrich.github.io.baseui.ui.ListItemEndTextContent
 import wottrich.github.io.baseui.ui.ListItemStartTextContent
 import wottrich.github.io.baseui.ui.RowDefaults
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
-import wottrich.github.io.database.entity.Checklist
-import wottrich.github.io.database.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.datasource.entity.ChecklistWithTasks
 
 /**
  * @author Wottrich

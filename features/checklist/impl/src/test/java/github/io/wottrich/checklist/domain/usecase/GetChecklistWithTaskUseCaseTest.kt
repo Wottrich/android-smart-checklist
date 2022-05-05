@@ -5,14 +5,15 @@ import io.mockk.coEvery
 import io.mockk.mockk
 import io.mockk.verify
 import junit.framework.Assert.assertEquals
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Test
-import wottrich.github.io.database.dao.ChecklistDao
-import wottrich.github.io.database.entity.Checklist
-import wottrich.github.io.database.entity.ChecklistWithTasks
-import wottrich.github.io.database.entity.Task
+import wottrich.github.io.datasource.dao.ChecklistDao
+import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.Task
 
 /**
  * @author Wottrich
@@ -34,6 +35,7 @@ class GetChecklistWithTaskUseCaseTest : BaseUnitTest() {
         sut = GetChecklistWithTaskUseCase(checklistDao)
     }
 
+    @OptIn(InternalCoroutinesApi::class)
     @Test
     fun `WHEN checklist with task is observed THEN must notify flow`() = runBlockingUnitTest {
         val expectedList = listOf(
@@ -51,9 +53,11 @@ class GetChecklistWithTaskUseCaseTest : BaseUnitTest() {
         }
         coEvery { checklistDao.observeChecklistsWithTaskUpdate() } returns localFlow
 
-        sut().collect {
-            assertEquals(expectedList, it)
-        }
+        sut().collect(
+            FlowCollector {
+                assertEquals(expectedList, it.getOrNull())
+            }
+        )
         verify { checklistDao.observeChecklistsWithTaskUpdate() }
     }
 
