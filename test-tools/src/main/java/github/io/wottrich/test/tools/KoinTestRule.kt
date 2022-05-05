@@ -1,14 +1,12 @@
 package github.io.wottrich.test.tools
 
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import org.koin.core.context.startKoin
 import org.koin.core.context.stopKoin
 import org.koin.dsl.module
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 class KoinTestRule(
-    val testDispatchers: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    val dispatchersProviders: DispatchersProviders
 ) : InjectionTestRule() {
     override fun startInjection() {
         startKoin {
@@ -21,13 +19,6 @@ class KoinTestRule(
     }
 
     private val testModule = module {
-        single<DispatchersProviders> {
-            object : DispatchersProviders {
-                override val main: CoroutineDispatcher
-                    get() = testDispatchers
-                override val io: CoroutineDispatcher
-                    get() = testDispatchers
-            }
-        }
+        single<DispatchersProviders> { dispatchersProviders }
     }
 }
