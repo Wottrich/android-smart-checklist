@@ -1,4 +1,4 @@
-package wottrich.github.io.androidsmartchecklist.presentation.ui
+package github.io.wottrich.common.ui.compose.utils
 
 import androidx.compose.foundation.interaction.Interaction
 import androidx.compose.foundation.interaction.PressInteraction

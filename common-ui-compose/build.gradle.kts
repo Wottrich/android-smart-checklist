@@ -38,6 +38,7 @@ android {
 dependencies {
 
     kotlinAndCoreKtx()
+    implementation(project(path = ":baseui"))
 
     composeUi()
 
