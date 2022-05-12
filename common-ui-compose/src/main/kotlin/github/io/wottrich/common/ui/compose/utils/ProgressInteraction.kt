@@ -72,8 +72,7 @@ private fun onPressInteraction(
     if (pressInteraction is PressInteraction) {
         when (pressInteraction) {
             is Press -> onPress()
-            is Release -> onRelease()
-            else -> Unit
+            else -> onRelease()
         }
     }
 }
