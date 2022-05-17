@@ -7,10 +7,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.ExperimentalMaterialApi
@@ -20,17 +18,15 @@ import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion
 import androidx.compose.ui.layout.onSizeChanged
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
@@ -40,6 +36,7 @@ import wottrich.github.io.baseui.RowComponent
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.icons.DeleteIcon
 import wottrich.github.io.baseui.ui.Dimens
+import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 import wottrich.github.io.datasource.entity.Task
 import wottrich.github.io.impl.R.string
 
@@ -57,32 +54,15 @@ fun TaskItemComponent(
         LocalRippleTheme provides RippleStatusColor(!task.isCompleted)
     ) {
         BoxWithConstraints(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.BaseFour.SizeThree)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = Dimens.BaseFour.SizeThree)
         ) {
-            val boxConstraints = this
-            val interaction = remember { MutableInteractionSource() }
-            val interactions = interaction.interactions
-            val progress by pressProgressionInteractionState(
-                interactions = interactions,
-                initialTimeInMillis = 0,
-                timePressingToFinishInMillis = 500,
-                onFinishTimePressing = { /*onDeleteTask()*/ }
-            )
-            CoreTaskComponent(task, interaction, showDeleteItem, onCheckChange, onDeleteTask)
-            Canvas(
-                modifier = Modifier.height(10.dp),
-                onDraw = {
-
-                    val topLeft = Offset(maxWidth.value * progress, 1f)
-                    println(progress)
-                    println(maxWidth.value * progress)
-                    drawRoundRect(
-                        color = Color.Red,
-                        topLeft = topLeft,
-                        size = Size(this.size.width - topLeft.x, this.size.height - topLeft.y),
-                        cornerRadius = CornerRadius(8f, 8f)
-                    )
-                }
+            CoreTaskComponent(
+                task = task,
+                showDeleteItem = showDeleteItem,
+                onCheckChange = onCheckChange,
+                onDeleteTask = onDeleteTask
             )
         }
     }
@@ -91,11 +71,20 @@ fun TaskItemComponent(
 @Composable
 private fun CoreTaskComponent(
     task: Task,
-    interactionSource: MutableInteractionSource,
     showDeleteItem: Boolean,
     onCheckChange: () -> Unit,
-    onDeleteTask: () -> Unit
+    onDeleteTask: () -> Unit,
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val height = remember { mutableStateOf(0) }
+    val width = remember { mutableStateOf(0) }
+    val interactions = interactionSource.interactions
+    val progress by pressProgressionInteractionState(
+        interactions = interactions,
+        initialTimeInMillis = 0,
+        timePressingToFinishInMillis = 500,
+        onFinishTimePressing = { onDeleteTask() }
+    )
     Surface(
         modifier = Modifier
             .alpha(getItemAlpha(isCompleted = task.isCompleted)),
@@ -105,23 +94,27 @@ private fun CoreTaskComponent(
         RowComponent(
             modifier = Modifier
                 .clickable { onCheckChange() }
-                .clip(TaskItemShape),
+                .clip(TaskItemShape)
+                .onSizeChanged {
+                    height.value = it.height
+                    width.value = it.width
+                },
             leftIconContent = {
-//                AnimatedVisibility(visible = showDeleteItem) {
+                AnimatedVisibility(visible = showDeleteItem) {
 //                    DeleteIconWithProgression(taskName = task.name, onDeleteTask)
-//                }
-                DeleteIcon(
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .clickable(
-                            interactionSource = interactionSource,
-                            indication = LocalIndication.current
-                        ) { },
-                    contentDescription = stringResource(
-                        id = string.task_item_component_delete_item,
-                        task.name
+                    DeleteIcon(
+                        modifier = Modifier
+                            .clip(CircleShape)
+                            .clickable(
+                                interactionSource = interactionSource,
+                                indication = LocalIndication.current
+                            ) { },
+                        contentDescription = stringResource(
+                            id = string.task_item_component_delete_item,
+                            task.name
+                        )
                     )
-                )
+                }
             },
             leftContent = {
                 TextOneLine(
@@ -142,7 +135,28 @@ private fun CoreTaskComponent(
                 }
             }
         )
+        DeleteLayer(width = width.value.toFloat(), height = height.value.toFloat(), progress = progress)
     }
+}
+
+@Composable
+private fun DeleteLayer(
+    width: Float,
+    height: Float,
+    progress: Float
+) {
+    val deleteColor = SmartChecklistTheme.colors.status.negative.copy(alpha = 0.5f)
+    Canvas(
+        modifier = Modifier,
+        onDraw = {
+            val topLeft = Offset(width * progress, height)
+            drawRoundRect(
+                color = deleteColor,
+                topLeft = topLeft,
+                cornerRadius = CornerRadius(8f, 8f)
+            )
+        }
+    )
 }
 
 private fun getTextDecoration(isCompleted: Boolean): TextDecoration? {
