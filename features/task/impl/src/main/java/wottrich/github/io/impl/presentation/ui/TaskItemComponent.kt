@@ -1,84 +1,52 @@
 package wottrich.github.io.impl.presentation.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.material.ripple.LocalRippleTheme
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.unit.dp
-import github.io.wottrich.common.ui.compose.ripple.RippleStatusColor
-import wottrich.github.io.baseui.RowComponent
-import wottrich.github.io.baseui.TextOneLine
-import wottrich.github.io.baseui.ui.Dimens
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import github.io.wottrich.common.ui.compose.utils.pressProgressionInteractionState
 import wottrich.github.io.datasource.entity.Task
 
-private val TaskItemShape = RoundedCornerShape(Dimens.BaseFour.SizeTwo)
+private const val TIME_INITIAL_TO_DELETE_ITEM_IN_MILLIS = 500L
+private const val TIME_TO_DELETE_ITEM_IN_MILLIS = 500L
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TaskItemComponent(
+fun TaskComponent(
     task: Task,
     showDeleteItem: Boolean,
     onCheckChange: () -> Unit,
     onDeleteTask: () -> Unit
 ) {
-    CompositionLocalProvider(
-        LocalRippleTheme provides RippleStatusColor(!task.isCompleted)
-    ) {
-        Surface(
-            modifier = Modifier
-                .padding(horizontal = Dimens.BaseFour.SizeThree)
-                .alpha(getItemAlpha(isCompleted = task.isCompleted)),
-            shape = TaskItemShape,
-            elevation = 1.dp
-        ) {
-            RowComponent(
-                modifier = Modifier
-                    .clickable { onCheckChange() }
-                    .clip(TaskItemShape),
-                leftIconContent = {
-                    AnimatedVisibility(visible = showDeleteItem) {
-                        DeleteIconWithProgression(taskName = task.name, onDeleteTask)
-                    }
-                },
-                leftContent = {
-                    TextOneLine(
-                        primary = {
-                            Text(
-                                text = task.name,
-                                textDecoration = getTextDecoration(task.isCompleted)
-                            )
-                        }
-                    )
-                },
-                rightIconContent = {
-                    IconCompletableTaskContent(
-                        taskName = task.name,
-                        isCompletedTask = task.isCompleted
-                    ) {
-                        onCheckChange()
-                    }
+    val interactionSource = remember { MutableInteractionSource() }
+    val taskItemHeight = remember { mutableStateOf(0) }
+    val taskItemWidth = remember { mutableStateOf(0) }
+    val interactions = interactionSource.interactions
+    val progress by pressProgressionInteractionState(
+        interactions = interactions,
+        initialTimeInMillis = TIME_INITIAL_TO_DELETE_ITEM_IN_MILLIS,
+        timePressingToFinishInMillis = TIME_TO_DELETE_ITEM_IN_MILLIS,
+        onFinishTimePressing = { onDeleteTask() }
+    )
+    TaskRippleLayer(isTaskComplete = task.isCompleted) {
+        TaskSurface(isTaskComplete = task.isCompleted) {
+            TaskMolecule(
+                task = task,
+                showDeleteItem = showDeleteItem,
+                onCheckChange = onCheckChange,
+                onDeleteTask = onDeleteTask,
+                interactionSource = interactionSource,
+                onSizeChanged = {
+                    taskItemHeight.value = it.height
+                    taskItemWidth.value = it.width
                 }
+            )
+            TaskDeleteItemLayer(
+                width = taskItemWidth.value.toFloat(),
+                height = taskItemHeight.value.toFloat(),
+                progress = progress
             )
         }
     }
 }
 
-private fun getTextDecoration(isCompleted: Boolean): TextDecoration? {
-    return if (isCompleted) TextDecoration.LineThrough else null
-}
-
-@Composable
-private fun getItemAlpha(isCompleted: Boolean): Float {
-    return if (isCompleted) ContentAlpha.medium else ContentAlpha.high
-}

@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.Flow
 
 private const val DEFAULT_DELAY_BETWEEN_UPDATES_IN_MILLIS = 50L
 private const val DEFAULT_INCREASE_VALUE_IN_TIME = 50L
-private const val DEFAULT_DECREASE_VALUE_IN_TIME = 50L
+private const val DEFAULT_DECREASE_VALUE_IN_TIME = 70L
 
 @Composable
 fun pressProgressionInteractionState(
@@ -72,8 +72,7 @@ private fun onPressInteraction(
     if (pressInteraction is PressInteraction) {
         when (pressInteraction) {
             is Press -> onPress()
-            is Release -> onRelease()
-            else -> Unit
+            else -> onRelease()
         }
     }
 }
