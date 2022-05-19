@@ -71,7 +71,7 @@ private fun TaskItem(
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
-        TaskItemComponent(
+        TaskComponent(
             task = task,
             showDeleteItem = showDeleteItem,
             onCheckChange = { onCheckChange(task) },
