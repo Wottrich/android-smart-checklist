@@ -1,5 +1,6 @@
 package wottrich.github.io.androidsmartchecklist.presentation.ui.content
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -25,6 +26,7 @@ fun HomeTaskListScreen(
     )
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Screen(
     paddingValues: PaddingValues,

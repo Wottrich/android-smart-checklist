@@ -41,7 +41,6 @@ android {
         getByName("debug") {
             applicationIdSuffix = ".debug"
             isDebuggable = true
-            isMinifyEnabled = true
             versionNameSuffix = "-debug"
         }
     }
@@ -87,6 +86,7 @@ dependencies {
     implementation(project(path = ":features:newchecklist:public"))
     implementation(project(path = ":ui-aboutus"))
     implementation(project(path = ":ui-support"))
+    moduleCommonUiCompose()
 
     composeUi()
 

@@ -45,6 +45,7 @@ dependencies {
     implementation(project(path = ":baseui"))
     implementation(project(path = ":datasource"))
     testImplementation(project(path = ":test-tools"))
+    moduleCommonUiCompose()
 
     composeUi()
 
