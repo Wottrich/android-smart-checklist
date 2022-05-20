@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import github.io.wottrich.common.ui.compose.utils.pressProgressionInteractionState
 import wottrich.github.io.datasource.entity.Task
 
-private const val TIME_INITIAL_TO_DELETE_ITEM_IN_MILLIS = 500L
+private const val TIME_INITIAL_TO_DELETE_ITEM_IN_MILLIS = 0L
 private const val TIME_TO_DELETE_ITEM_IN_MILLIS = 500L
 
 @Composable
@@ -34,7 +34,6 @@ fun TaskComponent(
                 task = task,
                 showDeleteItem = showDeleteItem,
                 onCheckChange = onCheckChange,
-                onDeleteTask = onDeleteTask,
                 interactionSource = interactionSource,
                 onSizeChanged = {
                     taskItemHeight.value = it.height

@@ -1,6 +1,5 @@
 package wottrich.github.io.impl.presentation.ui
 
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ContentAlpha
@@ -17,7 +16,6 @@ internal val TaskItemShape = RoundedCornerShape(BaseFour.SizeTwo)
 internal fun TaskSurface(isTaskComplete: Boolean, content: @Composable () -> Unit) {
     Surface(
         modifier = Modifier
-            .fillMaxWidth()
             .padding(horizontal = BaseFour.SizeThree)
             .alpha(getItemAlpha(isCompleted = isTaskComplete)),
         shape = TaskItemShape,

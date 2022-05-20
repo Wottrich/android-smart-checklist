@@ -24,7 +24,6 @@ fun TaskMolecule(
     task: Task,
     showDeleteItem: Boolean,
     onCheckChange: () -> Unit,
-    onDeleteTask: () -> Unit,
     interactionSource: MutableInteractionSource,
     onSizeChanged: (IntSize) -> Unit
 ) {
