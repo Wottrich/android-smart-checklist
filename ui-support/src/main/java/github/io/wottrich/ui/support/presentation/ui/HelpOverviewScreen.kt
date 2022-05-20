@@ -1,7 +1,9 @@
 package github.io.wottrich.ui.support.presentation.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -81,6 +83,7 @@ private fun Screen(
                                 Text(text = stringResource(id = it.description))
                             }
                         )
+                        Spacer(modifier = Modifier.height(BaseFour.SizeTwo))
                         Divider(
                             modifier = Modifier.fillMaxWidth()
                         )
