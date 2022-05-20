@@ -3,5 +3,5 @@
     <string name="support_help_overview_title">Help</string>
     <string name="support_help_overview_tutorial_label">Tutorials</string>
     <string name="support_help_overview_tutorial_how_delete_tasks">How delete tasks</string>
-    <string name="support_help_overview_tutorial_how_delete_tasks_explain">To delete a task you need swipe item to left</string>
+    <string name="support_help_overview_tutorial_how_delete_tasks_explain">To delete a task you need keep delete button pressed until delete task</string>
 </resources>
