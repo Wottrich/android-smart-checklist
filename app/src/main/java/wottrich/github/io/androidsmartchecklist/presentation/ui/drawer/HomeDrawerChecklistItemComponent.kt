@@ -115,7 +115,7 @@ private fun ItemContent(
                 if (checklist.isSelected) {
                     Surface(
                         shape = RoundedCornerShape(50),
-                        color = SmartChecklistTheme.colors.status.positive
+                        color = SmartChecklistTheme.colors.secondary
                     ) {
                         Box(
                             modifier = Modifier.padding(
@@ -126,7 +126,7 @@ private fun ItemContent(
                             ListItemEndTextContent(
                                 primary = RowDefaults.description(
                                     text = stringResource(id = R.string.home_drawer_checklist_selected_label),
-                                    color = SmartChecklistTheme.colors.primary,
+                                    color = SmartChecklistTheme.colors.onSecondary,
                                     fontWeight = FontWeight.Bold
                                 )
                             )
