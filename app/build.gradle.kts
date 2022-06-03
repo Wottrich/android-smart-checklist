@@ -19,8 +19,8 @@ android {
         applicationId = "wottrich.github.io.androidsmartchecklist"
         minSdk = AndroidSdk.minSdk
         targetSdk = AndroidSdk.targetSdk
-        versionCode = 5
-        versionName = "1.3.0"
+        versionCode = 6
+        versionName = "1.4.0"
         multiDexEnabled = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
