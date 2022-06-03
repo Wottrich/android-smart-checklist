@@ -9,14 +9,15 @@ import io.mockk.verify
 import junit.framework.Assert.assertEquals
 import junit.framework.Assert.assertNotNull
 import junit.framework.Assert.assertNull
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Test
-import wottrich.github.io.database.dao.ChecklistDao
-import wottrich.github.io.database.entity.Checklist
-import wottrich.github.io.database.entity.ChecklistWithTasks
-import wottrich.github.io.database.entity.Task
+import wottrich.github.io.datasource.dao.ChecklistDao
+import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.Task
 
 /**
  * @author Wottrich
@@ -26,6 +27,7 @@ import wottrich.github.io.database.entity.Task
  * Copyright © 2022 AndroidSmartCheckList. All rights reserved.
  */
 
+@OptIn(InternalCoroutinesApi::class)
 class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
 
     private lateinit var sut: GetSelectedChecklistUseCase
@@ -59,10 +61,12 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
             coEvery { checklistDao.selectAllChecklistWithTasks() } returns checklistInserts
             coEvery { checklistDao.update(any()) } returns Unit
 
-            sut().collect {
-                assertNotNull(it)
-                assertEquals(expectedSelectedChecklist, it)
-            }
+            sut().collect(
+                FlowCollector {
+                    assertNotNull(it.getOrNull())
+                    assertEquals(expectedSelectedChecklist, it.getOrNull())
+                }
+            )
 
             verify(exactly = 1) { checklistDao.observeSelectedChecklistWithTasks(true) }
             coVerify { checklistDao.selectAllChecklistWithTasks() }
@@ -88,10 +92,12 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
             }
             every { checklistDao.observeSelectedChecklistWithTasks(true) } returns localFlow
 
-            sut().collect {
-                assertNotNull(it)
-                assertEquals(expectedSelectedChecklist, it)
-            }
+            sut().collect(
+                FlowCollector {
+                    assertNotNull(it.getOrNull())
+                    assertEquals(expectedSelectedChecklist, it.getOrNull())
+                }
+            )
 
             verify(exactly = 1) { checklistDao.observeSelectedChecklistWithTasks(true) }
             coVerify(inverse = true) { checklistDao.selectAllChecklistWithTasks() }
@@ -108,9 +114,11 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
             every { checklistDao.observeSelectedChecklistWithTasks(true) } returns localFlow
             coEvery { checklistDao.selectAllChecklistWithTasks() } returns checklistInserts
 
-            sut().collect {
-                assertNull(it)
-            }
+            sut().collect(
+                FlowCollector {
+                    assertNull(it.getOrNull())
+                }
+            )
 
             verify(exactly = 1) { checklistDao.observeSelectedChecklistWithTasks(true) }
             coVerify(exactly = 1) { checklistDao.selectAllChecklistWithTasks() }

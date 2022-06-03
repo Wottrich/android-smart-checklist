@@ -1,10 +1,15 @@
 package github.io.wottrich.checklist.domain.usecase
 
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.flow
-import wottrich.github.io.database.dao.ChecklistDao
-import wottrich.github.io.database.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.dao.ChecklistDao
+import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.tools.base.FlowableUseCase
+import wottrich.github.io.tools.base.Result
+import wottrich.github.io.tools.base.UseCase
+import wottrich.github.io.tools.base.UseCase.None
 
 /**
  * @author Wottrich
@@ -15,21 +20,25 @@ import wottrich.github.io.database.entity.ChecklistWithTasks
  *
  */
 
-class GetSelectedChecklistUseCase(private val checklistDao: ChecklistDao) {
-    suspend operator fun invoke(): Flow<ChecklistWithTasks?> {
+class GetSelectedChecklistUseCase(private val checklistDao: ChecklistDao) :
+    FlowableUseCase<UseCase.None, ChecklistWithTasks?>() {
+    @OptIn(InternalCoroutinesApi::class)
+    override suspend fun execute(params: None): Flow<Result<ChecklistWithTasks?>> {
         return flow {
-            checklistDao.observeSelectedChecklistWithTasks(true).collect {
-                var selectedChecklist = it.firstOrNull()
-                if (selectedChecklist == null) {
-                    selectedChecklist = checklistDao.selectAllChecklistWithTasks().firstOrNull()
-                    if (selectedChecklist != null) {
-                        val checklist = selectedChecklist.checklist
-                        checklist.isSelected = true
-                        checklistDao.update(checklist)
+            checklistDao.observeSelectedChecklistWithTasks(true).collect(
+                FlowCollector<List<ChecklistWithTasks>> { value ->
+                    var selectedChecklist = value.firstOrNull()
+                    if (selectedChecklist == null) {
+                        selectedChecklist = checklistDao.selectAllChecklistWithTasks().firstOrNull()
+                        if (selectedChecklist != null) {
+                            val checklist = selectedChecklist.checklist
+                            checklist.isSelected = true
+                            checklistDao.update(checklist)
+                        }
                     }
+                    emit(Result.success(selectedChecklist))
                 }
-                emit(selectedChecklist)
-            }
+            )
         }
     }
 }

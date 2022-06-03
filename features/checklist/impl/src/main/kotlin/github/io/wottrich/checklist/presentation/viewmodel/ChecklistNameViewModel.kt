@@ -1,11 +1,10 @@
 package github.io.wottrich.checklist.presentation.viewmodel
 
-import github.io.wottrich.checklist.domain.usecase.GetAddChecklistUseCase
+import github.io.wottrich.checklist.domain.usecase.AddChecklistUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
@@ -21,7 +20,7 @@ import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 class ChecklistNameViewModel(
     dispatchers: DispatchersProviders,
-    private val getAddChecklistUseCase: GetAddChecklistUseCase
+    private val addChecklistUseCase: AddChecklistUseCase
 ) : BaseViewModel(dispatchers) {
 
     private val pendingActions = MutableSharedFlow<ChecklistNameActions>()
@@ -59,7 +58,7 @@ class ChecklistNameViewModel(
     private fun createChecklist() {
         launchIO {
             val checklistName = state.value.checklistName
-            val itemId = getAddChecklistUseCase(checklistName)
+            val itemId = addChecklistUseCase(checklistName).getOrNull()
             if (itemId != null) {
                 _effects.emit(ChecklistNameUiEffects.NextScreen(itemId.toString()))
             } else {

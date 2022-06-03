@@ -1,20 +1,22 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import github.io.wottrich.checklist.domain.usecase.DeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.usecase.GetChecklistWithTaskUseCase
-import github.io.wottrich.checklist.domain.usecase.GetDeleteChecklistUseCase
-import github.io.wottrich.checklist.domain.usecase.GetUpdateSelectedChecklistUseCase
+import github.io.wottrich.checklist.domain.usecase.UpdateSelectedChecklistUseCase
+import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent.DeleteChecklistClicked
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent.EditModeClicked
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent.ItemClicked
-import wottrich.github.io.database.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.ChecklistWithTasks
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
+import wottrich.github.io.tools.base.onSuccess
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
@@ -26,11 +28,12 @@ import wottrich.github.io.tools.dispatcher.DispatchersProviders
  *
  */
 
+@OptIn(InternalCoroutinesApi::class)
 class HomeDrawerViewModel(
     dispatchers: DispatchersProviders,
     private val getChecklistWithTaskUseCase: GetChecklistWithTaskUseCase,
-    private val getUpdateSelectedChecklistUseCase: GetUpdateSelectedChecklistUseCase,
-    private val getDeleteChecklistUseCase: GetDeleteChecklistUseCase
+    private val updateSelectedChecklistUseCase: UpdateSelectedChecklistUseCase,
+    private val deleteChecklistUseCase: DeleteChecklistUseCase
 ) : BaseViewModel(dispatchers) {
 
     private val _drawerStateFlow: MutableStateFlow<HomeDrawerState> =
@@ -42,9 +45,13 @@ class HomeDrawerViewModel(
 
     init {
         viewModelScope.launch(dispatchers.io) {
-            getChecklistWithTaskUseCase().collect {
-                _drawerStateFlow.value = HomeDrawerState.Content(it)
-            }
+            getChecklistWithTaskUseCase().collect(
+                FlowCollector {
+                    it.onSuccess {
+                        _drawerStateFlow.value = HomeDrawerState.Content(it)
+                    }
+                }
+            )
         }
     }
 
@@ -64,7 +71,7 @@ class HomeDrawerViewModel(
 
     private fun onItemClicked(checklistWithTasks: ChecklistWithTasks) {
         launchIO {
-            getUpdateSelectedChecklistUseCase(checklistWithTasks.checklist)
+            updateSelectedChecklistUseCase(checklistWithTasks.checklist)
             _drawerEffectFlow.emit(HomeDrawerEffect.CloseDrawer)
             // Observer applied at init will update content with new value
             // on the other hand if the observer doesn't exist
@@ -80,7 +87,7 @@ class HomeDrawerViewModel(
 
     private fun handleDeleteChecklist(checklistWithTasks: ChecklistWithTasks) {
         launchIO {
-            getDeleteChecklistUseCase(checklistWithTasks.checklist)
+            deleteChecklistUseCase(checklistWithTasks.checklist)
         }
     }
 }
