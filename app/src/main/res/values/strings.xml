@@ -15,7 +15,7 @@
 
     <string name="navigate_to_checklist_detail">Click to open %s checklist</string>
 
-    <string name="checklist_empty_state">Create your first checklist clicking below.</string>
+    <string name="checklist_empty_state">Click anywhere to add a new checklist</string>
 
     <string name="checklist_empty_state_new_checklist_button">New checklist</string>
 
