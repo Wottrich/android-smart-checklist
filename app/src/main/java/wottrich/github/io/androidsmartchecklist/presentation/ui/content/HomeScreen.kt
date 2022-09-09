@@ -103,8 +103,8 @@ private fun Screen(
                 checklistState = checklistState,
                 onCopyChecklist = onCopyChecklist,
                 onChecklistSettings = {
-                    checklistState.checklistWithTasks?.checklist?.checklistId?.let {
-                        onChecklistSettings(it.toString())
+                    checklistState.checklistWithTasks?.newChecklist?.uuid?.let {
+                        onChecklistSettings(it)
                     }
                 },
                 homeViewModel = homeViewModel,
@@ -173,7 +173,7 @@ private fun TopBarTitleContent(checklistState: HomeState) {
             Text(text = stringResource(id = string.label_home_fragment))
         }
         else -> {
-            val checklist = checkNotNull(checklistState.checklistWithTasks.checklist)
+            val checklist = checkNotNull(checklistState.checklistWithTasks.newChecklist)
             Text(text = checklist.name)
         }
     }

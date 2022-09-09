@@ -9,7 +9,7 @@ import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import wottrich.github.io.datasource.dao.ChecklistDao
-import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.datasource.entity.NewChecklist
 
 /**
  * @author Wottrich
@@ -33,13 +33,13 @@ class UpdateSelectedChecklistUseCaseTest : BaseUnitTest() {
 
     @Test
     fun `GIVEN use case is requested WHEN has selected checklist THEN must change selected checklists`() = runBlockingUnitTest {
-        val selectedChecklist = Checklist(
-            checklistId = 0,
+        val selectedChecklist = NewChecklist(
+            uuid = "0",
             name = "Checklist 0",
             isSelected = true
         )
-        val nextSelectedChecklist = Checklist(
-            checklistId = 1,
+        val nextSelectedChecklist = NewChecklist(
+            uuid = "1",
             name = "Checklist 1",
             isSelected = false
         )
@@ -59,9 +59,9 @@ class UpdateSelectedChecklistUseCaseTest : BaseUnitTest() {
 
     @Test
     fun `GIVEN use case is requested WHEN has no selected checklist THEN must change selected checklists`() = runBlockingUnitTest {
-        val selectedChecklist: Checklist? = null
-        val nextSelectedChecklist = Checklist(
-            checklistId = 1,
+        val selectedChecklist: NewChecklist? = null
+        val nextSelectedChecklist = NewChecklist(
+            uuid = "1",
             name = "Checklist 1",
             isSelected = false
         )

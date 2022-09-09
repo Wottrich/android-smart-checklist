@@ -10,6 +10,8 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import wottrich.github.io.datasource.entity.Checklist
 import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.NewChecklist
+import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 
 /**
  * @author Wottrich
@@ -24,39 +26,45 @@ import wottrich.github.io.datasource.entity.ChecklistWithTasks
 interface ChecklistDao {
 
     @Transaction
-    @Query("SELECT * FROM checklist")
-    fun observeChecklistsUpdate() : Flow<List<Checklist>>
+    @Query("SELECT * FROM new_checklist")
+    fun observeChecklistsWithTaskUpdate() : Flow<List<NewChecklistWithNewTasks>>
+
+    @Transaction
+    @Query("SELECT * FROM new_checklist")
+    suspend fun selectAllChecklistWithTasks(): List<NewChecklistWithNewTasks>
 
     @Transaction
     @Query("SELECT * FROM checklist")
-    fun observeChecklistsWithTaskUpdate() : Flow<List<ChecklistWithTasks>>
+    suspend fun getAllOldChecklistWithTasks(): List<ChecklistWithTasks>
 
     @Transaction
-    @Query("SELECT * FROM checklist")
-    suspend fun selectAllChecklistWithTasks(): List<ChecklistWithTasks>
+    @Query("SELECT * FROM new_checklist WHERE is_selected=:isSelected")
+    suspend fun selectSelectedChecklist(isSelected: Boolean): NewChecklist?
 
     @Transaction
-    @Query("SELECT * FROM checklist WHERE is_selected=:isSelected")
-    suspend fun selectSelectedChecklist(isSelected: Boolean): Checklist?
+    @Query("SELECT * FROM new_checklist WHERE is_selected=:isSelected")
+    fun observeSelectedChecklistWithTasks(isSelected: Boolean): Flow<List<NewChecklistWithNewTasks>>
 
     @Transaction
-    @Query("SELECT * FROM checklist WHERE is_selected=:isSelected")
-    fun observeSelectedChecklistWithTasks(isSelected: Boolean): Flow<List<ChecklistWithTasks>>
-
-    @Transaction
-    @Query("SELECT * FROM checklist WHERE checklistId=:checklistId")
-    suspend fun getChecklist(checklistId: String): Checklist
+    @Query("SELECT * FROM new_checklist WHERE uuid=:uuid")
+    suspend fun getChecklist(uuid: String): NewChecklist
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(checklist: Checklist): Long?
+    suspend fun insert(new_checklist: NewChecklist): Long?
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insertMany(newChecklists: List<NewChecklist>)
 
     @Update
-    suspend fun update(checklist: Checklist)
+    suspend fun update(new_checklist: NewChecklist)
 
     @Update
-    suspend fun updateChecklists(checklists: List<Checklist>)
+    suspend fun updateChecklists(checklists: List<NewChecklist>)
 
     @Delete
-    suspend fun delete(checklist: Checklist)
+    suspend fun delete(checklist: NewChecklist)
+
+    @Delete
+    suspend fun deleteMany(checklists: List<Checklist>)
 
 }

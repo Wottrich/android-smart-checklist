@@ -13,7 +13,7 @@ import kotlinx.coroutines.launch
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent.DeleteChecklistClicked
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent.EditModeClicked
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent.ItemClicked
-import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
 import wottrich.github.io.tools.base.onSuccess
@@ -69,9 +69,9 @@ class HomeDrawerViewModel(
         }
     }
 
-    private fun onItemClicked(checklistWithTasks: ChecklistWithTasks) {
+    private fun onItemClicked(checklistWithTasks: NewChecklistWithNewTasks) {
         launchIO {
-            updateSelectedChecklistUseCase(checklistWithTasks.checklist)
+            updateSelectedChecklistUseCase(checklistWithTasks.newChecklist)
             _drawerEffectFlow.emit(HomeDrawerEffect.CloseDrawer)
             // Observer applied at init will update content with new value
             // on the other hand if the observer doesn't exist
@@ -85,9 +85,9 @@ class HomeDrawerViewModel(
         _drawerStateFlow.value = state.copy(isEditing = !state.isEditing)
     }
 
-    private fun handleDeleteChecklist(checklistWithTasks: ChecklistWithTasks) {
+    private fun handleDeleteChecklist(checklistWithTasks: NewChecklistWithNewTasks) {
         launchIO {
-            deleteChecklistUseCase(checklistWithTasks.checklist)
+            deleteChecklistUseCase(checklistWithTasks.newChecklist)
         }
     }
 }
@@ -95,16 +95,16 @@ class HomeDrawerViewModel(
 sealed class HomeDrawerState {
     object Loading : HomeDrawerState()
     data class Content(
-        val checklists: List<ChecklistWithTasks>,
+        val checklists: List<NewChecklistWithNewTasks>,
         val isEditing: Boolean = false
     ) : HomeDrawerState()
 }
 
 sealed class HomeDrawerEvent {
-    data class ItemClicked(val checklistWithTasks: ChecklistWithTasks) : HomeDrawerEvent()
+    data class ItemClicked(val checklistWithTasks: NewChecklistWithNewTasks) : HomeDrawerEvent()
     object EditModeClicked : HomeDrawerEvent()
     data class DeleteChecklistClicked(
-        val checklistWithTasks: ChecklistWithTasks
+        val checklistWithTasks: NewChecklistWithNewTasks
     ) : HomeDrawerEvent()
 }
 

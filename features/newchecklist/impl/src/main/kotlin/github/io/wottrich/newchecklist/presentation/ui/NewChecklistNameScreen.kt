@@ -11,12 +11,10 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -27,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import github.io.wottrich.newchecklist.impl.R
 import github.io.wottrich.newchecklist.impl.R.string
 import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiEffect
-import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiEffect.InvalidChecklistState
 import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiState
 import github.io.wottrich.newchecklist.presentation.viewmodels.NewChecklistNameViewModel
 import org.koin.androidx.compose.getViewModel
@@ -41,10 +38,8 @@ fun NewChecklistNameScreen(
     onCloseScreen: () -> Unit,
     viewModel: NewChecklistNameViewModel = getViewModel()
 ) {
-    val scaffoldState = rememberScaffoldState()
     ApplicationTheme {
         Scaffold(
-            scaffoldState = scaffoldState,
             topBar = {
                 IconButton(onClick = onCloseScreen) {
                     Icon(
@@ -57,7 +52,6 @@ fun NewChecklistNameScreen(
         ) {
             val state by viewModel.state.collectAsState()
             Effects(
-                scaffoldState = scaffoldState,
                 viewModel = viewModel,
                 onCloseScreen = onCloseScreen
             )
@@ -117,19 +111,14 @@ private fun Screen(
 
 @Composable
 private fun Effects(
-    scaffoldState: ScaffoldState,
     viewModel: NewChecklistNameViewModel,
     onCloseScreen: () -> Unit
 ) {
     val effects = viewModel.effects
-    val stringError = stringResource(id = R.string.unknown)
     LaunchedEffect(key1 = effects) {
         effects.collect { effect ->
             when (effect) {
                 is NewChecklistNameUiEffect.CloseScreen -> onCloseScreen()
-                InvalidChecklistState -> {
-                    scaffoldState.snackbarHostState.showSnackbar(stringError)
-                }
             }
         }
     }

@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
-import wottrich.github.io.datasource.entity.ChecklistWithTasks
-import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase
 import wottrich.github.io.impl.domain.usecase.GetChangeTaskStatusUseCase
 import wottrich.github.io.impl.domain.usecase.GetDeleteTaskUseCase
@@ -46,7 +46,7 @@ class HomeViewModel(
     private val _uiEffects = SingleShotEventBus<HomeUiEffects>()
     val uiEffects: Flow<HomeUiEffects> = _uiEffects.events
 
-    var tasks = mutableStateListOf<Task>()
+    var tasks = mutableStateListOf<NewTask>()
         private set
 
     init {
@@ -57,7 +57,7 @@ class HomeViewModel(
                     handleSelectedChecklist(selectedChecklist)
                     withContext(dispatchers.main) {
                         tasks.clear()
-                        tasks.addAll(selectedChecklist?.tasks.orEmpty())
+                        tasks.addAll(selectedChecklist?.newTasks.orEmpty())
                     }
                 }
             )
@@ -84,13 +84,13 @@ class HomeViewModel(
         }
     }
 
-    fun onUpdateItemClicked(task: Task) {
+    fun onUpdateItemClicked(task: NewTask) {
         launchIO {
             pendingActions.emit(HomeUiActions.UpdateTaskAction(task))
         }
     }
 
-    fun onDeleteItemClicked(task: Task) {
+    fun onDeleteItemClicked(task: NewTask) {
         launchIO {
             pendingActions.emit(HomeUiActions.DeleteTaskAction(task))
         }
@@ -102,7 +102,7 @@ class HomeViewModel(
         }
     }
 
-    private fun handleSelectedChecklist(selectedChecklist: ChecklistWithTasks?) {
+    private fun handleSelectedChecklist(selectedChecklist: NewChecklistWithNewTasks?) {
         val nextUiState = getNextUiState(selectedChecklist)
         _homeStateFlow.value = homeStateFlow.value.copy(
             homeUiState = nextUiState,
@@ -110,7 +110,7 @@ class HomeViewModel(
         )
     }
 
-    private fun getNextUiState(selectedChecklist: ChecklistWithTasks?): HomeUiState {
+    private fun getNextUiState(selectedChecklist: NewChecklistWithNewTasks?): HomeUiState {
         val currentViewState = homeStateFlow.value.homeUiState
         val hasSelectedChecklist = selectedChecklist != null
         return when {
@@ -150,23 +150,23 @@ class HomeViewModel(
     }
 
     private suspend fun handleAddNewTaskAction(taskName: String) {
-        val checklistId = homeStateFlow.value.checklistWithTasks?.checklist?.checklistId
+        val checklistId = homeStateFlow.value.checklistWithTasks?.newChecklist?.uuid
         if (checklistId != null) {
             getAddTaskUseCase(
                 GetAddTaskUseCase.Params(
-                    checklistId = checklistId,
+                    parentUuid = checklistId,
                     taskName = taskName
                 )
             )
         }
     }
 
-    private suspend fun handleUpdateTaskAction(task: Task) {
+    private suspend fun handleUpdateTaskAction(task: NewTask) {
         handleUpdateTaskEffect(task)
         getChangeTaskStatusUseCase(task)
     }
 
-    private suspend fun handleUpdateTaskEffect(task: Task) {
+    private suspend fun handleUpdateTaskEffect(task: NewTask) {
         val effect = if (task.isCompleted) {
             HomeUiEffects.SnackbarTaskUncompleted(task.name)
         } else {
@@ -175,7 +175,7 @@ class HomeViewModel(
         _uiEffects.emit(effect)
     }
 
-    private fun handleDeleteTaskAction(task: Task) {
+    private fun handleDeleteTaskAction(task: NewTask) {
         launchIO {
             getDeleteTaskUseCase(task)
         }
@@ -183,7 +183,7 @@ class HomeViewModel(
 
     private fun handleDeleteChecklistAction() {
         launchIO {
-            homeStateFlow.value.checklistWithTasks?.checklist?.let {
+            homeStateFlow.value.checklistWithTasks?.newChecklist?.let {
                 deleteChecklistUseCase(it)
                 _uiEffects.emit(HomeUiEffects.SnackbarChecklistDelete)
             }
@@ -194,7 +194,7 @@ class HomeViewModel(
 
 data class HomeState(
     val homeUiState: HomeUiState,
-    val checklistWithTasks: ChecklistWithTasks?
+    val checklistWithTasks: NewChecklistWithNewTasks?
 ) {
     val isEditUiState: Boolean
         get() = homeUiState is HomeUiState.Overview && homeUiState.isEditing
@@ -224,7 +224,7 @@ sealed class HomeUiActions {
     object EnableEditModeAction : HomeUiActions()
     object DisableEditModeAction : HomeUiActions()
     data class AddNewTaskAction(val taskName: String) : HomeUiActions()
-    data class UpdateTaskAction(val task: Task) : HomeUiActions()
-    data class DeleteTaskAction(val task: Task) : HomeUiActions()
+    data class UpdateTaskAction(val task: NewTask) : HomeUiActions()
+    data class DeleteTaskAction(val task: NewTask) : HomeUiActions()
     object DeleteChecklistAction : HomeUiActions()
 }

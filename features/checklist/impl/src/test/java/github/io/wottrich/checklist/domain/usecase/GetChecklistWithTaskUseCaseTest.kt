@@ -11,9 +11,9 @@ import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Test
 import wottrich.github.io.datasource.dao.ChecklistDao
-import wottrich.github.io.datasource.entity.Checklist
-import wottrich.github.io.datasource.entity.ChecklistWithTasks
-import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.entity.NewChecklist
+import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.datasource.entity.NewTask
 
 /**
  * @author Wottrich
@@ -39,16 +39,16 @@ class GetChecklistWithTaskUseCaseTest : BaseUnitTest() {
     @Test
     fun `WHEN checklist with task is observed THEN must notify flow`() = runBlockingUnitTest {
         val expectedList = listOf(
-            ChecklistWithTasks(
-                Checklist(checklistId = 0, name = "checklist 1"),
-                tasks = listOf(Task(taskId = 0, name = "task 1"))
+            NewChecklistWithNewTasks(
+                NewChecklist(uuid = "0", name = "checklist 1"),
+                newTasks = listOf(NewTask(uuid = "0", name = "task 1", parentUuid = "0"))
             ),
-            ChecklistWithTasks(
-                Checklist(checklistId = 1, name = "checklist 2"),
-                tasks = listOf(Task(taskId = 1, name = "task 2"))
+            NewChecklistWithNewTasks(
+                NewChecklist(uuid = "1", name = "checklist 2"),
+                newTasks = listOf(NewTask(uuid = "1", name = "task 2", parentUuid = "1"))
             )
         )
-        val localFlow = flow<List<ChecklistWithTasks>> {
+        val localFlow = flow<List<NewChecklistWithNewTasks>> {
             emit(expectedList)
         }
         coEvery { checklistDao.observeChecklistsWithTaskUpdate() } returns localFlow

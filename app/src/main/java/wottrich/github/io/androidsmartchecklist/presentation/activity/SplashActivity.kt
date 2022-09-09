@@ -6,13 +6,16 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.FlowCollector
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.SplashUiEffect.GoToHome
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.SplashUiEffect.GoToMigration
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.SplashViewModel
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.ApplicationTheme
@@ -29,10 +32,14 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             ApplicationTheme {
-                val isContinue by viewModel.continueState
-
-                if (isContinue) {
-                    startActivity<HomeActivity>(finishActualActivity = true)
+                val effects = viewModel.uiEffect
+                LaunchedEffect(key1 = effects) {
+                    effects.collect(FlowCollector {
+                        when (it) {
+                            GoToHome -> startActivity<HomeActivity>(finishActualActivity = true)
+                            GoToMigration -> startActivity<MigrationActivity>(finishActualActivity = true)
+                        }
+                    })
                 }
 
                 Column(

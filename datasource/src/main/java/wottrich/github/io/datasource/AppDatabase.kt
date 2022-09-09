@@ -9,7 +9,10 @@ import wottrich.github.io.datasource.converter.Converters
 import wottrich.github.io.datasource.dao.ChecklistDao
 import wottrich.github.io.datasource.dao.TaskDao
 import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.datasource.entity.NewChecklist
+import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.migration.MIGRATION_II_III
 import wottrich.github.io.datasource.migration.MIGRATION_I_II
 import wottrich.github.io.datasource.version.DatabaseVersions
 
@@ -22,9 +25,13 @@ import wottrich.github.io.datasource.version.DatabaseVersions
  *
  */
 
-@Database(entities = [Checklist::class, Task::class], version = DatabaseVersions.currentVersion, exportSchema = true)
+@Database(
+    entities = [Checklist::class, Task::class, NewChecklist::class, NewTask::class],
+    version = DatabaseVersions.currentVersion,
+    exportSchema = true
+)
 @TypeConverters(Converters::class)
-abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun checklistDao(): ChecklistDao
     abstract fun taskDao(): TaskDao
@@ -45,6 +52,7 @@ abstract class AppDatabase: RoomDatabase() {
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
                 .addMigrations(MIGRATION_I_II)
+                .addMigrations(MIGRATION_II_III)
                 .build()
         }
 

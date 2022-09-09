@@ -4,7 +4,7 @@ import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiState
-import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.presentation.ui.TaskContentComponent
 
 /**
@@ -19,10 +19,10 @@ import wottrich.github.io.impl.presentation.ui.TaskContentComponent
 @Composable
 fun HomeContentComponent(
     checklistState: HomeState,
-    tasks: List<Task>,
+    tasks: List<NewTask>,
     onAddItemClicked: (String) -> Unit,
-    onUpdateItemClicked: (Task) -> Unit,
-    onDeleteItemClicked: (Task) -> Unit,
+    onUpdateItemClicked: (NewTask) -> Unit,
+    onDeleteItemClicked: (NewTask) -> Unit,
     onNewChecklistClicked: () -> Unit
 ) {
     if (checklistState.homeUiState == HomeUiState.Loading) {

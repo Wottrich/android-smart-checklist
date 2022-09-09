@@ -1,7 +1,7 @@
 package wottrich.github.io.impl.domain.usecase
 
 import wottrich.github.io.datasource.dao.TaskDao
-import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.domain.usecase.ChangeTasksCompletedStatusUseCase.Params
 import wottrich.github.io.tools.base.KotlinResultUseCase
 import wottrich.github.io.tools.base.Result
@@ -17,5 +17,5 @@ class ChangeTasksCompletedStatusUseCase(private val taskDao: TaskDao) :
         return successEmptyResult()
     }
 
-    data class Params(val tasks: List<Task>, val isCompleted: Boolean)
+    data class Params(val tasks: List<NewTask>, val isCompleted: Boolean)
 }
