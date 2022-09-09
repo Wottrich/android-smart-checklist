@@ -15,15 +15,15 @@ import androidx.compose.ui.res.stringResource
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.Dimens.BaseFour
-import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.R
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TaskLazyColumnComponent(
-    taskList: List<Task>,
-    onCheckChange: (Task) -> Unit,
-    onDeleteTask: (Task) -> Unit,
+    taskList: List<NewTask>,
+    onCheckChange: (NewTask) -> Unit,
+    onDeleteTask: (NewTask) -> Unit,
     showDeleteItem: Boolean = true
 ) {
     val list = taskList.asReversed()
@@ -44,7 +44,7 @@ fun TaskLazyColumnComponent(
             itemsIndexed(
                 items = list,
                 key = { _, item ->
-                    item.taskId ?: item.hashCode()
+                    item.uuid
                 },
                 itemContent = { _, task ->
                     TaskItem(
@@ -64,10 +64,10 @@ fun TaskLazyColumnComponent(
 
 @Composable
 private fun TaskItem(
-    task: Task,
+    task: NewTask,
     showDeleteItem: Boolean,
-    onCheckChange: (Task) -> Unit,
-    onDeleteTask: (Task) -> Unit
+    onCheckChange: (NewTask) -> Unit,
+    onDeleteTask: (NewTask) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))

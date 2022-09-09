@@ -1,27 +1,45 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
-import androidx.compose.runtime.State
-import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import wottrich.github.io.tools.dispatcher.DispatchersProviders
+import wottrich.github.io.datasource.dao.ChecklistDao
+import wottrich.github.io.tools.SingleShotEventBus
+import wottrich.github.io.tools.base.BaseViewModel
+import wottrich.github.io.tools.base.KotlinResultUseCase
+import wottrich.github.io.tools.base.Result
+import wottrich.github.io.tools.base.UseCase
+import wottrich.github.io.tools.base.UseCase.None
 
-class SplashViewModel(dispatchersProviders: DispatchersProviders) : ViewModel() {
+class SplashViewModel(
+    private val hasOldChecklistToMigrateUseCase: HasOldChecklistToMigrateUseCase
+) : BaseViewModel() {
 
-    private val _continueState = mutableStateOf(false)
-    val continueState: State<Boolean> = _continueState
+    private val _uiEffect = SingleShotEventBus<SplashUiEffect>()
+    val uiEffect = _uiEffect.events
 
     init {
-        viewModelScope.launch(dispatchersProviders.io) {
+        launchIO {
             delay(SPLASH_DELAY)
-            _continueState.value = true
+            val hasOldChecklistToMigrate = hasOldChecklistToMigrateUseCase().getOrNull() ?: false
+            val state = if (hasOldChecklistToMigrate) SplashUiEffect.GoToMigration
+            else SplashUiEffect.GoToHome
+            _uiEffect.emit(SplashUiEffect.GoToHome)
         }
     }
 
     companion object {
         private const val SPLASH_DELAY = 1000L
     }
+}
 
+sealed class SplashUiEffect {
+    object GoToHome : SplashUiEffect()
+    object GoToMigration : SplashUiEffect()
+}
+
+class HasOldChecklistToMigrateUseCase(
+    private val checklistDao: ChecklistDao
+) : KotlinResultUseCase<UseCase.None, Boolean>() {
+    override suspend fun execute(params: None): Result<Boolean> {
+        return Result.success(checklistDao.getAllOldChecklistWithTasks().isNotEmpty())
+    }
 }

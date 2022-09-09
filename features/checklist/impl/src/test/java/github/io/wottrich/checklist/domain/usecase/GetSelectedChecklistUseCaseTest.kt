@@ -15,9 +15,9 @@ import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Test
 import wottrich.github.io.datasource.dao.ChecklistDao
-import wottrich.github.io.datasource.entity.Checklist
-import wottrich.github.io.datasource.entity.ChecklistWithTasks
-import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.entity.NewChecklist
+import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.datasource.entity.NewTask
 
 /**
  * @author Wottrich
@@ -44,17 +44,17 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
     fun `GIVEN use case requested WHEN has no checklist selected THEN must selected first and update it`() =
         runBlockingUnitTest {
             val checklistInserts = listOf(
-                ChecklistWithTasks(
-                    Checklist(checklistId = 0, name = "checklist 1"),
-                    tasks = listOf(Task(taskId = 0, name = "task 1"))
+                NewChecklistWithNewTasks(
+                    NewChecklist(uuid = "0", name = "checklist 1"),
+                    newTasks = listOf(NewTask(uuid = "0", name = "task 1", parentUuid = "0"))
                 ),
-                ChecklistWithTasks(
-                    Checklist(checklistId = 1, name = "checklist 2"),
-                    tasks = listOf(Task(taskId = 1, name = "task 2"))
+                NewChecklistWithNewTasks(
+                    NewChecklist(uuid = "1", name = "checklist 2"),
+                    newTasks = listOf(NewTask(uuid = "1", name = "task 2", parentUuid = "1"))
                 )
             )
             val expectedSelectedChecklist = checklistInserts.first()
-            val localFlow = flow<List<ChecklistWithTasks>> {
+            val localFlow = flow<List<NewChecklistWithNewTasks>> {
                 emit(listOf())
             }
             every { checklistDao.observeSelectedChecklistWithTasks(true) } returns localFlow
@@ -70,24 +70,24 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
 
             verify(exactly = 1) { checklistDao.observeSelectedChecklistWithTasks(true) }
             coVerify { checklistDao.selectAllChecklistWithTasks() }
-            coVerify { checklistDao.update(expectedSelectedChecklist.checklist) }
+            coVerify { checklistDao.update(expectedSelectedChecklist.newChecklist) }
         }
 
     @Test
     fun `GIVEN use case requested WHEN has checklist selected THEN must returns selected checklist`() =
         runBlockingUnitTest {
             val checklistInserts = listOf(
-                ChecklistWithTasks(
-                    Checklist(checklistId = 0, name = "checklist 1", isSelected = true),
-                    tasks = listOf(Task(taskId = 0, name = "task 1"))
+                NewChecklistWithNewTasks(
+                    NewChecklist(uuid = "0", name = "checklist 1", isSelected = true),
+                    newTasks = listOf(NewTask(uuid = "0", name = "task 1", parentUuid = "0"))
                 ),
-                ChecklistWithTasks(
-                    Checklist(checklistId = 1, name = "checklist 2"),
-                    tasks = listOf(Task(taskId = 1, name = "task 2"))
+                NewChecklistWithNewTasks(
+                    NewChecklist(uuid = "1", name = "checklist 2"),
+                    newTasks = listOf(NewTask(uuid = "1", name = "task 2", parentUuid = "1"))
                 )
             )
             val expectedSelectedChecklist = checklistInserts.first()
-            val localFlow = flow<List<ChecklistWithTasks>> {
+            val localFlow = flow<List<NewChecklistWithNewTasks>> {
                 emit(checklistInserts)
             }
             every { checklistDao.observeSelectedChecklistWithTasks(true) } returns localFlow
@@ -107,8 +107,8 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
     @Test
     fun `GIVEN use case requested WHEN checklists is empty THEN must returns null as selected checklist`() =
         runBlockingUnitTest {
-            val checklistInserts = listOf<ChecklistWithTasks>()
-            val localFlow = flow<List<ChecklistWithTasks>> {
+            val checklistInserts = listOf<NewChecklistWithNewTasks>()
+            val localFlow = flow<List<NewChecklistWithNewTasks>> {
                 emit(checklistInserts)
             }
             every { checklistDao.observeSelectedChecklistWithTasks(true) } returns localFlow
