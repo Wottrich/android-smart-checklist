@@ -1,7 +1,7 @@
 package github.io.wottrich.checklist.domain.usecase
 
 import wottrich.github.io.datasource.dao.ChecklistDao
-import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.datasource.entity.NewChecklist
 import wottrich.github.io.tools.base.KotlinResultUseCase
 import wottrich.github.io.tools.base.Result
 
@@ -13,12 +13,12 @@ import wottrich.github.io.tools.base.Result
  * Copyright © 2021 AndroidSmartCheckList. All rights reserved.
  *
  */
-
+@Deprecated("Use AddNewChecklistUseCase")
 class AddChecklistUseCase(private val checklistDao: ChecklistDao) :
     KotlinResultUseCase<String, Long?>() {
     override suspend fun execute(params: String): Result<Long?> {
         return try {
-            Result.success(checklistDao.insert(Checklist(name = params)))
+            Result.success(checklistDao.insert(NewChecklist(name = params)))
         } catch (ex: Exception) {
             Result.failure(ex)
         }

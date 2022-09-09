@@ -33,7 +33,7 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawe
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 
 /**
  * @author Wottrich
@@ -84,8 +84,8 @@ fun HomeDrawerStatefulContent(
 @Composable
 private fun HomeDrawerStateless(
     state: HomeDrawerState,
-    onItemClick: (checklist: ChecklistWithTasks) -> Unit,
-    onDeleteChecklist: (checklist: ChecklistWithTasks) -> Unit,
+    onItemClick: (checklist: NewChecklistWithNewTasks) -> Unit,
+    onDeleteChecklist: (checklist: NewChecklistWithNewTasks) -> Unit,
     onAddNewChecklist: () -> Unit,
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
@@ -108,10 +108,10 @@ private fun HomeDrawerStateless(
 
 @Composable
 private fun HomeDrawerSuccessContent(
-    checklists: List<ChecklistWithTasks>,
+    checklists: List<NewChecklistWithNewTasks>,
     isEditModeEnabled: Boolean,
-    onItemClick: (checklist: ChecklistWithTasks) -> Unit,
-    onDeleteChecklist: (checklist: ChecklistWithTasks) -> Unit,
+    onItemClick: (checklist: NewChecklistWithNewTasks) -> Unit,
+    onDeleteChecklist: (checklist: NewChecklistWithNewTasks) -> Unit,
     onAddNewChecklist: () -> Unit,
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,

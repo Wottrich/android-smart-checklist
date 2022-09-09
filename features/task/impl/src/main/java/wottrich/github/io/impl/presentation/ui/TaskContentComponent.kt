@@ -12,7 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.entity.NewTask
 
 /**
  * @author Wottrich
@@ -26,10 +26,10 @@ import wottrich.github.io.datasource.entity.Task
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun TaskContentComponent(
-    tasks: List<Task>,
+    tasks: List<NewTask>,
     onAddClicked: (String) -> Unit,
-    onUpdateClicked: (Task) -> Unit,
-    onDeleteClicked: (Task) -> Unit,
+    onUpdateClicked: (NewTask) -> Unit,
+    onDeleteClicked: (NewTask) -> Unit,
     showHeaderComponent: Boolean = true,
     showDeleteIcon: Boolean = true,
 ) {

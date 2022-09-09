@@ -1,7 +1,7 @@
 package github.io.wottrich.checklist.domain.usecase
 
 import wottrich.github.io.datasource.dao.ChecklistDao
-import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.datasource.entity.NewChecklist
 import wottrich.github.io.tools.base.KotlinResultUseCase
 import wottrich.github.io.tools.base.Result
 import wottrich.github.io.tools.base.UseCase
@@ -18,8 +18,8 @@ import wottrich.github.io.tools.base.successEmptyResult
  */
 
 class DeleteChecklistUseCase(private val checklistDao: ChecklistDao) :
-    KotlinResultUseCase<Checklist, UseCase.Empty>() {
-    override suspend fun execute(params: Checklist): Result<UseCase.Empty> {
+    KotlinResultUseCase<NewChecklist, UseCase.Empty>() {
+    override suspend fun execute(params: NewChecklist): Result<UseCase.Empty> {
         return try {
             checklistDao.delete(params)
             successEmptyResult()

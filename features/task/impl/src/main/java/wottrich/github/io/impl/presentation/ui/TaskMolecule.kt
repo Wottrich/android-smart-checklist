@@ -16,12 +16,12 @@ import androidx.compose.ui.unit.IntSize
 import wottrich.github.io.baseui.RowComponent
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.icons.DeleteIcon
-import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.R.string
 
 @Composable
 fun TaskMolecule(
-    task: Task,
+    task: NewTask,
     showDeleteItem: Boolean,
     onCheckChange: () -> Unit,
     interactionSource: MutableInteractionSource,
@@ -53,7 +53,7 @@ private fun Modifier.taskMoleculeModifier(
 
 @Composable
 private fun LeftIconContent(
-    task: Task,
+    task: NewTask,
     showDeleteItem: Boolean,
     interactionSource: MutableInteractionSource
 ) {
@@ -74,7 +74,7 @@ private fun LeftIconContent(
 }
 
 @Composable
-private fun LeftContent(task: Task) {
+private fun LeftContent(task: NewTask) {
     TextOneLine(
         primary = {
             Text(
@@ -86,7 +86,7 @@ private fun LeftContent(task: Task) {
 }
 
 @Composable
-private fun RightIconContent(task: Task, onCheckChange: () -> Unit) {
+private fun RightIconContent(task: NewTask, onCheckChange: () -> Unit) {
     IconCompletableTaskContent(
         taskName = task.name,
         isCompletedTask = task.isCompleted

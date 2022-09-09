@@ -31,8 +31,8 @@ import wottrich.github.io.baseui.ui.ListItemEndTextContent
 import wottrich.github.io.baseui.ui.ListItemStartTextContent
 import wottrich.github.io.baseui.ui.RowDefaults
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
-import wottrich.github.io.datasource.entity.Checklist
-import wottrich.github.io.datasource.entity.ChecklistWithTasks
+import wottrich.github.io.datasource.entity.NewChecklist
+import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 
 /**
  * @author Wottrich
@@ -46,20 +46,18 @@ import wottrich.github.io.datasource.entity.ChecklistWithTasks
 @Composable
 fun HomeDrawerChecklistItemComponent(
     isEditModeEnabled: Boolean,
-    checklistWithTasks: ChecklistWithTasks,
+    checklistWithTasks: NewChecklistWithNewTasks,
     onItemClick: () -> Unit,
     onDeleteItemClicked: () -> Unit
 ) {
-    val checklist = checklistWithTasks.checklist
-    val tasks = checklistWithTasks.tasks
+    val checklist = checklistWithTasks.newChecklist
+    val tasks = checklistWithTasks.newTasks
     val hasIncompleteItem = tasks.any { !it.isCompleted }
     val numberOfItems = tasks.size
     val numberOfCompleteItems = tasks.filter { it.isCompleted }.size
     val description = "$numberOfCompleteItems / $numberOfItems"
     val modifier = Modifier
-        .clickable(enabled = checklist.checklistId != null) {
-            onItemClick()
-        }
+        .clickable { onItemClick() }
 
     ItemContent(
         modifier,
@@ -76,7 +74,7 @@ fun HomeDrawerChecklistItemComponent(
 private fun ItemContent(
     modifier: Modifier,
     isEditModeEnabled: Boolean,
-    checklist: Checklist,
+    checklist: NewChecklist,
     hasIncompleteItem: Boolean,
     description: String,
     onDeleteItemClicked: () -> Unit

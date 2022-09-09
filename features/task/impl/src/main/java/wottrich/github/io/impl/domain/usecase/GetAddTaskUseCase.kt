@@ -1,23 +1,22 @@
 package wottrich.github.io.impl.domain.usecase
 
 import wottrich.github.io.datasource.dao.TaskDao
-import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase.Params
 import wottrich.github.io.tools.base.KotlinResultUseCase
 import wottrich.github.io.tools.base.Result
 
-class GetAddTaskUseCase(private val taskDao: TaskDao) : KotlinResultUseCase<Params, Task>() {
-    override suspend fun execute(params: Params): Result<Task> {
+class GetAddTaskUseCase(private val taskDao: TaskDao) : KotlinResultUseCase<Params, NewTask>() {
+    override suspend fun execute(params: Params): Result<NewTask> {
         val (checklistId, taskName) = params
         val task = generateTask(checklistId, taskName)
-        val taskId = taskDao.insert(task)
-        task.taskId = taskId
+        taskDao.insert(task)
         return Result.success(task)
     }
 
-    private fun generateTask(checklistId: Long, taskName: String): Task {
-        return Task(checklistId = checklistId, name = taskName)
+    private fun generateTask(parentUuid: String, taskName: String): NewTask {
+        return NewTask(parentUuid = parentUuid, name = taskName)
     }
 
-    data class Params(val checklistId: Long, val taskName: String)
+    data class Params(val parentUuid: String, val taskName: String)
 }

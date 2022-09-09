@@ -7,7 +7,7 @@ import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiSta
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import wottrich.github.io.datasource.entity.Checklist
+import wottrich.github.io.datasource.entity.NewChecklist
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
@@ -39,15 +39,10 @@ class NewChecklistNameViewModel(
     private fun createNewChecklistAndUpdateSelected() {
         launchIO {
             val checklistName = state.value.checklistName
-            val newChecklist = Checklist(name = checklistName)
-            val itemId = addNewChecklistUseCase(newChecklist).getOrNull()
-            val checklistWithId = newChecklist.copy(checklistId = itemId)
-            updateSelectedChecklistUseCase(checklistWithId)
-            if (itemId != null) {
-                _effects.emit(NewChecklistNameUiEffect.CloseScreen)
-            } else {
-                _effects.emit(NewChecklistNameUiEffect.InvalidChecklistState)
-            }
+            val newChecklist = NewChecklist(name = checklistName)
+            addNewChecklistUseCase(newChecklist).getOrNull()
+            updateSelectedChecklistUseCase(newChecklist)
+            _effects.emit(NewChecklistNameUiEffect.CloseScreen)
         }
     }
 
