@@ -22,7 +22,7 @@ class SplashViewModel(
             val hasOldChecklistToMigrate = hasOldChecklistToMigrateUseCase().getOrNull() ?: false
             val state = if (hasOldChecklistToMigrate) SplashUiEffect.GoToMigration
             else SplashUiEffect.GoToHome
-            _uiEffect.emit(SplashUiEffect.GoToHome)
+            _uiEffect.emit(state)
         }
     }
 
