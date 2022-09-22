@@ -11,4 +11,19 @@ data class NewChecklistWithNewTasks(
     )
     val newTasks: List<NewTask>
 ) {
+    override fun toString(): String {
+        val string = StringBuilder()
+
+        string.append("Checklist: ")
+        string.append(newChecklist.name)
+        string.appendLine()
+
+        newTasks.forEach {
+            val isCompleted = if(it.isCompleted) "✓ - " else "✗ - "
+            string.append(isCompleted)
+            string.appendLine(it.name)
+        }
+
+        return string.toString()
+    }
 }
