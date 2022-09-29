@@ -29,6 +29,8 @@ import wottrich.github.io.androidsmartchecklist.presentation.ui.StatusBarColor
 import wottrich.github.io.androidsmartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.androidsmartchecklist.presentation.ui.content.HomeScreen
 import wottrich.github.io.baseui.navigation.defaultComposableAnimation
+import wottrich.github.io.quicklychecklist.impl.navigation.NavigationQuicklyChecklist
+import wottrich.github.io.quicklychecklist.impl.navigation.quicklyChecklistNavigation
 import wottrich.github.io.tools.extensions.shareIntentText
 
 class InvalidChecklistId : Exception("Checklist id must not be null")
@@ -55,6 +57,7 @@ class HomeActivity : AppCompatActivity() {
                 homeNavigation(navHostController)
                 newChecklistNavigation(navHostController)
                 supportNavigation(navHostController)
+                quicklyChecklistNavigation(navHostController)
             }
         )
     }
@@ -83,6 +86,9 @@ class HomeActivity : AppCompatActivity() {
                     },
                     onHelpClick = {
                         navHostController.navigate(NavigationSupport.route)
+                    },
+                    onQuicklyChecklist = {
+                        navHostController.navigate(NavigationQuicklyChecklist.route)
                     }
                 )
             }

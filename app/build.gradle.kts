@@ -84,6 +84,7 @@ dependencies {
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))
     implementation(project(path = ":features:newchecklist:public"))
+    implementation(project(path = ":features:quicklychecklist:impl"))
     implementation(project(path = ":ui-aboutus"))
     implementation(project(path = ":ui-support"))
     moduleCommonUiCompose()

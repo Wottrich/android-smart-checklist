@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 import wottrich.github.io.datasource.entity.NewTask
-import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase
-import wottrich.github.io.impl.domain.usecase.GetChangeTaskStatusUseCase
-import wottrich.github.io.impl.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.quicklychecklist.impl.domain.usecase.GetAddTaskUseCase
+import wottrich.github.io.quicklychecklist.impl.domain.usecase.GetChangeTaskStatusUseCase
+import wottrich.github.io.quicklychecklist.impl.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
 import wottrich.github.io.tools.dispatcher.DispatchersProviders

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quickly_checklist_screen_title">Quickly Checklist</string>
+    <string name="quickly_checklist_screen_field_hint">Cole a checklist compartilhada com você</string>
+</resources>

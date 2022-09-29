@@ -14,17 +14,22 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.androidsmartchecklist.R.drawable
+import wottrich.github.io.androidsmartchecklist.R.string
 import wottrich.github.io.androidsmartchecklist.presentation.ui.shared.EditIconStateContent
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEffect
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent
@@ -50,6 +55,7 @@ fun HomeDrawerStatefulContent(
     onAddNewChecklist: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onQuicklyChecklist: () -> Unit,
     viewModel: HomeDrawerViewModel = getViewModel()
 ) {
     val state by viewModel.drawerStateFlow.collectAsState()
@@ -76,7 +82,8 @@ fun HomeDrawerStatefulContent(
             viewModel.processEvent(HomeDrawerEvent.EditModeClicked)
         },
         onAboutUsClick = onAboutUsClick,
-        onHelpClick = onHelpClick
+        onHelpClick = onHelpClick,
+        onQuicklyChecklist = onQuicklyChecklist
     )
 
 }
@@ -89,7 +96,8 @@ private fun HomeDrawerStateless(
     onAddNewChecklist: () -> Unit,
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
-    onHelpClick: () -> Unit
+    onHelpClick: () -> Unit,
+    onQuicklyChecklist: () -> Unit
 ) {
     when (state) {
         is HomeDrawerState.Loading -> CircularProgressIndicator()
@@ -101,7 +109,8 @@ private fun HomeDrawerStateless(
             onAddNewChecklist = onAddNewChecklist,
             onEditMode = onEditMode,
             onAboutUsClick = onAboutUsClick,
-            onHelpClick = onHelpClick
+            onHelpClick = onHelpClick,
+            onQuicklyChecklist = onQuicklyChecklist
         )
     }
 }
@@ -115,7 +124,8 @@ private fun HomeDrawerSuccessContent(
     onAddNewChecklist: () -> Unit,
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
-    onHelpClick: () -> Unit
+    onHelpClick: () -> Unit,
+    onQuicklyChecklist: () -> Unit
 ) {
     val buttonContentDescription = stringResource(id = R.string.floating_action_content_description)
     Column(
@@ -172,6 +182,7 @@ private fun HomeDrawerSuccessContent(
                     ).uppercase()
                 )
             }
+            QuicklyChecklistIcon(onQuicklyChecklist = onQuicklyChecklist)
             EditableComponent(isEditModeEnabled = isEditModeEnabled, onEditMode = onEditMode)
         }
         Divider(
@@ -198,5 +209,29 @@ private fun RowScope.EditableComponent(
             isEditMode = isEditModeEnabled,
             onChangeState = onEditMode
         )
+    }
+}
+
+@Composable
+private fun RowScope.QuicklyChecklistIcon(
+    onQuicklyChecklist: () -> Unit
+) {
+    Row(
+        modifier = Modifier
+            .padding(all = Dimens.BaseFour.SizeTwo),
+        horizontalArrangement = Arrangement.End
+    ) {
+        IconButton(
+            onClick = {
+                onQuicklyChecklist()
+            }
+        ) {
+            Icon(
+                painter = painterResource(id = drawable.ic_quickly_checklist_24),
+                contentDescription = stringResource(
+                    id = string.checklist_finish_edit_content_description
+                )
+            )
+        }
     }
 }
