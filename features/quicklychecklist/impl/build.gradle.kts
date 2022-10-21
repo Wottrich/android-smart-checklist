@@ -41,11 +41,14 @@ dependencies {
 
     implementation(project(path = ":baseui"))
     implementation(project(path = ":tools"))
+    implementation(project(path = ":features:task:impl"))
 
     moduleCommonUiCompose()
+    moduleDatasource()
 
     composeUi()
     koin()
+    gson()
 
     navigation(withAnimation = true)
 

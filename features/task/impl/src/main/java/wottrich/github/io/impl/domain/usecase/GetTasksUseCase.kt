@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.domain.usecase
+package wottrich.github.io.impl.domain.usecase
 
 import wottrich.github.io.datasource.dao.TaskDao
 import wottrich.github.io.datasource.entity.NewTask

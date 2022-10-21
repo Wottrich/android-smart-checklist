@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.presentation.ui
+package wottrich.github.io.impl.presentation.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer

@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiState
 import wottrich.github.io.datasource.entity.NewTask
-import wottrich.github.io.quicklychecklist.impl.presentation.ui.TaskContentComponent
+import wottrich.github.io.impl.presentation.ui.TaskContentComponent
 
 /**
  * @author Wottrich

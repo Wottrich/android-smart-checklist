@@ -15,6 +15,7 @@ import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,21 +26,51 @@ import wottrich.github.io.baseui.ui.Dimens.BaseFour
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.baseui.ui.color.defaultOutlinedTextFieldColors
 import wottrich.github.io.quicklychecklist.impl.R
+import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect.OnConfirmButtonClicked
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.InitialQuicklyChecklistViewModel
 
 @Composable
 fun InitialQuicklyChecklistScreen(
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
+    onConfirmButtonClicked: (String) -> Unit
 ) {
     ApplicationTheme {
-        Screen(onBackPressed = onBackPressed)
+        Screen(
+            onBackPressed = onBackPressed,
+            onConfirmButtonClicked = onConfirmButtonClicked
+        )
     }
 }
 
 @Composable
 private fun Screen(
     onBackPressed: () -> Unit,
+    onConfirmButtonClicked: (String) -> Unit,
     viewModel: InitialQuicklyChecklistViewModel = getViewModel()
+) {
+    ScreenEffect(viewModel = viewModel, onConfirmButtonClicked = onConfirmButtonClicked)
+    ScreenContent(onBackPressed = onBackPressed, viewModel = viewModel)
+}
+
+@Composable
+private fun ScreenEffect(
+    onConfirmButtonClicked: (String) -> Unit,
+    viewModel: InitialQuicklyChecklistViewModel
+) {
+    val effects = viewModel.effects
+    LaunchedEffect(key1 = effects) {
+        effects.collect { effect ->
+            when (effect) {
+                is OnConfirmButtonClicked -> onConfirmButtonClicked(effect.quicklyChecklistJson)
+            }
+        }
+    }
+}
+
+@Composable
+private fun ScreenContent(
+    onBackPressed: () -> Unit,
+    viewModel: InitialQuicklyChecklistViewModel
 ) {
     Scaffold(
         topBar = {
@@ -102,6 +133,9 @@ private fun QuicklyChecklistField(
 @Composable
 fun QuicklyChecklistScreenPreview() {
     ApplicationTheme {
-        InitialQuicklyChecklistScreen {}
+        InitialQuicklyChecklistScreen(
+            onBackPressed = {},
+            onConfirmButtonClicked = {}
+        )
     }
 }

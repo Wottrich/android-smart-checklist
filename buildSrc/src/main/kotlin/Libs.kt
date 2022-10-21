@@ -128,6 +128,10 @@ fun DependencyHandlerScope.apiDigest() {
     "implementation"(Libs.loggingInterceptor)
 }
 
+fun DependencyHandlerScope.gson() {
+    "implementation"(Libs.converterGson)
+}
+
 fun DependencyHandlerScope.room(withCompiler: Boolean = false) {
     "implementation"(Libs.roomRuntime)
     "implementation"(Libs.roomKtx)

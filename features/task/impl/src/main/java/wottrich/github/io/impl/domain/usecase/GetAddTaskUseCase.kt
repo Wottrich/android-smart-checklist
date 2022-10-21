@@ -1,8 +1,8 @@
-package wottrich.github.io.quicklychecklist.impl.domain.usecase
+package wottrich.github.io.impl.domain.usecase
 
 import wottrich.github.io.datasource.dao.TaskDao
 import wottrich.github.io.datasource.entity.NewTask
-import wottrich.github.io.quicklychecklist.impl.domain.usecase.GetAddTaskUseCase.Params
+import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase.Params
 import wottrich.github.io.tools.base.KotlinResultUseCase
 import wottrich.github.io.tools.base.Result
 

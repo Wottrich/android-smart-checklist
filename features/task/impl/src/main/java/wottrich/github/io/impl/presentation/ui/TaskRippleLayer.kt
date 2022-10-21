@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.presentation.ui
+package wottrich.github.io.impl.presentation.ui
 
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.runtime.Composable
