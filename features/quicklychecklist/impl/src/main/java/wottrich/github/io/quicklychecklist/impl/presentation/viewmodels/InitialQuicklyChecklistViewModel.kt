@@ -33,5 +33,13 @@ class InitialQuicklyChecklistViewModel : BaseViewModel() {
         }
     }
 
+    fun onInvalidChecklist() {
+        launchMain {
+            _effects.emit(
+                InitialQuicklyChecklistUiEffect.OnInvalidChecklist
+            )
+        }
+    }
+
 
 }

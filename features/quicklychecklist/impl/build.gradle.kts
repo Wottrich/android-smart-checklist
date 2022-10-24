@@ -49,6 +49,7 @@ dependencies {
     composeUi()
     koin()
     gson()
+    lifecycleLibs()
 
     navigation(withAnimation = true)
 

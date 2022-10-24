@@ -27,12 +27,13 @@ val featureHomeModules = module {
     viewModel { HomeDrawerViewModel(get(), get(), get(), get()) }
     viewModel {
         HomeViewModel(
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get()
+            dispatchers = get(),
+            getSelectedChecklistUseCase = get(),
+            deleteChecklistUseCase = get(),
+            getAddTaskUseCase = get(),
+            getChangeTaskStatusUseCase = get(),
+            getDeleteTaskUseCase = get(),
+            convertChecklistIntoQuicklyChecklistUseCase = get()
         )
     }
 

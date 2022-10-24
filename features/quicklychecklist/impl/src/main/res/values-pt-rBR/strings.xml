@@ -2,4 +2,7 @@
 <resources>
     <string name="quickly_checklist_screen_title">Quickly Checklist</string>
     <string name="quickly_checklist_screen_field_hint">Cole a checklist compartilhada com você</string>
+    <string name="quickly_checklist_share_error">Não foi possível compartilhar a checklist, tente novamente mais tarde!</string>
+    <string name="quickly_checklist_editing_checklist">Editando checklist</string>
+    <string name="quickly_checklist_finish_editing_content_description">Clique para terminar de editar a checklist</string>
 </resources>

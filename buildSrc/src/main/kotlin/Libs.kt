@@ -17,6 +17,9 @@ object Libs {
     //AppCompat
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
 
+    //Android lifecycle
+    const val lifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleRuntime}"
+
     //Koin
     const val insertKoinCore = "io.insert-koin:koin-core:${Versions.koinVersion}"
     const val insertKoinAndroid = "io.insert-koin:koin-android:${Versions.koinVersion}"
@@ -88,6 +91,10 @@ fun DependencyHandlerScope.composeUi() {
     "implementation"(Libs.composeActivity)
     "implementation"(Libs.composeCompiler)
     "implementation"(Libs.placeholder)
+}
+
+fun DependencyHandlerScope.lifecycleLibs() {
+    "implementation"(Libs.lifecycleRuntime)
 }
 
 fun DependencyHandlerScope.coroutines() {

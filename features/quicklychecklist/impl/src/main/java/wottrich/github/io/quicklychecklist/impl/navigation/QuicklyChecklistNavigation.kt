@@ -18,8 +18,16 @@ fun NavGraphBuilder.quicklyChecklistNavigation(navHostController: NavHostControl
     ) {
         defaultComposableAnimation(
             route = NavigationQuicklyChecklist.Destinations.InitialQuicklyChecklistScreen.route
-        ) {
+        ) { navBackStackEntry ->
+
+            val invalidChecklist =
+                navBackStackEntry.savedStateHandle.get<Boolean>("invalidChecklist") ?: false
+            if (invalidChecklist) {
+                navBackStackEntry.savedStateHandle.remove<Boolean>("invalidChecklist")
+            }
+
             InitialQuicklyChecklistScreen(
+                isInvalidChecklistError = invalidChecklist,
                 onBackPressed = { navHostController.popBackStack() },
                 onConfirmButtonClicked = {
                     val route =
@@ -41,11 +49,24 @@ fun NavGraphBuilder.quicklyChecklistNavigation(navHostController: NavHostControl
             )
         ) { navBackStackEntry ->
             val param = navBackStackEntry.arguments?.getString(
-                NavigationQuicklyChecklist.Destinations.QuicklyChecklistScaffold.param
+                "quicklychecklistjson"
             ).orEmpty()
             QuicklyChecklistScreen(
                 quicklyChecklistJson = param,
-                onBackPressed = { navHostController.popBackStack() }
+                onBackPressed = {
+                    navHostController.previousBackStackEntry?.savedStateHandle?.set(
+                        "invalidChecklist",
+                        false
+                    )
+                    navHostController.popBackStack()
+                },
+                onInvalidChecklist = {
+                    navHostController.previousBackStackEntry?.savedStateHandle?.set(
+                        "invalidChecklist",
+                        true
+                    )
+                    navHostController.popBackStack()
+                }
             )
         }
     }

@@ -74,7 +74,7 @@ class HomeActivity : AppCompatActivity() {
                     onAddNewChecklist = {
                         navHostController.navigate(NavigatorNewChecklist.route)
                     },
-                    onCopyChecklist = ::shareIntentText,
+                    onShareText = ::shareIntentText,
                     onChecklistSettings = {
                         val route =
                             Destinations.ChecklistSettingsScreen.route

@@ -10,10 +10,12 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
@@ -27,15 +29,18 @@ import wottrich.github.io.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.baseui.ui.color.defaultOutlinedTextFieldColors
 import wottrich.github.io.quicklychecklist.impl.R
 import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect.OnConfirmButtonClicked
+import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect.OnInvalidChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.InitialQuicklyChecklistViewModel
 
 @Composable
 fun InitialQuicklyChecklistScreen(
+    isInvalidChecklistError: Boolean,
     onBackPressed: () -> Unit,
     onConfirmButtonClicked: (String) -> Unit
 ) {
     ApplicationTheme {
         Screen(
+            isInvalidChecklistError = isInvalidChecklistError,
             onBackPressed = onBackPressed,
             onConfirmButtonClicked = onConfirmButtonClicked
         )
@@ -44,16 +49,31 @@ fun InitialQuicklyChecklistScreen(
 
 @Composable
 private fun Screen(
+    isInvalidChecklistError: Boolean,
     onBackPressed: () -> Unit,
     onConfirmButtonClicked: (String) -> Unit,
     viewModel: InitialQuicklyChecklistViewModel = getViewModel()
 ) {
-    ScreenEffect(viewModel = viewModel, onConfirmButtonClicked = onConfirmButtonClicked)
-    ScreenContent(onBackPressed = onBackPressed, viewModel = viewModel)
+    val rememberScaffoldState = rememberScaffoldState()
+
+    ScreenEffect(
+        scaffoldState = rememberScaffoldState,
+        isInvalidChecklistError = isInvalidChecklistError,
+        viewModel = viewModel,
+        onConfirmButtonClicked = onConfirmButtonClicked
+    )
+
+    ScreenContent(
+        scaffoldState = rememberScaffoldState,
+        onBackPressed = onBackPressed,
+        viewModel = viewModel
+    )
 }
 
 @Composable
 private fun ScreenEffect(
+    scaffoldState: ScaffoldState,
+    isInvalidChecklistError: Boolean,
     onConfirmButtonClicked: (String) -> Unit,
     viewModel: InitialQuicklyChecklistViewModel
 ) {
@@ -62,17 +82,25 @@ private fun ScreenEffect(
         effects.collect { effect ->
             when (effect) {
                 is OnConfirmButtonClicked -> onConfirmButtonClicked(effect.quicklyChecklistJson)
+                is OnInvalidChecklist -> {
+                    scaffoldState.snackbarHostState.showSnackbar("invalid checklist")
+                }
             }
         }
+    }
+    if (isInvalidChecklistError) {
+        viewModel.onInvalidChecklist()
     }
 }
 
 @Composable
 private fun ScreenContent(
+    scaffoldState: ScaffoldState,
     onBackPressed: () -> Unit,
     viewModel: InitialQuicklyChecklistViewModel
 ) {
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             IconButton(onClick = onBackPressed) {
                 Icon(
@@ -134,6 +162,7 @@ private fun QuicklyChecklistField(
 fun QuicklyChecklistScreenPreview() {
     ApplicationTheme {
         InitialQuicklyChecklistScreen(
+            isInvalidChecklistError = false,
             onBackPressed = {},
             onConfirmButtonClicked = {}
         )
