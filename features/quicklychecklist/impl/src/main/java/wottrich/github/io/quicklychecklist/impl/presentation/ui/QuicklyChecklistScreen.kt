@@ -3,26 +3,27 @@ package wottrich.github.io.quicklychecklist.impl.presentation.ui
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.BottomSheetScaffold
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ModalBottomSheetLayout
+import androidx.compose.material.ModalBottomSheetState
+import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.baseui.ui.ApplicationTheme
@@ -75,49 +76,53 @@ private fun ScreenEffect(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ScreenContent(
     viewModel: QuicklyChecklistViewModel,
     onBackPressed: () -> Unit
 ) {
-    val state by viewModel.state.collectAsState()
-    var showBottomSheet by remember { mutableStateOf(false) }
-    Content(showBottomSheet) {
-        Scaffold(
-            topBar = { TopBarContent(onBackPressed) },
-            bottomBar = {
-                BottomBarContent {
-                    showBottomSheet = false
-                }
-            }
-        ) {
-            Column(modifier = Modifier.padding(it)) {
-                ScaffoldContent(viewModel.tasks, viewModel::onCheckChange)
-            }
+    val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val coroutineScope = rememberCoroutineScope()
+    //val state by viewModel.state.collectAsState()
+    ModalBottomSheetContents(
+        bottomSheetState = bottomSheetState,
+        bottomSheetContent = {
+            BottomSheetContent()
+        },
+        content = {
+            QuicklyChecklistScaffold(
+                onBackPressed = onBackPressed,
+                coroutineScope = coroutineScope,
+                bottomSheetState = bottomSheetState,
+                viewModel = viewModel
+            )
         }
-    }
+    )
 }
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun Content(showBottomSheet: Boolean, content: @Composable () -> Unit) {
-    if (showBottomSheet) {
-        BottomSheetScaffold(
-            sheetContent = {
-                BottomSheetContent()
+private fun QuicklyChecklistScaffold(
+    onBackPressed: () -> Unit,
+    coroutineScope: CoroutineScope,
+    bottomSheetState: ModalBottomSheetState,
+    viewModel: QuicklyChecklistViewModel
+) {
+    Scaffold(
+        topBar = { TopBarContent(onBackPressed) },
+        bottomBar = {
+            BottomBarContent {
+                coroutineScope.launch {
+                    bottomSheetState.show()
+                }
             }
-        ) {
-            content()
         }
-    } else {
-        content()
+    ) {
+        Column(modifier = Modifier.padding(it)) {
+            ScaffoldContent(viewModel.tasks, viewModel::onCheckChange)
+        }
     }
-}
-
-@Composable
-private fun ColumnScope.BottomSheetContent() {
-    Text("alo")
-    Text("alo2")
 }
 
 @Composable
@@ -162,5 +167,25 @@ private fun ScaffoldContent(
         onCheckChange = onCheckChange,
         onDeleteTask = {},
         showDeleteItem = false
+    )
+}
+
+@Composable
+private fun ColumnScope.BottomSheetContent() {
+    Text("alo")
+    Text("alo2")
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+private fun ModalBottomSheetContents(
+    bottomSheetState: ModalBottomSheetState,
+    bottomSheetContent: @Composable ColumnScope.() -> Unit,
+    content: @Composable () -> Unit
+) {
+    ModalBottomSheetLayout(
+        sheetState = bottomSheetState,
+        sheetContent = bottomSheetContent,
+        content = content
     )
 }

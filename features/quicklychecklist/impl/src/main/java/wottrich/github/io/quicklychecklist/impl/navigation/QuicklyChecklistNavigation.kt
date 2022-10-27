@@ -31,9 +31,9 @@ fun NavGraphBuilder.quicklyChecklistNavigation(navHostController: NavHostControl
                 onBackPressed = { navHostController.popBackStack() },
                 onConfirmButtonClicked = {
                     val route =
-                        NavigationQuicklyChecklist.Destinations.QuicklyChecklistScaffold.route
+                        NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.route
                             .replace(
-                                NavigationQuicklyChecklist.Destinations.QuicklyChecklistScaffold.param,
+                                NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.param,
                                 it
                             )
                     navHostController.navigate(route)
@@ -41,7 +41,7 @@ fun NavGraphBuilder.quicklyChecklistNavigation(navHostController: NavHostControl
             )
         }
         defaultComposableAnimation(
-            route = NavigationQuicklyChecklist.Destinations.QuicklyChecklistScaffold.route,
+            route = NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.route,
             arguments = listOf(
                 navArgument("quicklychecklistjson") {
                     type = NavType.StringType
@@ -78,8 +78,8 @@ object NavigationQuicklyChecklist {
 
     sealed class Destinations(val route: String) {
         object InitialQuicklyChecklistScreen : Destinations(route = "InitialQuicklyChecklistScreen")
-        object QuicklyChecklistScaffold :
-            Destinations(route = "QuicklyChecklistScaffold/{quicklychecklistjson}") {
+        object QuicklyChecklistScreen :
+            Destinations(route = "QuicklyChecklistScreen/{quicklychecklistjson}") {
             const val param = "{quicklychecklistjson}"
         }
     }
