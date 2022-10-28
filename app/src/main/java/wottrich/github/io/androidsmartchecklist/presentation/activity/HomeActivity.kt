@@ -57,7 +57,16 @@ class HomeActivity : AppCompatActivity() {
                 homeNavigation(navHostController)
                 newChecklistNavigation(navHostController)
                 supportNavigation(navHostController)
-                quicklyChecklistNavigation(navHostController)
+                quicklyChecklistNavigation(
+                    navHostController = navHostController,
+                    onShareChecklistBack = {
+                        shareIntentText(it)
+                        navHostController.popBackStack(
+                            route = NavigationHome.Destinations.HomeScreen.route,
+                            inclusive = false
+                        )
+                    }
+                )
             }
         )
     }

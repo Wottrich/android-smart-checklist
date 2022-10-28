@@ -9,14 +9,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.datasource.entity.QuicklyChecklist
+import wottrich.github.io.quicklychecklist.impl.R
+import wottrich.github.io.quicklychecklist.impl.domain.ConvertQuicklyChecklistIntoJsonUseCase
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiState
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
+import wottrich.github.io.tools.base.onFailure
+import wottrich.github.io.tools.base.onSuccess
 
 class QuicklyChecklistViewModel(
-    private val quicklyChecklistJson: String
+    private val quicklyChecklistJson: String,
+    private val convertQuicklyChecklistIntoJsonUseCase: ConvertQuicklyChecklistIntoJsonUseCase
 ) : BaseViewModel() {
+
+    private var quicklyChecklist: QuicklyChecklist? = null
 
     private val _state = MutableStateFlow(QuicklyChecklistUiState())
     val state = _state.asStateFlow()
@@ -25,7 +32,7 @@ class QuicklyChecklistViewModel(
     val effects: Flow<QuicklyChecklistUiEffect> = _effects.events
 
     var tasks = mutableStateListOf<NewTask>()
-    private set
+        private set
 
     init {
         initQuicklyChecklistJson()
@@ -42,8 +49,26 @@ class QuicklyChecklistViewModel(
         _state.value = state.copy(tasks = tasks)
     }
 
+    fun onShareChecklistBackClick() {
+        val quicklyChecklist = quicklyChecklist
+        if (quicklyChecklist != null) {
+            launchIO {
+                convertQuicklyChecklistIntoJsonUseCase(quicklyChecklist).onSuccess {
+                    launchMain {
+                        _effects.emit(QuicklyChecklistUiEffect.OnShareChecklistBack(it))
+                    }
+                }.onFailure {
+                    launchMain {
+                        _effects.emit(QuicklyChecklistUiEffect.SnackbarError(R.string.quickly_checklist_share_error))
+                    }
+                }
+            }
+        }
+    }
+
     private fun initQuicklyChecklistJson() {
         val quicklyChecklist = getQuicklyChecklistFromJson()
+        this.quicklyChecklist = quicklyChecklist
         if (quicklyChecklist != null && quicklyChecklist.checklistUuid.isNotEmpty()) {
             handleQuicklyChecklistState(quicklyChecklist)
         } else {

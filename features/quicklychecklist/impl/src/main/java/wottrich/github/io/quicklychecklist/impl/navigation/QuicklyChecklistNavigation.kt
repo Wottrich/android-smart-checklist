@@ -11,7 +11,10 @@ import wottrich.github.io.quicklychecklist.impl.presentation.ui.InitialQuicklyCh
 import wottrich.github.io.quicklychecklist.impl.presentation.ui.QuicklyChecklistScreen
 
 @ExperimentalAnimationApi
-fun NavGraphBuilder.quicklyChecklistNavigation(navHostController: NavHostController) {
+fun NavGraphBuilder.quicklyChecklistNavigation(
+    navHostController: NavHostController,
+    onShareChecklistBack: (String) -> Unit
+) {
     navigation(
         startDestination = NavigationQuicklyChecklist.startDestination,
         route = NavigationQuicklyChecklist.route
@@ -53,6 +56,7 @@ fun NavGraphBuilder.quicklyChecklistNavigation(navHostController: NavHostControl
             ).orEmpty()
             QuicklyChecklistScreen(
                 quicklyChecklistJson = param,
+                onShareBackClick = onShareChecklistBack,
                 onBackPressed = {
                     navHostController.previousBackStackEntry?.savedStateHandle?.set(
                         "invalidChecklist",

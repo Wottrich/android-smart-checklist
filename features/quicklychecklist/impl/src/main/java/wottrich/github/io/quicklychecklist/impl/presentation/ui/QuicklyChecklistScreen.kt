@@ -11,16 +11,19 @@ import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.rememberModalBottomSheetState
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -31,17 +34,21 @@ import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.presentation.ui.TaskLazyColumnComponent
 import wottrich.github.io.quicklychecklist.impl.R
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.InvalidChecklist
+import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.OnShareChecklistBack
+import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.SnackbarError
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyChecklistViewModel
 
 @Composable
 fun QuicklyChecklistScreen(
     quicklyChecklistJson: String,
+    onShareBackClick: (String) -> Unit,
     onBackPressed: () -> Unit,
     onInvalidChecklist: () -> Unit
 ) {
     ApplicationTheme {
         Screen(
             quicklyChecklistJson = quicklyChecklistJson,
+            onShareBackClick = onShareBackClick,
             onBackPressed = onBackPressed,
             onInvalidChecklist = onInvalidChecklist
         )
@@ -51,26 +58,45 @@ fun QuicklyChecklistScreen(
 @Composable
 private fun Screen(
     quicklyChecklistJson: String,
+    onShareBackClick: (String) -> Unit,
     onBackPressed: () -> Unit,
     onInvalidChecklist: () -> Unit,
     viewModel: QuicklyChecklistViewModel = getViewModel {
         parametersOf(quicklyChecklistJson)
     },
 ) {
-    ScreenEffect(viewModel, onInvalidChecklist)
-    ScreenContent(viewModel, onBackPressed)
+    val scaffoldState = rememberScaffoldState()
+    ScreenEffect(
+        scaffoldState = scaffoldState,
+        viewModel = viewModel,
+        onInvalidChecklist = onInvalidChecklist,
+        onShareBackClick = onShareBackClick
+    )
+    ScreenContent(
+        scaffoldState = scaffoldState,
+        viewModel = viewModel,
+        onBackPressed = onBackPressed
+    )
 }
 
 @Composable
 private fun ScreenEffect(
+    scaffoldState: ScaffoldState,
     viewModel: QuicklyChecklistViewModel,
-    onInvalidChecklist: () -> Unit
+    onInvalidChecklist: () -> Unit,
+    onShareBackClick: (String) -> Unit
 ) {
     val effects = viewModel.effects
+    val context = LocalContext.current
     LaunchedEffect(key1 = effects) {
         effects.collect { effect ->
             when (effect) {
                 InvalidChecklist -> onInvalidChecklist()
+                is OnShareChecklistBack -> onShareBackClick(effect.quicklyChecklistJson)
+                is SnackbarError ->
+                    scaffoldState.snackbarHostState.showSnackbar(
+                        context.getString(effect.messageError)
+                    )
             }
         }
     }
@@ -79,19 +105,38 @@ private fun ScreenEffect(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun ScreenContent(
+    scaffoldState: ScaffoldState,
     viewModel: QuicklyChecklistViewModel,
     onBackPressed: () -> Unit
 ) {
-    val bottomSheetState = rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val bottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
     val coroutineScope = rememberCoroutineScope()
-    //val state by viewModel.state.collectAsState()
+    fun hideBottomSheet() {
+        coroutineScope.launch {
+            bottomSheetState.hide()
+        }
+    }
     ModalBottomSheetContents(
         bottomSheetState = bottomSheetState,
         bottomSheetContent = {
-            BottomSheetContent()
+            QuicklyChecklistConfirmBottomSheetContent(
+                hasExistentChecklist = false,
+                onShareBackClick = {
+                    hideBottomSheet()
+                    viewModel.onShareChecklistBackClick()
+                },
+                onSaveChecklist = {
+                    hideBottomSheet()
+                },
+                onReplaceExistentChecklist = {
+                    hideBottomSheet()
+                }
+            )
         },
         content = {
             QuicklyChecklistScaffold(
+                scaffoldState = scaffoldState,
                 onBackPressed = onBackPressed,
                 coroutineScope = coroutineScope,
                 bottomSheetState = bottomSheetState,
@@ -104,12 +149,14 @@ private fun ScreenContent(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun QuicklyChecklistScaffold(
+    scaffoldState: ScaffoldState,
     onBackPressed: () -> Unit,
     coroutineScope: CoroutineScope,
     bottomSheetState: ModalBottomSheetState,
     viewModel: QuicklyChecklistViewModel
 ) {
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = { TopBarContent(onBackPressed) },
         bottomBar = {
             BottomBarContent {
@@ -168,12 +215,6 @@ private fun ScaffoldContent(
         onDeleteTask = {},
         showDeleteItem = false
     )
-}
-
-@Composable
-private fun ColumnScope.BottomSheetContent() {
-    Text("alo")
-    Text("alo2")
 }
 
 @OptIn(ExperimentalMaterialApi::class)
