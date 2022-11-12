@@ -2,9 +2,11 @@ package wottrich.github.io.quicklychecklist.impl.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import wottrich.github.io.datasource.entity.QuicklyChecklist
 import wottrich.github.io.quicklychecklist.impl.domain.ConvertChecklistIntoQuicklyChecklistUseCase
 import wottrich.github.io.quicklychecklist.impl.domain.ConvertQuicklyChecklistIntoJsonUseCase
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.InitialQuicklyChecklistViewModel
+import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyChecklistAddNewChecklistViewModel
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyChecklistViewModel
 
 val quicklyChecklistModule = module {
@@ -16,5 +18,8 @@ val quicklyChecklistModule = module {
             quicklyChecklistJson = quicklyChecklistJson,
             convertQuicklyChecklistIntoJsonUseCase = get()
         )
+    }
+    viewModel { (quicklyChecklist: QuicklyChecklist) ->
+        QuicklyChecklistAddNewChecklistViewModel(get(), get(), quicklyChecklist)
     }
 }

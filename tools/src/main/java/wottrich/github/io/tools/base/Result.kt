@@ -116,7 +116,7 @@ fun <R, T> Result<T>.fold(
  * Returns the original `Result` unchanged.
  */
 @OptIn(ExperimentalContracts::class)
-fun <T> Result<T>.onFailure(action: (exception: Throwable) -> Unit): Result<T> {
+suspend fun <T> Result<T>.onFailure(action: suspend (exception: Throwable) -> Unit): Result<T> {
     contract {
         callsInPlace(action, InvocationKind.AT_MOST_ONCE)
     }
@@ -129,7 +129,7 @@ fun <T> Result<T>.onFailure(action: (exception: Throwable) -> Unit): Result<T> {
  * Returns the original `Result` unchanged.
  */
 @OptIn(ExperimentalContracts::class)
-fun <T> Result<T>.onSuccess(action: (value: T) -> Unit): Result<T> {
+suspend fun <T> Result<T>.onSuccess(action: suspend (value: T) -> Unit): Result<T> {
     contract {
         callsInPlace(action, InvocationKind.AT_MOST_ONCE)
     }

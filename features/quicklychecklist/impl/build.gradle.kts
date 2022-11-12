@@ -42,6 +42,7 @@ dependencies {
     implementation(project(path = ":baseui"))
     implementation(project(path = ":tools"))
     implementation(project(path = ":features:task:impl"))
+    implementation(project(path = ":features:newchecklist:impl"))
 
     moduleCommonUiCompose()
     moduleDatasource()

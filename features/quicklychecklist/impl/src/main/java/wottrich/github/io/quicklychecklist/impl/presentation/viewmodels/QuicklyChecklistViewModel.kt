@@ -1,6 +1,7 @@
 package wottrich.github.io.quicklychecklist.impl.presentation.viewmodels
 
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +32,9 @@ class QuicklyChecklistViewModel(
     private val _effects = SingleShotEventBus<QuicklyChecklistUiEffect>()
     val effects: Flow<QuicklyChecklistUiEffect> = _effects.events
 
+    var isSaveChecklistBottomSheet = mutableStateOf(false)
+    private set
+
     var tasks = mutableStateListOf<NewTask>()
         private set
 
@@ -50,7 +54,7 @@ class QuicklyChecklistViewModel(
     }
 
     fun onShareChecklistBackClick() {
-        val quicklyChecklist = quicklyChecklist
+        val quicklyChecklist = this.quicklyChecklist
         if (quicklyChecklist != null) {
             launchIO {
                 convertQuicklyChecklistIntoJsonUseCase(quicklyChecklist).onSuccess {
@@ -64,6 +68,20 @@ class QuicklyChecklistViewModel(
                 }
             }
         }
+    }
+
+    fun onSaveNewChecklist() {
+        isSaveChecklistBottomSheet.value = true
+        val quicklyChecklist = this.quicklyChecklist
+        if (quicklyChecklist != null) {
+            launchMain {
+                _effects.emit(QuicklyChecklistUiEffect.OnSaveNewChecklist(quicklyChecklist))
+            }
+        }
+    }
+
+    fun setSaveChecklistBottomSheetFalse() {
+        isSaveChecklistBottomSheet.value = false
     }
 
     private fun initQuicklyChecklistJson() {

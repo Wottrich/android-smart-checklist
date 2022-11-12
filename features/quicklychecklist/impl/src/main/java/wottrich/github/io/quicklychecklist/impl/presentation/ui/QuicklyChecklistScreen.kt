@@ -21,6 +21,10 @@ import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -31,9 +35,11 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.datasource.entity.NewTask
+import wottrich.github.io.datasource.entity.QuicklyChecklist
 import wottrich.github.io.impl.presentation.ui.TaskLazyColumnComponent
 import wottrich.github.io.quicklychecklist.impl.R
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.InvalidChecklist
+import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.OnSaveNewChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.OnShareChecklistBack
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.SnackbarError
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyChecklistViewModel
@@ -55,6 +61,7 @@ fun QuicklyChecklistScreen(
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun Screen(
     quicklyChecklistJson: String,
@@ -66,14 +73,29 @@ private fun Screen(
     },
 ) {
     val scaffoldState = rememberScaffoldState()
+    val bottomSheetState =
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+    val coroutineScope = rememberCoroutineScope()
+    var quicklyChecklist: MutableState<QuicklyChecklist?> = remember {
+        mutableStateOf(null)
+    }
     ScreenEffect(
         scaffoldState = scaffoldState,
         viewModel = viewModel,
         onInvalidChecklist = onInvalidChecklist,
-        onShareBackClick = onShareBackClick
+        onShareBackClick = onShareBackClick,
+        onSaveNewChecklist = {
+            quicklyChecklist.value = it
+            coroutineScope.launch {
+                bottomSheetState.show()
+            }
+        }
     )
     ScreenContent(
         scaffoldState = scaffoldState,
+        bottomSheetState = bottomSheetState,
+        coroutineScope = coroutineScope,
+        quicklyChecklist = quicklyChecklist.value,
         viewModel = viewModel,
         onBackPressed = onBackPressed
     )
@@ -84,7 +106,8 @@ private fun ScreenEffect(
     scaffoldState: ScaffoldState,
     viewModel: QuicklyChecklistViewModel,
     onInvalidChecklist: () -> Unit,
-    onShareBackClick: (String) -> Unit
+    onShareBackClick: (String) -> Unit,
+    onSaveNewChecklist: (QuicklyChecklist) -> Unit,
 ) {
     val effects = viewModel.effects
     val context = LocalContext.current
@@ -93,6 +116,7 @@ private fun ScreenEffect(
             when (effect) {
                 InvalidChecklist -> onInvalidChecklist()
                 is OnShareChecklistBack -> onShareBackClick(effect.quicklyChecklistJson)
+                is OnSaveNewChecklist -> onSaveNewChecklist(effect.quicklyChecklist)
                 is SnackbarError ->
                     scaffoldState.snackbarHostState.showSnackbar(
                         context.getString(effect.messageError)
@@ -106,12 +130,13 @@ private fun ScreenEffect(
 @Composable
 private fun ScreenContent(
     scaffoldState: ScaffoldState,
+    bottomSheetState: ModalBottomSheetState,
+    coroutineScope: CoroutineScope,
+    quicklyChecklist: QuicklyChecklist?,
     viewModel: QuicklyChecklistViewModel,
-    onBackPressed: () -> Unit
+    onBackPressed: () -> Unit,
 ) {
-    val bottomSheetState =
-        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
-    val coroutineScope = rememberCoroutineScope()
+    val isSaveChecklistBottomSheet by viewModel.isSaveChecklistBottomSheet
     fun hideBottomSheet() {
         coroutineScope.launch {
             bottomSheetState.hide()
@@ -120,19 +145,23 @@ private fun ScreenContent(
     ModalBottomSheetContents(
         bottomSheetState = bottomSheetState,
         bottomSheetContent = {
-            QuicklyChecklistConfirmBottomSheetContent(
-                hasExistentChecklist = false,
-                onShareBackClick = {
-                    hideBottomSheet()
-                    viewModel.onShareChecklistBackClick()
-                },
-                onSaveChecklist = {
-                    hideBottomSheet()
-                },
-                onReplaceExistentChecklist = {
-                    hideBottomSheet()
-                }
-            )
+            if (isSaveChecklistBottomSheet) {
+                QuicklyChecklistAddNewChecklistBottomSheetContent(quicklyChecklist)
+            } else {
+                QuicklyChecklistConfirmBottomSheetContent(
+                    hasExistentChecklist = false,
+                    onShareBackClick = {
+                        hideBottomSheet()
+                        viewModel.onShareChecklistBackClick()
+                    },
+                    onSaveChecklist = {
+                        viewModel.onSaveNewChecklist()
+                    },
+                    onReplaceExistentChecklist = {
+                        hideBottomSheet()
+                    }
+                )
+            }
         },
         content = {
             QuicklyChecklistScaffold(

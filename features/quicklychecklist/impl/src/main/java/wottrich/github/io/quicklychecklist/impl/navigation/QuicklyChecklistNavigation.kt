@@ -1,6 +1,7 @@
 package wottrich.github.io.quicklychecklist.impl.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -10,6 +11,7 @@ import wottrich.github.io.baseui.navigation.defaultComposableAnimation
 import wottrich.github.io.quicklychecklist.impl.presentation.ui.InitialQuicklyChecklistScreen
 import wottrich.github.io.quicklychecklist.impl.presentation.ui.QuicklyChecklistScreen
 
+@OptIn(ExperimentalMaterialApi::class)
 @ExperimentalAnimationApi
 fun NavGraphBuilder.quicklyChecklistNavigation(
     navHostController: NavHostController,
