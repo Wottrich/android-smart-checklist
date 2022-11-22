@@ -11,5 +11,5 @@ sealed class QuicklyChecklistUiEffect {
     data class OnSaveNewChecklist(val quicklyChecklist: QuicklyChecklist) :
         QuicklyChecklistUiEffect()
 
-    data class SnackbarError(@StringRes val messageError: Int) : QuicklyChecklistUiEffect()
+    data class ShowSnackbar(@StringRes val message: Int) : QuicklyChecklistUiEffect()
 }

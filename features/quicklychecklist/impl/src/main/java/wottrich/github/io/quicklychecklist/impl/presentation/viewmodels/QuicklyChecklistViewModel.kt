@@ -63,7 +63,7 @@ class QuicklyChecklistViewModel(
                     }
                 }.onFailure {
                     launchMain {
-                        _effects.emit(QuicklyChecklistUiEffect.SnackbarError(R.string.quickly_checklist_share_error))
+                        _effects.emit(QuicklyChecklistUiEffect.ShowSnackbar(R.string.quickly_checklist_share_error))
                     }
                 }
             }
@@ -80,7 +80,12 @@ class QuicklyChecklistViewModel(
         }
     }
 
-    fun setSaveChecklistBottomSheetFalse() {
+    fun setSaveChecklistBottomSheetFalse(shouldSendSuccessMessage: Boolean = false) {
+        if (shouldSendSuccessMessage) {
+            launchMain {
+                _effects.emit(QuicklyChecklistUiEffect.ShowSnackbar(R.string.quickly_checklist_options_save_new_checklist_success_snackbar))
+            }
+        }
         isSaveChecklistBottomSheet.value = false
     }
 

@@ -8,6 +8,7 @@ import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.datasource.entity.QuicklyChecklist
 import wottrich.github.io.impl.domain.usecase.AddManyTasksUseCase
 import wottrich.github.io.tools.base.BaseViewModel
+import wottrich.github.io.tools.base.UuidGenerator
 
 class QuicklyChecklistAddNewChecklistViewModel(
     private val addNewChecklistUseCase: AddNewChecklistUseCase,
@@ -36,7 +37,7 @@ class QuicklyChecklistAddNewChecklistViewModel(
 
     private fun getTasksWithChecklistId(uuid: String): List<NewTask> {
         return quicklyChecklist.tasks.map {
-            it.copy(parentUuid = uuid)
+            it.copy(uuid = UuidGenerator.getRandomUuid(), parentUuid = uuid)
         }
     }
 }

@@ -25,6 +25,7 @@ import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyC
 @Composable
 fun ColumnScope.QuicklyChecklistAddNewChecklistBottomSheetContent(
     quicklyChecklist: QuicklyChecklist?,
+    onConfirmButtonClicked: () -> Unit,
     viewModel: QuicklyChecklistAddNewChecklistViewModel = getViewModel {
         parametersOf(quicklyChecklist)
     }
@@ -45,7 +46,10 @@ fun ColumnScope.QuicklyChecklistAddNewChecklistBottomSheetContent(
     Button(
         modifier = Modifier.fillMaxWidth(),
         enabled = state.isButtonEnabled,
-        onClick = viewModel::onConfirmButtonClicked,
+        onClick = {
+            onConfirmButtonClicked()
+            viewModel.onConfirmButtonClicked()
+        },
         colors = defaultButtonColors()
     ) {
         Text(text = stringResource(id = R.string.quickly_checklist_confirm_new_checklist_name))

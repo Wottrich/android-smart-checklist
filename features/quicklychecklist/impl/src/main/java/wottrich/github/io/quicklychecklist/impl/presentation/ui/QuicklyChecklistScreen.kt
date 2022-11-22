@@ -41,7 +41,7 @@ import wottrich.github.io.quicklychecklist.impl.R
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.InvalidChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.OnSaveNewChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.OnShareChecklistBack
-import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.SnackbarError
+import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.ShowSnackbar
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyChecklistViewModel
 
 @Composable
@@ -74,7 +74,12 @@ private fun Screen(
 ) {
     val scaffoldState = rememberScaffoldState()
     val bottomSheetState =
-        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden)
+        rememberModalBottomSheetState(initialValue = ModalBottomSheetValue.Hidden) { modalBottomSheetValue ->
+            if (modalBottomSheetValue == ModalBottomSheetValue.Hidden) {
+                viewModel.setSaveChecklistBottomSheetFalse()
+            }
+            true
+        }
     val coroutineScope = rememberCoroutineScope()
     var quicklyChecklist: MutableState<QuicklyChecklist?> = remember {
         mutableStateOf(null)
@@ -117,9 +122,9 @@ private fun ScreenEffect(
                 InvalidChecklist -> onInvalidChecklist()
                 is OnShareChecklistBack -> onShareBackClick(effect.quicklyChecklistJson)
                 is OnSaveNewChecklist -> onSaveNewChecklist(effect.quicklyChecklist)
-                is SnackbarError ->
+                is ShowSnackbar ->
                     scaffoldState.snackbarHostState.showSnackbar(
-                        context.getString(effect.messageError)
+                        context.getString(effect.message)
                     )
             }
         }
@@ -146,7 +151,13 @@ private fun ScreenContent(
         bottomSheetState = bottomSheetState,
         bottomSheetContent = {
             if (isSaveChecklistBottomSheet) {
-                QuicklyChecklistAddNewChecklistBottomSheetContent(quicklyChecklist)
+                QuicklyChecklistAddNewChecklistBottomSheetContent(
+                    quicklyChecklist = quicklyChecklist,
+                    onConfirmButtonClicked = {
+                        hideBottomSheet()
+                        viewModel.setSaveChecklistBottomSheetFalse(true)
+                    }
+                )
             } else {
                 QuicklyChecklistConfirmBottomSheetContent(
                     hasExistentChecklist = false,

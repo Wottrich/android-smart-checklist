@@ -18,7 +18,9 @@ import androidx.compose.material.icons.filled.Create
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import wottrich.github.io.baseui.ui.Dimens.BaseFour
+import wottrich.github.io.quicklychecklist.impl.R
 
 @Composable
 fun ColumnScope.QuicklyChecklistConfirmBottomSheetContent(
@@ -47,10 +49,10 @@ private fun LazyListScope.shareBack(onClick: () -> Unit) {
                 )
             },
             text = {
-                Text("Compartilhar de volta")
+                Text(text = stringResource(id = R.string.quickly_checklist_options_share_back_title))
             },
             secondaryText = {
-                Text("Compartilhe de volta as suas mudanças com a pessoa que te enviou!")
+                Text(text = stringResource(id = R.string.quickly_checklist_options_share_back_subtitle))
             },
             onClick = onClick
         )
@@ -68,10 +70,10 @@ private fun LazyListScope.saveChecklist(onClick: () -> Unit) {
                 )
             },
             text = {
-                Text("Salvar checklist como nova")
+                Text(text = stringResource(id = R.string.quickly_checklist_options_save_new_checklist_title))
             },
             secondaryText = {
-                Text(text = "Salve suas alterações como uma checklist nova!")
+                Text(text = stringResource(id = R.string.quickly_checklist_options_save_new_checklist_subtitle))
             },
             onClick = onClick
         )
@@ -89,10 +91,10 @@ private fun LazyListScope.replaceExistentChecklist(onClick: () -> Unit) {
                 )
             },
             text = {
-                Text("Aplicar alteração na checklist existente")
+                Text(stringResource(id = R.string.quickly_checklist_options_replace_exist_checklist_title))
             },
             secondaryText = {
-                Text("Identificamos que essa checklist é sua, clique para aplicar as alterações nela!")
+                Text(stringResource(id = R.string.quickly_checklist_options_replace_exist_checklist_subtitle))
             },
             onClick = onClick
         )

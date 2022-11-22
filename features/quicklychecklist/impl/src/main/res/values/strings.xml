@@ -8,4 +8,11 @@
     <string name="quickly_checklist_finish_editing_content_description">Click to finish editing checklist</string>
     <string name="quickly_checklist_type_checklist_name_hint">Enter checklist name</string>
     <string name="quickly_checklist_confirm_new_checklist_name">Confirm</string>
+    <string name="quickly_checklist_options_save_new_checklist_success_snackbar">Save successful!</string>
+    <string name="quickly_checklist_options_save_new_checklist_title">Save checklist as new</string>
+    <string name="quickly_checklist_options_save_new_checklist_subtitle">Save your changes as a new checklist!</string>
+    <string name="quickly_checklist_options_share_back_title">Share checklist back</string>
+    <string name="quickly_checklist_options_share_back_subtitle">Share your changes back with the person who sent you!</string>
+    <string name="quickly_checklist_options_replace_exist_checklist_title">Apply change to existing checklist</string>
+    <string name="quickly_checklist_options_replace_exist_checklist_subtitle">We identified that this checklist is yours, click to apply the changes to it!</string>
 </resources>
