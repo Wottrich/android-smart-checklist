@@ -18,6 +18,7 @@ import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase
 import wottrich.github.io.impl.domain.usecase.GetChangeTaskStatusUseCase
 import wottrich.github.io.impl.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.quicklychecklist.impl.domain.ConvertChecklistIntoQuicklyChecklistUseCase
+import wottrich.github.io.quicklychecklist.impl.domain.GetQuicklyChecklistDeepLinkUseCase
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
 import wottrich.github.io.tools.base.onFailure
@@ -41,7 +42,8 @@ class HomeViewModel(
     private val getAddTaskUseCase: GetAddTaskUseCase,
     private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
     private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
-    private val convertChecklistIntoQuicklyChecklistUseCase: ConvertChecklistIntoQuicklyChecklistUseCase
+    private val convertChecklistIntoQuicklyChecklistUseCase: ConvertChecklistIntoQuicklyChecklistUseCase,
+    private val getQuicklyChecklistDeepLinkUseCase: GetQuicklyChecklistDeepLinkUseCase
 ) : BaseViewModel(dispatchers) {
 
     private val pendingActions = MutableSharedFlow<HomeUiActions>()
@@ -201,9 +203,7 @@ class HomeViewModel(
         if (checklistWithTasks != null) {
             launchIO {
                 convertChecklistIntoQuicklyChecklistUseCase(checklistWithTasks).onSuccess {
-                    launchMain {
-                        _uiEffects.emit(HomeUiEffects.OnShareQuicklyChecklist(it))
-                    }
+                    handleQuicklyChecklistDeepLink(it)
                 }.onFailure {
                     launchMain {
                         _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
@@ -213,6 +213,15 @@ class HomeViewModel(
         }
     }
 
+    private fun handleQuicklyChecklistDeepLink(quicklyChecklistJson: String) {
+        launchIO {
+            getQuicklyChecklistDeepLinkUseCase(quicklyChecklistJson).onSuccess {
+                _uiEffects.emit(HomeUiEffects.OnShareQuicklyChecklist(it))
+            }.onFailure {
+                _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
+            }
+        }
+    }
 }
 
 data class HomeState(

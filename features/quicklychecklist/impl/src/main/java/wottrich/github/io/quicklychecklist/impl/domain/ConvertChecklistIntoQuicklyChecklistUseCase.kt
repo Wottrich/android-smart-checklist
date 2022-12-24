@@ -2,7 +2,9 @@ package wottrich.github.io.quicklychecklist.impl.domain
 
 import com.google.gson.Gson
 import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.datasource.entity.QuicklyChecklist
+import wottrich.github.io.datasource.entity.QuicklyTask
 import wottrich.github.io.tools.base.KotlinResultUseCase
 import wottrich.github.io.tools.base.Result
 
@@ -19,7 +21,10 @@ class ConvertChecklistIntoQuicklyChecklistUseCase : KotlinResultUseCase<NewCheck
     private fun createQuicklyChecklist(checklistWithTasks: NewChecklistWithNewTasks): QuicklyChecklist {
         return QuicklyChecklist(
             checklistUuid = checklistWithTasks.newChecklist.uuid,
-            tasks = checklistWithTasks.newTasks
+            tasks = checklistWithTasks.newTasks.toQuicklyTaskList()
         )
     }
+
+    private fun List<NewTask>.toQuicklyTaskList() =
+        this.map { QuicklyTask(it.name, it.isCompleted) }
 }

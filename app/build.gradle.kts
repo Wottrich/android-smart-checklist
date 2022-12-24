@@ -1,10 +1,3 @@
-//plugins {
-//    id 'com.android.application'
-//    id 'kotlin-android'
-//    id 'kotlin-android-extensions'
-//    id 'kotlin-kapt'
-//}
-
 plugins {
     id(Plugins.androidApplication)
     id(Plugins.kotlinAndroid)

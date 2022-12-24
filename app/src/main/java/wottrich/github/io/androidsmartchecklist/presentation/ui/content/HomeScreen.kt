@@ -44,7 +44,6 @@ fun HomeScreen(
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
-    onQuicklyChecklist: () -> Unit
 ) {
     ApplicationTheme {
         Screen(
@@ -52,8 +51,7 @@ fun HomeScreen(
             onShareText = onShareText,
             onChecklistSettings = onChecklistSettings,
             onAboutUsClick = onAboutUsClick,
-            onHelpClick = onHelpClick,
-            onQuicklyChecklist = onQuicklyChecklist
+            onHelpClick = onHelpClick
         )
     }
 }
@@ -65,7 +63,6 @@ private fun Screen(
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
-    onQuicklyChecklist: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -98,7 +95,6 @@ private fun Screen(
                 onAddNewChecklist = onAddNewChecklist,
                 onAboutUsClick = onAboutUsClick,
                 onHelpClick = onHelpClick,
-                onQuicklyChecklist = onQuicklyChecklist
             )
         },
         onTitleContent = {
@@ -147,7 +143,6 @@ private fun DrawerContent(
     onAddNewChecklist: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
-    onQuicklyChecklist: () -> Unit
 ) {
     fun closeDrawerState() {
         rememberCoroutineScope.launch {
@@ -170,10 +165,6 @@ private fun DrawerContent(
             onHelpClick()
             closeDrawerState()
         },
-        onQuicklyChecklist = {
-            onQuicklyChecklist()
-            closeDrawerState()
-        }
     )
 }
 

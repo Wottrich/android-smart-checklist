@@ -5,11 +5,17 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.flow.Flow
+import wottrich.github.io.quicklychecklist.impl.domain.DecodeEncodedQuicklyChecklistUseCase
 import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
+import wottrich.github.io.tools.base.onFailure
+import wottrich.github.io.tools.base.onSuccess
 
-class InitialQuicklyChecklistViewModel : BaseViewModel() {
+class InitialQuicklyChecklistViewModel(
+    private val decodeEncodedQuicklyChecklistUseCase: DecodeEncodedQuicklyChecklistUseCase,
+    private val encodedQuicklyChecklist: String?
+) : BaseViewModel() {
 
     var quicklyChecklistJson by mutableStateOf("")
         private set
@@ -18,28 +24,55 @@ class InitialQuicklyChecklistViewModel : BaseViewModel() {
         quicklyChecklistJson.isNotEmpty()
     }
 
+    val isChecklistReceived by derivedStateOf {
+        quicklyChecklistJson.isNotEmpty()
+    }
+
     private val _effects = SingleShotEventBus<InitialQuicklyChecklistUiEffect>()
     val effects: Flow<InitialQuicklyChecklistUiEffect> = _effects.events
+
+    init {
+        decodeEncodedQuicklyChecklistIfNotNull()
+    }
 
     fun onQuicklyChecklistJsonChange(quicklyChecklistJson: String) {
         this.quicklyChecklistJson = quicklyChecklistJson
     }
 
     fun onConfirmButtonClicked() {
+        handleQuicklyChecklistJsonToNextScreen()
+    }
+
+    fun onInvalidChecklist() {
+        handleInvalidChecklistEffect()
+    }
+
+    private fun decodeEncodedQuicklyChecklistIfNotNull() {
+        if (encodedQuicklyChecklist != null) {
+            launchIO {
+                decodeEncodedQuicklyChecklistUseCase(encodedQuicklyChecklist).onSuccess {
+                    quicklyChecklistJson = it
+                    handleQuicklyChecklistJsonToNextScreen()
+                }.onFailure {
+                    handleInvalidChecklistEffect()
+                }
+            }
+        }
+    }
+
+    private fun handleQuicklyChecklistJsonToNextScreen() {
         launchMain {
             _effects.emit(
-                InitialQuicklyChecklistUiEffect.OnConfirmButtonClicked(quicklyChecklistJson)
+                InitialQuicklyChecklistUiEffect.OnQuicklyChecklistJson(quicklyChecklistJson)
             )
         }
     }
 
-    fun onInvalidChecklist() {
+    private fun handleInvalidChecklistEffect() {
         launchMain {
             _effects.emit(
                 InitialQuicklyChecklistUiEffect.OnInvalidChecklist
             )
         }
     }
-
-
 }

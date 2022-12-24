@@ -1,7 +1,7 @@
 package wottrich.github.io.quicklychecklist.impl.presentation.states
 
 sealed class InitialQuicklyChecklistUiEffect {
-    data class OnConfirmButtonClicked(val quicklyChecklistJson: String) :
+    data class OnQuicklyChecklistJson(val quicklyChecklistJson: String) :
         InitialQuicklyChecklistUiEffect()
     object OnInvalidChecklist : InitialQuicklyChecklistUiEffect()
 }

@@ -16,6 +16,7 @@ object Versions {
     const val composeActivityVersion = "1.3.1"
     const val composeNavigationVersion = "2.5.0-alpha04"
     const val composeNavigationAnimationAccompanistVersion = "0.22.0-rc"
+    const val composeNavigationAccompanistVersion = "0.28.0"
     const val accompanistVersion = "0.19.0"
     const val systemUiControllerVersion = "0.24.6-alpha"
 

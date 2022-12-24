@@ -55,7 +55,6 @@ fun HomeDrawerStatefulContent(
     onAddNewChecklist: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
-    onQuicklyChecklist: () -> Unit,
     viewModel: HomeDrawerViewModel = getViewModel()
 ) {
     val state by viewModel.drawerStateFlow.collectAsState()
@@ -83,7 +82,6 @@ fun HomeDrawerStatefulContent(
         },
         onAboutUsClick = onAboutUsClick,
         onHelpClick = onHelpClick,
-        onQuicklyChecklist = onQuicklyChecklist
     )
 
 }
@@ -97,7 +95,6 @@ private fun HomeDrawerStateless(
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
-    onQuicklyChecklist: () -> Unit
 ) {
     when (state) {
         is HomeDrawerState.Loading -> CircularProgressIndicator()
@@ -110,7 +107,6 @@ private fun HomeDrawerStateless(
             onEditMode = onEditMode,
             onAboutUsClick = onAboutUsClick,
             onHelpClick = onHelpClick,
-            onQuicklyChecklist = onQuicklyChecklist
         )
     }
 }
@@ -125,7 +121,6 @@ private fun HomeDrawerSuccessContent(
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
-    onQuicklyChecklist: () -> Unit
 ) {
     val buttonContentDescription = stringResource(id = R.string.floating_action_content_description)
     Column(
@@ -182,7 +177,6 @@ private fun HomeDrawerSuccessContent(
                     ).uppercase()
                 )
             }
-            QuicklyChecklistIcon(onQuicklyChecklist = onQuicklyChecklist)
             EditableComponent(isEditModeEnabled = isEditModeEnabled, onEditMode = onEditMode)
         }
         Divider(

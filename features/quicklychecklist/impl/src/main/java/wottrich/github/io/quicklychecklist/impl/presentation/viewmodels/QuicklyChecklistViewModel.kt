@@ -1,7 +1,6 @@
 package wottrich.github.io.quicklychecklist.impl.presentation.viewmodels
 
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import kotlinx.coroutines.flow.Flow
@@ -10,6 +9,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.datasource.entity.QuicklyChecklist
+import wottrich.github.io.datasource.entity.QuicklyTask
 import wottrich.github.io.quicklychecklist.impl.R
 import wottrich.github.io.quicklychecklist.impl.domain.ConvertQuicklyChecklistIntoJsonUseCase
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect
@@ -32,14 +32,28 @@ class QuicklyChecklistViewModel(
     private val _effects = SingleShotEventBus<QuicklyChecklistUiEffect>()
     val effects: Flow<QuicklyChecklistUiEffect> = _effects.events
 
-    var isSaveChecklistBottomSheet = mutableStateOf(false)
-    private set
-
     var tasks = mutableStateListOf<NewTask>()
         private set
 
     init {
         initQuicklyChecklistJson()
+    }
+
+    fun onConfirmBottomSheetEdit() {
+        val quicklyChecklist = this.quicklyChecklist
+        if (quicklyChecklist != null) {
+            launchIO {
+                convertQuicklyChecklistIntoJsonUseCase(quicklyChecklist).onSuccess {
+                    launchMain {
+                        _effects.emit(QuicklyChecklistUiEffect.OnConfirmQuicklyChecklist(it))
+                    }
+                }.onFailure {
+                    launchMain {
+                        _effects.emit(QuicklyChecklistUiEffect.SnackbarError(R.string.quickly_checklist_share_error))
+                    }
+                }
+            }
+        }
     }
 
     fun onCheckChange(newTask: NewTask) {
@@ -51,37 +65,6 @@ class QuicklyChecklistViewModel(
         }
         updateTasks(newTaskList)
         _state.value = state.copy(tasks = tasks)
-    }
-
-    fun onShareChecklistBackClick() {
-        val quicklyChecklist = this.quicklyChecklist
-        if (quicklyChecklist != null) {
-            launchIO {
-                convertQuicklyChecklistIntoJsonUseCase(quicklyChecklist).onSuccess {
-                    launchMain {
-                        _effects.emit(QuicklyChecklistUiEffect.OnShareChecklistBack(it))
-                    }
-                }.onFailure {
-                    launchMain {
-                        _effects.emit(QuicklyChecklistUiEffect.SnackbarError(R.string.quickly_checklist_share_error))
-                    }
-                }
-            }
-        }
-    }
-
-    fun onSaveNewChecklist() {
-        isSaveChecklistBottomSheet.value = true
-        val quicklyChecklist = this.quicklyChecklist
-        if (quicklyChecklist != null) {
-            launchMain {
-                _effects.emit(QuicklyChecklistUiEffect.OnSaveNewChecklist(quicklyChecklist))
-            }
-        }
-    }
-
-    fun setSaveChecklistBottomSheetFalse() {
-        isSaveChecklistBottomSheet.value = false
     }
 
     private fun initQuicklyChecklistJson() {
@@ -107,8 +90,9 @@ class QuicklyChecklistViewModel(
 
     private fun handleQuicklyChecklistState(quicklyChecklist: QuicklyChecklist) {
         _state.update {
-            updateTasks(quicklyChecklist.tasks)
-            it.copy(tasks = quicklyChecklist.tasks)
+            val tasks = quicklyChecklist.getConvertedTasks()
+            updateTasks(tasks)
+            it.copy(tasks = tasks)
         }
     }
 
@@ -119,7 +103,12 @@ class QuicklyChecklistViewModel(
     }
 
     private fun updateTasks(newTasks: List<NewTask>) {
+        quicklyChecklist = quicklyChecklist?.copy(tasks = newTasks.geConvertedQuicklyChecklist())
         tasks.clear()
         tasks.addAll(newTasks)
+    }
+
+    private fun List<NewTask>.geConvertedQuicklyChecklist() = this.map {
+        QuicklyTask(name = it.name, isCompleted = it.isCompleted)
     }
 }

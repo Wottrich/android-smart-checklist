@@ -33,7 +33,8 @@ val featureHomeModules = module {
             getAddTaskUseCase = get(),
             getChangeTaskStatusUseCase = get(),
             getDeleteTaskUseCase = get(),
-            convertChecklistIntoQuicklyChecklistUseCase = get()
+            convertChecklistIntoQuicklyChecklistUseCase = get(),
+            getQuicklyChecklistDeepLinkUseCase = get()
         )
     }
 
