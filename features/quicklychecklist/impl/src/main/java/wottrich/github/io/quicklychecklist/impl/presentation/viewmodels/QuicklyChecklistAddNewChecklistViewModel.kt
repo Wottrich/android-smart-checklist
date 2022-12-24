@@ -13,6 +13,7 @@ import wottrich.github.io.impl.domain.usecase.AddManyTasksUseCase
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistAddNewChecklistUiEffect
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
+import wottrich.github.io.tools.base.UuidGenerator
 import wottrich.github.io.tools.base.onFailure
 import wottrich.github.io.tools.base.onSuccess
 
@@ -74,7 +75,7 @@ class QuicklyChecklistAddNewChecklistViewModel(
     private fun getTasksWithChecklistId(parentUuid: String): List<NewTask> {
         return quicklyChecklist?.getConvertedTasks()
             ?.map {
-                it.copy(parentUuid = parentUuid)
+                it.copy(uuid = UuidGenerator.getRandomUuid(), parentUuid = parentUuid)
             }.orEmpty()
     }
 

@@ -89,10 +89,6 @@ class HomeActivity : AppCompatActivity() {
                     navHostController = navHostController,
                     onShareChecklistBack = {
                         shareIntentText(it)
-                        navHostController.popBackStack(
-                            route = NavigationHome.Destinations.HomeScreen.route,
-                            inclusive = false
-                        )
                     }
                 )
             }
