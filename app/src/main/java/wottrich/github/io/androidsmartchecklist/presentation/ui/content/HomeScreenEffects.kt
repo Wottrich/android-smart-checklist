@@ -4,14 +4,16 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import wottrich.github.io.androidsmartchecklist.R.string
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.OnShareQuicklyChecklist
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarChecklistDelete
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarError
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarTaskCompleted
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarTaskUncompleted
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
@@ -21,11 +23,13 @@ fun HomeScreenEffects(
     coroutineScope: CoroutineScope,
     snackbarHostState: SnackbarHostState,
     effects: Flow<HomeUiEffects>,
-    updateSnackbarColor: (Color) -> Unit
+    updateSnackbarColor: (Color) -> Unit,
+    onShareQuicklyChecklist: (String) -> Unit
 ) {
     val uncompletedTaskMessage = stringResource(id = string.snackbar_uncompleted_task_message)
     val completeTaskMessage = stringResource(id = string.snackbar_completed_task_message)
     val deleteChecklistMessage = stringResource(id = string.snackbar_checklist_deleted)
+    val context = LocalContext.current
     val positiveColor = SmartChecklistTheme.colors.status.positive
     val negativeColor = SmartChecklistTheme.colors.status.negative
     LaunchedEffect(key1 = effects) {
@@ -52,7 +56,10 @@ fun HomeScreenEffects(
                 is SnackbarChecklistDelete -> {
                     showSnackbar(deleteChecklistMessage, positiveColor, true)
                 }
-
+                is OnShareQuicklyChecklist -> onShareQuicklyChecklist(it.quicklyChecklistJson)
+                is SnackbarError -> {
+                    showSnackbar(context.getString(it.errorMessage), negativeColor, true)
+                }
             }
         }
     }

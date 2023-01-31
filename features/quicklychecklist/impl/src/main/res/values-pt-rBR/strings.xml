@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quickly_checklist_screen_title">Quickly Checklist</string>
+    <string name="quickly_checklist_screen_field_hint">Cole a checklist compartilhada com você</string>
+    <string name="quickly_checklist_share_error">Não foi possível compartilhar a checklist, tente novamente mais tarde!</string>
+    <string name="quickly_checklist_save_new_checklist_error">Algo deu errado em salvar a nova checklist, tente novamente mais tarde!</string>
+    <string name="quickly_checklist_editing_checklist">Editando checklist</string>
+    <string name="quickly_checklist_finish_editing_content_description">Clique para terminar de editar a checklist</string>
+    <string name="quickly_checklist_type_checklist_name_hint">Escolha o nome para sua checklist</string>
+    <string name="quickly_checklist_confirm_new_checklist_name">Confirmar</string>
+    <string name="quickly_checklist_share_back">Compartilhar de volta</string>
+    <string name="quickly_checklist_share_back_description">Compartilhe de volta as suas mudanças com a pessoa que te enviou!</string>
+    <string name="quickly_checklist_save_new_checklist">Salvar checklist como nova</string>
+    <string name="quickly_checklist_save_new_checklist_description">Salve suas alterações como uma checklist nova!</string>
+    <string name="quickly_checklist_save_existent_checklist">Aplicar alteração na checklist existente</string>
+    <string name="quickly_checklist_save_existent_checklist_description">Identificamos que essa checklist é sua, clique para aplicar as alterações nela!</string>
+    <string name="quickly_checklist_initial_screen_success_title">Conseguimos recuperar a checklist compartilhada com você, aproveite!</string>
+    <string name="quickly_checklist_initial_screen_processing_title">Construindo checklist recebida…</string>
+</resources>

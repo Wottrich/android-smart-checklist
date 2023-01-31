@@ -8,6 +8,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import com.google.accompanist.navigation.animation.composable
 
@@ -17,11 +18,13 @@ private const val ANIMATION_DURATION_IN_MILLS = 500
 fun NavGraphBuilder.defaultComposableAnimation(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
+    deepLinks: List<NavDeepLink> = emptyList(),
     content: @Composable AnimatedVisibilityScope.(NavBackStackEntry) -> Unit
 ) {
     composable(
         route = route,
         arguments = arguments,
+        deepLinks = deepLinks,
         enterTransition = {
             slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tween(ANIMATION_DURATION_IN_MILLS))
         },

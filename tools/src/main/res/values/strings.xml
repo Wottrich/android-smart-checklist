@@ -6,4 +6,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="confirm">Confirm</string>
+    <string name="default_continue">Continue</string>
 </resources>

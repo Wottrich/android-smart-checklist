@@ -13,9 +13,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
+import androidx.navigation.plusAssign
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.google.accompanist.navigation.material.BottomSheetNavigator
+import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
+import com.google.accompanist.navigation.material.ModalBottomSheetLayout
+import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import github.io.wottrich.newchecklist.navigation.NavigatorNewChecklist
 import github.io.wottrich.newchecklist.navigation.newChecklistNavigation
 import github.io.wottrich.ui.aboutus.data.model.AboutUsContentModel
@@ -29,21 +34,46 @@ import wottrich.github.io.androidsmartchecklist.presentation.ui.StatusBarColor
 import wottrich.github.io.androidsmartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.androidsmartchecklist.presentation.ui.content.HomeScreen
 import wottrich.github.io.baseui.navigation.defaultComposableAnimation
+import wottrich.github.io.quicklychecklist.impl.navigation.quicklyChecklistNavigation
 import wottrich.github.io.tools.extensions.shareIntentText
 
 class InvalidChecklistId : Exception("Checklist id must not be null")
 
 @InternalCoroutinesApi
-@OptIn(ExperimentalAnimationApi::class)
+@OptIn(ExperimentalAnimationApi::class, ExperimentalMaterialNavigationApi::class)
 class HomeActivity : AppCompatActivity() {
+
+    private var sharedNavHostController: NavHostController? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberAnimatedNavController()
-            AppNavigator(navHostController = navController)
+            val navController = rememberAnimatedNavController().also {
+                sharedNavHostController = it
+            }
+            val bottomSheetNavigator = rememberBottomSheetNavigator()
+            navController.navigatorProvider += bottomSheetNavigator
+            BottomSheetNavigator(bottomSheetNavigator = bottomSheetNavigator) {
+                AppNavigator(navHostController = navController)
+            }
             StatusBarColor()
         }
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        sharedNavHostController?.handleDeepLink(intent)
+    }
+
+    @Composable
+    private fun BottomSheetNavigator(
+        bottomSheetNavigator: BottomSheetNavigator,
+        content: @Composable () -> Unit
+    ) {
+        ModalBottomSheetLayout(
+            bottomSheetNavigator = bottomSheetNavigator,
+            content = content
+        )
     }
 
     @Composable
@@ -55,6 +85,12 @@ class HomeActivity : AppCompatActivity() {
                 homeNavigation(navHostController)
                 newChecklistNavigation(navHostController)
                 supportNavigation(navHostController)
+                quicklyChecklistNavigation(
+                    navHostController = navHostController,
+                    onShareChecklistBack = {
+                        shareIntentText(it)
+                    }
+                )
             }
         )
     }
@@ -71,7 +107,7 @@ class HomeActivity : AppCompatActivity() {
                     onAddNewChecklist = {
                         navHostController.navigate(NavigatorNewChecklist.route)
                     },
-                    onCopyChecklist = ::shareIntentText,
+                    onShareText = ::shareIntentText,
                     onChecklistSettings = {
                         val route =
                             Destinations.ChecklistSettingsScreen.route
@@ -122,7 +158,12 @@ class HomeActivity : AppCompatActivity() {
         try {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=$packageName")))
         } catch (e: ActivityNotFoundException) {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=$packageName")))
+            startActivity(
+                Intent(
+                    Intent.ACTION_VIEW,
+                    Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                )
+            )
         }
     }
 }
