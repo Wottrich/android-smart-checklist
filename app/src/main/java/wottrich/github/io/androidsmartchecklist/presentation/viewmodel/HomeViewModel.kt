@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
 import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarError
 import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase
@@ -159,13 +160,15 @@ class HomeViewModel(
 
     private suspend fun handleAddNewTaskAction(taskName: String) {
         val checklistId = homeStateFlow.value.checklistWithTasks?.newChecklist?.uuid
-        if (checklistId != null) {
+        if (checklistId != null && taskName.isNotEmpty()) {
             getAddTaskUseCase(
                 GetAddTaskUseCase.Params(
                     parentUuid = checklistId,
                     taskName = taskName
                 )
             )
+        } else {
+            _uiEffects.emit(SnackbarError(R.string.checklist_add_new_item_failure))
         }
     }
 
