@@ -27,7 +27,6 @@ fun DeleteIconWithProgression(
         val interactions = interaction.interactions
         val progress by pressProgressionInteractionState(
             interactions = interactions,
-            initialTimeInMillis = 0,
             timePressingToFinishInMillis = 500,
             onFinishTimePressing = { onDeleteTask() }
         )
