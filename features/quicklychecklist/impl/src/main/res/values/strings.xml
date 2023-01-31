@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="quickly_checklist_screen_title">Quickly Checklist</string>
+    <string name="quickly_checklist_screen_field_hint">Paste checklist shared with you</string>
+    <string name="quickly_checklist_share_error">Unable to share checklist, please try again later!</string>
+    <string name="quickly_checklist_save_new_checklist_error">Something gone wrong to save new checklist, please try again later!</string>
+    <string name="quickly_checklist_editing_checklist">Editing checklist</string>
+    <string name="quickly_checklist_finish_editing_content_description">Click to finish editing checklist</string>
+    <string name="quickly_checklist_type_checklist_name_hint">Enter checklist name</string>
+    <string name="quickly_checklist_confirm_new_checklist_name">Confirm</string>
+    <string name="quickly_checklist_share_back">Share back</string>
+    <string name="quickly_checklist_share_back_description">Share your changes back with the person who sent you!</string>
+    <string name="quickly_checklist_save_new_checklist">Save checklist as new</string>
+    <string name="quickly_checklist_save_new_checklist_description">Save your changes as a new checklist!</string>
+    <string name="quickly_checklist_save_existent_checklist">Apply change to existing checklist</string>
+    <string name="quickly_checklist_save_existent_checklist_description">We identified that this checklist is yours, click to apply the changes to it!</string>
+    <string name="quickly_checklist_initial_screen_success_title">We managed to recover the checklist shared with you, enjoy!</string>
+    <string name="quickly_checklist_initial_screen_processing_title">Building checklist received…</string>
+</resources>

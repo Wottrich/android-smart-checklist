@@ -35,6 +35,7 @@ fun RowScope.HomeTopBarActionsContent(
     onShowDeleteConfirmDialog: (() -> Unit),
     onCopyChecklist: () -> Unit,
     onChecklistSettings: () -> Unit,
+    onShareQuicklyChecklist: () -> Unit,
     onChangeState: () -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
@@ -50,7 +51,8 @@ fun RowScope.HomeTopBarActionsContent(
         dismissDropdownMenu = { isExpanded = false },
         onShowDeleteConfirmDialog = onShowDeleteConfirmDialog,
         onCopyChecklist = onCopyChecklist,
-        onChecklistSettings = onChecklistSettings
+        onChecklistSettings = onChecklistSettings,
+        onShareQuicklyChecklist = onShareQuicklyChecklist
     )
 }
 
@@ -60,7 +62,8 @@ private fun DropdownMenuActions(
     dismissDropdownMenu: () -> Unit,
     onShowDeleteConfirmDialog: () -> Unit,
     onCopyChecklist: () -> Unit,
-    onChecklistSettings: () -> Unit
+    onChecklistSettings: () -> Unit,
+    onShareQuicklyChecklist: () -> Unit
 ) {
     DropdownMenu(
         expanded = isExpanded,
@@ -77,6 +80,10 @@ private fun DropdownMenuActions(
         ChecklistSettingsDropdownMenuItem {
             dismissDropdownMenu()
             onChecklistSettings()
+        }
+        ShareQuicklyChecklistDropdownMenuItem {
+            dismissDropdownMenu()
+            onShareQuicklyChecklist()
         }
     }
 }
@@ -123,5 +130,20 @@ private fun ChecklistSettingsDropdownMenuItem(onChecklistSettings: () -> Unit) {
         onClick = onChecklistSettings
     ) {
         Text(text = stringResource(id = R.string.checklist_settings_screen_label))
+    }
+}
+
+@Composable
+private fun ShareQuicklyChecklistDropdownMenuItem(onChecklistSettings: () -> Unit) {
+    val onShareClickContentDescription = stringResource(
+        id = R.string.checklist_share_quickly_checklist_content_description
+    )
+    DropdownMenuItem(
+        modifier = Modifier.semantics {
+            contentDescription = onShareClickContentDescription
+        },
+        onClick = onChecklistSettings
+    ) {
+        Text(text = stringResource(id = R.string.checklist_share_quickly_checklist_label))
     }
 }

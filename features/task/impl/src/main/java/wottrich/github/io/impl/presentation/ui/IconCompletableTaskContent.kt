@@ -12,7 +12,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 import wottrich.github.io.impl.R
-import wottrich.github.io.impl.R.drawable
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -30,9 +29,9 @@ fun IconCompletableTaskContent(
 
     AnimatedContent(targetState = isCompletedTask) {
         val checkIcon = if (it) {
-            drawable.ic_completed
+            R.drawable.ic_completed
         } else {
-            drawable.ic_uncompleted
+            R.drawable.ic_uncompleted
         }
 
         Icon(
