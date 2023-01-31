@@ -1,5 +1,6 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
+import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateListOf
 import github.io.wottrich.checklist.domain.usecase.DeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.usecase.GetSelectedChecklistUseCase
@@ -10,13 +11,18 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
+import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase
 import wottrich.github.io.impl.domain.usecase.GetChangeTaskStatusUseCase
 import wottrich.github.io.impl.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.quicklychecklist.impl.domain.ConvertChecklistIntoQuicklyChecklistUseCase
+import wottrich.github.io.quicklychecklist.impl.domain.GetQuicklyChecklistDeepLinkUseCase
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
+import wottrich.github.io.tools.base.onFailure
+import wottrich.github.io.tools.base.onSuccess
 import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
@@ -36,6 +42,8 @@ class HomeViewModel(
     private val getAddTaskUseCase: GetAddTaskUseCase,
     private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
     private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
+    private val convertChecklistIntoQuicklyChecklistUseCase: ConvertChecklistIntoQuicklyChecklistUseCase,
+    private val getQuicklyChecklistDeepLinkUseCase: GetQuicklyChecklistDeepLinkUseCase
 ) : BaseViewModel(dispatchers) {
 
     private val pendingActions = MutableSharedFlow<HomeUiActions>()
@@ -190,6 +198,30 @@ class HomeViewModel(
         }
     }
 
+    fun onShareQuicklyChecklist() {
+        val checklistWithTasks = homeStateFlow.value.checklistWithTasks
+        if (checklistWithTasks != null) {
+            launchIO {
+                convertChecklistIntoQuicklyChecklistUseCase(checklistWithTasks).onSuccess {
+                    handleQuicklyChecklistDeepLink(it)
+                }.onFailure {
+                    launchMain {
+                        _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
+                    }
+                }
+            }
+        }
+    }
+
+    private fun handleQuicklyChecklistDeepLink(quicklyChecklistJson: String) {
+        launchIO {
+            getQuicklyChecklistDeepLinkUseCase(quicklyChecklistJson).onSuccess {
+                _uiEffects.emit(HomeUiEffects.OnShareQuicklyChecklist(it))
+            }.onFailure {
+                _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
+            }
+        }
+    }
 }
 
 data class HomeState(
@@ -218,6 +250,8 @@ sealed class HomeUiEffects {
     data class SnackbarTaskCompleted(val taskName: String) : HomeUiEffects()
     data class SnackbarTaskUncompleted(val taskName: String) : HomeUiEffects()
     object SnackbarChecklistDelete : HomeUiEffects()
+    data class SnackbarError(@StringRes val errorMessage: Int) : HomeUiEffects()
+    data class OnShareQuicklyChecklist(val quicklyChecklistJson: String) : HomeUiEffects()
 }
 
 sealed class HomeUiActions {

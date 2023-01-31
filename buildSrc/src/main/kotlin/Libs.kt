@@ -17,6 +17,10 @@ object Libs {
     //AppCompat
     const val appCompat = "androidx.appcompat:appcompat:${Versions.appCompatVersion}"
 
+    //Android lifecycle
+    const val lifecycleRuntime =
+        "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleRuntime}"
+
     //Koin
     const val insertKoinCore = "io.insert-koin:koin-core:${Versions.koinVersion}"
     const val insertKoinAndroid = "io.insert-koin:koin-android:${Versions.koinVersion}"
@@ -43,6 +47,8 @@ object Libs {
         "androidx.navigation:navigation-compose:${Versions.composeNavigationVersion}"
     const val composeNavigationAnimationAccompanist =
         "com.google.accompanist:accompanist-navigation-animation:${Versions.composeNavigationAnimationAccompanistVersion}"
+    const val composeNavigationAccompanist =
+        "com.google.accompanist:accompanist-navigation-material:${Versions.composeNavigationAccompanistVersion}"
 
     //Coil
     const val coilCompose = "io.coil-kt:coil-compose:${Versions.coilVersion}"
@@ -90,6 +96,10 @@ fun DependencyHandlerScope.composeUi() {
     "implementation"(Libs.placeholder)
 }
 
+fun DependencyHandlerScope.lifecycleLibs() {
+    "implementation"(Libs.lifecycleRuntime)
+}
+
 fun DependencyHandlerScope.coroutines() {
     "implementation"(Libs.coroutinesLib)
     "implementation"(Libs.coroutinesTestLib)
@@ -103,6 +113,7 @@ fun DependencyHandlerScope.koin() {
 
 fun DependencyHandlerScope.navigation(withAnimation: Boolean = false) {
     "implementation"(Libs.composeNavigation)
+    "implementation"(Libs.composeNavigationAccompanist)
     if (withAnimation) {
         "implementation"(Libs.composeNavigationAnimationAccompanist)
     }
@@ -126,6 +137,10 @@ fun DependencyHandlerScope.apiDigest() {
     "implementation"(Libs.retrofit)
     "implementation"(Libs.converterGson)
     "implementation"(Libs.loggingInterceptor)
+}
+
+fun DependencyHandlerScope.gson() {
+    "implementation"(Libs.converterGson)
 }
 
 fun DependencyHandlerScope.room(withCompiler: Boolean = false) {

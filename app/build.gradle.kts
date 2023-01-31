@@ -1,10 +1,3 @@
-//plugins {
-//    id 'com.android.application'
-//    id 'kotlin-android'
-//    id 'kotlin-android-extensions'
-//    id 'kotlin-kapt'
-//}
-
 plugins {
     id(Plugins.androidApplication)
     id(Plugins.kotlinAndroid)
@@ -84,6 +77,7 @@ dependencies {
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))
     implementation(project(path = ":features:newchecklist:public"))
+    implementation(project(path = ":features:quicklychecklist:impl"))
     implementation(project(path = ":ui-aboutus"))
     implementation(project(path = ":ui-support"))
     moduleCommonUiCompose()

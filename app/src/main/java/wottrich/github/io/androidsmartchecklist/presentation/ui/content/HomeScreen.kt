@@ -40,7 +40,7 @@ import wottrich.github.io.baseui.ui.ApplicationTheme
 @Composable
 fun HomeScreen(
     onAddNewChecklist: () -> Unit,
-    onCopyChecklist: (String) -> Unit,
+    onShareText: (String) -> Unit,
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
@@ -48,7 +48,7 @@ fun HomeScreen(
     ApplicationTheme {
         Screen(
             onAddNewChecklist = onAddNewChecklist,
-            onCopyChecklist = onCopyChecklist,
+            onShareText = onShareText,
             onChecklistSettings = onChecklistSettings,
             onAboutUsClick = onAboutUsClick,
             onHelpClick = onHelpClick
@@ -59,7 +59,7 @@ fun HomeScreen(
 @Composable
 private fun Screen(
     onAddNewChecklist: () -> Unit,
-    onCopyChecklist: (String) -> Unit,
+    onShareText: (String) -> Unit,
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
@@ -77,10 +77,12 @@ private fun Screen(
     HomeScreenEffects(
         coroutineScope = coroutineScope,
         snackbarHostState = scaffoldState.snackbarHostState,
-        effects = homeViewModel.uiEffects
-    ) {
-        snackbarColor = it
-    }
+        effects = homeViewModel.uiEffects,
+        updateSnackbarColor = {
+            snackbarColor = it
+        },
+        onShareQuicklyChecklist = onShareText
+    )
 
     HomeScaffold(
         scaffoldState = scaffoldState,
@@ -92,7 +94,7 @@ private fun Screen(
                 drawerState = drawerState,
                 onAddNewChecklist = onAddNewChecklist,
                 onAboutUsClick = onAboutUsClick,
-                onHelpClick = onHelpClick
+                onHelpClick = onHelpClick,
             )
         },
         onTitleContent = {
@@ -101,12 +103,13 @@ private fun Screen(
         actionContent = {
             TopBarActionContent(
                 checklistState = checklistState,
-                onCopyChecklist = onCopyChecklist,
+                onCopyChecklist = onShareText,
                 onChecklistSettings = {
                     checklistState.checklistWithTasks?.newChecklist?.uuid?.let {
                         onChecklistSettings(it)
                     }
                 },
+                onShareQuicklyChecklist = homeViewModel::onShareQuicklyChecklist,
                 homeViewModel = homeViewModel,
                 onShowDeleteDialog = { showDeleteDialog = SHOW }
             )
@@ -139,7 +142,7 @@ private fun DrawerContent(
     drawerState: DrawerState,
     onAddNewChecklist: () -> Unit,
     onAboutUsClick: () -> Unit,
-    onHelpClick: () -> Unit
+    onHelpClick: () -> Unit,
 ) {
     fun closeDrawerState() {
         rememberCoroutineScope.launch {
@@ -161,7 +164,7 @@ private fun DrawerContent(
         onHelpClick = {
             onHelpClick()
             closeDrawerState()
-        }
+        },
     )
 }
 
@@ -184,6 +187,7 @@ private fun RowScope.TopBarActionContent(
     checklistState: HomeState,
     onCopyChecklist: (String) -> Unit,
     onChecklistSettings: () -> Unit,
+    onShareQuicklyChecklist: () -> Unit,
     homeViewModel: HomeViewModel,
     onShowDeleteDialog: () -> Unit
 ) {
@@ -195,6 +199,7 @@ private fun RowScope.TopBarActionContent(
                 onCopyChecklist(checklistState.checklistWithTasks.toString())
             },
             onChecklistSettings = onChecklistSettings,
+            onShareQuicklyChecklist = onShareQuicklyChecklist,
             onChangeState = homeViewModel::onChangeEditModeClicked
         )
     }

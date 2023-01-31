@@ -19,7 +19,21 @@
         </activity>
         <activity android:name=".presentation.activity.MigrationActivity"/>
         <activity android:name=".presentation.activity.HomeActivity"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data
+                    android:scheme="http"
+                    android:host="wottrich.github.io"
+                    android:pathPrefix="/quicklychecklist"
+                    />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
