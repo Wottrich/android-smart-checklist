@@ -8,8 +8,7 @@ import androidx.compose.runtime.remember
 import github.io.wottrich.common.ui.compose.utils.pressProgressionInteractionState
 import wottrich.github.io.datasource.entity.NewTask
 
-private const val TIME_INITIAL_TO_DELETE_ITEM_IN_MILLIS = 0L
-private const val TIME_TO_DELETE_ITEM_IN_MILLIS = 500L
+private const val TIME_TO_DELETE_ITEM_IN_MILLIS = 800L
 
 @Composable
 fun TaskComponent(
@@ -24,7 +23,6 @@ fun TaskComponent(
     val interactions = interactionSource.interactions
     val progress by pressProgressionInteractionState(
         interactions = interactions,
-        initialTimeInMillis = TIME_INITIAL_TO_DELETE_ITEM_IN_MILLIS,
         timePressingToFinishInMillis = TIME_TO_DELETE_ITEM_IN_MILLIS,
         onFinishTimePressing = { onDeleteTask() }
     )
