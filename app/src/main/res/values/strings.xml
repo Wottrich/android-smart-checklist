@@ -34,6 +34,7 @@
     <string name="checklist_delete_checklist_confirm_label">You are about to delete this checklist forever, do you want to continue?</string>
     <string name="checklist_share_quickly_checklist_label">Share checklist with other person</string>
     <string name="checklist_share_quickly_checklist_content_description">Click to share your checklist with another SmartChecklist user</string>
+    <string name="checklist_add_new_item_failure">Task name cannot be empty!</string>
 
     <!-- Settings -->
     <string name="checklist_settings_screen_title">Settings Screen</string>
