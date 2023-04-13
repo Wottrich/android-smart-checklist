@@ -1,7 +1,6 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
 import androidx.annotation.StringRes
-import androidx.compose.runtime.mutableStateListOf
 import github.io.wottrich.checklist.domain.usecase.DeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.usecase.GetSelectedChecklistUseCase
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -10,14 +9,9 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.withContext
 import wottrich.github.io.androidsmartchecklist.R
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarError
 import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 import wottrich.github.io.datasource.entity.NewTask
-import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase
-import wottrich.github.io.impl.domain.usecase.GetChangeTaskStatusUseCase
-import wottrich.github.io.impl.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.quicklychecklist.impl.domain.ConvertChecklistIntoQuicklyChecklistUseCase
 import wottrich.github.io.quicklychecklist.impl.domain.GetQuicklyChecklistDeepLinkUseCase
 import wottrich.github.io.tools.SingleShotEventBus
@@ -40,9 +34,6 @@ class HomeViewModel(
     dispatchers: DispatchersProviders,
     private val getSelectedChecklistUseCase: GetSelectedChecklistUseCase,
     private val deleteChecklistUseCase: DeleteChecklistUseCase,
-    private val getAddTaskUseCase: GetAddTaskUseCase,
-    private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
-    private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
     private val convertChecklistIntoQuicklyChecklistUseCase: ConvertChecklistIntoQuicklyChecklistUseCase,
     private val getQuicklyChecklistDeepLinkUseCase: GetQuicklyChecklistDeepLinkUseCase
 ) : BaseViewModel(dispatchers) {
@@ -55,19 +46,12 @@ class HomeViewModel(
     private val _uiEffects = SingleShotEventBus<HomeUiEffects>()
     val uiEffects: Flow<HomeUiEffects> = _uiEffects.events
 
-    var tasks = mutableStateListOf<NewTask>()
-        private set
-
     init {
         launchIO {
             getSelectedChecklistUseCase().collect(
                 FlowCollector { selectedChecklistResult ->
                     val selectedChecklist = selectedChecklistResult.getOrNull()
                     handleSelectedChecklist(selectedChecklist)
-                    withContext(dispatchers.main) {
-                        tasks.clear()
-                        tasks.addAll(selectedChecklist?.newTasks.orEmpty())
-                    }
                 }
             )
         }
@@ -87,27 +71,21 @@ class HomeViewModel(
         }
     }
 
-    fun onAddItemButtonClicked(taskName: String) {
+    fun onShowTaskChangeStatusSnackbar(task: NewTask) {
         launchIO {
-            pendingActions.emit(HomeUiActions.AddNewTaskAction(taskName))
-        }
-    }
-
-    fun onUpdateItemClicked(task: NewTask) {
-        launchIO {
-            pendingActions.emit(HomeUiActions.UpdateTaskAction(task))
-        }
-    }
-
-    fun onDeleteItemClicked(task: NewTask) {
-        launchIO {
-            pendingActions.emit(HomeUiActions.DeleteTaskAction(task))
+            pendingActions.emit(HomeUiActions.OnShowTaskChangeStatusSnackbar(task))
         }
     }
 
     fun onDeleteChecklist() {
         launchIO {
             pendingActions.emit(HomeUiActions.DeleteChecklistAction)
+        }
+    }
+
+    fun onSnackbarError(@StringRes message: Int) {
+        launchIO {
+            _uiEffects.emit(HomeUiEffects.SnackbarError(message))
         }
     }
 
@@ -141,9 +119,7 @@ class HomeViewModel(
         when (action) {
             HomeUiActions.DisableEditModeAction -> handleDisableEditMode()
             HomeUiActions.EnableEditModeAction -> handleEnabledEditMode()
-            is HomeUiActions.AddNewTaskAction -> handleAddNewTaskAction(action.taskName)
-            is HomeUiActions.UpdateTaskAction -> handleUpdateTaskAction(action.task)
-            is HomeUiActions.DeleteTaskAction -> handleDeleteTaskAction(action.task)
+            is HomeUiActions.OnShowTaskChangeStatusSnackbar -> handleUpdateTaskAction(action.task)
             HomeUiActions.DeleteChecklistAction -> handleDeleteChecklistAction()
         }
     }
@@ -158,23 +134,8 @@ class HomeViewModel(
         _homeStateFlow.value = homeStateFlow.value.copy(homeUiState = state)
     }
 
-    private suspend fun handleAddNewTaskAction(taskName: String) {
-        val checklistId = homeStateFlow.value.checklistWithTasks?.newChecklist?.uuid
-        if (checklistId != null && taskName.isNotEmpty()) {
-            getAddTaskUseCase(
-                GetAddTaskUseCase.Params(
-                    parentUuid = checklistId,
-                    taskName = taskName
-                )
-            )
-        } else {
-            _uiEffects.emit(SnackbarError(R.string.checklist_add_new_item_failure))
-        }
-    }
-
     private suspend fun handleUpdateTaskAction(task: NewTask) {
         handleUpdateTaskEffect(task)
-        getChangeTaskStatusUseCase(task)
     }
 
     private suspend fun handleUpdateTaskEffect(task: NewTask) {
@@ -184,12 +145,6 @@ class HomeViewModel(
             HomeUiEffects.SnackbarTaskCompleted(task.name)
         }
         _uiEffects.emit(effect)
-    }
-
-    private fun handleDeleteTaskAction(task: NewTask) {
-        launchIO {
-            getDeleteTaskUseCase(task)
-        }
     }
 
     private fun handleDeleteChecklistAction() {
@@ -260,8 +215,6 @@ sealed class HomeUiEffects {
 sealed class HomeUiActions {
     object EnableEditModeAction : HomeUiActions()
     object DisableEditModeAction : HomeUiActions()
-    data class AddNewTaskAction(val taskName: String) : HomeUiActions()
-    data class UpdateTaskAction(val task: NewTask) : HomeUiActions()
-    data class DeleteTaskAction(val task: NewTask) : HomeUiActions()
+    data class OnShowTaskChangeStatusSnackbar(val task: NewTask) : HomeUiActions()
     object DeleteChecklistAction : HomeUiActions()
 }

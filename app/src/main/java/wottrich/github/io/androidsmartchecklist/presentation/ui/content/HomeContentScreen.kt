@@ -1,6 +1,5 @@
 package wottrich.github.io.androidsmartchecklist.presentation.ui.content
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -10,7 +9,7 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
 
 @Composable
-fun HomeTaskListScreen(
+fun HomeContentScreen(
     paddingValues: PaddingValues,
     homeViewModel: HomeViewModel,
     checklistState: HomeState,
@@ -26,24 +25,23 @@ fun HomeTaskListScreen(
     )
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Screen(
     paddingValues: PaddingValues,
     checklistState: HomeState,
     homeViewModel: HomeViewModel,
-    onAddNewChecklist: () -> Unit
+    onAddNewChecklist: () -> Unit,
 ) {
     Box(
         modifier = Modifier.padding(paddingValues)
     ) {
         HomeContentComponent(
             checklistState = checklistState,
-            tasks = homeViewModel.tasks,
-            onAddItemClicked = homeViewModel::onAddItemButtonClicked,
-            onUpdateItemClicked = homeViewModel::onUpdateItemClicked,
-            onDeleteItemClicked = homeViewModel::onDeleteItemClicked,
-            onNewChecklistClicked = onAddNewChecklist
+            onUpdateItemClicked = {
+                homeViewModel.onShowTaskChangeStatusSnackbar(it)
+            },
+            onNewChecklistClicked = onAddNewChecklist,
+            onError = homeViewModel::onSnackbarError
         )
     }
 }

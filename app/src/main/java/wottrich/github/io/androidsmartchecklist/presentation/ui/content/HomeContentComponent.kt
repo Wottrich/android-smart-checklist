@@ -19,26 +19,18 @@ import wottrich.github.io.impl.presentation.ui.TaskContentComponent
 @Composable
 fun HomeContentComponent(
     checklistState: HomeState,
-    tasks: List<NewTask>,
-    onAddItemClicked: (String) -> Unit,
     onUpdateItemClicked: (NewTask) -> Unit,
-    onDeleteItemClicked: (NewTask) -> Unit,
+    onError: (Int) -> Unit,
     onNewChecklistClicked: () -> Unit
 ) {
-    if (checklistState.homeUiState == HomeUiState.Loading) {
-        CircularProgressIndicator()
-    } else {
-        when (checklistState.homeUiState) {
-            is HomeUiState.Overview -> TaskContentComponent(
-                tasks = tasks,
-                showHeaderComponent = checklistState.isEditUiState,
-                showDeleteIcon = checklistState.isEditUiState,
-                onAddClicked = onAddItemClicked,
-                onUpdateClicked = onUpdateItemClicked,
-                onDeleteClicked = onDeleteItemClicked
-            )
-            is HomeUiState.Empty -> HomeEmptyStateComponent(onNewChecklistClicked)
-            else -> Unit
-        }
+    when (checklistState.homeUiState) {
+        is HomeUiState.Overview -> TaskContentComponent(
+            showHeaderComponent = checklistState.isEditUiState,
+            showDeleteIcon = checklistState.isEditUiState,
+            onUpdateClicked = onUpdateItemClicked,
+            onError = onError,
+        )
+        is HomeUiState.Empty -> HomeEmptyStateComponent(onNewChecklistClicked)
+        HomeUiState.Loading -> CircularProgressIndicator()
     }
 }

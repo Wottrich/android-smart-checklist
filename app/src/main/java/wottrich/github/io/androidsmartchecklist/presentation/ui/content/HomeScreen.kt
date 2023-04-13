@@ -123,7 +123,7 @@ private fun Screen(
             }
         }
     ) { paddingValues ->
-        HomeTaskListScreen(
+        HomeContentScreen(
             paddingValues = paddingValues,
             homeViewModel = homeViewModel,
             checklistState = checklistState,

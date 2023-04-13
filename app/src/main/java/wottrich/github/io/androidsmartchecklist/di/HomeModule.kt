@@ -5,6 +5,7 @@ import org.koin.dsl.module
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerViewModel
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
+import wottrich.github.io.impl.presentation.viewmodel.TaskComponentViewModel
 
 /**
  * @author Wottrich
@@ -30,12 +31,16 @@ val featureHomeModules = module {
             dispatchers = get(),
             getSelectedChecklistUseCase = get(),
             deleteChecklistUseCase = get(),
-            getAddTaskUseCase = get(),
-            getChangeTaskStatusUseCase = get(),
-            getDeleteTaskUseCase = get(),
             convertChecklistIntoQuicklyChecklistUseCase = get(),
             getQuicklyChecklistDeepLinkUseCase = get()
         )
     }
-
+    viewModel {
+        TaskComponentViewModel(
+            getTasksFromSelectedChecklistUseCase = get(),
+            addTaskToDatabaseUseCase = get(),
+            getChangeTaskStatusUseCase = get(),
+            getDeleteTaskUseCase = get()
+        )
+    }
 }

@@ -57,7 +57,7 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
             val localFlow = flow<List<NewChecklistWithNewTasks>> {
                 emit(listOf())
             }
-            every { checklistDao.observeSelectedChecklistWithTasks(true) } returns localFlow
+            every { checklistDao.observeSelectedChecklistWithTasks() } returns localFlow
             coEvery { checklistDao.selectAllChecklistWithTasks() } returns checklistInserts
             coEvery { checklistDao.update(any()) } returns Unit
 
@@ -68,7 +68,7 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
                 }
             )
 
-            verify(exactly = 1) { checklistDao.observeSelectedChecklistWithTasks(true) }
+            verify(exactly = 1) { checklistDao.observeSelectedChecklistWithTasks() }
             coVerify { checklistDao.selectAllChecklistWithTasks() }
             coVerify { checklistDao.update(expectedSelectedChecklist.newChecklist) }
         }
@@ -90,7 +90,7 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
             val localFlow = flow<List<NewChecklistWithNewTasks>> {
                 emit(checklistInserts)
             }
-            every { checklistDao.observeSelectedChecklistWithTasks(true) } returns localFlow
+            every { checklistDao.observeSelectedChecklistWithTasks() } returns localFlow
 
             sut().collect(
                 FlowCollector {
@@ -99,7 +99,7 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
                 }
             )
 
-            verify(exactly = 1) { checklistDao.observeSelectedChecklistWithTasks(true) }
+            verify(exactly = 1) { checklistDao.observeSelectedChecklistWithTasks() }
             coVerify(inverse = true) { checklistDao.selectAllChecklistWithTasks() }
             coVerify(inverse = true) { checklistDao.update(any()) }
         }
@@ -111,7 +111,7 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
             val localFlow = flow<List<NewChecklistWithNewTasks>> {
                 emit(checklistInserts)
             }
-            every { checklistDao.observeSelectedChecklistWithTasks(true) } returns localFlow
+            every { checklistDao.observeSelectedChecklistWithTasks() } returns localFlow
             coEvery { checklistDao.selectAllChecklistWithTasks() } returns checklistInserts
 
             sut().collect(
@@ -120,7 +120,7 @@ class GetSelectedChecklistUseCaseTest : BaseUnitTest() {
                 }
             )
 
-            verify(exactly = 1) { checklistDao.observeSelectedChecklistWithTasks(true) }
+            verify(exactly = 1) { checklistDao.observeSelectedChecklistWithTasks() }
             coVerify(exactly = 1) { checklistDao.selectAllChecklistWithTasks() }
             coVerify(inverse = true) { checklistDao.update(any()) }
         }
