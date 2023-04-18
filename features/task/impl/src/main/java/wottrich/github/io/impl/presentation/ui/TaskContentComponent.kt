@@ -3,6 +3,7 @@ package wottrich.github.io.impl.presentation.ui
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -92,7 +93,7 @@ private fun Effects(
 }
 
 @Composable
-private fun Header(
+private fun ColumnScope.Header(
     showHeaderComponent: Boolean,
     taskName: String,
     onTextFieldValueChange: (String) -> Unit,

@@ -97,7 +97,7 @@ private fun RightIconContent(task: NewTask, onCheckChange: () -> Unit) {
 }
 
 private fun getTextDecoration(isCompleted: Boolean): TextDecoration? {
-    return if (isCompleted) TextDecoration.LineThrough else null
+    return if (isCompleted) TextDecoration.LineThrough else TextDecoration.None
 }
 
 @Preview
