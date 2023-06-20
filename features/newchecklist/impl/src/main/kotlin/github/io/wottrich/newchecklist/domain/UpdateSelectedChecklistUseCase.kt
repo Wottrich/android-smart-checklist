@@ -1,11 +1,11 @@
 package github.io.wottrich.newchecklist.domain
 
+import github.io.wottrich.coroutines.KotlinResultUseCase
+import github.io.wottrich.coroutines.UseCase
+import github.io.wottrich.coroutines.base.Result
+import github.io.wottrich.coroutines.successEmptyResult
 import wottrich.github.io.datasource.dao.ChecklistDao
 import wottrich.github.io.datasource.entity.NewChecklist
-import wottrich.github.io.tools.base.KotlinResultUseCase
-import wottrich.github.io.tools.base.Result
-import wottrich.github.io.tools.base.UseCase
-import wottrich.github.io.tools.base.successEmptyResult
 
 class UpdateSelectedChecklistUseCase(private val checklistDao: ChecklistDao) :
     KotlinResultUseCase<NewChecklist, UseCase.Empty>() {

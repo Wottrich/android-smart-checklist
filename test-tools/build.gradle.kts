@@ -37,6 +37,7 @@ android {
 
 dependencies {
 
+    moduleDomainCoroutines()
     kotlinAndCoreKtx()
     moduleTools()
     composeUi()

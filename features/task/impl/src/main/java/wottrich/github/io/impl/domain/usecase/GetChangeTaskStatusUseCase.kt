@@ -1,16 +1,15 @@
 package wottrich.github.io.impl.domain.usecase
 
+import github.io.wottrich.coroutines.KotlinResultUseCase
+import github.io.wottrich.coroutines.UseCase
+import github.io.wottrich.coroutines.base.Result
+import github.io.wottrich.coroutines.successEmptyResult
 import wottrich.github.io.datasource.dao.TaskDao
 import wottrich.github.io.datasource.entity.NewTask
-import wottrich.github.io.tools.base.KotlinResultUseCase
-import wottrich.github.io.tools.base.Result
-import wottrich.github.io.tools.base.UseCase
-import wottrich.github.io.tools.base.UseCase.Empty
-import wottrich.github.io.tools.base.successEmptyResult
 
 class GetChangeTaskStatusUseCase(private val taskDao: TaskDao) :
     KotlinResultUseCase<NewTask, UseCase.Empty>() {
-    override suspend fun execute(params: NewTask): Result<Empty> {
+    override suspend fun execute(params: NewTask): Result<UseCase.Empty> {
         params.isCompleted = !params.isCompleted
         taskDao.update(params)
         return successEmptyResult()

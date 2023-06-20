@@ -5,8 +5,8 @@ import github.io.wottrich.ui.support.domain.GetHelpOverviewItemsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import wottrich.github.io.tools.base.BaseViewModel
-import wottrich.github.io.tools.base.onSuccess
-import wottrich.github.io.tools.dispatcher.DispatchersProviders
+import github.io.wottrich.coroutines.base.onSuccess
+import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
 
 class HelpOverviewViewModel(
     dispatchersProviders: DispatchersProviders,

@@ -39,6 +39,7 @@ dependencies {
 
     kotlinAndCoreKtx()
 
+    moduleDomainCoroutines()
     moduleTools()
 
     implementation(project(path = ":features:checklist:public"))

@@ -16,9 +16,9 @@ import wottrich.github.io.quicklychecklist.impl.domain.ConvertChecklistIntoQuick
 import wottrich.github.io.quicklychecklist.impl.domain.GetQuicklyChecklistDeepLinkUseCase
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
-import wottrich.github.io.tools.base.onFailure
-import wottrich.github.io.tools.base.onSuccess
-import wottrich.github.io.tools.dispatcher.DispatchersProviders
+import github.io.wottrich.coroutines.base.onFailure
+import github.io.wottrich.coroutines.base.onSuccess
+import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
 
 /**
  * @author Wottrich

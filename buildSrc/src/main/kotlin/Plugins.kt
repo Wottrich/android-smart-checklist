@@ -5,4 +5,6 @@ object Plugins {
     const val kotlinParcelize = "kotlin-parcelize"
     const val kotlinKapt = "kotlin-kapt"
     const val kotlinAndroidExtensions = "kotlin-android-extensions"
+    const val javaLibrary = "java-library"
+    const val kotlinPlugin = "kotlin"
 }

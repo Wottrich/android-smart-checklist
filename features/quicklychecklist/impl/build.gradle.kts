@@ -44,6 +44,7 @@ dependencies {
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))
 
+    moduleDomainCoroutines()
     moduleCommonUiCompose()
     moduleDatasource()
 

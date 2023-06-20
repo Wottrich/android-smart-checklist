@@ -1,14 +1,15 @@
 package wottrich.github.io.quicklychecklist.impl.domain
 
 import com.google.gson.Gson
+import github.io.wottrich.coroutines.KotlinResultUseCase
+import github.io.wottrich.coroutines.base.Result
 import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.datasource.entity.QuicklyChecklist
 import wottrich.github.io.datasource.entity.QuicklyTask
-import wottrich.github.io.tools.base.KotlinResultUseCase
-import wottrich.github.io.tools.base.Result
 
-class ConvertChecklistIntoQuicklyChecklistUseCase : KotlinResultUseCase<NewChecklistWithNewTasks, String>() {
+class ConvertChecklistIntoQuicklyChecklistUseCase :
+    KotlinResultUseCase<NewChecklistWithNewTasks, String>() {
     override suspend fun execute(params: NewChecklistWithNewTasks): Result<String> {
         val quicklyChecklist = createQuicklyChecklist(params)
         return try {

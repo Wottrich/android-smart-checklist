@@ -4,8 +4,6 @@ import android.content.ClipboardManager
 import android.content.Context
 import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
-import wottrich.github.io.tools.dispatcher.AppDispatcher
-import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
  * @author Wottrich
@@ -21,6 +19,5 @@ val toolsDispatcherModule = module {
     single<ClipboardManager> {
         androidContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     }
-    single<DispatchersProviders> { AppDispatcher }
 
 }

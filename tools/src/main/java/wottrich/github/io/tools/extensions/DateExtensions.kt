@@ -1,8 +1,8 @@
 package wottrich.github.io.tools.extensions
 
-import java.lang.Exception
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
+import java.util.Locale
 
 /**
  * @author Wottrich
@@ -13,17 +13,17 @@ import java.util.*
  *
  */
 
-fun Long?.validAndFormatDate (
+fun Long?.validAndFormatDate(
     pattern: String = "dd/MM/yyyy",
     locale: Locale = Locale.getDefault()
-) : String? {
+): String? {
     return this?.formatDate(pattern, locale)
 }
 
 private fun Long.formatDate(
     pattern: String = "dd/MM/yyyy",
     locale: Locale = Locale.getDefault()
-) : String? {
+): String? {
     val formatter = SimpleDateFormat(pattern, locale)
     val dateConverted = Date(this)
 

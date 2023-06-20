@@ -2,13 +2,13 @@ package wottrich.github.io.tools.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.launch
 import org.koin.core.context.GlobalContext
-import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 /**
  * @author Wottrich

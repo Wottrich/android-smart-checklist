@@ -1,5 +1,9 @@
-package wottrich.github.io.tools.base
+package github.io.wottrich.coroutines
 
+import github.io.wottrich.coroutines.UseCase.Empty
+import github.io.wottrich.coroutines.UseCase.None
+import github.io.wottrich.coroutines.base.Result
+import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
@@ -7,9 +11,6 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import org.koin.core.context.GlobalContext
-import wottrich.github.io.tools.base.UseCase.Empty
-import wottrich.github.io.tools.base.UseCase.None
-import wottrich.github.io.tools.dispatcher.DispatchersProviders
 
 interface UseCase<Params, ReturnType> where ReturnType : Any? {
     suspend fun execute(params: Params): ReturnType

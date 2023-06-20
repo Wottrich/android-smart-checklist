@@ -1,4 +1,4 @@
-package wottrich.github.io.tools.base
+package github.io.wottrich.coroutines.base
 
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind

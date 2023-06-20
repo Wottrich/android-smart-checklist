@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import wottrich.github.io.datasource.entity.NewChecklist
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
-import wottrich.github.io.tools.dispatcher.DispatchersProviders
+import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
 
 class NewChecklistNameViewModel(
     dispatchersProviders: DispatchersProviders,

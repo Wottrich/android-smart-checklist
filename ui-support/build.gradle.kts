@@ -37,6 +37,7 @@ android {
 
 dependencies {
 
+    moduleDomainCoroutines()
     moduleTools()
 
     implementation(project(path = ":datasource"))

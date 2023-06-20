@@ -1,5 +1,11 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
+import github.io.wottrich.coroutines.KotlinResultUseCase
+import github.io.wottrich.coroutines.UseCase
+import github.io.wottrich.coroutines.base.Result
+import github.io.wottrich.coroutines.base.onSuccess
+import github.io.wottrich.coroutines.failureEmptyResult
+import github.io.wottrich.coroutines.successEmptyResult
 import wottrich.github.io.datasource.dao.ChecklistDao
 import wottrich.github.io.datasource.dao.TaskDao
 import wottrich.github.io.datasource.entity.ChecklistWithTasks
@@ -8,15 +14,7 @@ import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
-import wottrich.github.io.tools.base.KotlinResultUseCase
-import wottrich.github.io.tools.base.Result
-import wottrich.github.io.tools.base.UseCase
-import wottrich.github.io.tools.base.UseCase.Empty
-import wottrich.github.io.tools.base.UseCase.None
 import wottrich.github.io.tools.base.UuidGenerator
-import wottrich.github.io.tools.base.failureEmptyResult
-import wottrich.github.io.tools.base.onSuccess
-import wottrich.github.io.tools.base.successEmptyResult
 
 class MigrationViewModel(
     private val migrationUseCase: MigrationUseCase
@@ -54,7 +52,7 @@ class MigrationUseCase(
     private val taskDao: TaskDao,
     private val convertChecklistToNewChecklist: ConvertChecklistToNewChecklist = ConvertChecklistToNewChecklist()
 ) : KotlinResultUseCase<UseCase.None, UseCase.Empty>() {
-    override suspend fun execute(params: None): Result<Empty> {
+    override suspend fun execute(params: UseCase.None): Result<UseCase.Empty> {
         return try {
             val oldChecklists = checklistDao.getAllOldChecklistWithTasks()
             val newChecklists = oldChecklists.map {

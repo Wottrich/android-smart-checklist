@@ -7,7 +7,6 @@ import androidx.navigation.navigation
 import github.io.wottrich.newchecklist.presentation.ui.NewChecklistNameScreen
 import wottrich.github.io.baseui.navigation.defaultComposableAnimation
 
-
 @ExperimentalAnimationApi
 fun NavGraphBuilder.newChecklistNavigation(navHostController: NavHostController) {
     navigation(

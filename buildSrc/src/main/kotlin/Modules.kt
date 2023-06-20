@@ -18,6 +18,10 @@ fun DependencyHandlerScope.moduleTools() {
     "implementation"(project(":tools"))
 }
 
+fun DependencyHandlerScope.moduleDomainCoroutines() {
+    "implementation"(project(":domain:coroutines"))
+}
+
 fun DependencyHandlerScope.moduleUiHome() {
     "implementation"(project(":ui-home"))
 }

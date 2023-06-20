@@ -1,14 +1,6 @@
-//plugins {
-//    id 'com.android.library'
-//    id 'kotlin-android'
-//    id 'kotlin-android-extensions'
-//    id 'kotlin-kapt'
-//}
-
 plugins {
     id(Plugins.androidLibrary)
     id(Plugins.kotlinAndroid)
-    id(Plugins.kotlinAndroidExtensions)
     id(Plugins.kotlinKapt)
 }
 
@@ -57,6 +49,7 @@ dependencies {
     implementation(Libs.androidMaterial)
 
     implementation(Libs.coroutinesLib)
+    moduleDomainCoroutines()
 
     koin()
 

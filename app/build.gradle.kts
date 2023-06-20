@@ -83,6 +83,7 @@ dependencies {
     moduleCommonUiCompose()
 
     composeUi()
+    moduleDomainCoroutines()
 
     koin()
 

@@ -1,6 +1,7 @@
 package wottrich.github.io.androidsmartchecklist.di
 
 import github.io.wottrich.checklist.di.checklistModule
+import github.io.wottrich.coroutines.di.coroutinesModule
 import github.io.wottrich.newchecklist.di.newChecklistModule
 import github.io.wottrich.ui.support.di.supportModule
 import wottrich.github.io.datasource.injection.databaseModule
@@ -34,6 +35,9 @@ object AppModule {
 
         //Database
         databaseModule,
+
+        //Domain,
+        coroutinesModule,
 
         //Tools
         toolsDispatcherModule
