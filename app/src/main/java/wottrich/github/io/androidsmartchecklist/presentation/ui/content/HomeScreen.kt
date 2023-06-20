@@ -20,11 +20,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.androidsmartchecklist.R.string
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeState
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiState
 import wottrich.github.io.androidsmartchecklist.presentation.ui.content.DeleteAlertDialogState.HIDE
 import wottrich.github.io.androidsmartchecklist.presentation.ui.content.DeleteAlertDialogState.SHOW
 import wottrich.github.io.androidsmartchecklist.presentation.ui.drawer.HomeDrawerStatefulContent
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiState
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
 import wottrich.github.io.baseui.ui.ApplicationTheme
 
@@ -109,7 +110,7 @@ private fun Screen(
                         onChecklistSettings(it)
                     }
                 },
-                onShareQuicklyChecklist = homeViewModel::onShareQuicklyChecklist,
+                onShareQuicklyChecklist = { homeViewModel.sendAction(HomeUiActions.Action.OnShareQuicklyChecklistAction) },
                 homeViewModel = homeViewModel,
                 onShowDeleteDialog = { showDeleteDialog = SHOW }
             )
@@ -200,7 +201,7 @@ private fun RowScope.TopBarActionContent(
             },
             onChecklistSettings = onChecklistSettings,
             onShareQuicklyChecklist = onShareQuicklyChecklist,
-            onChangeState = homeViewModel::onChangeEditModeClicked
+            onChangeState = { homeViewModel.sendAction(HomeUiActions.Action.OnChangeEditModeAction) }
         )
     }
 }

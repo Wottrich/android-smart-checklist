@@ -5,7 +5,8 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeState
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
 
 @Composable
@@ -38,10 +39,10 @@ private fun Screen(
         HomeContentComponent(
             checklistState = checklistState,
             onUpdateItemClicked = {
-                homeViewModel.onShowTaskChangeStatusSnackbar(it)
+                homeViewModel.sendAction(HomeUiActions.Action.OnShowTaskChangeStatusSnackbar(it))
             },
             onNewChecklistClicked = onAddNewChecklist,
-            onError = homeViewModel::onSnackbarError
+            onError = { homeViewModel.sendAction(HomeUiActions.Action.OnSnackbarError(it))}
         )
     }
 }
@@ -55,7 +56,7 @@ private fun DeleteDialog(
     DeleteAlertDialogContent(
         deleteAlertDialogState = showDeleteDialog,
         onConfirmDeleteChecklist = {
-            homeViewModel.onDeleteChecklist()
+            homeViewModel.sendAction(HomeUiActions.Action.DeleteChecklistAction)
             onHideDialog()
         },
         onDismiss = {
