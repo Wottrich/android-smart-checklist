@@ -1,7 +1,7 @@
 package github.io.wottrich.newchecklist.presentation.viewmodels
 
+import github.io.wottrich.checklist.domain.UpdateSelectedChecklistUseCase
 import github.io.wottrich.newchecklist.domain.AddNewChecklistUseCase
-import github.io.wottrich.newchecklist.domain.UpdateSelectedChecklistUseCase
 import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiEffect
 import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiState
 import kotlinx.coroutines.flow.Flow
@@ -41,7 +41,7 @@ class NewChecklistNameViewModel(
             val checklistName = state.value.checklistName
             val newChecklist = NewChecklist(name = checklistName)
             addNewChecklistUseCase(newChecklist).getOrNull()
-            updateSelectedChecklistUseCase(newChecklist)
+            updateSelectedChecklistUseCase(newChecklist.uuid)
             _effects.emit(NewChecklistNameUiEffect.CloseScreen)
         }
     }

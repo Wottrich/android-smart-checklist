@@ -12,5 +12,5 @@ dependencies {
     implementation(Libs.kotlinStdlib)
     implementation(Libs.coroutinesLib)
 
-    koin()
+    koinCore()
 }

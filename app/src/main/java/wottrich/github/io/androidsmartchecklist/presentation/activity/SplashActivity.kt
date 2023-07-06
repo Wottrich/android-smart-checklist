@@ -15,7 +15,6 @@ import kotlinx.coroutines.flow.FlowCollector
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.SplashUiEffect.GoToHome
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.SplashUiEffect.GoToMigration
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.SplashViewModel
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.ApplicationTheme
@@ -37,7 +36,6 @@ class SplashActivity : AppCompatActivity() {
                     effects.collect(FlowCollector {
                         when (it) {
                             GoToHome -> startActivity<HomeActivity>(finishActualActivity = true)
-                            GoToMigration -> startActivity<MigrationActivity>(finishActualActivity = true)
                         }
                     })
                 }

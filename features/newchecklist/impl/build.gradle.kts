@@ -44,7 +44,7 @@ dependencies {
 
     implementation(project(path = ":datasource"))
     implementation(project(path = ":baseui"))
-    implementation(project(path = ":features:checklist:impl"))
+    implementation(project(path = ":features:checklist:public"))
 
     composeUi()
 

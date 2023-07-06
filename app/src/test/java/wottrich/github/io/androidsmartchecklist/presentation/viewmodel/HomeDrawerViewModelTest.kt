@@ -1,8 +1,9 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
-import github.io.wottrich.checklist.domain.usecase.DeleteChecklistUseCase
-import github.io.wottrich.checklist.domain.usecase.GetChecklistWithTaskUseCase
-import github.io.wottrich.checklist.domain.usecase.UpdateSelectedChecklistUseCase
+import github.io.wottrich.checklist.domain.DeleteChecklistUseCase
+import github.io.wottrich.checklist.domain.UpdateSelectedChecklistUseCase
+import github.io.wottrich.coroutines.base.Result
+import github.io.wottrich.coroutines.successEmptyResult
 import github.io.wottrich.test.tools.BaseUnitTest
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -12,49 +13,40 @@ import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import org.junit.Test
+import wottrich.github.io.androidsmartchecklist.domain.usecase.GetChecklistDrawerUseCase
+import wottrich.github.io.androidsmartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
 import wottrich.github.io.datasource.entity.NewChecklist
-import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
-import wottrich.github.io.datasource.entity.NewTask
-import github.io.wottrich.coroutines.base.Result
-import wottrich.github.io.tools.base.successEmptyResult
 
 class HomeDrawerViewModelTest : BaseUnitTest() {
 
     private lateinit var sut: HomeDrawerViewModel
-    private lateinit var getChecklistWithTaskUseCase: GetChecklistWithTaskUseCase
+    private lateinit var getChecklistDrawerUseCase: GetChecklistDrawerUseCase
     private lateinit var updateSelectedChecklistUseCase: UpdateSelectedChecklistUseCase
     private lateinit var deleteChecklistUseCase: DeleteChecklistUseCase
 
     private val dummyChecklistId = "0"
-    private val dummyTask = NewTask(
-        uuid = "0",
-        parentUuid = dummyChecklistId,
-        name = ""
-    )
     private val dummyChecklist = NewChecklist(uuid = dummyChecklistId, name = "Checklist1")
-    private val dummyChecklistWithTasks = NewChecklistWithNewTasks(
-        dummyChecklist,
-        listOf(
-            dummyTask.copy(uuid = "0", name = "task1"),
-            dummyTask.copy(uuid = "1", name = "task2"),
-            dummyTask.copy(uuid = "2", name = "task3"),
-        )
+    private val dummyChecklistWithTasks = HomeDrawerChecklistItemModel(
+        dummyChecklist.uuid,
+        dummyChecklist.name,
+        completeCountLabel = "1 / 2",
+        isChecklistSelected = dummyChecklist.isSelected,
+        hasUncompletedTask = true
     )
 
     private val dummyListOfChecklistWithTasks = listOf(
         dummyChecklistWithTasks,
         dummyChecklistWithTasks.copy(
-            newChecklist = dummyChecklist.copy(uuid = "1", name = "Checklist2"),
-            listOf(
-                dummyTask.copy(parentUuid = "1", uuid = "4", name = "task2"),
-                dummyTask.copy(parentUuid = "1", uuid = "3", name = "task1"),
-                dummyTask.copy(parentUuid = "1", uuid = "5", name = "task3"),
-            )
+            checklistUuid = "1",
+            checklistName = "Checklist2",
+            completeCountLabel = "2 / 2",
+            isChecklistSelected = false,
+            hasUncompletedTask = false
         )
     )
 
     override fun setUp() {
-        getChecklistWithTaskUseCase = mockk()
+        getChecklistDrawerUseCase = mockk()
         updateSelectedChecklistUseCase = mockk()
         deleteChecklistUseCase = mockk()
     }
@@ -80,12 +72,12 @@ class HomeDrawerViewModelTest : BaseUnitTest() {
     @Test
     fun `GIVEN another checklist selected WHEN user select another checklist THEN must call use case to change selected checklist`() {
         mockGetChecklistWithTaskUseCase()
-        mockGetUpdateSelectedChecklistUseCase(dummyChecklistWithTasks.newChecklist)
+        mockGetUpdateSelectedChecklistUseCase(dummyChecklistWithTasks.checklistUuid)
         sut = getSut()
         sut.processEvent(HomeDrawerEvent.ItemClicked(dummyChecklistWithTasks))
 
         coVerify(exactly = 1) {
-            updateSelectedChecklistUseCase(dummyChecklistWithTasks.newChecklist)
+            updateSelectedChecklistUseCase(dummyChecklistWithTasks.checklistUuid)
         }
         val effect = getSuspendValue { sut.drawerEffectFlow.first() }
         assertTrue(effect is HomeDrawerEffect.CloseDrawer)
@@ -94,33 +86,33 @@ class HomeDrawerViewModelTest : BaseUnitTest() {
     @Test
     fun `GIVEN some checklist WHEN user delete this checklist THEN must call use case to delete checklist`() {
         mockGetChecklistWithTaskUseCase()
-        mockGetDeleteChecklistUseCase(dummyChecklistWithTasks.newChecklist)
+        mockGetDeleteChecklistUseCase(dummyChecklistWithTasks.checklistUuid)
         sut = getSut()
         sut.processEvent(HomeDrawerEvent.DeleteChecklistClicked(dummyChecklistWithTasks))
 
         coVerify(exactly = 1) {
-            deleteChecklistUseCase(dummyChecklistWithTasks.newChecklist)
+            deleteChecklistUseCase(dummyChecklistWithTasks.checklistUuid)
         }
     }
 
     private fun mockGetChecklistWithTaskUseCase() {
-        coEvery { getChecklistWithTaskUseCase.invoke() } returns flow {
+        coEvery { getChecklistDrawerUseCase.invoke() } returns flow {
             emit(Result.success(dummyListOfChecklistWithTasks))
         }
     }
 
-    private fun mockGetUpdateSelectedChecklistUseCase(checklist: NewChecklist) {
-        coEvery { updateSelectedChecklistUseCase.invoke(checklist) } returns successEmptyResult()
+    private fun mockGetUpdateSelectedChecklistUseCase(checklistUuid: String) {
+        coEvery { updateSelectedChecklistUseCase.invoke(checklistUuid) } returns successEmptyResult()
     }
 
-    private fun mockGetDeleteChecklistUseCase(checklist: NewChecklist) {
-        coEvery { deleteChecklistUseCase.invoke(checklist) } returns successEmptyResult()
+    private fun mockGetDeleteChecklistUseCase(checklistUuid: String) {
+        coEvery { deleteChecklistUseCase.invoke(checklistUuid) } returns successEmptyResult()
     }
 
 
     private fun getSut() = HomeDrawerViewModel(
         coroutinesTestRule.dispatchers,
-        getChecklistWithTaskUseCase,
+        getChecklistDrawerUseCase,
         updateSelectedChecklistUseCase,
         deleteChecklistUseCase
     )

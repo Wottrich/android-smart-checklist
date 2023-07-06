@@ -30,6 +30,7 @@ import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.androidsmartchecklist.R.drawable
 import wottrich.github.io.androidsmartchecklist.R.string
+import wottrich.github.io.androidsmartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
 import wottrich.github.io.androidsmartchecklist.presentation.ui.shared.EditIconStateContent
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEffect
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent
@@ -89,8 +90,8 @@ fun HomeDrawerStatefulContent(
 @Composable
 private fun HomeDrawerStateless(
     state: HomeDrawerState,
-    onItemClick: (checklist: NewChecklistWithNewTasks) -> Unit,
-    onDeleteChecklist: (checklist: NewChecklistWithNewTasks) -> Unit,
+    onItemClick: (checklist: HomeDrawerChecklistItemModel) -> Unit,
+    onDeleteChecklist: (checklist: HomeDrawerChecklistItemModel) -> Unit,
     onAddNewChecklist: () -> Unit,
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
@@ -113,10 +114,10 @@ private fun HomeDrawerStateless(
 
 @Composable
 private fun HomeDrawerSuccessContent(
-    checklists: List<NewChecklistWithNewTasks>,
+    checklists: List<HomeDrawerChecklistItemModel>,
     isEditModeEnabled: Boolean,
-    onItemClick: (checklist: NewChecklistWithNewTasks) -> Unit,
-    onDeleteChecklist: (checklist: NewChecklistWithNewTasks) -> Unit,
+    onItemClick: (checklist: HomeDrawerChecklistItemModel) -> Unit,
+    onDeleteChecklist: (checklist: HomeDrawerChecklistItemModel) -> Unit,
     onAddNewChecklist: () -> Unit,
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
@@ -143,10 +144,13 @@ private fun HomeDrawerSuccessContent(
                         )
                     }
                 }
-                items(checklists) { item ->
+                items(
+                    items = checklists,
+                    key = { it.checklistUuid }
+                ) { item ->
                     HomeDrawerChecklistItemComponent(
                         isEditModeEnabled = isEditModeEnabled,
-                        checklistWithTasks = item,
+                        checklistItemModel = item,
                         onItemClick = { onItemClick(item) },
                         onDeleteItemClicked = { onDeleteChecklist(item) }
                     )

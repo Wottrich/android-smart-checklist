@@ -8,6 +8,7 @@ import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -17,12 +18,15 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.androidsmartchecklist.R.string
 import wottrich.github.io.androidsmartchecklist.presentation.state.HomeState
 import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions
 import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiState
+import wottrich.github.io.androidsmartchecklist.presentation.state.TopBarHomeUiEffects
 import wottrich.github.io.androidsmartchecklist.presentation.ui.content.DeleteAlertDialogState.HIDE
 import wottrich.github.io.androidsmartchecklist.presentation.ui.content.DeleteAlertDialogState.SHOW
 import wottrich.github.io.androidsmartchecklist.presentation.ui.drawer.HomeDrawerStatefulContent
@@ -106,7 +110,7 @@ private fun Screen(
                 checklistState = checklistState,
                 onCopyChecklist = onShareText,
                 onChecklistSettings = {
-                    checklistState.checklistWithTasks?.newChecklist?.uuid?.let {
+                    checklistState.checklist?.uuid?.let {
                         onChecklistSettings(it)
                     }
                 },
@@ -173,11 +177,11 @@ private fun DrawerContent(
 private fun TopBarTitleContent(checklistState: HomeState) {
     when {
         checklistState.homeUiState == HomeUiState.Loading -> Unit
-        checklistState.checklistWithTasks == null -> {
+        checklistState.checklist == null -> {
             Text(text = stringResource(id = string.label_home_fragment))
         }
         else -> {
-            val checklist = checkNotNull(checklistState.checklistWithTasks.newChecklist)
+            val checklist = checkNotNull(checklistState.checklist)
             Text(text = checklist.name)
         }
     }
@@ -193,16 +197,34 @@ private fun RowScope.TopBarActionContent(
     onShowDeleteDialog: () -> Unit
 ) {
     if (checklistState.shouldShowActionContent()) {
+        HomeTopBarActionsEffect(
+            effects = homeViewModel.topBarUiEffect,
+            onCopyChecklist = onCopyChecklist
+        )
         HomeTopBarActionsContent(
             isEditMode = checklistState.isEditUiState,
             onShowDeleteConfirmDialog = onShowDeleteDialog,
             onCopyChecklist = {
-                onCopyChecklist(checklistState.checklistWithTasks.toString())
+                homeViewModel.sendAction(HomeUiActions.Action.OnShareChecklistAsText)
             },
             onChecklistSettings = onChecklistSettings,
             onShareQuicklyChecklist = onShareQuicklyChecklist,
             onChangeState = { homeViewModel.sendAction(HomeUiActions.Action.OnChangeEditModeAction) }
         )
+    }
+}
+
+@Composable
+private fun HomeTopBarActionsEffect(
+    effects: Flow<TopBarHomeUiEffects>,
+    onCopyChecklist: (String) -> Unit
+) {
+    LaunchedEffect(key1 = effects) {
+        effects.collectLatest {
+            when (it) {
+                is TopBarHomeUiEffects.ShareChecklistAsText -> onCopyChecklist(it.checklistAsText)
+            }
+        }
     }
 }
 

@@ -55,7 +55,4 @@
     <string name="snackbar_completed_task_message">moved to completed</string>
     <string name="snackbar_checklist_deleted">Checklist deleted with success.</string>
 
-    <!--  Migration Screen  -->
-    <string name="migration_loading">We are doing some adjustments…</string>
-
 </resources>

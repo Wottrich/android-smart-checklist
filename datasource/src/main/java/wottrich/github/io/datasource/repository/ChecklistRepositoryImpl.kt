@@ -1,18 +1,21 @@
 package wottrich.github.io.datasource.repository
 
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.flow.map
 import wottrich.github.io.datasource.dao.ChecklistDao
 import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 
 class ChecklistRepositoryImpl(
     private val checklistDao: ChecklistDao
 ) : ChecklistRepository {
-    override fun observeSelectedChecklistsWithTask(): Flow<NewChecklistWithNewTasks> {
-        return checklistDao.observeSelectedChecklistWithTasks().mapNotNull {
+    override suspend fun getChecklistWithTasksByUuid(uuid: String): NewChecklistWithNewTasks {
+        return checklistDao.getChecklistWithTasks(uuid)
+    }
+
+    override fun observeSelectedChecklistWithTasks(): Flow<NewChecklistWithNewTasks?> {
+        return checklistDao.observeSelectedChecklistWithTasks().map {
             it.getOrSaveSelectedChecklist()
-        }.distinctUntilChanged()
+        }
     }
 
     private suspend fun List<NewChecklistWithNewTasks>.getOrSaveSelectedChecklist(): NewChecklistWithNewTasks? {
@@ -27,4 +30,23 @@ class ChecklistRepositoryImpl(
         return checklistDao.selectAllChecklistWithTasks().firstOrNull()
     }
 
+    override fun observeAllChecklistsWithTask(): Flow<List<NewChecklistWithNewTasks>> {
+        return checklistDao.observeAllChecklistWithTasks()
+    }
+
+    override suspend fun updateSelectedChecklist(checklistUuid: String) {
+        val checklistToBeSelected = checklistDao.getChecklist(checklistUuid)
+        val currentSelectedChecklist = checklistDao.selectSelectedChecklist(true)
+        currentSelectedChecklist?.isSelected = false
+        checklistToBeSelected.isSelected = true
+        if (currentSelectedChecklist == null) {
+            checklistDao.update(checklistToBeSelected)
+        } else {
+            checklistDao.updateChecklists(listOf(currentSelectedChecklist, checklistToBeSelected))
+        }
+    }
+
+    override suspend fun deleteChecklistByUuid(checklistUuid: String) {
+        checklistDao.deleteChecklistByUuid(checklistUuid)
+    }
 }

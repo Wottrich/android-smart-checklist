@@ -16,4 +16,6 @@
     <string name="quickly_checklist_save_existent_checklist_description">Identificamos que essa checklist é sua, clique para aplicar as alterações nela!</string>
     <string name="quickly_checklist_initial_screen_success_title">Conseguimos recuperar a checklist compartilhada com você, aproveite!</string>
     <string name="quickly_checklist_initial_screen_processing_title">Construindo checklist recebida…</string>
+    <string name="quickly_checklist_add_new_checklist_completed">Lista criada com sucesso</string>
+    <string name="quickly_checklist_add_new_checklist_failure">Não foi possível criar a lista, tente novamente mais tarde</string>
 </resources>

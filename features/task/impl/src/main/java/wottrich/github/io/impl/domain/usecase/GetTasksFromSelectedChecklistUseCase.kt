@@ -13,13 +13,15 @@ class GetTasksFromSelectedChecklistUseCase(
     private val checklistRepository: ChecklistRepository
 ) : FlowableUseCase<UseCase.None, SelectedChecklistTasksSimpleModel>() {
     override suspend fun execute(params: UseCase.None): Flow<Result<SelectedChecklistTasksSimpleModel>> {
-        return checklistRepository.observeSelectedChecklistsWithTask().mapNotNull {
-            Result.success(
-                SelectedChecklistTasksSimpleModel(
-                    it.newChecklist.uuid,
-                    it.newTasks
+        return checklistRepository.observeSelectedChecklistWithTasks().mapNotNull {
+            if (it != null) {
+                Result.success(
+                    SelectedChecklistTasksSimpleModel(
+                        it.newChecklist.uuid,
+                        it.newTasks
+                    )
                 )
-            )
+            } else null
         }.distinctUntilChanged()
     }
 }

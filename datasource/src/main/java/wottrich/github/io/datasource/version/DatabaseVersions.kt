@@ -10,9 +10,10 @@ package wottrich.github.io.datasource.version
  */
 
 object DatabaseVersions {
+    const val IV = 4
     const val III = 3
     const val II = 2
     const val I = 1
 
-    const val currentVersion = III
+    const val currentVersion = IV
 }

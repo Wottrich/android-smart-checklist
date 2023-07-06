@@ -13,7 +13,7 @@ import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyC
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyChecklistViewModel
 
 val quicklyChecklistModule = module {
-    factory { ConvertChecklistIntoQuicklyChecklistUseCase() }
+    factory { ConvertChecklistIntoQuicklyChecklistUseCase(get()) }
     factory { ConvertQuicklyChecklistIntoJsonUseCase() }
     factory { DecodeEncodedQuicklyChecklistUseCase() }
     factory { EncodeQuicklyChecklistUseCase() }

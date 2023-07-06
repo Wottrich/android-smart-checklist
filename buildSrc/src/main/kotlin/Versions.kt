@@ -28,7 +28,7 @@ object Versions {
     const val loggingInterceptorVersion = "4.9.0"
 
     //Gradle
-    const val gradleVersion = "7.0.0"
+    const val gradleVersion = "7.1.3"
 
     //Room
     const val room = "2.4.0"

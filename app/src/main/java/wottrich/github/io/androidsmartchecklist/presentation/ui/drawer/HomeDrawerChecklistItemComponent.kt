@@ -25,14 +25,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.androidsmartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.ListItem
 import wottrich.github.io.baseui.ui.ListItemEndTextContent
 import wottrich.github.io.baseui.ui.ListItemStartTextContent
 import wottrich.github.io.baseui.ui.RowDefaults
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
-import wottrich.github.io.datasource.entity.NewChecklist
-import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 
 /**
  * @author Wottrich
@@ -46,25 +45,17 @@ import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 @Composable
 fun HomeDrawerChecklistItemComponent(
     isEditModeEnabled: Boolean,
-    checklistWithTasks: NewChecklistWithNewTasks,
+    checklistItemModel: HomeDrawerChecklistItemModel,
     onItemClick: () -> Unit,
     onDeleteItemClicked: () -> Unit
 ) {
-    val checklist = checklistWithTasks.newChecklist
-    val tasks = checklistWithTasks.newTasks
-    val hasIncompleteItem = tasks.any { !it.isCompleted }
-    val numberOfItems = tasks.size
-    val numberOfCompleteItems = tasks.filter { it.isCompleted }.size
-    val description = "$numberOfCompleteItems / $numberOfItems"
     val modifier = Modifier
         .clickable { onItemClick() }
 
     ItemContent(
         modifier,
         isEditModeEnabled,
-        checklist,
-        hasIncompleteItem,
-        description,
+        checklistItemModel,
         onDeleteItemClicked
     )
     Divider(Modifier.padding(start = Dimens.BaseFour.SizeFive))
@@ -74,9 +65,7 @@ fun HomeDrawerChecklistItemComponent(
 private fun ItemContent(
     modifier: Modifier,
     isEditModeEnabled: Boolean,
-    checklist: NewChecklist,
-    hasIncompleteItem: Boolean,
-    description: String,
+    checklistItemModel: HomeDrawerChecklistItemModel,
     onDeleteItemClicked: () -> Unit
 ) {
     ListItem(
@@ -95,10 +84,10 @@ private fun ItemContent(
         },
         startContent = {
             ListItemStartTextContent(
-                primary = RowDefaults.title(text = checklist.name),
+                primary = RowDefaults.title(text = checklistItemModel.checklistName),
                 secondary = RowDefaults.description(
-                    text = getSecondaryText(hasIncompleteItem = hasIncompleteItem),
-                    color = getSecondaryColor(hasIncompleteItem = hasIncompleteItem)
+                    text = getSecondaryText(hasIncompleteItem = checklistItemModel.hasUncompletedTask),
+                    color = getSecondaryColor(hasIncompleteItem = checklistItemModel.hasUncompletedTask)
                 )
             )
         },
@@ -107,10 +96,10 @@ private fun ItemContent(
                 horizontalAlignment = Alignment.End
             ) {
                 ListItemEndTextContent(
-                    primary = RowDefaults.description(text = description)
+                    primary = RowDefaults.description(text = checklistItemModel.completeCountLabel)
                 )
                 Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
-                if (checklist.isSelected) {
+                if (checklistItemModel.isChecklistSelected) {
                     Surface(
                         shape = RoundedCornerShape(50),
                         color = SmartChecklistTheme.colors.secondary

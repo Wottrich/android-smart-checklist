@@ -25,3 +25,10 @@ val MIGRATION_II_III = object : Migration(DatabaseVersions.II, DatabaseVersions.
         database.execSQL("CREATE TABLE IF NOT EXISTS `new_task` (`uuid` TEXT NOT NULL, `parent_uuid` TEXT NOT NULL, `name` TEXT NOT NULL, `is_completed` INTEGER NOT NULL, `date_created` INTEGER NOT NULL, PRIMARY KEY(`uuid`), FOREIGN KEY(`parent_uuid`) REFERENCES `new_checklist`(`uuid`) ON UPDATE NO ACTION ON DELETE CASCADE )")
     }
 }
+
+val MIGRATION_III_IV = object : Migration(DatabaseVersions.III, DatabaseVersions.IV) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("DROP TABLE `checklist`")
+        database.execSQL("DROP TABLE `task`")
+    }
+}

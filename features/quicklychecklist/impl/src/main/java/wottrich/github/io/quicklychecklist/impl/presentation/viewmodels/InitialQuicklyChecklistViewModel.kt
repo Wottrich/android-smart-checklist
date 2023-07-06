@@ -4,13 +4,13 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import github.io.wottrich.coroutines.base.onFailure
+import github.io.wottrich.coroutines.base.onSuccess
 import kotlinx.coroutines.flow.Flow
 import wottrich.github.io.quicklychecklist.impl.domain.DecodeEncodedQuicklyChecklistUseCase
 import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
-import github.io.wottrich.coroutines.base.onFailure
-import github.io.wottrich.coroutines.base.onSuccess
 
 class InitialQuicklyChecklistViewModel(
     private val decodeEncodedQuicklyChecklistUseCase: DecodeEncodedQuicklyChecklistUseCase,

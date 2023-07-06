@@ -42,7 +42,7 @@ dependencies {
     moduleDomainCoroutines()
     moduleTools()
 
-    implementation(project(path = ":features:checklist:public"))
+    api(project(path = ":features:checklist:public"))
     implementation(project(path = ":datasource"))
     implementation(project(path = ":baseui"))
 

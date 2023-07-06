@@ -1,33 +1,29 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
 import androidx.annotation.StringRes
-import github.io.wottrich.checklist.domain.usecase.DeleteChecklistUseCase
-import github.io.wottrich.checklist.domain.usecase.GetSelectedChecklistUseCase
+import github.io.wottrich.checklist.domain.DeleteChecklistUseCase
+import github.io.wottrich.checklist.domain.GetChecklistAsTextUseCase
+import github.io.wottrich.coroutines.base.onFailure
+import github.io.wottrich.coroutines.base.onSuccess
+import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.androidsmartchecklist.domain.usecase.ObserveSimpleSelectedChecklistModelUseCase
 import wottrich.github.io.androidsmartchecklist.presentation.state.HomeState
 import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions
-import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions.Action
-import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions.Action.DeleteChecklistAction
-import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions.Action.OnChangeEditModeAction
-import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions.Action.OnShareQuicklyChecklistAction
-import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions.Action.OnShowTaskChangeStatusSnackbar
-import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions.Action.OnSnackbarError
 import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiEffects
 import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiState
-import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.androidsmartchecklist.presentation.state.TopBarHomeUiEffects
+import wottrich.github.io.androidsmartchecklist.presentation.ui.model.SimpleChecklistModel
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.quicklychecklist.impl.domain.ConvertChecklistIntoQuicklyChecklistUseCase
 import wottrich.github.io.quicklychecklist.impl.domain.GetQuicklyChecklistDeepLinkUseCase
 import wottrich.github.io.tools.SingleShotEventBus
 import wottrich.github.io.tools.base.BaseViewModel
-import github.io.wottrich.coroutines.base.onFailure
-import github.io.wottrich.coroutines.base.onSuccess
-import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
 
 /**
  * @author Wottrich
@@ -41,10 +37,11 @@ import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
 @OptIn(InternalCoroutinesApi::class)
 class HomeViewModel(
     dispatchers: DispatchersProviders,
-    private val getSelectedChecklistUseCase: GetSelectedChecklistUseCase,
+    private val observeSimpleSelectedChecklistModelUseCase: ObserveSimpleSelectedChecklistModelUseCase,
     private val deleteChecklistUseCase: DeleteChecklistUseCase,
     private val convertChecklistIntoQuicklyChecklistUseCase: ConvertChecklistIntoQuicklyChecklistUseCase,
-    private val getQuicklyChecklistDeepLinkUseCase: GetQuicklyChecklistDeepLinkUseCase
+    private val getQuicklyChecklistDeepLinkUseCase: GetQuicklyChecklistDeepLinkUseCase,
+    private val getChecklistAsTextUseCase: GetChecklistAsTextUseCase
 ) : BaseViewModel(dispatchers), HomeUiActions {
 
     private val _homeStateFlow = MutableStateFlow(HomeState.Initial)
@@ -53,9 +50,12 @@ class HomeViewModel(
     private val _uiEffects = SingleShotEventBus<HomeUiEffects>()
     val uiEffects: Flow<HomeUiEffects> = _uiEffects.events
 
+    private val _topBarUiEffect = SingleShotEventBus<TopBarHomeUiEffects>()
+    val topBarUiEffect: Flow<TopBarHomeUiEffects> = _topBarUiEffect.events
+
     init {
         launchIO {
-            getSelectedChecklistUseCase().collect(
+            observeSimpleSelectedChecklistModelUseCase().collect(
                 FlowCollector { selectedChecklistResult ->
                     val selectedChecklist = selectedChecklistResult.getOrNull()
                     handleSelectedChecklist(selectedChecklist)
@@ -64,21 +64,26 @@ class HomeViewModel(
         }
     }
 
-    override fun sendAction(action: Action) {
+    override fun sendAction(action: HomeUiActions.Action) {
         when (action) {
-            DeleteChecklistAction -> onDeleteChecklistAction()
-            OnChangeEditModeAction -> onChangeEditModeClicked()
-            is OnShowTaskChangeStatusSnackbar -> onShowTaskChangeStatusSnackbar(action.task)
-            OnShareQuicklyChecklistAction -> onShareQuicklyChecklist()
-            is OnSnackbarError -> onSnackbarError(action.message)
+            HomeUiActions.Action.DeleteChecklistAction -> onDeleteChecklistAction()
+            HomeUiActions.Action.OnChangeEditModeAction -> onChangeEditModeClicked()
+            is HomeUiActions.Action.OnShowTaskChangeStatusSnackbar -> onShowTaskChangeStatusSnackbar(
+                action.task
+            )
+
+            HomeUiActions.Action.OnShareQuicklyChecklistAction -> onShareQuicklyChecklist()
+            is HomeUiActions.Action.OnSnackbarError -> onSnackbarError(action.message)
+            HomeUiActions.Action.OnShareChecklistAsText -> onShareChecklistAsText()
         }
     }
 
     private fun onDeleteChecklistAction() {
         launchIO {
-            homeStateFlow.value.checklistWithTasks?.newChecklist?.let {
-                deleteChecklistUseCase(it)
-                _uiEffects.emit(HomeUiEffects.SnackbarChecklistDelete)
+            homeStateFlow.value.checklist?.uuid?.let {
+                deleteChecklistUseCase(it).onSuccess {
+                    _uiEffects.emit(HomeUiEffects.SnackbarChecklistDelete)
+                }
             }
         }
     }
@@ -98,10 +103,10 @@ class HomeViewModel(
     }
 
     private fun onShareQuicklyChecklist() {
-        val checklistWithTasks = homeStateFlow.value.checklistWithTasks
-        if (checklistWithTasks != null) {
+        val checklist = homeStateFlow.value.checklist
+        if (checklist != null) {
             launchIO {
-                convertChecklistIntoQuicklyChecklistUseCase(checklistWithTasks).onSuccess {
+                convertChecklistIntoQuicklyChecklistUseCase(checklist.uuid).onSuccess {
                     handleQuicklyChecklistDeepLink(it)
                 }.onFailure {
                     _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
@@ -116,20 +121,34 @@ class HomeViewModel(
         }
     }
 
-    private fun handleSelectedChecklist(selectedChecklist: NewChecklistWithNewTasks?) {
+    private fun onShareChecklistAsText() {
+        launchIO {
+            val checklist = homeStateFlow.value.checklist
+            if (checklist != null) {
+                getChecklistAsTextUseCase(checklist.uuid).onSuccess {
+                    _topBarUiEffect.emit(TopBarHomeUiEffects.ShareChecklistAsText(it))
+                }.onFailure {
+                    _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
+                }
+            }
+        }
+    }
+
+    private fun handleSelectedChecklist(selectedChecklist: SimpleChecklistModel?) {
         val nextUiState = getNextUiState(selectedChecklist)
         _homeStateFlow.value = homeStateFlow.value.copy(
             homeUiState = nextUiState,
-            checklistWithTasks = selectedChecklist
+            checklist = selectedChecklist
         )
     }
 
-    private fun getNextUiState(selectedChecklist: NewChecklistWithNewTasks?): HomeUiState {
+    private fun getNextUiState(selectedChecklist: SimpleChecklistModel?): HomeUiState {
         val currentViewState = homeStateFlow.value.homeUiState
         val hasSelectedChecklist = selectedChecklist != null
         return when {
             shouldVerifyUiStateToUpdate(currentViewState) ->
                 getNextUiStateBySelectedState(hasSelectedChecklist)
+
             hasSelectedChecklist -> currentViewState
             else -> HomeUiState.Empty
         }

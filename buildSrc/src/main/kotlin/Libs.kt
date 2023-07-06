@@ -105,8 +105,12 @@ fun DependencyHandlerScope.coroutines() {
     "implementation"(Libs.coroutinesTestLib)
 }
 
-fun DependencyHandlerScope.koin() {
+fun DependencyHandlerScope.koinCore() {
     "implementation"(Libs.insertKoinCore)
+}
+
+fun DependencyHandlerScope.koin() {
+    koinCore()
     "implementation"(Libs.insertKoinAndroid)
     "implementation"(Libs.insertKoinAndroidCompose)
 }
@@ -143,9 +147,13 @@ fun DependencyHandlerScope.gson() {
     "implementation"(Libs.converterGson)
 }
 
+fun DependencyHandlerScope.roomKtx() {
+    "implementation"(Libs.roomKtx)
+}
+
 fun DependencyHandlerScope.room(withCompiler: Boolean = false) {
     "implementation"(Libs.roomRuntime)
-    "implementation"(Libs.roomKtx)
+    roomKtx()
     if (withCompiler) {
         "kapt"(Libs.roomCompiler)
     }

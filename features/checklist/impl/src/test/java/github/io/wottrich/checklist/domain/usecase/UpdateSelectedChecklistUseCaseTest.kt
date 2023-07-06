@@ -8,8 +8,8 @@ import junit.framework.Assert.assertFalse
 import junit.framework.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
-import wottrich.github.io.datasource.dao.ChecklistDao
 import wottrich.github.io.datasource.entity.NewChecklist
+import wottrich.github.io.datasource.repository.ChecklistRepository
 
 /**
  * @author Wottrich
@@ -21,61 +21,57 @@ import wottrich.github.io.datasource.entity.NewChecklist
 
 class UpdateSelectedChecklistUseCaseTest : BaseUnitTest() {
 
-    private lateinit var sut: UpdateSelectedChecklistUseCase
+    private lateinit var sut: UpdateSelectedChecklistUseCaseImpl
 
-    private lateinit var checklistDao: ChecklistDao
+    private lateinit var checklistRepository: ChecklistRepository
 
     @Before
     override fun setUp() {
-        checklistDao = mockk()
-        sut = UpdateSelectedChecklistUseCase(checklistDao)
+        checklistRepository = mockk()
+        sut = UpdateSelectedChecklistUseCaseImpl(checklistRepository)
     }
 
     @Test
-    fun `GIVEN use case is requested WHEN has selected checklist THEN must change selected checklists`() = runBlockingUnitTest {
-        val selectedChecklist = NewChecklist(
-            uuid = "0",
-            name = "Checklist 0",
-            isSelected = true
-        )
-        val nextSelectedChecklist = NewChecklist(
-            uuid = "1",
-            name = "Checklist 1",
-            isSelected = false
-        )
-        coEvery { checklistDao.selectSelectedChecklist(true) } returns selectedChecklist
-        coEvery { checklistDao.updateChecklists(any()) } returns Unit
+    fun `GIVEN use case is requested WHEN has selected checklist THEN must change selected checklists`() =
+        runBlockingUnitTest {
+            val selectedChecklist = NewChecklist(
+                uuid = "0",
+                name = "Checklist 0",
+                isSelected = true
+            )
+            val nextSelectedChecklist = NewChecklist(
+                uuid = "1",
+                name = "Checklist 1",
+                isSelected = false
+            )
+            coEvery { checklistRepository.updateSelectedChecklist(any()) } returns Unit
 
-        sut(nextSelectedChecklist)
+            sut(nextSelectedChecklist.uuid)
 
-        coVerify(inverse = true) { checklistDao.update(any()) }
-        coVerify(exactly = 1) {
-            checklistDao.updateChecklists(listOf(selectedChecklist, nextSelectedChecklist))
+            coVerify(exactly = 1) {
+                checklistRepository.updateSelectedChecklist(nextSelectedChecklist.uuid)
+            }
+
+            assertTrue(nextSelectedChecklist.isSelected)
+            assertFalse(selectedChecklist.isSelected)
         }
-
-        assertTrue(nextSelectedChecklist.isSelected)
-        assertFalse(selectedChecklist.isSelected)
-    }
 
     @Test
-    fun `GIVEN use case is requested WHEN has no selected checklist THEN must change selected checklists`() = runBlockingUnitTest {
-        val selectedChecklist: NewChecklist? = null
-        val nextSelectedChecklist = NewChecklist(
-            uuid = "1",
-            name = "Checklist 1",
-            isSelected = false
-        )
-        coEvery { checklistDao.selectSelectedChecklist(true) } returns selectedChecklist
-        coEvery { checklistDao.update(any()) } returns Unit
+    fun `GIVEN use case is requested WHEN has no selected checklist THEN must change selected checklists`() =
+        runBlockingUnitTest {
+            val nextSelectedChecklist = NewChecklist(
+                uuid = "1",
+                name = "Checklist 1",
+                isSelected = false
+            )
+            coEvery { checklistRepository.updateSelectedChecklist(any()) } returns Unit
 
-        sut(nextSelectedChecklist)
+            sut(nextSelectedChecklist.uuid)
 
-        coVerify(exactly = 1) { checklistDao.update(nextSelectedChecklist) }
-        coVerify(inverse = true) {
-            checklistDao.updateChecklists(any())
+            coVerify(inverse = true) {
+                checklistRepository.updateSelectedChecklist(any())
+            }
+
+            assertTrue(nextSelectedChecklist.isSelected)
         }
-
-        assertTrue(nextSelectedChecklist.isSelected)
-    }
-
 }

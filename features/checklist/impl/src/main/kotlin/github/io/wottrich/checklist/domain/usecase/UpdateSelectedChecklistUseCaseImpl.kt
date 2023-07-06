@@ -1,12 +1,11 @@
 package github.io.wottrich.checklist.domain.usecase
 
-import github.io.wottrich.coroutines.KotlinResultUseCase
+import github.io.wottrich.checklist.domain.UpdateSelectedChecklistUseCase
 import github.io.wottrich.coroutines.UseCase
+import github.io.wottrich.coroutines.base.Result
 import github.io.wottrich.coroutines.failureEmptyResult
 import github.io.wottrich.coroutines.successEmptyResult
-import wottrich.github.io.datasource.dao.ChecklistDao
-import wottrich.github.io.datasource.entity.NewChecklist
-import github.io.wottrich.coroutines.base.Result
+import wottrich.github.io.datasource.repository.ChecklistRepository
 
 /**
  * @author Wottrich
@@ -17,11 +16,12 @@ import github.io.wottrich.coroutines.base.Result
  *
  */
 
-class DeleteChecklistUseCase(private val checklistDao: ChecklistDao) :
-    KotlinResultUseCase<NewChecklist, UseCase.Empty>() {
-    override suspend fun execute(params: NewChecklist): Result<UseCase.Empty> {
+class UpdateSelectedChecklistUseCaseImpl(
+    private val checklistRepository: ChecklistRepository
+) : UpdateSelectedChecklistUseCase() {
+    override suspend fun execute(params: String): Result<UseCase.Empty> {
         return try {
-            checklistDao.delete(params)
+            checklistRepository.updateSelectedChecklist(params)
             successEmptyResult()
         } catch (ex: Exception) {
             failureEmptyResult(ex)
