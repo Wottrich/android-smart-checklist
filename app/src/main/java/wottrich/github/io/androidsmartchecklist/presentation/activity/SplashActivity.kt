@@ -1,5 +1,7 @@
 package wottrich.github.io.androidsmartchecklist.presentation.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -20,7 +22,6 @@ import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.RowDefaults
 import wottrich.github.io.baseui.ui.TextStateComponent
-import wottrich.github.io.tools.extensions.startActivity
 
 @InternalCoroutinesApi
 class SplashActivity : AppCompatActivity() {
@@ -58,5 +59,17 @@ class SplashActivity : AppCompatActivity() {
             }
         }
     }
+}
 
+private inline fun <reified T: Activity> Activity?.startActivity(
+    finishActualActivity: Boolean = false,
+    options: Bundle? = null,
+    setupIntent: Intent.() -> Unit = {}
+) {
+    val intent = Intent(this, T::class.java)
+    setupIntent(intent)
+    this?.startActivity(intent, options)
+    if (finishActualActivity) {
+        this?.finish()
+    }
 }

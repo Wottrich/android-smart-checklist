@@ -9,8 +9,8 @@ import github.io.wottrich.coroutines.base.onSuccess
 import kotlinx.coroutines.flow.Flow
 import wottrich.github.io.quicklychecklist.impl.domain.DecodeEncodedQuicklyChecklistUseCase
 import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect
-import wottrich.github.io.tools.SingleShotEventBus
-import wottrich.github.io.tools.base.BaseViewModel
+import github.io.wottrich.kotlin.SingleShotEventBus
+import github.io.wottrich.android.BaseViewModel
 
 class InitialQuicklyChecklistViewModel(
     private val decodeEncodedQuicklyChecklistUseCase: DecodeEncodedQuicklyChecklistUseCase,

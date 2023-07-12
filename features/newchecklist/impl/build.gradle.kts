@@ -40,11 +40,12 @@ dependencies {
     kotlinAndCoreKtx()
 
     moduleDomainCoroutines()
-    moduleTools()
 
     implementation(project(path = ":datasource"))
     implementation(project(path = ":baseui"))
     implementation(project(path = ":features:checklist:public"))
+    implementation(project(path = ":infrastructure:components:android"))
+    implementation(project(path = ":infrastructure:components:kotlin"))
 
     composeUi()
 

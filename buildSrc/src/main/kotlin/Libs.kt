@@ -20,6 +20,8 @@ object Libs {
     //Android lifecycle
     const val lifecycleRuntime =
         "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.lifecycleRuntime}"
+    const val lifecycleViewModelKtx =
+        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.lifecycleViewModelKtx}"
 
     //Koin
     const val insertKoinCore = "io.insert-koin:koin-core:${Versions.koinVersion}"

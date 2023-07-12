@@ -38,10 +38,11 @@ android {
 dependencies {
 
     moduleDomainCoroutines()
-    moduleTools()
 
     implementation(project(path = ":datasource"))
     implementation(project(path = ":baseui"))
+    implementation(project(path = ":infrastructure:components:android"))
+    implementation(project(path = ":infrastructure:components:kotlin"))
 
     composeUi()
 

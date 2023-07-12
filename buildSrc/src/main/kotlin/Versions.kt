@@ -7,6 +7,7 @@ object Versions {
     //AppCompat and UI things
     const val appCompatVersion = "1.4.1"
     const val lifecycleRuntime = "2.5.1"
+    const val lifecycleViewModelKtx = "2.3.1"
 
     //Koin
     const val koinVersion = "3.1.5"

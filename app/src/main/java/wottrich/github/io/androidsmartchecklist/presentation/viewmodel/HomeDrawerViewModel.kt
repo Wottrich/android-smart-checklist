@@ -14,8 +14,8 @@ import wottrich.github.io.androidsmartchecklist.presentation.ui.model.HomeDrawer
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent.DeleteChecklistClicked
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent.EditModeClicked
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEvent.ItemClicked
-import wottrich.github.io.tools.SingleShotEventBus
-import wottrich.github.io.tools.base.BaseViewModel
+import github.io.wottrich.kotlin.SingleShotEventBus
+import github.io.wottrich.android.BaseViewModel
 
 /**
  * @author Wottrich

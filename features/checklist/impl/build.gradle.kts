@@ -40,7 +40,6 @@ dependencies {
     kotlinAndCoreKtx()
 
     moduleDomainCoroutines()
-    moduleTools()
 
     api(project(path = ":features:checklist:public"))
     implementation(project(path = ":datasource"))

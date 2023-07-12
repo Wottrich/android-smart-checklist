@@ -21,8 +21,8 @@ import wottrich.github.io.impl.presentation.action.TaskComponentViewModelAction.
 import wottrich.github.io.impl.presentation.action.TaskComponentViewModelAction.Action.DeleteTask
 import wottrich.github.io.impl.presentation.state.TaskComponentUiState
 import wottrich.github.io.impl.presentation.viewmodel.TaskComponentViewModelUiEffect.OnError
-import wottrich.github.io.tools.SingleShotEventBus
-import wottrich.github.io.tools.base.BaseViewModel
+import github.io.wottrich.kotlin.SingleShotEventBus
+import github.io.wottrich.android.BaseViewModel
 import github.io.wottrich.coroutines.base.onFailure
 import github.io.wottrich.coroutines.base.onSuccess
 

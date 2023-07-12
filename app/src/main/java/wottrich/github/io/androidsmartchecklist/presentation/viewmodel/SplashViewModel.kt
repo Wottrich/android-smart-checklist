@@ -1,8 +1,8 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
 import kotlinx.coroutines.delay
-import wottrich.github.io.tools.SingleShotEventBus
-import wottrich.github.io.tools.base.BaseViewModel
+import github.io.wottrich.kotlin.SingleShotEventBus
+import github.io.wottrich.android.BaseViewModel
 
 class SplashViewModel: BaseViewModel() {
 
