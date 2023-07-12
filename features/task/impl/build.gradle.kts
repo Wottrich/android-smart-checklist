@@ -39,11 +39,13 @@ dependencies {
 
     kotlinAndCoreKtx()
 
-    moduleTools()
+    moduleDomainCoroutines()
 
     implementation(project(path = ":features:task:public"))
     implementation(project(path = ":baseui"))
     implementation(project(path = ":datasource"))
+    implementation(project(path = ":infrastructure:components:android"))
+    implementation(project(path = ":infrastructure:components:kotlin"))
     testImplementation(project(path = ":test-tools"))
     moduleCommonUiCompose()
 

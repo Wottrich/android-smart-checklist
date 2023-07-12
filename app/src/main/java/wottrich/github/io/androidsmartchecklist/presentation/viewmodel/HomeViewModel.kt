@@ -1,30 +1,29 @@
 package wottrich.github.io.androidsmartchecklist.presentation.viewmodel
 
 import androidx.annotation.StringRes
-import androidx.compose.runtime.mutableStateListOf
-import github.io.wottrich.checklist.domain.usecase.DeleteChecklistUseCase
-import github.io.wottrich.checklist.domain.usecase.GetSelectedChecklistUseCase
+import github.io.wottrich.checklist.domain.DeleteChecklistUseCase
+import github.io.wottrich.checklist.domain.GetChecklistAsTextUseCase
+import github.io.wottrich.coroutines.base.onFailure
+import github.io.wottrich.coroutines.base.onSuccess
+import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.withContext
 import wottrich.github.io.androidsmartchecklist.R
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarError
-import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.androidsmartchecklist.domain.usecase.ObserveSimpleSelectedChecklistModelUseCase
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeState
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiEffects
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiState
+import wottrich.github.io.androidsmartchecklist.presentation.state.TopBarHomeUiEffects
+import wottrich.github.io.androidsmartchecklist.presentation.ui.model.SimpleChecklistModel
 import wottrich.github.io.datasource.entity.NewTask
-import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase
-import wottrich.github.io.impl.domain.usecase.GetChangeTaskStatusUseCase
-import wottrich.github.io.impl.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.quicklychecklist.impl.domain.ConvertChecklistIntoQuicklyChecklistUseCase
 import wottrich.github.io.quicklychecklist.impl.domain.GetQuicklyChecklistDeepLinkUseCase
-import wottrich.github.io.tools.SingleShotEventBus
-import wottrich.github.io.tools.base.BaseViewModel
-import wottrich.github.io.tools.base.onFailure
-import wottrich.github.io.tools.base.onSuccess
-import wottrich.github.io.tools.dispatcher.DispatchersProviders
+import github.io.wottrich.kotlin.SingleShotEventBus
+import github.io.wottrich.android.BaseViewModel
 
 /**
  * @author Wottrich
@@ -38,16 +37,12 @@ import wottrich.github.io.tools.dispatcher.DispatchersProviders
 @OptIn(InternalCoroutinesApi::class)
 class HomeViewModel(
     dispatchers: DispatchersProviders,
-    private val getSelectedChecklistUseCase: GetSelectedChecklistUseCase,
+    private val observeSimpleSelectedChecklistModelUseCase: ObserveSimpleSelectedChecklistModelUseCase,
     private val deleteChecklistUseCase: DeleteChecklistUseCase,
-    private val getAddTaskUseCase: GetAddTaskUseCase,
-    private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
-    private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
     private val convertChecklistIntoQuicklyChecklistUseCase: ConvertChecklistIntoQuicklyChecklistUseCase,
-    private val getQuicklyChecklistDeepLinkUseCase: GetQuicklyChecklistDeepLinkUseCase
-) : BaseViewModel(dispatchers) {
-
-    private val pendingActions = MutableSharedFlow<HomeUiActions>()
+    private val getQuicklyChecklistDeepLinkUseCase: GetQuicklyChecklistDeepLinkUseCase,
+    private val getChecklistAsTextUseCase: GetChecklistAsTextUseCase
+) : BaseViewModel(dispatchers), HomeUiActions {
 
     private val _homeStateFlow = MutableStateFlow(HomeState.Initial)
     val homeStateFlow = _homeStateFlow.asStateFlow()
@@ -55,76 +50,105 @@ class HomeViewModel(
     private val _uiEffects = SingleShotEventBus<HomeUiEffects>()
     val uiEffects: Flow<HomeUiEffects> = _uiEffects.events
 
-    var tasks = mutableStateListOf<NewTask>()
-        private set
+    private val _topBarUiEffect = SingleShotEventBus<TopBarHomeUiEffects>()
+    val topBarUiEffect: Flow<TopBarHomeUiEffects> = _topBarUiEffect.events
 
     init {
         launchIO {
-            getSelectedChecklistUseCase().collect(
+            observeSimpleSelectedChecklistModelUseCase().collect(
                 FlowCollector { selectedChecklistResult ->
                     val selectedChecklist = selectedChecklistResult.getOrNull()
                     handleSelectedChecklist(selectedChecklist)
-                    withContext(dispatchers.main) {
-                        tasks.clear()
-                        tasks.addAll(selectedChecklist?.newTasks.orEmpty())
-                    }
                 }
             )
         }
+    }
 
-        launchIO {
-            pendingActions.collect { handleActions(it) }
+    override fun sendAction(action: HomeUiActions.Action) {
+        when (action) {
+            HomeUiActions.Action.DeleteChecklistAction -> onDeleteChecklistAction()
+            HomeUiActions.Action.OnChangeEditModeAction -> onChangeEditModeClicked()
+            is HomeUiActions.Action.OnShowTaskChangeStatusSnackbar -> onShowTaskChangeStatusSnackbar(
+                action.task
+            )
+
+            HomeUiActions.Action.OnShareQuicklyChecklistAction -> onShareQuicklyChecklist()
+            is HomeUiActions.Action.OnSnackbarError -> onSnackbarError(action.message)
+            HomeUiActions.Action.OnShareChecklistAsText -> onShareChecklistAsText()
         }
     }
 
-    fun onChangeEditModeClicked() {
+    private fun onDeleteChecklistAction() {
         launchIO {
-            if (homeStateFlow.value.isEditUiState) {
-                pendingActions.emit(HomeUiActions.DisableEditModeAction)
-            } else {
-                pendingActions.emit(HomeUiActions.EnableEditModeAction)
+            homeStateFlow.value.checklist?.uuid?.let {
+                deleteChecklistUseCase(it).onSuccess {
+                    _uiEffects.emit(HomeUiEffects.SnackbarChecklistDelete)
+                }
             }
         }
     }
 
-    fun onAddItemButtonClicked(taskName: String) {
-        launchIO {
-            pendingActions.emit(HomeUiActions.AddNewTaskAction(taskName))
+    private fun onChangeEditModeClicked() {
+        if (homeStateFlow.value.isEditUiState) {
+            handleDisableEditMode()
+        } else {
+            handleEnabledEditMode()
         }
     }
 
-    fun onUpdateItemClicked(task: NewTask) {
+    private fun onShowTaskChangeStatusSnackbar(task: NewTask) {
         launchIO {
-            pendingActions.emit(HomeUiActions.UpdateTaskAction(task))
+            handleUpdateTaskEffect(task)
         }
     }
 
-    fun onDeleteItemClicked(task: NewTask) {
-        launchIO {
-            pendingActions.emit(HomeUiActions.DeleteTaskAction(task))
+    private fun onShareQuicklyChecklist() {
+        val checklist = homeStateFlow.value.checklist
+        if (checklist != null) {
+            launchIO {
+                convertChecklistIntoQuicklyChecklistUseCase(checklist.uuid).onSuccess {
+                    handleQuicklyChecklistDeepLink(it)
+                }.onFailure {
+                    _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
+                }
+            }
         }
     }
 
-    fun onDeleteChecklist() {
+    private fun onSnackbarError(@StringRes message: Int) {
         launchIO {
-            pendingActions.emit(HomeUiActions.DeleteChecklistAction)
+            _uiEffects.emit(HomeUiEffects.SnackbarError(message))
         }
     }
 
-    private fun handleSelectedChecklist(selectedChecklist: NewChecklistWithNewTasks?) {
+    private fun onShareChecklistAsText() {
+        launchIO {
+            val checklist = homeStateFlow.value.checklist
+            if (checklist != null) {
+                getChecklistAsTextUseCase(checklist.uuid).onSuccess {
+                    _topBarUiEffect.emit(TopBarHomeUiEffects.ShareChecklistAsText(it))
+                }.onFailure {
+                    _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
+                }
+            }
+        }
+    }
+
+    private fun handleSelectedChecklist(selectedChecklist: SimpleChecklistModel?) {
         val nextUiState = getNextUiState(selectedChecklist)
         _homeStateFlow.value = homeStateFlow.value.copy(
             homeUiState = nextUiState,
-            checklistWithTasks = selectedChecklist
+            checklist = selectedChecklist
         )
     }
 
-    private fun getNextUiState(selectedChecklist: NewChecklistWithNewTasks?): HomeUiState {
+    private fun getNextUiState(selectedChecklist: SimpleChecklistModel?): HomeUiState {
         val currentViewState = homeStateFlow.value.homeUiState
         val hasSelectedChecklist = selectedChecklist != null
         return when {
             shouldVerifyUiStateToUpdate(currentViewState) ->
                 getNextUiStateBySelectedState(hasSelectedChecklist)
+
             hasSelectedChecklist -> currentViewState
             else -> HomeUiState.Empty
         }
@@ -137,17 +161,6 @@ class HomeViewModel(
     private fun getNextUiStateBySelectedState(hasSelectedChecklist: Boolean) =
         if (hasSelectedChecklist) HomeUiState.Overview(false) else HomeUiState.Empty
 
-    private suspend fun handleActions(action: HomeUiActions) {
-        when (action) {
-            HomeUiActions.DisableEditModeAction -> handleDisableEditMode()
-            HomeUiActions.EnableEditModeAction -> handleEnabledEditMode()
-            is HomeUiActions.AddNewTaskAction -> handleAddNewTaskAction(action.taskName)
-            is HomeUiActions.UpdateTaskAction -> handleUpdateTaskAction(action.task)
-            is HomeUiActions.DeleteTaskAction -> handleDeleteTaskAction(action.task)
-            HomeUiActions.DeleteChecklistAction -> handleDeleteChecklistAction()
-        }
-    }
-
     private fun handleEnabledEditMode() {
         val state = HomeUiState.Overview(isEditing = true)
         _homeStateFlow.value = homeStateFlow.value.copy(homeUiState = state)
@@ -156,25 +169,6 @@ class HomeViewModel(
     private fun handleDisableEditMode() {
         val state = HomeUiState.Overview(isEditing = false)
         _homeStateFlow.value = homeStateFlow.value.copy(homeUiState = state)
-    }
-
-    private suspend fun handleAddNewTaskAction(taskName: String) {
-        val checklistId = homeStateFlow.value.checklistWithTasks?.newChecklist?.uuid
-        if (checklistId != null && taskName.isNotEmpty()) {
-            getAddTaskUseCase(
-                GetAddTaskUseCase.Params(
-                    parentUuid = checklistId,
-                    taskName = taskName
-                )
-            )
-        } else {
-            _uiEffects.emit(SnackbarError(R.string.checklist_add_new_item_failure))
-        }
-    }
-
-    private suspend fun handleUpdateTaskAction(task: NewTask) {
-        handleUpdateTaskEffect(task)
-        getChangeTaskStatusUseCase(task)
     }
 
     private suspend fun handleUpdateTaskEffect(task: NewTask) {
@@ -186,36 +180,6 @@ class HomeViewModel(
         _uiEffects.emit(effect)
     }
 
-    private fun handleDeleteTaskAction(task: NewTask) {
-        launchIO {
-            getDeleteTaskUseCase(task)
-        }
-    }
-
-    private fun handleDeleteChecklistAction() {
-        launchIO {
-            homeStateFlow.value.checklistWithTasks?.newChecklist?.let {
-                deleteChecklistUseCase(it)
-                _uiEffects.emit(HomeUiEffects.SnackbarChecklistDelete)
-            }
-        }
-    }
-
-    fun onShareQuicklyChecklist() {
-        val checklistWithTasks = homeStateFlow.value.checklistWithTasks
-        if (checklistWithTasks != null) {
-            launchIO {
-                convertChecklistIntoQuicklyChecklistUseCase(checklistWithTasks).onSuccess {
-                    handleQuicklyChecklistDeepLink(it)
-                }.onFailure {
-                    launchMain {
-                        _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
-                    }
-                }
-            }
-        }
-    }
-
     private fun handleQuicklyChecklistDeepLink(quicklyChecklistJson: String) {
         launchIO {
             getQuicklyChecklistDeepLinkUseCase(quicklyChecklistJson).onSuccess {
@@ -225,43 +189,4 @@ class HomeViewModel(
             }
         }
     }
-}
-
-data class HomeState(
-    val homeUiState: HomeUiState,
-    val checklistWithTasks: NewChecklistWithNewTasks?
-) {
-    val isEditUiState: Boolean
-        get() = homeUiState is HomeUiState.Overview && homeUiState.isEditing
-
-    fun shouldShowActionContent(): Boolean {
-        return homeUiState is HomeUiState.Overview
-    }
-
-    companion object {
-        val Initial = HomeState(HomeUiState.Loading, null)
-    }
-}
-
-sealed class HomeUiState {
-    object Loading : HomeUiState()
-    data class Overview(val isEditing: Boolean = false) : HomeUiState()
-    object Empty : HomeUiState()
-}
-
-sealed class HomeUiEffects {
-    data class SnackbarTaskCompleted(val taskName: String) : HomeUiEffects()
-    data class SnackbarTaskUncompleted(val taskName: String) : HomeUiEffects()
-    object SnackbarChecklistDelete : HomeUiEffects()
-    data class SnackbarError(@StringRes val errorMessage: Int) : HomeUiEffects()
-    data class OnShareQuicklyChecklist(val quicklyChecklistJson: String) : HomeUiEffects()
-}
-
-sealed class HomeUiActions {
-    object EnableEditModeAction : HomeUiActions()
-    object DisableEditModeAction : HomeUiActions()
-    data class AddNewTaskAction(val taskName: String) : HomeUiActions()
-    data class UpdateTaskAction(val task: NewTask) : HomeUiActions()
-    data class DeleteTaskAction(val task: NewTask) : HomeUiActions()
-    object DeleteChecklistAction : HomeUiActions()
 }

@@ -10,12 +10,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import wottrich.github.io.androidsmartchecklist.R.string
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.OnShareQuicklyChecklist
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarChecklistDelete
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarError
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarTaskCompleted
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiEffects.SnackbarTaskUncompleted
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiEffects
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiEffects.OnShareQuicklyChecklist
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiEffects.SnackbarChecklistDelete
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiEffects.SnackbarError
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiEffects.SnackbarTaskCompleted
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiEffects.SnackbarTaskUncompleted
 import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable

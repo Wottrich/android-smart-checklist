@@ -37,8 +37,6 @@ android {
 
 dependencies {
 
-    moduleTools()
-
     implementation(project(path = ":datasource"))
     implementation(project(path = ":baseui"))
 

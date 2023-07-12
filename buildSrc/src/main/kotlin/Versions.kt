@@ -7,6 +7,7 @@ object Versions {
     //AppCompat and UI things
     const val appCompatVersion = "1.4.1"
     const val lifecycleRuntime = "2.5.1"
+    const val lifecycleViewModelKtx = "2.3.1"
 
     //Koin
     const val koinVersion = "3.1.5"
@@ -28,7 +29,7 @@ object Versions {
     const val loggingInterceptorVersion = "4.9.0"
 
     //Gradle
-    const val gradleVersion = "7.0.0"
+    const val gradleVersion = "7.1.3"
 
     //Room
     const val room = "2.4.0"

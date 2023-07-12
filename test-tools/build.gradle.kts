@@ -37,8 +37,8 @@ android {
 
 dependencies {
 
+    moduleDomainCoroutines()
     kotlinAndCoreKtx()
-    moduleTools()
     composeUi()
     coroutines()
     koin()

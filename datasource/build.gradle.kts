@@ -36,8 +36,7 @@ dependencies {
 
     kotlinAndCoreKtx()
 
-    //Modules
-    moduleTools()
+    implementation(project(path = ":infrastructure:generator:uuid"))
 
     //Database
     room(withCompiler = true)

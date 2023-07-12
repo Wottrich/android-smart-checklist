@@ -85,7 +85,6 @@ private fun Effects(
     }
 }
 
-// TODO implement string res here!!!
 @Composable
 private fun Screen(
     hasExistentChecklist: Boolean,

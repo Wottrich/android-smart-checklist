@@ -2,9 +2,14 @@ package wottrich.github.io.androidsmartchecklist.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
+import wottrich.github.io.androidsmartchecklist.domain.mapper.HomeDrawerChecklistItemModelMapper
+import wottrich.github.io.androidsmartchecklist.domain.mapper.SimpleChecklistModelMapper
+import wottrich.github.io.androidsmartchecklist.domain.usecase.GetChecklistDrawerUseCase
+import wottrich.github.io.androidsmartchecklist.domain.usecase.ObserveSimpleSelectedChecklistModelUseCase
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerViewModel
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewModel
+import wottrich.github.io.impl.presentation.viewmodel.TaskComponentViewModel
 
 /**
  * @author Wottrich
@@ -16,6 +21,10 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeViewM
  */
  
 val featureHomeModules = module {
+    factory { HomeDrawerChecklistItemModelMapper() }
+    factory { SimpleChecklistModelMapper() }
+    factory { GetChecklistDrawerUseCase(get(), get()) }
+    factory { ObserveSimpleSelectedChecklistModelUseCase(get(), get()) }
     viewModel { (checklistId: String) ->
         ChecklistSettingsViewModel(
             dispatchersProviders = get(),
@@ -28,14 +37,19 @@ val featureHomeModules = module {
     viewModel {
         HomeViewModel(
             dispatchers = get(),
-            getSelectedChecklistUseCase = get(),
+            observeSimpleSelectedChecklistModelUseCase = get(),
             deleteChecklistUseCase = get(),
-            getAddTaskUseCase = get(),
-            getChangeTaskStatusUseCase = get(),
-            getDeleteTaskUseCase = get(),
             convertChecklistIntoQuicklyChecklistUseCase = get(),
-            getQuicklyChecklistDeepLinkUseCase = get()
+            getQuicklyChecklistDeepLinkUseCase = get(),
+            getChecklistAsTextUseCase = get()
         )
     }
-
+    viewModel {
+        TaskComponentViewModel(
+            getTasksFromSelectedChecklistUseCase = get(),
+            addTaskToDatabaseUseCase = get(),
+            getChangeTaskStatusUseCase = get(),
+            getDeleteTaskUseCase = get()
+        )
+    }
 }

@@ -13,9 +13,8 @@ fun DependencyHandlerScope.moduleCommonUiCompose() {
     "implementation"(project(":common-ui-compose"))
 }
 
-// TODO Will dead soon
-fun DependencyHandlerScope.moduleTools() {
-    "implementation"(project(":tools"))
+fun DependencyHandlerScope.moduleDomainCoroutines() {
+    "implementation"(project(":domain:coroutines"))
 }
 
 fun DependencyHandlerScope.moduleUiHome() {

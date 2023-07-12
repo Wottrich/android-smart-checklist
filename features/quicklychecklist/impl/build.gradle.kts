@@ -40,10 +40,13 @@ dependencies {
     kotlinAndCoreKtx()
 
     implementation(project(path = ":baseui"))
-    implementation(project(path = ":tools"))
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))
+    implementation(project(path = ":infrastructure:generator:uuid"))
+    implementation(project(path = ":infrastructure:components:android"))
+    implementation(project(path = ":infrastructure:components:kotlin"))
 
+    moduleDomainCoroutines()
     moduleCommonUiCompose()
     moduleDatasource()
 

@@ -30,7 +30,8 @@ interface TaskDao {
     @Query("SELECT * FROM new_task WHERE parent_uuid=:parentUuid")
     suspend fun getTasks(parentUuid: String): List<NewTask>
 
-    @Insert
+    @Transaction
+    @Insert(entity = NewTask::class, onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(task: NewTask): Long?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
@@ -44,5 +45,4 @@ interface TaskDao {
 
     @Delete
     suspend fun delete(task: NewTask)
-
 }

@@ -14,10 +14,10 @@ import wottrich.github.io.quicklychecklist.impl.R
 import wottrich.github.io.quicklychecklist.impl.domain.ConvertQuicklyChecklistIntoJsonUseCase
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiState
-import wottrich.github.io.tools.SingleShotEventBus
-import wottrich.github.io.tools.base.BaseViewModel
-import wottrich.github.io.tools.base.onFailure
-import wottrich.github.io.tools.base.onSuccess
+import github.io.wottrich.kotlin.SingleShotEventBus
+import github.io.wottrich.android.BaseViewModel
+import github.io.wottrich.coroutines.base.onFailure
+import github.io.wottrich.coroutines.base.onSuccess
 
 class QuicklyChecklistViewModel(
     private val quicklyChecklistJson: String,

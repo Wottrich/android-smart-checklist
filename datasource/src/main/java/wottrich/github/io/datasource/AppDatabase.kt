@@ -8,10 +8,9 @@ import androidx.room.TypeConverters
 import wottrich.github.io.datasource.converter.Converters
 import wottrich.github.io.datasource.dao.ChecklistDao
 import wottrich.github.io.datasource.dao.TaskDao
-import wottrich.github.io.datasource.entity.Checklist
 import wottrich.github.io.datasource.entity.NewChecklist
 import wottrich.github.io.datasource.entity.NewTask
-import wottrich.github.io.datasource.entity.Task
+import wottrich.github.io.datasource.migration.MIGRATION_III_IV
 import wottrich.github.io.datasource.migration.MIGRATION_II_III
 import wottrich.github.io.datasource.migration.MIGRATION_I_II
 import wottrich.github.io.datasource.version.DatabaseVersions
@@ -26,7 +25,7 @@ import wottrich.github.io.datasource.version.DatabaseVersions
  */
 
 @Database(
-    entities = [Checklist::class, Task::class, NewChecklist::class, NewTask::class],
+    entities = [NewChecklist::class, NewTask::class],
     version = DatabaseVersions.currentVersion,
     exportSchema = true
 )
@@ -53,6 +52,7 @@ abstract class AppDatabase : RoomDatabase() {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
                 .addMigrations(MIGRATION_I_II)
                 .addMigrations(MIGRATION_II_III)
+                .addMigrations(MIGRATION_III_IV)
                 .build()
         }
 

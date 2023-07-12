@@ -4,9 +4,10 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 import wottrich.github.io.impl.domain.usecase.AddManyTasksUseCase
 import wottrich.github.io.impl.domain.usecase.ChangeTasksCompletedStatusUseCase
-import wottrich.github.io.impl.domain.usecase.GetAddTaskUseCase
+import wottrich.github.io.impl.domain.usecase.AddTaskToDatabaseUseCase
 import wottrich.github.io.impl.domain.usecase.GetChangeTaskStatusUseCase
 import wottrich.github.io.impl.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.impl.domain.usecase.GetTasksFromSelectedChecklistUseCase
 import wottrich.github.io.impl.domain.usecase.GetTasksUseCase
 
 val taskModule = module {
@@ -15,9 +16,10 @@ val taskModule = module {
 
 private fun Module.injectUseCases() {
     factory { ChangeTasksCompletedStatusUseCase(get()) }
-    factory { GetAddTaskUseCase(get()) }
+    factory { AddTaskToDatabaseUseCase(get()) }
     factory { GetChangeTaskStatusUseCase(get()) }
     factory { GetDeleteTaskUseCase(get()) }
     factory { GetTasksUseCase(get()) }
     factory { AddManyTasksUseCase(get()) }
+    factory { GetTasksFromSelectedChecklistUseCase(get()) }
 }

@@ -5,6 +5,8 @@ import org.koin.dsl.module
 import wottrich.github.io.datasource.AppDatabase
 import wottrich.github.io.datasource.dao.ChecklistDao
 import wottrich.github.io.datasource.dao.TaskDao
+import wottrich.github.io.datasource.repository.ChecklistRepository
+import wottrich.github.io.datasource.repository.ChecklistRepositoryImpl
 
 /**
  * @author Wottrich
@@ -19,5 +21,6 @@ val databaseModule = module {
 
     single<ChecklistDao> { AppDatabase.getInstance(androidContext()).checklistDao() }
     single<TaskDao> { AppDatabase.getInstance(androidContext()).taskDao() }
+    factory<ChecklistRepository> { ChecklistRepositoryImpl(get()) }
 
 }

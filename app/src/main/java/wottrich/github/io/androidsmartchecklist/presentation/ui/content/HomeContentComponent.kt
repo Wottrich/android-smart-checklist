@@ -2,8 +2,8 @@ package wottrich.github.io.androidsmartchecklist.presentation.ui.content
 
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeState
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeUiState
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeState
+import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiState
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.presentation.ui.TaskContentComponent
 
@@ -19,26 +19,18 @@ import wottrich.github.io.impl.presentation.ui.TaskContentComponent
 @Composable
 fun HomeContentComponent(
     checklistState: HomeState,
-    tasks: List<NewTask>,
-    onAddItemClicked: (String) -> Unit,
     onUpdateItemClicked: (NewTask) -> Unit,
-    onDeleteItemClicked: (NewTask) -> Unit,
+    onError: (Int) -> Unit,
     onNewChecklistClicked: () -> Unit
 ) {
-    if (checklistState.homeUiState == HomeUiState.Loading) {
-        CircularProgressIndicator()
-    } else {
-        when (checklistState.homeUiState) {
-            is HomeUiState.Overview -> TaskContentComponent(
-                tasks = tasks,
-                showHeaderComponent = checklistState.isEditUiState,
-                showDeleteIcon = checklistState.isEditUiState,
-                onAddClicked = onAddItemClicked,
-                onUpdateClicked = onUpdateItemClicked,
-                onDeleteClicked = onDeleteItemClicked
-            )
-            is HomeUiState.Empty -> HomeEmptyStateComponent(onNewChecklistClicked)
-            else -> Unit
-        }
+    when (checklistState.homeUiState) {
+        is HomeUiState.Overview -> TaskContentComponent(
+            showHeaderComponent = checklistState.isEditUiState,
+            showDeleteIcon = checklistState.isEditUiState,
+            onUpdateClicked = onUpdateItemClicked,
+            onError = onError,
+        )
+        is HomeUiState.Empty -> HomeEmptyStateComponent(onNewChecklistClicked)
+        HomeUiState.Loading -> CircularProgressIndicator()
     }
 }

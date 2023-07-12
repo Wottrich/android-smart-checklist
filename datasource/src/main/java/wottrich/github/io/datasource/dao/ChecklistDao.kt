@@ -8,8 +8,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import wottrich.github.io.datasource.entity.Checklist
-import wottrich.github.io.datasource.entity.ChecklistWithTasks
 import wottrich.github.io.datasource.entity.NewChecklist
 import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 
@@ -34,20 +32,24 @@ interface ChecklistDao {
     suspend fun selectAllChecklistWithTasks(): List<NewChecklistWithNewTasks>
 
     @Transaction
-    @Query("SELECT * FROM checklist")
-    suspend fun getAllOldChecklistWithTasks(): List<ChecklistWithTasks>
-
-    @Transaction
     @Query("SELECT * FROM new_checklist WHERE is_selected=:isSelected")
     suspend fun selectSelectedChecklist(isSelected: Boolean): NewChecklist?
 
     @Transaction
-    @Query("SELECT * FROM new_checklist WHERE is_selected=:isSelected")
-    fun observeSelectedChecklistWithTasks(isSelected: Boolean): Flow<List<NewChecklistWithNewTasks>>
+    @Query("SELECT * FROM new_checklist WHERE is_selected='1' LIMIT 1")
+    fun observeSelectedChecklistWithTasks(): Flow<List<NewChecklistWithNewTasks>>
+
+    @Transaction
+    @Query("SELECT * FROM new_checklist")
+    fun observeAllChecklistWithTasks(): Flow<List<NewChecklistWithNewTasks>>
 
     @Transaction
     @Query("SELECT * FROM new_checklist WHERE uuid=:uuid")
     suspend fun getChecklist(uuid: String): NewChecklist
+
+    @Transaction
+    @Query("SELECT * FROM new_checklist WHERE uuid=:uuid")
+    suspend fun getChecklistWithTasks(uuid: String): NewChecklistWithNewTasks
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(new_checklist: NewChecklist): Long?
@@ -61,10 +63,11 @@ interface ChecklistDao {
     @Update
     suspend fun updateChecklists(checklists: List<NewChecklist>)
 
+    suspend fun deleteChecklistByUuid(checklistUuid: String) {
+        val checklist = getChecklist(checklistUuid)
+        delete(checklist)
+    }
+
     @Delete
     suspend fun delete(checklist: NewChecklist)
-
-    @Delete
-    suspend fun deleteMany(checklists: List<Checklist>)
-
 }

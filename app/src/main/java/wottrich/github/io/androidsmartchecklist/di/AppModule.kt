@@ -1,12 +1,12 @@
 package wottrich.github.io.androidsmartchecklist.di
 
 import github.io.wottrich.checklist.di.checklistModule
+import github.io.wottrich.coroutines.di.coroutinesModule
 import github.io.wottrich.newchecklist.di.newChecklistModule
 import github.io.wottrich.ui.support.di.supportModule
 import wottrich.github.io.datasource.injection.databaseModule
 import wottrich.github.io.impl.di.taskModule
 import wottrich.github.io.quicklychecklist.impl.di.quicklyChecklistModule
-import wottrich.github.io.tools.injection.toolsDispatcherModule
 
 /**
  * @author Wottrich
@@ -20,6 +20,7 @@ import wottrich.github.io.tools.injection.toolsDispatcherModule
 object AppModule {
 
     val appModule = listOf(
+        appDefaultModule,
 
         //Splash
         splashModule,
@@ -35,8 +36,8 @@ object AppModule {
         //Database
         databaseModule,
 
-        //Tools
-        toolsDispatcherModule
+        //Domain,
+        coroutinesModule
     )
 
 }

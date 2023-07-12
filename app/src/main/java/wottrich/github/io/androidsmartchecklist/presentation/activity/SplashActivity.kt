@@ -1,5 +1,7 @@
 package wottrich.github.io.androidsmartchecklist.presentation.activity
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
@@ -15,13 +17,11 @@ import kotlinx.coroutines.flow.FlowCollector
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.androidsmartchecklist.R
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.SplashUiEffect.GoToHome
-import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.SplashUiEffect.GoToMigration
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.SplashViewModel
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.RowDefaults
 import wottrich.github.io.baseui.ui.TextStateComponent
-import wottrich.github.io.tools.extensions.startActivity
 
 @InternalCoroutinesApi
 class SplashActivity : AppCompatActivity() {
@@ -37,7 +37,6 @@ class SplashActivity : AppCompatActivity() {
                     effects.collect(FlowCollector {
                         when (it) {
                             GoToHome -> startActivity<HomeActivity>(finishActualActivity = true)
-                            GoToMigration -> startActivity<MigrationActivity>(finishActualActivity = true)
                         }
                     })
                 }
@@ -60,5 +59,17 @@ class SplashActivity : AppCompatActivity() {
             }
         }
     }
+}
 
+private inline fun <reified T: Activity> Activity?.startActivity(
+    finishActualActivity: Boolean = false,
+    options: Bundle? = null,
+    setupIntent: Intent.() -> Unit = {}
+) {
+    val intent = Intent(this, T::class.java)
+    setupIntent(intent)
+    this?.startActivity(intent, options)
+    if (finishActualActivity) {
+        this?.finish()
+    }
 }

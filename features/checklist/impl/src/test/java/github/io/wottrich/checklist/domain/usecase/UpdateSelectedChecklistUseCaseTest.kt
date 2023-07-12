@@ -2,14 +2,12 @@ package github.io.wottrich.checklist.domain.usecase
 
 import github.io.wottrich.test.tools.BaseUnitTest
 import io.mockk.coEvery
-import io.mockk.coVerify
 import io.mockk.mockk
-import junit.framework.Assert.assertFalse
-import junit.framework.Assert.assertTrue
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
-import wottrich.github.io.datasource.dao.ChecklistDao
-import wottrich.github.io.datasource.entity.NewChecklist
+import wottrich.github.io.datasource.repository.ChecklistRepository
+import kotlin.test.assertTrue
 
 /**
  * @author Wottrich
@@ -19,63 +17,34 @@ import wottrich.github.io.datasource.entity.NewChecklist
  * Copyright © 2022 AndroidSmartCheckList. All rights reserved.
  */
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class UpdateSelectedChecklistUseCaseTest : BaseUnitTest() {
 
-    private lateinit var sut: UpdateSelectedChecklistUseCase
+    private lateinit var sut: UpdateSelectedChecklistUseCaseImpl
 
-    private lateinit var checklistDao: ChecklistDao
+    private lateinit var checklistRepository: ChecklistRepository
+
+    private val dummyChecklistUuid = "123"
 
     @Before
     override fun setUp() {
-        checklistDao = mockk()
-        sut = UpdateSelectedChecklistUseCase(checklistDao)
+        checklistRepository = mockk()
+        sut = UpdateSelectedChecklistUseCaseImpl(checklistRepository)
     }
 
     @Test
-    fun `GIVEN use case is requested WHEN has selected checklist THEN must change selected checklists`() = runBlockingUnitTest {
-        val selectedChecklist = NewChecklist(
-            uuid = "0",
-            name = "Checklist 0",
-            isSelected = true
-        )
-        val nextSelectedChecklist = NewChecklist(
-            uuid = "1",
-            name = "Checklist 1",
-            isSelected = false
-        )
-        coEvery { checklistDao.selectSelectedChecklist(true) } returns selectedChecklist
-        coEvery { checklistDao.updateChecklists(any()) } returns Unit
-
-        sut(nextSelectedChecklist)
-
-        coVerify(inverse = true) { checklistDao.update(any()) }
-        coVerify(exactly = 1) {
-            checklistDao.updateChecklists(listOf(selectedChecklist, nextSelectedChecklist))
+    fun `GIVEN update checklist finished with success WHEN usecase is requested THEN must returns success`() =
+        runBlockingUnitTest {
+            coEvery { checklistRepository.updateSelectedChecklist(any()) } returns Unit
+            val result = sut(dummyChecklistUuid)
+            assertTrue(result.isSuccess)
         }
-
-        assertTrue(nextSelectedChecklist.isSelected)
-        assertFalse(selectedChecklist.isSelected)
-    }
 
     @Test
-    fun `GIVEN use case is requested WHEN has no selected checklist THEN must change selected checklists`() = runBlockingUnitTest {
-        val selectedChecklist: NewChecklist? = null
-        val nextSelectedChecklist = NewChecklist(
-            uuid = "1",
-            name = "Checklist 1",
-            isSelected = false
-        )
-        coEvery { checklistDao.selectSelectedChecklist(true) } returns selectedChecklist
-        coEvery { checklistDao.update(any()) } returns Unit
-
-        sut(nextSelectedChecklist)
-
-        coVerify(exactly = 1) { checklistDao.update(nextSelectedChecklist) }
-        coVerify(inverse = true) {
-            checklistDao.updateChecklists(any())
+    fun `GIVEN update checklist throw error WHEN usecase is requested THEN must returns failure`() =
+        runBlockingUnitTest {
+            coEvery { checklistRepository.updateSelectedChecklist(any()) } throws RuntimeException()
+            val result = sut(dummyChecklistUuid)
+            assertTrue(result.isFailure)
         }
-
-        assertTrue(nextSelectedChecklist.isSelected)
-    }
-
 }

@@ -21,7 +21,7 @@ import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.Dimens.BaseFour
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.baseui.ui.color.defaultOutlinedTextFieldColors
-import wottrich.github.io.quicklychecklist.impl.R.string
+import wottrich.github.io.quicklychecklist.impl.R
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistCompleted
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistFailure
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyChecklistAddNewChecklistViewModel
@@ -51,13 +51,11 @@ private fun Effect(
         effects.collect { effect ->
             when (effect) {
                 OnAddNewChecklistCompleted -> {
-                    // TODO implement string res
-                    Toast.makeText(context, "Lista criada com sucesso", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.quickly_checklist_add_new_checklist_completed), Toast.LENGTH_SHORT).show()
                     onConfirmButtonClick()
                 }
                 OnAddNewChecklistFailure -> {
-                    // TODO implement string res
-                    Toast.makeText(context, "Não foi possível criar a lista, tente novemente mais tarde", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, context.getString(R.string.quickly_checklist_add_new_checklist_failure), Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -73,7 +71,7 @@ private fun Screen(viewModel: QuicklyChecklistAddNewChecklistViewModel) {
             onValueChange = viewModel::onTextChange,
             modifier = Modifier.fillMaxWidth(),
             placeholder = {
-                Text(text = stringResource(id = string.quickly_checklist_type_checklist_name_hint))
+                Text(text = stringResource(id = R.string.quickly_checklist_type_checklist_name_hint))
             },
             colors = defaultOutlinedTextFieldColors()
         )
@@ -84,7 +82,7 @@ private fun Screen(viewModel: QuicklyChecklistAddNewChecklistViewModel) {
             onClick = viewModel::onConfirmButtonClicked,
             colors = defaultButtonColors()
         ) {
-            Text(text = stringResource(id = string.quickly_checklist_confirm_new_checklist_name))
+            Text(text = stringResource(id = R.string.quickly_checklist_confirm_new_checklist_name))
         }
     }
 }

@@ -71,7 +71,6 @@ dependencies {
 
     //modules
     implementation(project(path = ":datasource"))
-    implementation(project(path = ":tools"))
     implementation(project(path = ":baseui"))
     implementation(project(path = ":features:checklist:impl"))
     implementation(project(path = ":features:task:impl"))
@@ -80,9 +79,14 @@ dependencies {
     implementation(project(path = ":features:quicklychecklist:impl"))
     implementation(project(path = ":ui-aboutus"))
     implementation(project(path = ":ui-support"))
+    implementation(project(path = ":infrastructure:extensions:date"))
+    implementation(project(path = ":infrastructure:extensions:intent"))
+    implementation(project(path = ":infrastructure:components:android"))
+    implementation(project(path = ":infrastructure:components:kotlin"))
     moduleCommonUiCompose()
 
     composeUi()
+    moduleDomainCoroutines()
 
     koin()
 

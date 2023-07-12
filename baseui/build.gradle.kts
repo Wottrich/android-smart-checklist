@@ -38,9 +38,8 @@ android {
 dependencies {
 
     kotlinAndCoreKtx()
-
-    moduleTools()
     composeUi()
+    implementation(Libs.androidMaterial)
 
     navigation(true)
 

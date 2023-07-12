@@ -1,14 +1,13 @@
 package github.io.wottrich.ui.support.domain
 
+import github.io.wottrich.coroutines.KotlinResultUseCase
+import github.io.wottrich.coroutines.UseCase
+import github.io.wottrich.coroutines.base.Result
 import github.io.wottrich.ui.support.R
 import github.io.wottrich.ui.support.data.HelpOverviewItem
-import wottrich.github.io.tools.base.KotlinResultUseCase
-import wottrich.github.io.tools.base.Result
-import wottrich.github.io.tools.base.UseCase
-import wottrich.github.io.tools.base.UseCase.None
 
 class GetHelpOverviewItemsUseCase : KotlinResultUseCase<UseCase.None, List<HelpOverviewItem>>() {
-    override suspend fun execute(params: None): Result<List<HelpOverviewItem>> {
+    override suspend fun execute(params: UseCase.None): Result<List<HelpOverviewItem>> {
         return Result.success(
             listOf(
                 HelpOverviewItem(

@@ -12,6 +12,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextDecoration
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntSize
 import wottrich.github.io.baseui.RowComponent
 import wottrich.github.io.baseui.TextOneLine
@@ -96,5 +97,21 @@ private fun RightIconContent(task: NewTask, onCheckChange: () -> Unit) {
 }
 
 private fun getTextDecoration(isCompleted: Boolean): TextDecoration? {
-    return if (isCompleted) TextDecoration.LineThrough else null
+    return if (isCompleted) TextDecoration.LineThrough else TextDecoration.None
+}
+
+@Preview
+@Composable
+fun TaskMoleculePreview() {
+    TaskMolecule(
+        task = NewTask(
+            parentUuid = "123434",
+            name = "Task 1",
+            isCompleted = false
+        ),
+        showDeleteItem = true,
+        onCheckChange = {},
+        interactionSource = MutableInteractionSource(),
+        onSizeChanged = {}
+    )
 }

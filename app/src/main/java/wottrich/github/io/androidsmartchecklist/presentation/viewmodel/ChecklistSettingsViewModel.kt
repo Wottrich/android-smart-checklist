@@ -6,9 +6,9 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.Checklist
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
 import wottrich.github.io.impl.domain.usecase.ChangeTasksCompletedStatusUseCase
 import wottrich.github.io.impl.domain.usecase.GetTasksUseCase
-import wottrich.github.io.tools.SingleShotEventBus
-import wottrich.github.io.tools.base.BaseViewModel
-import wottrich.github.io.tools.dispatcher.DispatchersProviders
+import github.io.wottrich.kotlin.SingleShotEventBus
+import github.io.wottrich.android.BaseViewModel
+import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
 
 class ChecklistSettingsViewModel(
     dispatchersProviders: DispatchersProviders,
