@@ -33,6 +33,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.composeVersion
     }
+    namespace = "wottrich.github.io.impl"
 }
 
 dependencies {

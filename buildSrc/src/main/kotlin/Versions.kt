@@ -1,6 +1,6 @@
 object Versions {
 
-    const val kotlinVersion = "1.6.20"
+    const val kotlinVersion = "1.8.22"
     const val coreKtxVersion = "1.7.0"
     const val coroutinesVersion = "1.5.2"
 
@@ -29,7 +29,7 @@ object Versions {
     const val loggingInterceptorVersion = "4.9.0"
 
     //Gradle
-    const val gradleVersion = "7.1.3"
+    const val gradleVersion = "8.0.2"
 
     //Room
     const val room = "2.4.0"

@@ -33,6 +33,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion = Versions.composeVersion
     }
+    namespace = "github.io.wottrich.common.ui.compose"
 }
 
 dependencies {

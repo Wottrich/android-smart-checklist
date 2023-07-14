@@ -29,6 +29,7 @@ android {
     kotlinOptions {
         jvmTarget = AndroidSdk.javaVersion.toString()
     }
+    namespace = "wottrich.github.io.datasource"
 }
 
 dependencies {
