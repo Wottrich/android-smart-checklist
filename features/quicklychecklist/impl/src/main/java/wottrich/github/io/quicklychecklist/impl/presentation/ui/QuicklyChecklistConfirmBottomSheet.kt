@@ -25,8 +25,8 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.Dimens.BaseFour
-import wottrich.github.io.quicklychecklist.impl.R
-import wottrich.github.io.quicklychecklist.impl.R.string
+import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
+import wottrich.github.io.androidsmartchecklist.quicklychecklist.R.string
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistConfirmUiEffect.FailureShareChecklistBack
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistConfirmUiEffect.OnSaveNewChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistConfirmUiEffect.OnShareChecklistBack

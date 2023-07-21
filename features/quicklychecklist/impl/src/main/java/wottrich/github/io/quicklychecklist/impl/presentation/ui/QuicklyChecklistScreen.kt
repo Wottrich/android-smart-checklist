@@ -27,7 +27,8 @@ import org.koin.core.parameter.parametersOf
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.presentation.ui.TaskLazyColumnComponent
-import wottrich.github.io.quicklychecklist.impl.R
+import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
+import wottrich.github.io.baseui.R as BaseUiR
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.InvalidChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.OnConfirmQuicklyChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.SnackbarError
@@ -136,7 +137,7 @@ private fun TopBarContent(onBackPressed: () -> Unit) {
     IconButton(onClick = onBackPressed) {
         Icon(
             imageVector = Icons.Default.ArrowBack,
-            contentDescription = stringResource(id = R.string.arrow_back_content_description),
+            contentDescription = stringResource(id = BaseUiR.string.arrow_back_content_description),
             tint = MaterialTheme.colors.onPrimary
         )
     }

@@ -24,12 +24,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
+import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
 import wottrich.github.io.baseui.StyledText
 import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.Dimens.BaseFour
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.quicklychecklist.impl.R
-import wottrich.github.io.quicklychecklist.impl.R.string
+import wottrich.github.io.baseui.R as BaseUiR
 import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect.OnInvalidChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect.OnQuicklyChecklistJson
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.InitialQuicklyChecklistViewModel
@@ -112,7 +112,7 @@ private fun ScreenContent(
             IconButton(onClick = onBackPressed) {
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
-                    contentDescription = stringResource(id = R.string.arrow_back_content_description),
+                    contentDescription = stringResource(id = BaseUiR.string.arrow_back_content_description),
                     tint = MaterialTheme.colors.onPrimary
                 )
             }
@@ -134,7 +134,7 @@ private fun ScreenContent(
                         textStyle = MaterialTheme.typography.h6
                     ) {
                         Text(
-                            text = stringResource(id = string.quickly_checklist_initial_screen_success_title),
+                            text = stringResource(id = R.string.quickly_checklist_initial_screen_success_title),
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -143,7 +143,7 @@ private fun ScreenContent(
                         textStyle = MaterialTheme.typography.h6
                     ) {
                         Text(
-                            text = stringResource(id = string.quickly_checklist_initial_screen_processing_title),
+                            text = stringResource(id = R.string.quickly_checklist_initial_screen_processing_title),
                             textAlign = TextAlign.Center,
                         )
                     }
@@ -155,7 +155,7 @@ private fun ScreenContent(
                 onClick = viewModel::onConfirmButtonClicked,
                 colors = defaultButtonColors()
             ) {
-                Text(text = stringResource(id = R.string.default_continue))
+                Text(text = stringResource(id = BaseUiR.string.default_continue))
             }
         }
     }

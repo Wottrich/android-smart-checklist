@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+
 plugins {
     id(Plugins.javaLibrary)
     id(Plugins.kotlinPlugin)
@@ -14,8 +16,13 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
     }
 }
 
-dependencies {
+kotlinExtension.jvmToolchain {
+    languageVersion.set(JavaLanguageVersion.of(17))
+}
 
+dependencies {
+    implementation(Libs.kotlinStdlibJdk8)
+    kotlinDefault()
     moduleDomainCoroutines()
 
 }

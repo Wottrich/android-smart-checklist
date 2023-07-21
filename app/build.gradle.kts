@@ -1,7 +1,9 @@
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+
 plugins {
     id(Plugins.androidApplication)
     id(Plugins.kotlinAndroid)
-    id(Plugins.kotlinKapt)
+    id(Plugins.kspPlugin)
 }
 
 android {
@@ -49,8 +51,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeVersion
-        kotlinCompilerVersion = Versions.kotlinVersion
+        kotlinCompilerExtensionVersion = Versions.composeCompiler
     }
 
     packagingOptions {
@@ -65,9 +66,25 @@ android {
     namespace = "wottrich.github.io.androidsmartchecklist"
 }
 
+tasks.withType<JavaCompile> {
+    sourceCompatibility = AndroidSdk.javaVersion.toString()
+    targetCompatibility = AndroidSdk.javaVersion.toString()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = AndroidSdk.javaVersion.toString()
+    }
+}
+
+kotlinExtension.jvmToolchain {
+    languageVersion.set(JavaLanguageVersion.of(17))
+}
+
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
+    implementation(Libs.kotlinStdlibJdk8)
     kotlinAndCoreKtx()
 
     //modules
@@ -91,7 +108,7 @@ dependencies {
 
     koin()
 
-    navigation(withAnimation = true)
+    navigation()
 
     implementation(Libs.appCompat)
     implementation(Libs.systemUiControllerAccompanist)

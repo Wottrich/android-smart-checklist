@@ -3,8 +3,7 @@ object Plugins {
     const val androidLibrary = "com.android.library"
     const val kotlinAndroid = "kotlin-android"
     const val kotlinParcelize = "kotlin-parcelize"
-    const val kotlinKapt = "kotlin-kapt"
-    const val kotlinAndroidExtensions = "kotlin-android-extensions"
     const val javaLibrary = "java-library"
     const val kotlinPlugin = "kotlin"
+    const val kspPlugin = "com.google.devtools.ksp"
 }

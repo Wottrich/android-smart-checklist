@@ -1,6 +1,8 @@
 object Versions {
 
     const val kotlinVersion = "1.8.22"
+    const val kspVersion = "1.8.22-1.0.11"
+    const val gradleVersion = "8.0.2"
     const val coreKtxVersion = "1.7.0"
     const val coroutinesVersion = "1.5.2"
 
@@ -13,11 +15,12 @@ object Versions {
     const val koinVersion = "3.1.5"
 
     //Compose
-    const val composeVersion = "1.2.0-alpha08"
+    const val composeCompiler = "1.4.8"
+    const val composeVersion = "1.4.3"
     const val composeActivityVersion = "1.3.1"
-    const val composeNavigationVersion = "2.5.0-alpha04"
-    const val composeNavigationAnimationAccompanistVersion = "0.22.0-rc"
-    const val composeNavigationAccompanistVersion = "0.28.0"
+    const val composeNavigationVersion = "2.7.0-beta2"
+    const val composeNavigationAnimationAccompanistVersion = "0.31.5-beta"
+    const val composeNavigationAccompanistVersion = "0.31.5-beta"
     const val accompanistVersion = "0.19.0"
     const val systemUiControllerVersion = "0.24.6-alpha"
 
@@ -27,9 +30,6 @@ object Versions {
     //Retrofit and api things
     const val retrofitVersion = "2.9.0"
     const val loggingInterceptorVersion = "4.9.0"
-
-    //Gradle
-    const val gradleVersion = "8.0.2"
 
     //Room
     const val room = "2.4.0"

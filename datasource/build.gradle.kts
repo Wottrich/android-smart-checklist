@@ -1,8 +1,10 @@
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+
 plugins {
     id(Plugins.androidLibrary)
     id(Plugins.kotlinAndroid)
     id(Plugins.kotlinParcelize)
-    id(Plugins.kotlinKapt)
+    id(Plugins.kspPlugin)
 }
 
 android {
@@ -30,6 +32,21 @@ android {
         jvmTarget = AndroidSdk.javaVersion.toString()
     }
     namespace = "wottrich.github.io.datasource"
+}
+
+tasks.withType<JavaCompile> {
+    sourceCompatibility = AndroidSdk.javaVersion.toString()
+    targetCompatibility = AndroidSdk.javaVersion.toString()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = AndroidSdk.javaVersion.toString()
+    }
+}
+
+kotlinExtension.jvmToolchain {
+    languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 dependencies {
