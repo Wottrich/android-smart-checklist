@@ -21,7 +21,7 @@ import wottrich.github.io.baseui.ui.ApplicationTheme
 import wottrich.github.io.baseui.ui.Dimens.BaseFour
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.baseui.ui.color.defaultOutlinedTextFieldColors
-import wottrich.github.io.quicklychecklist.impl.R
+import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistCompleted
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistFailure
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyChecklistAddNewChecklistViewModel

@@ -9,8 +9,8 @@ object AndroidSdk {
     const val targetSdk = 33
     const val minSdk = 21
     const val buildToolsVersion = "33.0.1"
-    val javaVersion = JavaVersion.VERSION_1_8
-    val jvmTarget = JavaVersion.VERSION_1_8
+    val javaVersion = JavaVersion.VERSION_17
+    val jvmTarget = JavaVersion.VERSION_17
 }
 
 fun PluginAware.applyDefaultLibraryConfiguration(file: File) {

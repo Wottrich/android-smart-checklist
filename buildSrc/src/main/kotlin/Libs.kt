@@ -6,6 +6,7 @@ object Libs {
         "org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlinVersion}"
 
     //Kotlin
+    const val kotlinStdlibJdk8 = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${Versions.kotlinVersion}"
     const val kotlinStdlib = "org.jetbrains.kotlin:kotlin-stdlib:${Versions.kotlinVersion}"
     const val androidCoreKtx = "androidx.core:core-ktx:${Versions.coreKtxVersion}"
     const val coroutinesLib =
@@ -78,8 +79,12 @@ object Libs {
 
 }
 
-fun DependencyHandlerScope.kotlinAndCoreKtx() {
+fun DependencyHandlerScope.kotlinDefault() {
     "implementation"(Libs.kotlinStdlib)
+}
+
+fun DependencyHandlerScope.kotlinAndCoreKtx() {
+    kotlinDefault()
     "implementation"(Libs.androidCoreKtx)
 }
 
@@ -117,12 +122,10 @@ fun DependencyHandlerScope.koin() {
     "implementation"(Libs.insertKoinAndroidCompose)
 }
 
-fun DependencyHandlerScope.navigation(withAnimation: Boolean = false) {
+fun DependencyHandlerScope.navigation() {
     "implementation"(Libs.composeNavigation)
     "implementation"(Libs.composeNavigationAccompanist)
-    if (withAnimation) {
-        "implementation"(Libs.composeNavigationAnimationAccompanist)
-    }
+    "implementation"(Libs.composeNavigationAnimationAccompanist)
 }
 
 fun DependencyHandlerScope.unitTest(asImplementation: Boolean = false) {
@@ -157,6 +160,6 @@ fun DependencyHandlerScope.room(withCompiler: Boolean = false) {
     "implementation"(Libs.roomRuntime)
     roomKtx()
     if (withCompiler) {
-        "kapt"(Libs.roomCompiler)
+        "ksp"(Libs.roomCompiler)
     }
 }

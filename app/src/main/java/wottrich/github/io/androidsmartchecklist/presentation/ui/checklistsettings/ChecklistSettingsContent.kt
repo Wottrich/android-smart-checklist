@@ -35,7 +35,7 @@ import kotlinx.coroutines.flow.FlowCollector
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.androidsmartchecklist.R
-import wottrich.github.io.androidsmartchecklist.R.string
+import wottrich.github.io.baseui.R as BaseUiR
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingUiEffect.CloseScreen
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.CHECK_ALL
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
@@ -97,7 +97,7 @@ private fun Screen(
         topBar = {
             TopBarContent(
                 title = {
-                    Text(stringResource(id = string.checklist_settings_screen_title))
+                    Text(stringResource(id = R.string.checklist_settings_screen_title))
                 },
                 navigationIcon = {
                     ArrowBackIcon()
@@ -134,7 +134,7 @@ private fun Screen(
                 )
             }
 
-            val confirmStringResource = stringResource(id = R.string.confirm)
+            val confirmStringResource = stringResource(id = BaseUiR.string.confirm)
             Button(
                 modifier = Modifier
                     .fillMaxWidth()

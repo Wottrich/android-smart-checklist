@@ -28,8 +28,8 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.androidsmartchecklist.R
-import wottrich.github.io.androidsmartchecklist.R.drawable
-import wottrich.github.io.androidsmartchecklist.R.string
+import wottrich.github.io.baseui.R as BaseUiR
+import github.io.wottrich.checklist.R as ChecklistR
 import wottrich.github.io.androidsmartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
 import wottrich.github.io.androidsmartchecklist.presentation.ui.shared.EditIconStateContent
 import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawerEffect
@@ -39,7 +39,6 @@ import wottrich.github.io.androidsmartchecklist.presentation.viewmodel.HomeDrawe
 import wottrich.github.io.baseui.TextOneLine
 import wottrich.github.io.baseui.ui.Dimens
 import wottrich.github.io.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
 
 /**
  * @author Wottrich
@@ -177,7 +176,7 @@ private fun HomeDrawerSuccessContent(
             ) {
                 Text(
                     text = stringResource(
-                        id = R.string.new_checklist_activity_screen_title
+                        id = ChecklistR.string.new_checklist_activity_screen_title
                     ).uppercase()
                 )
             }
@@ -225,9 +224,9 @@ private fun RowScope.QuicklyChecklistIcon(
             }
         ) {
             Icon(
-                painter = painterResource(id = drawable.ic_quickly_checklist_24),
+                painter = painterResource(id = BaseUiR.drawable.ic_quickly_checklist_24),
                 contentDescription = stringResource(
-                    id = string.checklist_finish_edit_content_description
+                    id = R.string.checklist_finish_edit_content_description
                 )
             )
         }

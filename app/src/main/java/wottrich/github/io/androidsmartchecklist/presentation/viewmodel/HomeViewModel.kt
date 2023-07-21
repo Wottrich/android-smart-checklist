@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import wottrich.github.io.androidsmartchecklist.R
+import wottrich.github.io.androidsmartchecklist.quicklychecklist.R as QuicklyChecklistR
 import wottrich.github.io.androidsmartchecklist.domain.usecase.ObserveSimpleSelectedChecklistModelUseCase
 import wottrich.github.io.androidsmartchecklist.presentation.state.HomeState
 import wottrich.github.io.androidsmartchecklist.presentation.state.HomeUiActions
@@ -109,7 +109,7 @@ class HomeViewModel(
                 convertChecklistIntoQuicklyChecklistUseCase(checklist.uuid).onSuccess {
                     handleQuicklyChecklistDeepLink(it)
                 }.onFailure {
-                    _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
+                    _uiEffects.emit(HomeUiEffects.SnackbarError(QuicklyChecklistR.string.quickly_checklist_share_error))
                 }
             }
         }
@@ -128,7 +128,7 @@ class HomeViewModel(
                 getChecklistAsTextUseCase(checklist.uuid).onSuccess {
                     _topBarUiEffect.emit(TopBarHomeUiEffects.ShareChecklistAsText(it))
                 }.onFailure {
-                    _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
+                    _uiEffects.emit(HomeUiEffects.SnackbarError(QuicklyChecklistR.string.quickly_checklist_share_error))
                 }
             }
         }
@@ -185,7 +185,7 @@ class HomeViewModel(
             getQuicklyChecklistDeepLinkUseCase(quicklyChecklistJson).onSuccess {
                 _uiEffects.emit(HomeUiEffects.OnShareQuicklyChecklist(it))
             }.onFailure {
-                _uiEffects.emit(HomeUiEffects.SnackbarError(R.string.quickly_checklist_share_error))
+                _uiEffects.emit(HomeUiEffects.SnackbarError(QuicklyChecklistR.string.quickly_checklist_share_error))
             }
         }
     }

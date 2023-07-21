@@ -23,7 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import github.io.wottrich.newchecklist.impl.R
-import github.io.wottrich.newchecklist.impl.R.string
+import wottrich.github.io.baseui.R as BaseUiR
 import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiEffect
 import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiState
 import github.io.wottrich.newchecklist.presentation.viewmodels.NewChecklistNameViewModel
@@ -44,7 +44,7 @@ fun NewChecklistNameScreen(
                 IconButton(onClick = onCloseScreen) {
                     Icon(
                         imageVector = Icons.Default.ArrowBack,
-                        contentDescription = stringResource(id = string.arrow_back_content_description),
+                        contentDescription = stringResource(id = BaseUiR.string.arrow_back_content_description),
                         tint = MaterialTheme.colors.onPrimary
                     )
                 }

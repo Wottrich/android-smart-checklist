@@ -1,11 +1,23 @@
+import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
+
 plugins {
-    id("java-library")
-    id("org.jetbrains.kotlin.jvm")
+    id(Plugins.javaLibrary)
+    id(Plugins.kotlinPlugin)
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_7
-    targetCompatibility = JavaVersion.VERSION_1_7
+tasks.withType<JavaCompile> {
+    sourceCompatibility = AndroidSdk.javaVersion.toString()
+    targetCompatibility = AndroidSdk.javaVersion.toString()
+}
+
+tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
+    kotlinOptions {
+        jvmTarget = AndroidSdk.javaVersion.toString()
+    }
+}
+
+kotlinExtension.jvmToolchain {
+    languageVersion.set(JavaLanguageVersion.of(17))
 }
 
 dependencies {

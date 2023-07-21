@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.update
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.datasource.entity.QuicklyChecklist
 import wottrich.github.io.datasource.entity.QuicklyTask
-import wottrich.github.io.quicklychecklist.impl.R
+import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
 import wottrich.github.io.quicklychecklist.impl.domain.ConvertQuicklyChecklistIntoJsonUseCase
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiState
