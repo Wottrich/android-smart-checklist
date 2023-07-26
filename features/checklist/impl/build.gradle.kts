@@ -54,13 +54,13 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
+    api(project(path = ":features:checklist:public"))
 
     implementation(Libs.kotlinStdlibJdk8)
     kotlinAndCoreKtx()
 
     moduleDomainCoroutines()
 
-    api(project(path = ":features:checklist:public"))
     implementation(project(path = ":datasource"))
     implementation(project(path = ":baseui"))
 

@@ -54,12 +54,12 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
+    api(project(path = ":features:task:public"))
 
     kotlinAndCoreKtx()
 
     moduleDomainCoroutines()
 
-    implementation(project(path = ":features:task:public"))
     implementation(project(path = ":baseui"))
     implementation(project(path = ":datasource"))
     implementation(project(path = ":infrastructure:components:android"))

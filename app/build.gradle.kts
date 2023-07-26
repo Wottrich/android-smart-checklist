@@ -1,5 +1,7 @@
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
+internal val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
+
 plugins {
     id(Plugins.androidApplication)
     id(Plugins.kotlinAndroid)
@@ -51,7 +53,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
 
     packagingOptions {
@@ -84,40 +86,39 @@ kotlinExtension.jvmToolchain {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    implementation(Libs.kotlinStdlibJdk8)
-    kotlinAndCoreKtx()
+    implementation(libs.kotlin.stdlib.jdk8)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.android.app.compat)
+    implementation(libs.android.core.ktx)
+    implementation(libs.compose.accompanist.system.ui.controller)
+    implementation(libs.bundles.compose.default)
+    implementation(libs.bundles.koin.default)
+    implementation(libs.bundles.compose.navigation.default)
 
-    //modules
-    implementation(project(path = ":datasource"))
+    // Base Modules
     implementation(project(path = ":baseui"))
-    implementation(project(path = ":features:checklist:impl"))
-    implementation(project(path = ":features:task:impl"))
-    implementation(project(path = ":features:newchecklist:impl"))
-    implementation(project(path = ":features:newchecklist:public"))
-    implementation(project(path = ":features:quicklychecklist:impl"))
-    implementation(project(path = ":ui-aboutus"))
-    implementation(project(path = ":ui-support"))
+    implementation(project(path = ":datasource"))
+
+    // Infrastructure
     implementation(project(path = ":infrastructure:extensions:date"))
     implementation(project(path = ":infrastructure:extensions:intent"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
-    moduleCommonUiCompose()
+    implementation(project(path = ":common-ui-compose"))
+    implementation(project(path = ":domain:coroutines"))
 
-    composeUi()
-    moduleDomainCoroutines()
-
-    koin()
-
-    navigation()
-
-    implementation(Libs.appCompat)
-    implementation(Libs.systemUiControllerAccompanist)
+    // Features
+    implementation(project(path = ":features:checklist:impl"))
+    implementation(project(path = ":features:task:impl"))
+    implementation(project(path = ":features:newchecklist:impl"))
+    implementation(project(path = ":features:quicklychecklist:impl"))
+    implementation(project(path = ":ui-aboutus"))
+    implementation(project(path = ":ui-support"))
 
     //Test
     testImplementation(project(path = ":test-tools"))
-    unitTest()
-
-    //Test instrumental
-    instrumentalTest()
-
+    testImplementation(libs.mockk)
+    testImplementation(libs.core.testing)
+    testImplementation(libs.junit)
+    testImplementation(libs.koin.test)
 }

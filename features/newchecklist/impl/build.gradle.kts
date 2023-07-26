@@ -54,6 +54,7 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
+    api(project(path = ":features:checklist:public"))
 
     kotlinAndCoreKtx()
 
@@ -61,7 +62,6 @@ dependencies {
 
     implementation(project(path = ":datasource"))
     implementation(project(path = ":baseui"))
-    implementation(project(path = ":features:checklist:public"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
 

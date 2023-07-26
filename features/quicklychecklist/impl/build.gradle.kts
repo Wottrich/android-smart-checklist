@@ -58,11 +58,12 @@ dependencies {
     kotlinAndCoreKtx()
 
     implementation(project(path = ":baseui"))
-    implementation(project(path = ":features:task:impl"))
-    implementation(project(path = ":features:newchecklist:impl"))
     implementation(project(path = ":infrastructure:generator:uuid"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
+    // TODO fix this wrong implementation!!!
+    implementation(project(path = ":features:task:impl"))
+    implementation(project(path = ":features:newchecklist:impl"))
 
     moduleDomainCoroutines()
     moduleCommonUiCompose()
