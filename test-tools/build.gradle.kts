@@ -57,6 +57,7 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.android.core.ktx)
     implementation(libs.coroutines.core)
+    implementation(libs.coroutines.test)
     implementation(libs.bundles.koin.default)
     implementation(libs.bundles.test.default)
     implementation(project(path = ":domain:coroutines"))
