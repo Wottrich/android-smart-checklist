@@ -21,8 +21,7 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
-    implementation(Libs.kotlinStdlibJdk8)
-    kotlinDefault()
-    moduleDomainCoroutines()
-
+    implementation(libs.kotlin.stdlib.jdk8)
+    implementation(libs.kotlin.stdlib)
+    implementation(project(path = ":domain:coroutines"))
 }

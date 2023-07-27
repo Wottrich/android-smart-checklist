@@ -48,14 +48,11 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
-
-//    implementation(Libs.kotlinStdlibJdk8)
-    implementation(Libs.kotlinStdlib)
-    implementation(Libs.appCompat)
-    implementation(Libs.androidCoreKtx)
-    implementation(Libs.lifecycleViewModelKtx)
-    implementation(Libs.coroutinesLib)
-    moduleDomainCoroutines()
-
-    koin()
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.android.app.compat)
+    implementation(libs.android.core.ktx)
+    implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.coroutines.core)
+    implementation(libs.bundles.koin.default)
+    implementation(project(":domain:coroutines"))
 }

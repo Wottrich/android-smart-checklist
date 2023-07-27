@@ -21,5 +21,5 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
-    coroutines()
+    implementation(libs.coroutines.core)
 }

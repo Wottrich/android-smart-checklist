@@ -1,7 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
-internal val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
-
 plugins {
     id(Plugins.androidApplication)
     id(Plugins.kotlinAndroid)
@@ -88,8 +86,8 @@ dependencies {
 
     implementation(libs.kotlin.stdlib.jdk8)
     implementation(libs.kotlin.stdlib)
-    implementation(libs.android.app.compat)
     implementation(libs.android.core.ktx)
+    implementation(libs.android.app.compat)
     implementation(libs.compose.accompanist.system.ui.controller)
     implementation(libs.bundles.compose.default)
     implementation(libs.bundles.koin.default)
@@ -117,8 +115,5 @@ dependencies {
 
     //Test
     testImplementation(project(path = ":test-tools"))
-    testImplementation(libs.mockk)
-    testImplementation(libs.core.testing)
-    testImplementation(libs.junit)
-    testImplementation(libs.koin.test)
+    testImplementation(libs.bundles.test.default)
 }

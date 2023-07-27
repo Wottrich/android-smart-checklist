@@ -1,5 +1,6 @@
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     id(Plugins.androidLibrary)
     id(Plugins.kotlinAndroid)
@@ -33,7 +34,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     namespace = "wottrich.github.io.baseui"
 }
@@ -54,15 +55,13 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.android.core.ktx)
+    implementation(libs.android.material)
+    implementation(libs.bundles.compose.default)
+    implementation(libs.bundles.compose.navigation.default)
+    implementation(libs.bundles.koin.default)
 
-    kotlinAndCoreKtx()
-    composeUi()
-    implementation(Libs.androidMaterial)
-
-    navigation()
-
-    koin()
-
-    unitTest()
-    instrumentalTest()
+    // Tests
+    testImplementation(libs.bundles.test.default)
 }

@@ -33,7 +33,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     namespace = "wottrich.github.io.androidsmartchecklist.quicklychecklist"
 }
@@ -55,9 +55,17 @@ kotlinExtension.jvmToolchain {
 
 dependencies {
 
-    kotlinAndCoreKtx()
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.android.core.ktx)
+    implementation(libs.bundles.koin.default)
+    implementation(libs.bundles.compose.default)
+    implementation(libs.bundles.compose.navigation.default)
+    implementation(libs.gson)
 
     implementation(project(path = ":baseui"))
+    implementation(project(path = ":common-ui-compose"))
+    implementation(project(path = ":datasource"))
+    implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":infrastructure:generator:uuid"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
@@ -65,17 +73,5 @@ dependencies {
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))
 
-    moduleDomainCoroutines()
-    moduleCommonUiCompose()
-    moduleDatasource()
-
-    composeUi()
-    koin()
-    gson()
-    lifecycleLibs()
-
-    navigation()
-
-    unitTest()
-    instrumentalTest()
+    testImplementation(libs.bundles.test.default)
 }

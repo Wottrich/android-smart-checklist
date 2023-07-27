@@ -48,7 +48,6 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
-//    implementation(Libs.kotlinStdlibJdk8)
-    implementation(Libs.kotlinStdlib)
-    implementation(Libs.appCompat)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.android.app.compat)
 }

@@ -74,10 +74,15 @@ junit-ext = { group="androidx.test.ext", name="junit", version.ref="junitExt" }
 koin-test = { group="io.insert-koin", name="koin-test", version.ref="koin" }
 espresso-core = { group="androidx.test.espresso", name="espresso-core", version.ref="espressoCore" }
 [plugins]
+android-application = { id="com.android.application", version.ref="gradle" }
+android-library = { id="com.android.library", version.ref="gradle" }
+jetbrains-kotlin-android = { id="org.jetbrains.kotlin.android", version.ref="kotlin" }
+jetbrains-kotlin-jvm = { id="org.jetbrains.kotlin.jvm", version.ref="kotlin" }
+kotlin-android = { id="kotlin-android" }
+ksp = { id="com.google.devtools.ksp", version.ref="ksp" }
 [bundles]
-# TODO Removi o compose-activity
-# TODO Removi o compose-compiler
-# TODO Removi o compose-accompanist-placeholder
 compose-default = [ "compose-ui", "compose-ui-tooling", "compose-runtime", "compose-material"]
 compose-navigation-default = [ "compose-navigation", "compose-accompanist-navigation", "compose-accompanist-navigation-animation" ]
 koin-default = [ "koin-core", "koin-android", "koin-android-compose" ]
+room-default = [ "room-runtime", "room-ktx" ]
+test-default = [ "mockk", "core-testing", "junit", "koin-test" ]
