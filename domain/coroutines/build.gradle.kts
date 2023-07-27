@@ -21,9 +21,7 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
-//    implementation(Libs.kotlinStdlibJdk8)
-    implementation(Libs.kotlinStdlib)
-    implementation(Libs.coroutinesLib)
-
-    koinCore()
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.coroutines.core)
+    implementation(libs.koin.core)
 }

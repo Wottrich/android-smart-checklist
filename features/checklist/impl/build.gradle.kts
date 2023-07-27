@@ -33,7 +33,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     namespace = "github.io.wottrich.checklist"
 }
@@ -54,20 +54,17 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
-
-    implementation(Libs.kotlinStdlibJdk8)
-    kotlinAndCoreKtx()
-
-    moduleDomainCoroutines()
-
     api(project(path = ":features:checklist:public"))
+
+    implementation(libs.kotlin.stdlib.jdk8)
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.android.core.ktx)
+    implementation(libs.bundles.koin.default)
+
+    implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":datasource"))
     implementation(project(path = ":baseui"))
 
-    koin()
-
     testImplementation(project(path = ":test-tools"))
-
-    unitTest()
-    instrumentalTest()
+    testImplementation(libs.bundles.test.default)
 }

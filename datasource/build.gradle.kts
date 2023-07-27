@@ -52,19 +52,14 @@ kotlinExtension.jvmToolchain {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    kotlinAndCoreKtx()
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.android.core.ktx)
+    implementation(libs.bundles.koin.default)
+    implementation(libs.bundles.room.default)
+    ksp(libs.room.compiler)
 
     implementation(project(path = ":infrastructure:generator:uuid"))
 
-    //Database
-    room(withCompiler = true)
-
-    koin()
-
     //Test
-    unitTest()
-
-    //Test Instrumental
-    instrumentalTest()
-
+    testImplementation(libs.bundles.test.default)
 }

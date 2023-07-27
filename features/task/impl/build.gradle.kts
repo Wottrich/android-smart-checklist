@@ -33,7 +33,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     namespace = "wottrich.github.io.impl"
 }
@@ -54,25 +54,21 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
+    api(project(path = ":features:task:public"))
 
-    kotlinAndCoreKtx()
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.android.core.ktx)
+    implementation(libs.bundles.koin.default)
+    implementation(libs.bundles.compose.default)
+    implementation(libs.bundles.compose.navigation.default)
 
-    moduleDomainCoroutines()
-
-    implementation(project(path = ":features:task:public"))
+    implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":baseui"))
     implementation(project(path = ":datasource"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
+    implementation(project(path = ":common-ui-compose"))
+
     testImplementation(project(path = ":test-tools"))
-    moduleCommonUiCompose()
-
-    composeUi()
-
-    navigation()
-
-    koin()
-
-    unitTest()
-    instrumentalTest()
+    testImplementation(libs.bundles.test.default)
 }

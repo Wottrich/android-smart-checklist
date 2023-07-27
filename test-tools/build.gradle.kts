@@ -33,7 +33,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeCompiler
+        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     }
     namespace = "github.io.wottrich.test.tools"
 }
@@ -54,13 +54,11 @@ kotlinExtension.jvmToolchain {
 }
 
 dependencies {
-
-    moduleDomainCoroutines()
-    kotlinAndCoreKtx()
-    composeUi()
-    coroutines()
-    koin()
-    unitTest(true)
-    instrumentalTest(true)
-
+    implementation(libs.kotlin.stdlib)
+    implementation(libs.android.core.ktx)
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.test)
+    implementation(libs.bundles.koin.default)
+    implementation(libs.bundles.test.default)
+    implementation(project(path = ":domain:coroutines"))
 }
