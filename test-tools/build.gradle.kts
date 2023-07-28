@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "github.io.wottrich.test.tools"
+    namespace = "wottrich.github.io.smartchecklist.testtools"
 }
 
 dependencies {

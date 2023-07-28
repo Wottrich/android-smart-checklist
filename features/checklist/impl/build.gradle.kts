@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "github.io.wottrich.checklist"
+    namespace = "wottrich.github.io.smartchecklist.checklist"
 }
 
 dependencies {

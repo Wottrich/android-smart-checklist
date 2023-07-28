@@ -5,7 +5,7 @@ plugins {
 android {
     buildFeatures.compose = true
     composeOptions.kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    namespace = "wottrich.github.io.baseui"
+    namespace = "wottrich.github.io.smartchecklist.baseui"
 }
 
 dependencies {
