@@ -1,4 +1,4 @@
-package github.io.wottrich.newchecklist.presentation.states
+package wottrich.github.io.smartchecklist.newchecklist.presentation.states
 
 sealed class NewChecklistNameUiEffect {
     object CloseScreen : NewChecklistNameUiEffect()

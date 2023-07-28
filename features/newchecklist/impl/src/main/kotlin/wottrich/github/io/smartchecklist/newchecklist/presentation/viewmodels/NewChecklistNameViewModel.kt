@@ -1,9 +1,9 @@
-package github.io.wottrich.newchecklist.presentation.viewmodels
+package wottrich.github.io.smartchecklist.newchecklist.presentation.viewmodels
 
 import wottrich.github.io.smartchecklist.checklist.domain.UpdateSelectedChecklistUseCase
-import github.io.wottrich.newchecklist.domain.AddNewChecklistUseCase
-import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiEffect
-import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiState
+import wottrich.github.io.smartchecklist.newchecklist.domain.AddNewChecklistUseCase
+import wottrich.github.io.smartchecklist.newchecklist.presentation.states.NewChecklistNameUiEffect
+import wottrich.github.io.smartchecklist.newchecklist.presentation.states.NewChecklistNameUiState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

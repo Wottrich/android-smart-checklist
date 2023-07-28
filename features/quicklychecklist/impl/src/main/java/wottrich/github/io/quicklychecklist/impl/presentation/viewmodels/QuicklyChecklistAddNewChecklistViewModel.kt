@@ -2,7 +2,7 @@ package wottrich.github.io.quicklychecklist.impl.presentation.viewmodels
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import github.io.wottrich.newchecklist.domain.AddNewChecklistUseCase
+import wottrich.github.io.smartchecklist.newchecklist.domain.AddNewChecklistUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

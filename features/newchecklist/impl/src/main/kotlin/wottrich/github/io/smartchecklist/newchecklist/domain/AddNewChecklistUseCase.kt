@@ -1,4 +1,4 @@
-package github.io.wottrich.newchecklist.domain
+package wottrich.github.io.smartchecklist.newchecklist.domain
 
 import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao

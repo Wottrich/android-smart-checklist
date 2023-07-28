@@ -1,10 +1,10 @@
-package github.io.wottrich.newchecklist.navigation
+package wottrich.github.io.smartchecklist.newchecklist.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
-import github.io.wottrich.newchecklist.presentation.ui.NewChecklistNameScreen
+import wottrich.github.io.smartchecklist.newchecklist.presentation.ui.NewChecklistNameScreen
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
 
 @ExperimentalAnimationApi

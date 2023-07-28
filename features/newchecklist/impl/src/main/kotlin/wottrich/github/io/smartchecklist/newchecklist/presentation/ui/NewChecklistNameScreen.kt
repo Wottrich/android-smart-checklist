@@ -1,4 +1,4 @@
-package github.io.wottrich.newchecklist.presentation.ui
+package wottrich.github.io.smartchecklist.newchecklist.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,16 +22,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import github.io.wottrich.newchecklist.impl.R
-import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
-import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiEffect
-import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiState
-import github.io.wottrich.newchecklist.presentation.viewmodels.NewChecklistNameViewModel
+import wottrich.github.io.smartchecklist.newchecklist.presentation.states.NewChecklistNameUiEffect
+import wottrich.github.io.smartchecklist.newchecklist.presentation.states.NewChecklistNameUiState
+import wottrich.github.io.smartchecklist.newchecklist.presentation.viewmodels.NewChecklistNameViewModel
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
 import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.smartchecklist.baseui.ui.color.defaultOutlinedTextFieldColors
+import wottrich.github.io.smartchecklist.newchecklist.R
+import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 
 @Composable
 fun NewChecklistNameScreen(

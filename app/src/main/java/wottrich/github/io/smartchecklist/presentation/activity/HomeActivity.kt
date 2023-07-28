@@ -21,8 +21,8 @@ import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
-import github.io.wottrich.newchecklist.navigation.NavigatorNewChecklist
-import github.io.wottrich.newchecklist.navigation.newChecklistNavigation
+import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
+import wottrich.github.io.smartchecklist.newchecklist.navigation.newChecklistNavigation
 import github.io.wottrich.ui.aboutus.data.model.AboutUsContentModel
 import github.io.wottrich.ui.aboutus.presentation.ui.AboutUsScreen
 import github.io.wottrich.ui.support.navigation.NavigationSupport
