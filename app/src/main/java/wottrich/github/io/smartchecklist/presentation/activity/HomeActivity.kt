@@ -23,8 +23,8 @@ import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
 import wottrich.github.io.smartchecklist.newchecklist.navigation.newChecklistNavigation
-import github.io.wottrich.ui.aboutus.data.model.AboutUsContentModel
-import github.io.wottrich.ui.aboutus.presentation.ui.AboutUsScreen
+import wottrich.github.io.smartchecklist.uiaboutus.data.model.AboutUsContentModel
+import wottrich.github.io.smartchecklist.uiaboutus.presentation.ui.AboutUsScreen
 import github.io.wottrich.ui.support.navigation.NavigationSupport
 import github.io.wottrich.ui.support.navigation.supportNavigation
 import kotlinx.coroutines.InternalCoroutinesApi

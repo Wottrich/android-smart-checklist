@@ -1,4 +1,4 @@
-package github.io.wottrich.ui.aboutus.data.model
+package wottrich.github.io.smartchecklist.uiaboutus.data.model
 
 data class AboutUsContentModel(
     val versionName: String,

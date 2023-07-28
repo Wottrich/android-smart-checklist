@@ -1,4 +1,4 @@
-package github.io.wottrich.ui.aboutus.presentation.ui
+package wottrich.github.io.smartchecklist.uiaboutus.presentation.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -14,8 +14,8 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import github.io.wottrich.ui.aboutus.R.string
-import github.io.wottrich.ui.aboutus.data.model.AboutUsContentModel
+import wottrich.github.io.smartchecklist.uiaboutus.R.string
+import wottrich.github.io.smartchecklist.uiaboutus.data.model.AboutUsContentModel
 import wottrich.github.io.smartchecklist.baseui.TopBarContent
 import wottrich.github.io.smartchecklist.baseui.icons.ArrowBackIcon
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
