@@ -13,7 +13,7 @@ import wottrich.github.io.smartchecklist.domain.usecase.AddManyTasksUseCase
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistAddNewChecklistUiEffect
 import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
 import wottrich.github.io.smartchecklist.android.BaseViewModel
-import github.io.wottrich.uuid.UuidGenerator
+import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 import wottrich.github.io.smartchecklist.coroutines.base.onFailure
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 

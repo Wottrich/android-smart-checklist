@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 import java.util.Calendar
-import github.io.wottrich.uuid.UuidGenerator
+import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 
 
 @Entity(

@@ -1,4 +1,4 @@
-package github.io.wottrich.uuid
+package wottrich.github.io.smartchecklist.uuid
 
 import java.util.UUID
 
