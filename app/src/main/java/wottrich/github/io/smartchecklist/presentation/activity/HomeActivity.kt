@@ -34,7 +34,7 @@ import wottrich.github.io.smartchecklist.presentation.ui.StatusBarColor
 import wottrich.github.io.smartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.smartchecklist.presentation.ui.content.HomeScreen
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
-import wottrich.github.io.quicklychecklist.impl.navigation.quicklyChecklistNavigation
+import wottrich.github.io.smartchecklist.quicklychecklist.navigation.quicklyChecklistNavigation
 import github.io.wottrich.intent.shareIntentText
 
 class InvalidChecklistId : Exception("Checklist id must not be null")

@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.domain
+package wottrich.github.io.smartchecklist.quicklychecklist.domain
 
 import android.util.Base64
 import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase

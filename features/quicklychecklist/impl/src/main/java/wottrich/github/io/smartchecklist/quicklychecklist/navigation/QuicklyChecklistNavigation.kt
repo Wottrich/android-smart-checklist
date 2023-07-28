@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.navigation
+package wottrich.github.io.smartchecklist.quicklychecklist.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
@@ -11,10 +11,10 @@ import androidx.navigation.navigation
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.bottomSheet
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
-import wottrich.github.io.quicklychecklist.impl.presentation.ui.InitialQuicklyChecklistScreen
-import wottrich.github.io.quicklychecklist.impl.presentation.ui.QuicklyChecklistAddNewChecklistBottomSheetContent
-import wottrich.github.io.quicklychecklist.impl.presentation.ui.QuicklyChecklistConfirmBottomSheetContent
-import wottrich.github.io.quicklychecklist.impl.presentation.ui.QuicklyChecklistScreen
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.InitialQuicklyChecklistScreen
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.QuicklyChecklistAddNewChecklistBottomSheetContent
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.QuicklyChecklistConfirmBottomSheetContent
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.QuicklyChecklistScreen
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 @ExperimentalAnimationApi
@@ -44,8 +44,9 @@ fun NavGraphBuilder.quicklyChecklistNavigation(
                 onBackPressed = { navHostController.popBackStack() },
                 onConfirmButtonClicked = {
                     val route =
-                        NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen
-                            .routeWithParam(it)
+                        NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.routeWithParam(
+                            it
+                        )
                     navHostController.navigate(route)
                 }
             )
@@ -75,8 +76,9 @@ fun NavGraphBuilder.quicklyChecklistNavigation(
                 },
                 onConfirmBottomSheetEdit = {
                     val route =
-                        NavigationQuicklyChecklist.Destinations.QuicklyChecklistConfirmBottomSheet
-                            .routeWithParam(it)
+                        NavigationQuicklyChecklist.Destinations.QuicklyChecklistConfirmBottomSheet.routeWithParam(
+                            it
+                        )
                     navHostController.navigate(route)
                 }
             )
@@ -94,8 +96,9 @@ fun NavGraphBuilder.quicklyChecklistNavigation(
                 onShareBackClick = onShareChecklistBack,
                 onSaveChecklist = {
                     val route =
-                        NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet
-                            .routeWithParam(it)
+                        NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet.routeWithParam(
+                            it
+                        )
                     navHostController.navigate(
                         route,
                         navOptions {

@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.constants
+package wottrich.github.io.smartchecklist.quicklychecklist.constants
 
 object QuicklyChecklistConstants {
     const val QUICKLY_CHECKLIST_URL = "http://wottrich.github.io/quicklychecklist"

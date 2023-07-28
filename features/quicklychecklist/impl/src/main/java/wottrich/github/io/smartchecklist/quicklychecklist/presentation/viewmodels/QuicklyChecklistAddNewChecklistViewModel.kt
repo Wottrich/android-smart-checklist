@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.presentation.viewmodels
+package wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmodels
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -10,7 +10,7 @@ import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.datasource.entity.QuicklyChecklist
 import wottrich.github.io.impl.domain.usecase.AddManyTasksUseCase
-import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistAddNewChecklistUiEffect
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistAddNewChecklistUiEffect
 import github.io.wottrich.kotlin.SingleShotEventBus
 import github.io.wottrich.android.BaseViewModel
 import github.io.wottrich.uuid.UuidGenerator

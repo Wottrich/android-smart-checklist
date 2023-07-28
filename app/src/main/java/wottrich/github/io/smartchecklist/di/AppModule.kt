@@ -6,7 +6,7 @@ import wottrich.github.io.smartchecklist.newchecklist.di.newChecklistModule
 import github.io.wottrich.ui.support.di.supportModule
 import wottrich.github.io.smartchecklist.datasource.injection.databaseModule
 import wottrich.github.io.impl.di.taskModule
-import wottrich.github.io.quicklychecklist.impl.di.quicklyChecklistModule
+import wottrich.github.io.smartchecklist.quicklychecklist.di.quicklyChecklistModule
 
 /**
  * @author Wottrich

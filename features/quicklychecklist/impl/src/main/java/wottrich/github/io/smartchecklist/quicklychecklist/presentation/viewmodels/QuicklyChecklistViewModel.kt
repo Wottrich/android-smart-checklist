@@ -1,23 +1,23 @@
-package wottrich.github.io.quicklychecklist.impl.presentation.viewmodels
+package wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmodels
 
 import androidx.compose.runtime.mutableStateListOf
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import github.io.wottrich.android.BaseViewModel
+import github.io.wottrich.kotlin.SingleShotEventBus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import wottrich.github.io.smartchecklist.quicklychecklist.domain.ConvertQuicklyChecklistIntoJsonUseCase
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistUiEffect
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistUiState
+import wottrich.github.io.smartchecklist.coroutines.base.onFailure
+import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.datasource.entity.QuicklyChecklist
 import wottrich.github.io.smartchecklist.datasource.entity.QuicklyTask
-import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
-import wottrich.github.io.quicklychecklist.impl.domain.ConvertQuicklyChecklistIntoJsonUseCase
-import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect
-import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiState
-import github.io.wottrich.kotlin.SingleShotEventBus
-import github.io.wottrich.android.BaseViewModel
-import wottrich.github.io.smartchecklist.coroutines.base.onFailure
-import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
+import wottrich.github.io.smartchecklist.quicklychecklist.R
 
 class QuicklyChecklistViewModel(
     private val quicklyChecklistJson: String,

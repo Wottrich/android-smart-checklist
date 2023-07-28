@@ -1,8 +1,8 @@
-package wottrich.github.io.quicklychecklist.impl.presentation.viewmodels
+package wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmodels
 
 import kotlinx.coroutines.flow.Flow
-import wottrich.github.io.quicklychecklist.impl.domain.GetQuicklyChecklistDeepLinkUseCase
-import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistConfirmUiEffect
+import wottrich.github.io.smartchecklist.quicklychecklist.domain.GetQuicklyChecklistDeepLinkUseCase
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistConfirmUiEffect
 import github.io.wottrich.kotlin.SingleShotEventBus
 import github.io.wottrich.android.BaseViewModel
 import wottrich.github.io.smartchecklist.coroutines.base.onFailure

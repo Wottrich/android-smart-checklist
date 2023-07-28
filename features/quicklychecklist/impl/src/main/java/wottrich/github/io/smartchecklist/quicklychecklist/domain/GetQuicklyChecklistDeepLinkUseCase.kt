@@ -1,8 +1,8 @@
-package wottrich.github.io.quicklychecklist.impl.domain
+package wottrich.github.io.smartchecklist.quicklychecklist.domain
 
 import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
-import wottrich.github.io.quicklychecklist.impl.constants.QuicklyChecklistConstants
+import wottrich.github.io.smartchecklist.quicklychecklist.constants.QuicklyChecklistConstants
 
 class GetQuicklyChecklistDeepLinkUseCase(
     private val encodeQuicklyChecklistUseCase: EncodeQuicklyChecklistUseCase

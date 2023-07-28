@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.presentation.states
+package wottrich.github.io.smartchecklist.quicklychecklist.presentation.states
 
 import androidx.annotation.StringRes
 

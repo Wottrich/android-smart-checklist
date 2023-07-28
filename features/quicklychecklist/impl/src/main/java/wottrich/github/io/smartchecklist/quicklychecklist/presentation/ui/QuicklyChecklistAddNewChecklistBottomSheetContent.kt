@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.presentation.ui
+package wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.layout.Column
@@ -21,10 +21,10 @@ import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
 import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.smartchecklist.baseui.ui.color.defaultOutlinedTextFieldColors
-import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
-import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistCompleted
-import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistFailure
-import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyChecklistAddNewChecklistViewModel
+import wottrich.github.io.smartchecklist.quicklychecklist.R
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistCompleted
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistFailure
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmodels.QuicklyChecklistAddNewChecklistViewModel
 
 @Composable
 fun QuicklyChecklistAddNewChecklistBottomSheetContent(

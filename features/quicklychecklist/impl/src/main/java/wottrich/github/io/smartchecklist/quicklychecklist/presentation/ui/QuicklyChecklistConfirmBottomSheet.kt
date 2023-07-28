@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.presentation.ui
+package wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui
 
 import android.widget.Toast
 import androidx.compose.foundation.clickable
@@ -25,12 +25,12 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
-import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
-import wottrich.github.io.androidsmartchecklist.quicklychecklist.R.string
-import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistConfirmUiEffect.FailureShareChecklistBack
-import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistConfirmUiEffect.OnSaveNewChecklist
-import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistConfirmUiEffect.OnShareChecklistBack
-import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.QuicklyChecklistConfirmViewModel
+import wottrich.github.io.smartchecklist.quicklychecklist.R
+import wottrich.github.io.smartchecklist.quicklychecklist.R.string
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistConfirmUiEffect.FailureShareChecklistBack
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistConfirmUiEffect.OnSaveNewChecklist
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistConfirmUiEffect.OnShareChecklistBack
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmodels.QuicklyChecklistConfirmViewModel
 
 @Composable
 fun QuicklyChecklistConfirmBottomSheetContent(

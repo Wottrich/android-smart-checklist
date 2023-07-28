@@ -1,4 +1,4 @@
-package wottrich.github.io.quicklychecklist.impl.presentation.ui
+package wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -24,15 +24,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
-import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
+import wottrich.github.io.smartchecklist.quicklychecklist.R
 import wottrich.github.io.smartchecklist.baseui.StyledText
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
 import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
-import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect.OnInvalidChecklist
-import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect.OnQuicklyChecklistJson
-import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.InitialQuicklyChecklistViewModel
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.InitialQuicklyChecklistUiEffect.OnInvalidChecklist
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.InitialQuicklyChecklistUiEffect.OnQuicklyChecklistJson
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmodels.InitialQuicklyChecklistViewModel
 
 @Composable
 fun InitialQuicklyChecklistScreen(

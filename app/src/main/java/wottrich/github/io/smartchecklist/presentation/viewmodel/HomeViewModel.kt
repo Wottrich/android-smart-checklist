@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import wottrich.github.io.androidsmartchecklist.quicklychecklist.R as QuicklyChecklistR
+import wottrich.github.io.smartchecklist.quicklychecklist.R as QuicklyChecklistR
 import wottrich.github.io.smartchecklist.domain.usecase.ObserveSimpleSelectedChecklistModelUseCase
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
@@ -20,8 +20,8 @@ import wottrich.github.io.smartchecklist.presentation.state.HomeUiState
 import wottrich.github.io.smartchecklist.presentation.state.TopBarHomeUiEffects
 import wottrich.github.io.smartchecklist.presentation.ui.model.SimpleChecklistModel
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
-import wottrich.github.io.quicklychecklist.impl.domain.ConvertChecklistIntoQuicklyChecklistUseCase
-import wottrich.github.io.quicklychecklist.impl.domain.GetQuicklyChecklistDeepLinkUseCase
+import wottrich.github.io.smartchecklist.quicklychecklist.domain.ConvertChecklistIntoQuicklyChecklistUseCase
+import wottrich.github.io.smartchecklist.quicklychecklist.domain.GetQuicklyChecklistDeepLinkUseCase
 import github.io.wottrich.kotlin.SingleShotEventBus
 import github.io.wottrich.android.BaseViewModel
 
