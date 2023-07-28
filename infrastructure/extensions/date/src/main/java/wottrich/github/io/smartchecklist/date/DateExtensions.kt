@@ -1,4 +1,4 @@
-package github.io.wottrich.date
+package wottrich.github.io.smartchecklist.date
 
 import java.text.SimpleDateFormat
 import java.util.Date

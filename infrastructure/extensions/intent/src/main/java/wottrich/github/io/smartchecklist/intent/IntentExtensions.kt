@@ -1,4 +1,4 @@
-package github.io.wottrich.intent
+package wottrich.github.io.smartchecklist.intent
 
 import android.content.Context
 import android.content.Intent
