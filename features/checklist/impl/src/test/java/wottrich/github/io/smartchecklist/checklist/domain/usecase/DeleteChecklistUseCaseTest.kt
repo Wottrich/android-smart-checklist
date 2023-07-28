@@ -1,4 +1,4 @@
-package github.io.wottrich.checklist.domain.usecase
+package wottrich.github.io.smartchecklist.checklist.domain.usecase
 
 import github.io.wottrich.test.tools.BaseUnitTest
 import io.mockk.coEvery
@@ -6,6 +6,7 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
+import wottrich.github.io.smartchecklist.checklist.domain.usecase.DeleteChecklistUseCaseImpl
 import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
 import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
 

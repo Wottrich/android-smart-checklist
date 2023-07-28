@@ -1,6 +1,6 @@
 package github.io.wottrich.newchecklist.presentation.viewmodels
 
-import github.io.wottrich.checklist.domain.UpdateSelectedChecklistUseCase
+import wottrich.github.io.smartchecklist.checklist.domain.UpdateSelectedChecklistUseCase
 import github.io.wottrich.newchecklist.domain.AddNewChecklistUseCase
 import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiEffect
 import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiState

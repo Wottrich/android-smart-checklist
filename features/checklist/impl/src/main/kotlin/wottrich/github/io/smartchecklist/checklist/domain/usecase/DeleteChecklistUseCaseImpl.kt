@@ -1,6 +1,6 @@
-package github.io.wottrich.checklist.domain.usecase
+package wottrich.github.io.smartchecklist.checklist.domain.usecase
 
-import github.io.wottrich.checklist.domain.DeleteChecklistUseCase
+import wottrich.github.io.smartchecklist.checklist.domain.DeleteChecklistUseCase
 import wottrich.github.io.smartchecklist.coroutines.UseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.coroutines.failureEmptyResult

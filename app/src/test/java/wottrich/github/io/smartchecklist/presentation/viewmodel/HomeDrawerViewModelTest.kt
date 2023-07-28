@@ -1,7 +1,7 @@
 package wottrich.github.io.smartchecklist.presentation.viewmodel
 
-import github.io.wottrich.checklist.domain.DeleteChecklistUseCase
-import github.io.wottrich.checklist.domain.UpdateSelectedChecklistUseCase
+import wottrich.github.io.smartchecklist.checklist.domain.DeleteChecklistUseCase
+import wottrich.github.io.smartchecklist.checklist.domain.UpdateSelectedChecklistUseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.coroutines.successEmptyResult
 import github.io.wottrich.test.tools.BaseUnitTest
