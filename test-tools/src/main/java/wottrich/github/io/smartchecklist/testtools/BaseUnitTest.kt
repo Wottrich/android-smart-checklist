@@ -1,13 +1,11 @@
-package github.io.wottrich.test.tools
+package wottrich.github.io.smartchecklist.testtools
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import org.junit.Before
 import org.junit.Rule
+import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
 
 /**
  * @author Wottrich
@@ -18,31 +16,17 @@ import org.junit.Rule
  *
  */
 
-private val testDispatchers: TestCoroutineDispatcher = TestCoroutineDispatcher()
-
-private fun getMainInjectionRule(
-    dispatcher: DispatchersProviders
-) = KoinTestRule(dispatcher)
-
-private fun getDispatchersProvidersToTest(
-    testDispatchers: TestCoroutineDispatcher
-): DispatchersProviders {
-    return object : DispatchersProviders {
-        override val main: CoroutineDispatcher
-            get() = testDispatchers
-        override val io: CoroutineDispatcher
-            get() = testDispatchers
-    }
-}
-
 @OptIn(ExperimentalCoroutinesApi::class)
 abstract class BaseUnitTest(
-    private val dispatchersProviders: DispatchersProviders = getDispatchersProvidersToTest(testDispatchers),
+    private val dispatchersProviders: DispatchersProviders = getDispatchersProvidersToTest(
+        testDispatchers
+    ),
     injectionTestRuleImpl: InjectionTestRule = getMainInjectionRule(dispatchersProviders)
 ) {
 
     @Before
-    open fun setUp() {}
+    open fun setUp() {
+    }
 
     @Rule
     @JvmField

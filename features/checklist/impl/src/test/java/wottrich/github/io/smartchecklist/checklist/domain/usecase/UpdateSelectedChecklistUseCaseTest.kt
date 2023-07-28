@@ -1,12 +1,11 @@
 package wottrich.github.io.smartchecklist.checklist.domain.usecase
 
-import github.io.wottrich.test.tools.BaseUnitTest
+import wottrich.github.io.smartchecklist.testtools.BaseUnitTest
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
-import wottrich.github.io.smartchecklist.checklist.domain.usecase.UpdateSelectedChecklistUseCaseImpl
 import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
 import kotlin.test.assertTrue
 

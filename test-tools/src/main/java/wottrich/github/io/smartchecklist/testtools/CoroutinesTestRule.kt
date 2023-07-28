@@ -1,4 +1,4 @@
-package github.io.wottrich.test.tools
+package wottrich.github.io.smartchecklist.testtools
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

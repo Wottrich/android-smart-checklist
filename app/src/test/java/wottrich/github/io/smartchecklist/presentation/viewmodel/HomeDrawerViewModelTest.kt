@@ -4,7 +4,7 @@ import wottrich.github.io.smartchecklist.checklist.domain.DeleteChecklistUseCase
 import wottrich.github.io.smartchecklist.checklist.domain.UpdateSelectedChecklistUseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.coroutines.successEmptyResult
-import github.io.wottrich.test.tools.BaseUnitTest
+import wottrich.github.io.smartchecklist.testtools.BaseUnitTest
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

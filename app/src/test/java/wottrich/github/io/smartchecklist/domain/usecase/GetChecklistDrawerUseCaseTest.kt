@@ -1,6 +1,6 @@
 package wottrich.github.io.smartchecklist.domain.usecase
 
-import github.io.wottrich.test.tools.BaseUnitTest
+import wottrich.github.io.smartchecklist.testtools.BaseUnitTest
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
