@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui.ui.pallet
+package wottrich.github.io.smartchecklist.baseui.ui.pallet
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

@@ -20,11 +20,11 @@ import androidx.compose.ui.res.stringResource
 import github.io.wottrich.ui.support.R
 import github.io.wottrich.ui.support.presentation.viewmodels.HelpOverviewViewModel
 import org.koin.androidx.compose.getViewModel
-import wottrich.github.io.baseui.TextOneLine
-import wottrich.github.io.baseui.TopBarContent
-import wottrich.github.io.baseui.icons.ArrowBackIcon
-import wottrich.github.io.baseui.ui.ApplicationTheme
-import wottrich.github.io.baseui.ui.Dimens.BaseFour
+import wottrich.github.io.smartchecklist.baseui.TextOneLine
+import wottrich.github.io.smartchecklist.baseui.TopBarContent
+import wottrich.github.io.smartchecklist.baseui.icons.ArrowBackIcon
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
 
 @Composable
 fun HelpOverviewScreen(onBackPressed: () -> Unit) {
@@ -58,6 +58,7 @@ private fun Screen(
         }
     ) {
         LazyColumn(
+            modifier = Modifier.padding(it),
             content = {
                 item {
                     TextOneLine(

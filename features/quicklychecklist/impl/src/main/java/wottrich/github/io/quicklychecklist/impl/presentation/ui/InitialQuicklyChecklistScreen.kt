@@ -25,11 +25,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
-import wottrich.github.io.baseui.StyledText
-import wottrich.github.io.baseui.ui.ApplicationTheme
-import wottrich.github.io.baseui.ui.Dimens.BaseFour
-import wottrich.github.io.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.baseui.R as BaseUiR
+import wottrich.github.io.smartchecklist.baseui.StyledText
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
+import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
+import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect.OnInvalidChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.states.InitialQuicklyChecklistUiEffect.OnQuicklyChecklistJson
 import wottrich.github.io.quicklychecklist.impl.presentation.viewmodels.InitialQuicklyChecklistViewModel

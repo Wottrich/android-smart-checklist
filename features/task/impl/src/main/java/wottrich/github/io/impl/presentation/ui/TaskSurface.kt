@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.unit.dp
-import wottrich.github.io.baseui.ui.Dimens.BaseFour
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
 
 internal val TaskItemShape = RoundedCornerShape(BaseFour.SizeTwo)
 

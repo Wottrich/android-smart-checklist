@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui
+package wottrich.github.io.smartchecklist.baseui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import wottrich.github.io.baseui.ui.Dimens
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 
 @Composable
 fun RowComponent(

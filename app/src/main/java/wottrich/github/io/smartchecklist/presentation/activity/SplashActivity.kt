@@ -18,10 +18,10 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import wottrich.github.io.smartchecklist.R
 import wottrich.github.io.smartchecklist.presentation.viewmodel.SplashUiEffect.GoToHome
 import wottrich.github.io.smartchecklist.presentation.viewmodel.SplashViewModel
-import wottrich.github.io.baseui.TextOneLine
-import wottrich.github.io.baseui.ui.ApplicationTheme
-import wottrich.github.io.baseui.ui.RowDefaults
-import wottrich.github.io.baseui.ui.TextStateComponent
+import wottrich.github.io.smartchecklist.baseui.TextOneLine
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.baseui.ui.RowDefaults
+import wottrich.github.io.smartchecklist.baseui.ui.TextStateComponent
 
 @InternalCoroutinesApi
 class SplashActivity : AppCompatActivity() {

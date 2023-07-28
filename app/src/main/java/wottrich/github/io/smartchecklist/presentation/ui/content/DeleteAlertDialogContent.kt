@@ -6,7 +6,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import wottrich.github.io.smartchecklist.R
-import wottrich.github.io.baseui.R as BaseUiR
+import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 
 enum class DeleteAlertDialogState {
     SHOW, HIDE;

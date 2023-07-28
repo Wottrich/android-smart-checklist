@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui.ui.color
+package wottrich.github.io.smartchecklist.baseui.ui.color
 
 import androidx.compose.material.ButtonColors
 import androidx.compose.material.ContentAlpha
@@ -6,7 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.graphics.Color
-import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun defaultButtonColors(): ButtonColors = DefaultButtonColor(

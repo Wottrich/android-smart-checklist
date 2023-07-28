@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui
+package wottrich.github.io.smartchecklist.baseui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.material.*
@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun TextOneLine(

@@ -1,7 +1,7 @@
-package wottrich.github.io.baseui.ui
+package wottrich.github.io.smartchecklist.baseui.ui
 
 import androidx.compose.runtime.compositionLocalOf
-import wottrich.github.io.baseui.ui.pallet.lightColors
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.lightColors
 
 /**
  * @author Wottrich

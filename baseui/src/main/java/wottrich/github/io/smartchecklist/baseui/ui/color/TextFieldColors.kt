@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui.ui.color
+package wottrich.github.io.smartchecklist.baseui.ui.color
 
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.MaterialTheme

@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui.icons
+package wottrich.github.io.smartchecklist.baseui.icons
 
 import androidx.annotation.DrawableRes
 import androidx.compose.material.Icon

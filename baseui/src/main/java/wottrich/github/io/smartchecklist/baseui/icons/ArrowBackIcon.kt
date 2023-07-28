@@ -1,34 +1,35 @@
-package wottrich.github.io.baseui.icons
+package wottrich.github.io.smartchecklist.baseui.icons
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import wottrich.github.io.baseui.R
-import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
-fun ClickableDeleteIcon(
+fun ArrowBackClickable(
     contentDescription: String,
     onClick: () -> Unit
 ) {
-    DeleteIcon(
+    ArrowBackIcon(
         modifier = Modifier
             .clip(CircleShape)
             .clickable { onClick() },
-        contentDescription = contentDescription,
+        contentDescription = contentDescription
     )
 }
 
 @Composable
-fun DeleteIcon(
-    modifier: Modifier,
+fun ArrowBackIcon(
+    modifier: Modifier = Modifier,
     contentDescription: String? = null
 ) {
-    DrawableIcon(
+    VectorIcon(
         modifier = modifier,
-        drawableRes = R.drawable.ic_delete,
+        imageVector = Icons.Default.ArrowBack,
         contentDescription = contentDescription,
         tint = SmartChecklistTheme.colors.onSurface
     )

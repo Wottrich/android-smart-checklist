@@ -5,7 +5,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
 import github.io.wottrich.ui.support.presentation.ui.HelpOverviewScreen
-import wottrich.github.io.baseui.navigation.defaultComposableAnimation
+import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
 
 @ExperimentalAnimationApi
 fun NavGraphBuilder.supportNavigation(navHostController: NavHostController) {

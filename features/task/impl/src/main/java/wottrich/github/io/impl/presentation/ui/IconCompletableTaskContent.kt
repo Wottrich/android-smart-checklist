@@ -10,9 +10,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 import wottrich.github.io.impl.R
-import wottrich.github.io.baseui.R as BaseUiR
+import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable

@@ -10,7 +10,7 @@ import androidx.navigation.navOptions
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.bottomSheet
-import wottrich.github.io.baseui.navigation.defaultComposableAnimation
+import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
 import wottrich.github.io.quicklychecklist.impl.presentation.ui.InitialQuicklyChecklistScreen
 import wottrich.github.io.quicklychecklist.impl.presentation.ui.QuicklyChecklistAddNewChecklistBottomSheetContent
 import wottrich.github.io.quicklychecklist.impl.presentation.ui.QuicklyChecklistConfirmBottomSheetContent

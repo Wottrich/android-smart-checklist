@@ -24,11 +24,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
-import wottrich.github.io.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.datasource.entity.NewTask
 import wottrich.github.io.impl.presentation.ui.TaskLazyColumnComponent
 import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
-import wottrich.github.io.baseui.R as BaseUiR
+import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.InvalidChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.OnConfirmQuicklyChecklist
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistUiEffect.SnackbarError

@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui.ui
+package wottrich.github.io.smartchecklist.baseui.ui
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
@@ -19,9 +19,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import wottrich.github.io.baseui.StyledText
-import wottrich.github.io.baseui.TextTwoLine
-import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
+import wottrich.github.io.smartchecklist.baseui.StyledText
+import wottrich.github.io.smartchecklist.baseui.TextTwoLine
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 /**
  * @author Wottrich

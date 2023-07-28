@@ -1,8 +1,8 @@
-package wottrich.github.io.baseui.ui.pallet
+package wottrich.github.io.smartchecklist.baseui.ui.pallet
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
-import wottrich.github.io.baseui.ui.LocalSmartChecklistColors
+import wottrich.github.io.smartchecklist.baseui.ui.LocalSmartChecklistColors
 
 object SmartChecklistTheme {
 

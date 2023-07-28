@@ -26,12 +26,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import wottrich.github.io.smartchecklist.R
 import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
-import wottrich.github.io.baseui.ui.Dimens
-import wottrich.github.io.baseui.ui.ListItem
-import wottrich.github.io.baseui.ui.ListItemEndTextContent
-import wottrich.github.io.baseui.ui.ListItemStartTextContent
-import wottrich.github.io.baseui.ui.RowDefaults
-import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens
+import wottrich.github.io.smartchecklist.baseui.ui.ListItem
+import wottrich.github.io.smartchecklist.baseui.ui.ListItemEndTextContent
+import wottrich.github.io.smartchecklist.baseui.ui.ListItemStartTextContent
+import wottrich.github.io.smartchecklist.baseui.ui.RowDefaults
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 /**
  * @author Wottrich

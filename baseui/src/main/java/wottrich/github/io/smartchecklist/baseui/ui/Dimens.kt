@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui.ui
+package wottrich.github.io.smartchecklist.baseui.ui
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp

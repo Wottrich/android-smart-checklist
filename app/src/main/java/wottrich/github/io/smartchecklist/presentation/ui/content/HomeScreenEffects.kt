@@ -16,7 +16,7 @@ import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects.Snackb
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects.SnackbarError
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects.SnackbarTaskCompleted
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects.SnackbarTaskUncompleted
-import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun HomeScreenEffects(

@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui
+package wottrich.github.io.smartchecklist.baseui
 
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.IconButton

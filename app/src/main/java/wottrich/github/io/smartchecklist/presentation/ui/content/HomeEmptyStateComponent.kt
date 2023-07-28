@@ -16,10 +16,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import wottrich.github.io.smartchecklist.R
-import wottrich.github.io.baseui.TextOneLine
-import wottrich.github.io.baseui.ui.Dimens
-import wottrich.github.io.baseui.ui.RowDefaults
-import wottrich.github.io.baseui.ui.TextStateComponent
+import wottrich.github.io.smartchecklist.baseui.TextOneLine
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens
+import wottrich.github.io.smartchecklist.baseui.ui.RowDefaults
+import wottrich.github.io.smartchecklist.baseui.ui.TextStateComponent
 
 @Composable
 fun HomeEmptyStateComponent(onNewChecklistClicked: () -> Unit) {

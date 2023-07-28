@@ -17,10 +17,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
-import wottrich.github.io.baseui.ui.ApplicationTheme
-import wottrich.github.io.baseui.ui.Dimens.BaseFour
-import wottrich.github.io.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.baseui.ui.color.defaultOutlinedTextFieldColors
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
+import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
+import wottrich.github.io.smartchecklist.baseui.ui.color.defaultOutlinedTextFieldColors
 import wottrich.github.io.androidsmartchecklist.quicklychecklist.R
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistCompleted
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistFailure

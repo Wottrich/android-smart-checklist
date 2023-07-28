@@ -35,17 +35,17 @@ import kotlinx.coroutines.flow.FlowCollector
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.smartchecklist.R
-import wottrich.github.io.baseui.R as BaseUiR
+import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingUiEffect.CloseScreen
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.CHECK_ALL
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
-import wottrich.github.io.baseui.TopBarContent
-import wottrich.github.io.baseui.icons.ArrowBackIcon
-import wottrich.github.io.baseui.ui.ApplicationTheme
-import wottrich.github.io.baseui.ui.Dimens
-import wottrich.github.io.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.baseui.ui.pallet.SmartChecklistTheme
+import wottrich.github.io.smartchecklist.baseui.TopBarContent
+import wottrich.github.io.smartchecklist.baseui.icons.ArrowBackIcon
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens
+import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 
 @Composable

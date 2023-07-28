@@ -1,4 +1,4 @@
-package wottrich.github.io.baseui.navigation
+package wottrich.github.io.smartchecklist.baseui.navigation
 
 import androidx.compose.animation.AnimatedVisibilityScope
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -26,16 +26,24 @@ fun NavGraphBuilder.defaultComposableAnimation(
         arguments = arguments,
         deepLinks = deepLinks,
         enterTransition = {
-            slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tween(ANIMATION_DURATION_IN_MILLS))
+            slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tween(
+                ANIMATION_DURATION_IN_MILLS
+            ))
         },
         popEnterTransition = {
-            slideInHorizontally(initialOffsetX = { -1000 }, animationSpec = tween(ANIMATION_DURATION_IN_MILLS))
+            slideInHorizontally(initialOffsetX = { -1000 }, animationSpec = tween(
+                ANIMATION_DURATION_IN_MILLS
+            ))
         },
         exitTransition = {
-            slideOutHorizontally(targetOffsetX = { -1000 }, animationSpec = tween(ANIMATION_DURATION_IN_MILLS))
+            slideOutHorizontally(targetOffsetX = { -1000 }, animationSpec = tween(
+                ANIMATION_DURATION_IN_MILLS
+            ))
         },
         popExitTransition = {
-            slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = tween(ANIMATION_DURATION_IN_MILLS))
+            slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = tween(
+                ANIMATION_DURATION_IN_MILLS
+            ))
         }
     ) {
         content(it)

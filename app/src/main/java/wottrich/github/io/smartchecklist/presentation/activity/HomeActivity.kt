@@ -33,7 +33,7 @@ import wottrich.github.io.smartchecklist.presentation.activity.NavigationHome.De
 import wottrich.github.io.smartchecklist.presentation.ui.StatusBarColor
 import wottrich.github.io.smartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.smartchecklist.presentation.ui.content.HomeScreen
-import wottrich.github.io.baseui.navigation.defaultComposableAnimation
+import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
 import wottrich.github.io.quicklychecklist.impl.navigation.quicklyChecklistNavigation
 import github.io.wottrich.intent.shareIntentText
 

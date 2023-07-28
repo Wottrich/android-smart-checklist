@@ -12,10 +12,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
-import wottrich.github.io.baseui.TextOneLine
-import wottrich.github.io.baseui.ui.Dimens
-import wottrich.github.io.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.baseui.ui.color.defaultOutlinedTextFieldColors
+import wottrich.github.io.smartchecklist.baseui.TextOneLine
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens
+import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
+import wottrich.github.io.smartchecklist.baseui.ui.color.defaultOutlinedTextFieldColors
 import wottrich.github.io.impl.R
 
 @Composable

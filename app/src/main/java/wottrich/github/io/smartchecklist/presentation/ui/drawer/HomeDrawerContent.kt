@@ -28,7 +28,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.R
-import wottrich.github.io.baseui.R as BaseUiR
+import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 import github.io.wottrich.checklist.R as ChecklistR
 import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
 import wottrich.github.io.smartchecklist.presentation.ui.shared.EditIconStateContent
@@ -36,9 +36,9 @@ import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerEffect
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerEvent
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerState
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerViewModel
-import wottrich.github.io.baseui.TextOneLine
-import wottrich.github.io.baseui.ui.Dimens
-import wottrich.github.io.baseui.ui.color.defaultButtonColors
+import wottrich.github.io.smartchecklist.baseui.TextOneLine
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens
+import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
 
 /**
  * @author Wottrich

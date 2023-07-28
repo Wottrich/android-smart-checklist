@@ -31,7 +31,7 @@ import wottrich.github.io.smartchecklist.presentation.ui.content.DeleteAlertDial
 import wottrich.github.io.smartchecklist.presentation.ui.content.DeleteAlertDialogState.SHOW
 import wottrich.github.io.smartchecklist.presentation.ui.drawer.HomeDrawerStatefulContent
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeViewModel
-import wottrich.github.io.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 
 /**
  * @author Wottrich
