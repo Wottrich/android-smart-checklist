@@ -54,6 +54,7 @@ koin-android-compose = { group="io.insert-koin", name="koin-androidx-compose", v
 # Kotlin
 kotlin-stdlib-jdk8 = { group="org.jetbrains.kotlin", name="kotlin-stdlib-jdk8", version.ref="kotlin" }
 kotlin-stdlib = { group="org.jetbrains.kotlin", name="kotlin-stdlib", version.ref="kotlin" }
+kotlin-gradle-plugin = { group="org.jetbrains.kotlin", name="kotlin-gradle-plugin", version.ref="kotlin" }
 # Lifecycle
 lifecycle-runtime-ktx = { group="androidx.lifecycle", name="lifecycle-runtime-ktx", version.ref="lifecycleRuntime" }
 lifecycle-viewmodel-ktx = { group="androidx.lifecycle", name="lifecycle-viewmodel-ktx", version.ref="lifecycleViewModelKtx" }
@@ -78,7 +79,7 @@ android-application = { id="com.android.application", version.ref="gradle" }
 android-library = { id="com.android.library", version.ref="gradle" }
 jetbrains-kotlin-android = { id="org.jetbrains.kotlin.android", version.ref="kotlin" }
 jetbrains-kotlin-jvm = { id="org.jetbrains.kotlin.jvm", version.ref="kotlin" }
-kotlin-android = { id="kotlin-android" }
+jetbrains-kotlin-parcelize = { id="org.jetbrains.kotlin.plugin.parcelize", version.ref="kotlin" }
 ksp = { id="com.google.devtools.ksp", version.ref="ksp" }
 [bundles]
 compose-default = [ "compose-ui", "compose-ui-tooling", "compose-runtime", "compose-material"]
