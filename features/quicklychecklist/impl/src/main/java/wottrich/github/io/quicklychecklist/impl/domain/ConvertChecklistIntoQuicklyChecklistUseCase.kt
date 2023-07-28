@@ -3,11 +3,11 @@ package wottrich.github.io.quicklychecklist.impl.domain
 import com.google.gson.Gson
 import github.io.wottrich.coroutines.KotlinResultUseCase
 import github.io.wottrich.coroutines.base.Result
-import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
-import wottrich.github.io.datasource.entity.NewTask
-import wottrich.github.io.datasource.entity.QuicklyChecklist
-import wottrich.github.io.datasource.entity.QuicklyTask
-import wottrich.github.io.datasource.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.entity.QuicklyChecklist
+import wottrich.github.io.smartchecklist.datasource.entity.QuicklyTask
+import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
 
 class ConvertChecklistIntoQuicklyChecklistUseCase(
     private val checklistRepository: ChecklistRepository

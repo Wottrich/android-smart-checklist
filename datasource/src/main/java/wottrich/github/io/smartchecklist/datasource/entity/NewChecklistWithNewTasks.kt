@@ -1,4 +1,4 @@
-package wottrich.github.io.datasource.entity
+package wottrich.github.io.smartchecklist.datasource.entity
 
 import androidx.room.Embedded
 import androidx.room.Relation

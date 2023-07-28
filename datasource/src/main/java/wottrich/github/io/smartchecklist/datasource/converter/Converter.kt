@@ -1,4 +1,4 @@
-package wottrich.github.io.datasource.converter
+package wottrich.github.io.smartchecklist.datasource.converter
 
 import androidx.room.TypeConverter
 import java.util.Calendar

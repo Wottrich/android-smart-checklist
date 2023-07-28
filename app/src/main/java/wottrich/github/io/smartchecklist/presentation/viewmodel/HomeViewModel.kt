@@ -19,7 +19,7 @@ import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiState
 import wottrich.github.io.smartchecklist.presentation.state.TopBarHomeUiEffects
 import wottrich.github.io.smartchecklist.presentation.ui.model.SimpleChecklistModel
-import wottrich.github.io.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.quicklychecklist.impl.domain.ConvertChecklistIntoQuicklyChecklistUseCase
 import wottrich.github.io.quicklychecklist.impl.domain.GetQuicklyChecklistDeepLinkUseCase
 import github.io.wottrich.kotlin.SingleShotEventBus

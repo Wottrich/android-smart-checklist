@@ -1,7 +1,7 @@
 package wottrich.github.io.smartchecklist.presentation.state
 
 import androidx.annotation.StringRes
-import wottrich.github.io.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 
 interface HomeUiActions {
     fun sendAction(action: Action)

@@ -1,8 +1,8 @@
-package wottrich.github.io.datasource.migration
+package wottrich.github.io.smartchecklist.datasource.migration
 
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import wottrich.github.io.datasource.version.DatabaseVersions
+import wottrich.github.io.smartchecklist.datasource.version.DatabaseVersions
 
 /**
  * @author Wottrich

@@ -1,4 +1,4 @@
-package wottrich.github.io.datasource.entity
+package wottrich.github.io.smartchecklist.datasource.entity
 
 data class QuicklyChecklist(
     val checklistUuid: String = "",

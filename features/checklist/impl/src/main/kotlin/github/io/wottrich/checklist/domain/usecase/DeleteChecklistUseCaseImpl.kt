@@ -5,7 +5,7 @@ import github.io.wottrich.coroutines.UseCase
 import github.io.wottrich.coroutines.base.Result
 import github.io.wottrich.coroutines.failureEmptyResult
 import github.io.wottrich.coroutines.successEmptyResult
-import wottrich.github.io.datasource.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
 
 /**
  * @author Wottrich

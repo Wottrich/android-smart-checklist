@@ -2,7 +2,7 @@ package github.io.wottrich.checklist.domain.usecase
 
 import github.io.wottrich.checklist.domain.GetChecklistAsTextUseCase
 import github.io.wottrich.coroutines.base.Result
-import wottrich.github.io.datasource.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
 
 class GetChecklistAsTextUseCaseImpl(
     private val checklistRepository: ChecklistRepository

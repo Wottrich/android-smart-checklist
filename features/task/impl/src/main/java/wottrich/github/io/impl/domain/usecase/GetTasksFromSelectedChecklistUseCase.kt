@@ -6,8 +6,8 @@ import github.io.wottrich.coroutines.base.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapNotNull
-import wottrich.github.io.datasource.entity.SelectedChecklistTasksSimpleModel
-import wottrich.github.io.datasource.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.datasource.entity.SelectedChecklistTasksSimpleModel
+import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
 
 class GetTasksFromSelectedChecklistUseCase(
     private val checklistRepository: ChecklistRepository

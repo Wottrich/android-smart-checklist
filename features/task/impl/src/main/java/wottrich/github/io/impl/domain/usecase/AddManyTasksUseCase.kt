@@ -5,8 +5,8 @@ import github.io.wottrich.coroutines.UseCase
 import github.io.wottrich.coroutines.base.Result
 import github.io.wottrich.coroutines.failureEmptyResult
 import github.io.wottrich.coroutines.successEmptyResult
-import wottrich.github.io.datasource.dao.TaskDao
-import wottrich.github.io.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.dao.TaskDao
+import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 
 class AddManyTasksUseCase(
     private val taskDao: TaskDao

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
-import wottrich.github.io.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.impl.R
 import wottrich.github.io.impl.domain.usecase.AddTaskToDatabaseUseCase
 import wottrich.github.io.impl.domain.usecase.GetChangeTaskStatusUseCase

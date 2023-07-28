@@ -1,9 +1,9 @@
-package wottrich.github.io.datasource.repository
+package wottrich.github.io.smartchecklist.datasource.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
-import wottrich.github.io.datasource.dao.ChecklistDao
-import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
+import wottrich.github.io.smartchecklist.datasource.entity.NewChecklistWithNewTasks
 
 class ChecklistRepositoryImpl(
     private val checklistDao: ChecklistDao

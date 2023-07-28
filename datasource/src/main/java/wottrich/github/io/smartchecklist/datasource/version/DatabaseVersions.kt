@@ -1,4 +1,4 @@
-package wottrich.github.io.datasource.version
+package wottrich.github.io.smartchecklist.datasource.version
 
 /**
  * @author Wottrich

@@ -16,7 +16,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.compose.getViewModel
-import wottrich.github.io.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.impl.presentation.action.TaskComponentViewModelAction
 import wottrich.github.io.impl.presentation.viewmodel.TaskComponentViewModel
 import wottrich.github.io.impl.presentation.viewmodel.TaskComponentViewModelUiEffect

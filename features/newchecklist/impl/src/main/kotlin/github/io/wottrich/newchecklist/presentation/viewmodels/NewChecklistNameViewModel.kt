@@ -7,7 +7,7 @@ import github.io.wottrich.newchecklist.presentation.states.NewChecklistNameUiSta
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import wottrich.github.io.datasource.entity.NewChecklist
+import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
 import github.io.wottrich.kotlin.SingleShotEventBus
 import github.io.wottrich.android.BaseViewModel
 import github.io.wottrich.coroutines.dispatcher.DispatchersProviders

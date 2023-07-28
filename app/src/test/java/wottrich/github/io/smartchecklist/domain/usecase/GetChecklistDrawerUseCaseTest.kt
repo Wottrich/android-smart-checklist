@@ -11,10 +11,10 @@ import kotlinx.coroutines.flow.flow
 import org.junit.Before
 import org.junit.Test
 import wottrich.github.io.smartchecklist.domain.mapper.HomeDrawerChecklistItemModelMapper
-import wottrich.github.io.datasource.entity.NewChecklist
-import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
-import wottrich.github.io.datasource.entity.NewTask
-import wottrich.github.io.datasource.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
+import wottrich.github.io.smartchecklist.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 

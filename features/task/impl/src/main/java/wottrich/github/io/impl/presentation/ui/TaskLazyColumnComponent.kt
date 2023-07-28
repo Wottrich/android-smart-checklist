@@ -14,7 +14,7 @@ import androidx.compose.ui.res.stringResource
 import wottrich.github.io.smartchecklist.baseui.TextOneLine
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
-import wottrich.github.io.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.impl.R
 
 @Composable

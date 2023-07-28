@@ -1,4 +1,4 @@
-package wottrich.github.io.datasource.dao
+package wottrich.github.io.smartchecklist.datasource.dao
 
 import androidx.room.Dao
 import androidx.room.Delete
@@ -8,8 +8,8 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import wottrich.github.io.datasource.entity.NewChecklist
-import wottrich.github.io.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
+import wottrich.github.io.smartchecklist.datasource.entity.NewChecklistWithNewTasks
 
 /**
  * @author Wottrich

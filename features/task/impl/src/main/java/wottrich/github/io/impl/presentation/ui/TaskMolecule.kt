@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.IntSize
 import wottrich.github.io.smartchecklist.baseui.RowComponent
 import wottrich.github.io.smartchecklist.baseui.TextOneLine
 import wottrich.github.io.smartchecklist.baseui.icons.DeleteIcon
-import wottrich.github.io.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.impl.R.string
 
 @Composable

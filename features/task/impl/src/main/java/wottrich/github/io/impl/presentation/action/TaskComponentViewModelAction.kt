@@ -1,6 +1,6 @@
 package wottrich.github.io.impl.presentation.action
 
-import wottrich.github.io.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 
 interface TaskComponentViewModelAction {
     fun sendAction(action: Action)

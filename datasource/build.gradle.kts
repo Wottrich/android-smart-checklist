@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
-
 plugins {
     id("wottrich.github.io.smartchecklist.android.lib")
     alias(libs.plugins.ksp)
@@ -7,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "wottrich.github.io.datasource"
+    namespace = "wottrich.github.io.smartchecklist.datasource"
 }
 
 dependencies {
