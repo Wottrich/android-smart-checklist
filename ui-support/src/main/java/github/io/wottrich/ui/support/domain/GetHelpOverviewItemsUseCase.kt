@@ -1,8 +1,8 @@
 package github.io.wottrich.ui.support.domain
 
-import github.io.wottrich.coroutines.KotlinResultUseCase
-import github.io.wottrich.coroutines.UseCase
-import github.io.wottrich.coroutines.base.Result
+import wottrich.github.io.coroutines.KotlinResultUseCase
+import wottrich.github.io.coroutines.UseCase
+import wottrich.github.io.coroutines.base.Result
 import github.io.wottrich.ui.support.R
 import github.io.wottrich.ui.support.data.HelpOverviewItem
 

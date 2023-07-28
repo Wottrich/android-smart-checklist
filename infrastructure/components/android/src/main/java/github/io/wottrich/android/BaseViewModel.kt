@@ -2,7 +2,7 @@ package github.io.wottrich.android
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
+import wottrich.github.io.coroutines.dispatcher.DispatchersProviders
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.CoroutineScope

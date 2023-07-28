@@ -14,8 +14,8 @@ import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyCheck
 import github.io.wottrich.kotlin.SingleShotEventBus
 import github.io.wottrich.android.BaseViewModel
 import github.io.wottrich.uuid.UuidGenerator
-import github.io.wottrich.coroutines.base.onFailure
-import github.io.wottrich.coroutines.base.onSuccess
+import wottrich.github.io.coroutines.base.onFailure
+import wottrich.github.io.coroutines.base.onSuccess
 
 class QuicklyChecklistAddNewChecklistViewModel(
     private val addNewChecklistUseCase: AddNewChecklistUseCase,

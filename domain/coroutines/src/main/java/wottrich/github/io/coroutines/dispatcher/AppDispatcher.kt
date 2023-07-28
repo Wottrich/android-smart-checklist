@@ -1,4 +1,4 @@
-package github.io.wottrich.coroutines.dispatcher
+package wottrich.github.io.coroutines.dispatcher
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

@@ -1,7 +1,7 @@
 package github.io.wottrich.test.tools
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
+import wottrich.github.io.coroutines.dispatcher.DispatchersProviders
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.TestCoroutineDispatcher

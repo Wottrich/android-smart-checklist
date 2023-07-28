@@ -1,9 +1,9 @@
-package github.io.wottrich.coroutines
+package wottrich.github.io.coroutines
 
-import github.io.wottrich.coroutines.UseCase.Empty
-import github.io.wottrich.coroutines.UseCase.None
-import github.io.wottrich.coroutines.base.Result
-import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
+import wottrich.github.io.coroutines.UseCase.Empty
+import wottrich.github.io.coroutines.UseCase.None
+import wottrich.github.io.coroutines.base.Result
+import wottrich.github.io.coroutines.dispatcher.DispatchersProviders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect

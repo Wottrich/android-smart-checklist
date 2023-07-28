@@ -10,7 +10,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
-import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
+import wottrich.github.io.coroutines.dispatcher.DispatchersProviders
 
 /**
  * @author Wottrich

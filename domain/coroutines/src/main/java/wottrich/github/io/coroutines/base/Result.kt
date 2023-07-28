@@ -1,4 +1,4 @@
-package github.io.wottrich.coroutines.base
+package wottrich.github.io.coroutines.base
 
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind
@@ -79,7 +79,7 @@ class Result<out T> internal constructor(
          * Returns an instance that encapsulates the given [Throwable] [exception] as failure.
          */
         fun <T> failure(exception: Throwable): Result<T> =
-            Result(Result.Failure(exception))
+            Result(Failure(exception))
     }
 
     internal class Failure(val exception: Throwable) {

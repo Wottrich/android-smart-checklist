@@ -8,7 +8,7 @@ import wottrich.github.io.impl.domain.usecase.ChangeTasksCompletedStatusUseCase
 import wottrich.github.io.impl.domain.usecase.GetTasksUseCase
 import github.io.wottrich.kotlin.SingleShotEventBus
 import github.io.wottrich.android.BaseViewModel
-import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
+import wottrich.github.io.coroutines.dispatcher.DispatchersProviders
 
 class ChecklistSettingsViewModel(
     dispatchersProviders: DispatchersProviders,

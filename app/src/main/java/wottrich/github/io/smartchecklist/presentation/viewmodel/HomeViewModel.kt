@@ -3,9 +3,9 @@ package wottrich.github.io.smartchecklist.presentation.viewmodel
 import androidx.annotation.StringRes
 import github.io.wottrich.checklist.domain.DeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.GetChecklistAsTextUseCase
-import github.io.wottrich.coroutines.base.onFailure
-import github.io.wottrich.coroutines.base.onSuccess
-import github.io.wottrich.coroutines.dispatcher.DispatchersProviders
+import wottrich.github.io.coroutines.base.onFailure
+import wottrich.github.io.coroutines.base.onSuccess
+import wottrich.github.io.coroutines.dispatcher.DispatchersProviders
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector

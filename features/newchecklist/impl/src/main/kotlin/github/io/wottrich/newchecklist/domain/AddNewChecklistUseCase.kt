@@ -1,9 +1,9 @@
 package github.io.wottrich.newchecklist.domain
 
-import github.io.wottrich.coroutines.KotlinResultUseCase
+import wottrich.github.io.coroutines.KotlinResultUseCase
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
 import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
-import github.io.wottrich.coroutines.base.Result
+import wottrich.github.io.coroutines.base.Result
 
 class AddNewChecklistUseCase(private val checklistDao: ChecklistDao) :
     KotlinResultUseCase<NewChecklist, Long?>() {

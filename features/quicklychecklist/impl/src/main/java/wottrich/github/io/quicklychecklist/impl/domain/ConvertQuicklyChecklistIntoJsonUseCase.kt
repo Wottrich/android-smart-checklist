@@ -1,8 +1,8 @@
 package wottrich.github.io.quicklychecklist.impl.domain
 
 import com.google.gson.Gson
-import github.io.wottrich.coroutines.KotlinResultUseCase
-import github.io.wottrich.coroutines.base.Result
+import wottrich.github.io.coroutines.KotlinResultUseCase
+import wottrich.github.io.coroutines.base.Result
 import wottrich.github.io.smartchecklist.datasource.entity.QuicklyChecklist
 
 class ConvertQuicklyChecklistIntoJsonUseCase : KotlinResultUseCase<QuicklyChecklist, String>() {

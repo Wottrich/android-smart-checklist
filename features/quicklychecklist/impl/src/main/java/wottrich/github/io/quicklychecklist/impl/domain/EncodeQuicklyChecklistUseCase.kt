@@ -1,8 +1,8 @@
 package wottrich.github.io.quicklychecklist.impl.domain
 
 import android.util.Base64
-import github.io.wottrich.coroutines.KotlinResultUseCase
-import github.io.wottrich.coroutines.base.Result
+import wottrich.github.io.coroutines.KotlinResultUseCase
+import wottrich.github.io.coroutines.base.Result
 
 class EncodeQuicklyChecklistUseCase : KotlinResultUseCase<String, String>() {
     override suspend fun execute(params: String): Result<String> {

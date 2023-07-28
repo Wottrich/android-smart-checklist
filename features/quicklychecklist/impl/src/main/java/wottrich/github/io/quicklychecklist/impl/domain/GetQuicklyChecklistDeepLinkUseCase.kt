@@ -1,7 +1,7 @@
 package wottrich.github.io.quicklychecklist.impl.domain
 
-import github.io.wottrich.coroutines.KotlinResultUseCase
-import github.io.wottrich.coroutines.base.Result
+import wottrich.github.io.coroutines.KotlinResultUseCase
+import wottrich.github.io.coroutines.base.Result
 import wottrich.github.io.quicklychecklist.impl.constants.QuicklyChecklistConstants
 
 class GetQuicklyChecklistDeepLinkUseCase(

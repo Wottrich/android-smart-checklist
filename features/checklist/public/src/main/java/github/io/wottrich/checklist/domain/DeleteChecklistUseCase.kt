@@ -1,6 +1,6 @@
 package github.io.wottrich.checklist.domain
 
-import github.io.wottrich.coroutines.KotlinResultUseCase
-import github.io.wottrich.coroutines.UseCase
+import wottrich.github.io.coroutines.KotlinResultUseCase
+import wottrich.github.io.coroutines.UseCase
 
 abstract class DeleteChecklistUseCase : KotlinResultUseCase<String, UseCase.Empty>()

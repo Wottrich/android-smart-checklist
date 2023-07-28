@@ -1,9 +1,9 @@
 package wottrich.github.io.impl.domain.usecase
 
-import github.io.wottrich.coroutines.KotlinResultUseCase
-import github.io.wottrich.coroutines.UseCase
-import github.io.wottrich.coroutines.base.Result
-import github.io.wottrich.coroutines.successEmptyResult
+import wottrich.github.io.coroutines.KotlinResultUseCase
+import wottrich.github.io.coroutines.UseCase
+import wottrich.github.io.coroutines.base.Result
+import wottrich.github.io.coroutines.successEmptyResult
 import wottrich.github.io.smartchecklist.datasource.dao.TaskDao
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.impl.domain.usecase.ChangeTasksCompletedStatusUseCase.Params
