@@ -3,7 +3,7 @@ package wottrich.github.io.smartchecklist.di
 import wottrich.github.io.smartchecklist.checklist.di.checklistModule
 import wottrich.github.io.smartchecklist.coroutines.di.coroutinesModule
 import wottrich.github.io.smartchecklist.newchecklist.di.newChecklistModule
-import github.io.wottrich.ui.support.di.supportModule
+import wottrich.github.io.smartchecklist.uisupport.di.supportModule
 import wottrich.github.io.smartchecklist.datasource.injection.databaseModule
 import wottrich.github.io.smartchecklist.di.taskModule
 import wottrich.github.io.smartchecklist.quicklychecklist.di.quicklyChecklistModule

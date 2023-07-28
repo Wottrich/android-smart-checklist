@@ -1,7 +1,7 @@
-package github.io.wottrich.ui.support.presentation.viewmodels
+package wottrich.github.io.smartchecklist.uisupport.presentation.viewmodels
 
-import github.io.wottrich.ui.support.data.HelpOverviewItem
-import github.io.wottrich.ui.support.domain.GetHelpOverviewItemsUseCase
+import wottrich.github.io.smartchecklist.uisupport.data.HelpOverviewItem
+import wottrich.github.io.smartchecklist.uisupport.domain.GetHelpOverviewItemsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import wottrich.github.io.smartchecklist.android.BaseViewModel

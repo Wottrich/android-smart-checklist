@@ -1,10 +1,10 @@
-package github.io.wottrich.ui.support.domain
+package wottrich.github.io.smartchecklist.uisupport.domain
 
 import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
 import wottrich.github.io.smartchecklist.coroutines.UseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
-import github.io.wottrich.ui.support.R
-import github.io.wottrich.ui.support.data.HelpOverviewItem
+import wottrich.github.io.smartchecklist.uisupport.R
+import wottrich.github.io.smartchecklist.uisupport.data.HelpOverviewItem
 
 class GetHelpOverviewItemsUseCase : KotlinResultUseCase<UseCase.None, List<HelpOverviewItem>>() {
     override suspend fun execute(params: UseCase.None): Result<List<HelpOverviewItem>> {

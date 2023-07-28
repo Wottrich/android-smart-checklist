@@ -1,4 +1,4 @@
-package github.io.wottrich.ui.support.presentation.ui
+package wottrich.github.io.smartchecklist.uisupport.presentation.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -17,8 +17,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import github.io.wottrich.ui.support.R
-import github.io.wottrich.ui.support.presentation.viewmodels.HelpOverviewViewModel
+import wottrich.github.io.smartchecklist.uisupport.R
+import wottrich.github.io.smartchecklist.uisupport.presentation.viewmodels.HelpOverviewViewModel
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.baseui.TextOneLine
 import wottrich.github.io.smartchecklist.baseui.TopBarContent

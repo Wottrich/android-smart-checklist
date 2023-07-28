@@ -1,10 +1,10 @@
-package github.io.wottrich.ui.support.navigation
+package wottrich.github.io.smartchecklist.uisupport.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.navigation
-import github.io.wottrich.ui.support.presentation.ui.HelpOverviewScreen
+import wottrich.github.io.smartchecklist.uisupport.presentation.ui.HelpOverviewScreen
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
 
 @ExperimentalAnimationApi

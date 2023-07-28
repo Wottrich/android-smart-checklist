@@ -25,8 +25,8 @@ import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChe
 import wottrich.github.io.smartchecklist.newchecklist.navigation.newChecklistNavigation
 import wottrich.github.io.smartchecklist.uiaboutus.data.model.AboutUsContentModel
 import wottrich.github.io.smartchecklist.uiaboutus.presentation.ui.AboutUsScreen
-import github.io.wottrich.ui.support.navigation.NavigationSupport
-import github.io.wottrich.ui.support.navigation.supportNavigation
+import wottrich.github.io.smartchecklist.uisupport.navigation.NavigationSupport
+import wottrich.github.io.smartchecklist.uisupport.navigation.supportNavigation
 import kotlinx.coroutines.InternalCoroutinesApi
 import wottrich.github.io.smartchecklist.BuildConfig
 import wottrich.github.io.smartchecklist.presentation.activity.NavigationHome.Destinations

@@ -1,4 +1,4 @@
-package github.io.wottrich.ui.support.data
+package wottrich.github.io.smartchecklist.uisupport.data
 
 import androidx.annotation.StringRes
 
