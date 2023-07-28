@@ -1,7 +1,7 @@
 package wottrich.github.io.smartchecklist.di
 
 import github.io.wottrich.checklist.di.checklistModule
-import wottrich.github.io.coroutines.di.coroutinesModule
+import wottrich.github.io.smartchecklist.coroutines.di.coroutinesModule
 import github.io.wottrich.newchecklist.di.newChecklistModule
 import github.io.wottrich.ui.support.di.supportModule
 import wottrich.github.io.smartchecklist.datasource.injection.databaseModule

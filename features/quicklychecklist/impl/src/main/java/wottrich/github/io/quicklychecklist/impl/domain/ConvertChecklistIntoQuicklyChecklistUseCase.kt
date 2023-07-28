@@ -1,8 +1,8 @@
 package wottrich.github.io.quicklychecklist.impl.domain
 
 import com.google.gson.Gson
-import wottrich.github.io.coroutines.KotlinResultUseCase
-import wottrich.github.io.coroutines.base.Result
+import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
+import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.datasource.entity.NewChecklistWithNewTasks
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.datasource.entity.QuicklyChecklist

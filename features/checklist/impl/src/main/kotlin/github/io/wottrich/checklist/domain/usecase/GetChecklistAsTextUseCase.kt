@@ -1,7 +1,7 @@
 package github.io.wottrich.checklist.domain.usecase
 
 import github.io.wottrich.checklist.domain.GetChecklistAsTextUseCase
-import wottrich.github.io.coroutines.base.Result
+import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
 
 class GetChecklistAsTextUseCaseImpl(

@@ -2,8 +2,8 @@ package wottrich.github.io.smartchecklist.presentation.viewmodel
 
 import github.io.wottrich.checklist.domain.DeleteChecklistUseCase
 import github.io.wottrich.checklist.domain.UpdateSelectedChecklistUseCase
-import wottrich.github.io.coroutines.base.onSuccess
-import wottrich.github.io.coroutines.dispatcher.DispatchersProviders
+import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
+import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector

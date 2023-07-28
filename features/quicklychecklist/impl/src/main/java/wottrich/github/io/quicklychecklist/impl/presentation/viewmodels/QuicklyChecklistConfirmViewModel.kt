@@ -5,8 +5,8 @@ import wottrich.github.io.quicklychecklist.impl.domain.GetQuicklyChecklistDeepLi
 import wottrich.github.io.quicklychecklist.impl.presentation.states.QuicklyChecklistConfirmUiEffect
 import github.io.wottrich.kotlin.SingleShotEventBus
 import github.io.wottrich.android.BaseViewModel
-import wottrich.github.io.coroutines.base.onFailure
-import wottrich.github.io.coroutines.base.onSuccess
+import wottrich.github.io.smartchecklist.coroutines.base.onFailure
+import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 
 class QuicklyChecklistConfirmViewModel(
     private val getQuicklyChecklistDeepLinkUseCase: GetQuicklyChecklistDeepLinkUseCase,

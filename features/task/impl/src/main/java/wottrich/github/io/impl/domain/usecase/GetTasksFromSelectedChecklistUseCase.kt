@@ -1,8 +1,8 @@
 package wottrich.github.io.impl.domain.usecase
 
-import wottrich.github.io.coroutines.FlowableUseCase
-import wottrich.github.io.coroutines.UseCase
-import wottrich.github.io.coroutines.base.Result
+import wottrich.github.io.smartchecklist.coroutines.FlowableUseCase
+import wottrich.github.io.smartchecklist.coroutines.UseCase
+import wottrich.github.io.smartchecklist.coroutines.base.Result
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.mapNotNull

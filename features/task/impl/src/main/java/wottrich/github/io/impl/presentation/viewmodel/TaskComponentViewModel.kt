@@ -23,8 +23,8 @@ import wottrich.github.io.impl.presentation.state.TaskComponentUiState
 import wottrich.github.io.impl.presentation.viewmodel.TaskComponentViewModelUiEffect.OnError
 import github.io.wottrich.kotlin.SingleShotEventBus
 import github.io.wottrich.android.BaseViewModel
-import wottrich.github.io.coroutines.base.onFailure
-import wottrich.github.io.coroutines.base.onSuccess
+import wottrich.github.io.smartchecklist.coroutines.base.onFailure
+import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 
 @OptIn(InternalCoroutinesApi::class)
 class TaskComponentViewModel(

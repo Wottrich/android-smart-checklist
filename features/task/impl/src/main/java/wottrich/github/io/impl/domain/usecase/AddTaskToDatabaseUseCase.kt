@@ -1,7 +1,7 @@
 package wottrich.github.io.impl.domain.usecase
 
-import wottrich.github.io.coroutines.KotlinResultUseCase
-import wottrich.github.io.coroutines.base.Result
+import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
+import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.datasource.dao.TaskDao
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.impl.domain.usecase.AddTaskToDatabaseUseCase.Params

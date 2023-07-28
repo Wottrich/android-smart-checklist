@@ -1,4 +1,4 @@
-package wottrich.github.io.coroutines.base
+package wottrich.github.io.smartchecklist.coroutines.base
 
 import kotlin.contracts.ExperimentalContracts
 import kotlin.contracts.InvocationKind

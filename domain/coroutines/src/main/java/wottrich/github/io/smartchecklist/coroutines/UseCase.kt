@@ -1,9 +1,9 @@
-package wottrich.github.io.coroutines
+package wottrich.github.io.smartchecklist.coroutines
 
-import wottrich.github.io.coroutines.UseCase.Empty
-import wottrich.github.io.coroutines.UseCase.None
-import wottrich.github.io.coroutines.base.Result
-import wottrich.github.io.coroutines.dispatcher.DispatchersProviders
+import wottrich.github.io.smartchecklist.coroutines.UseCase.Empty
+import wottrich.github.io.smartchecklist.coroutines.UseCase.None
+import wottrich.github.io.smartchecklist.coroutines.base.Result
+import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collect
