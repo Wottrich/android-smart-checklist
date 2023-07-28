@@ -1,4 +1,4 @@
-package github.io.wottrich.common.ui.compose.components
+package github.io.wottrich.smartchecklist.commonuicompose.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.size

@@ -12,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import github.io.wottrich.common.ui.compose.components.CircularProgressIndicatorSizable
-import github.io.wottrich.common.ui.compose.utils.pressProgressionInteractionState
+import github.io.wottrich.smartchecklist.commonuicompose.components.CircularProgressIndicatorSizable
+import github.io.wottrich.smartchecklist.commonuicompose.utils.pressProgressionInteractionState
 import wottrich.github.io.smartchecklist.baseui.icons.DeleteIcon
 import wottrich.github.io.impl.R.string
 

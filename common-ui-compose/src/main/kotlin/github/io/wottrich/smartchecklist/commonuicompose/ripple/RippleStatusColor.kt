@@ -1,4 +1,4 @@
-package github.io.wottrich.common.ui.compose.ripple
+package github.io.wottrich.smartchecklist.commonuicompose.ripple
 
 import androidx.compose.material.ripple.RippleAlpha
 import androidx.compose.material.ripple.RippleTheme
