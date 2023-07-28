@@ -33,7 +33,7 @@ android {
             add("META-INF/NOTICE.txt")
         }
     }
-    namespace = "wottrich.github.io.androidsmartchecklist"
+    namespace = "wottrich.github.io.smartchecklist"
 }
 
 dependencies {
