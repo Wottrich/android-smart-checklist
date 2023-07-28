@@ -9,7 +9,7 @@ import wottrich.github.io.smartchecklist.domain.usecase.ObserveSimpleSelectedChe
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeViewModel
-import wottrich.github.io.impl.presentation.viewmodel.TaskComponentViewModel
+import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
 
 /**
  * @author Wottrich

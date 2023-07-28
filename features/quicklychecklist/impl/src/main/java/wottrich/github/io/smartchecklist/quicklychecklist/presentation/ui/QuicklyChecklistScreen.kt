@@ -26,7 +26,7 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
-import wottrich.github.io.impl.presentation.ui.TaskLazyColumnComponent
+import wottrich.github.io.smartchecklist.presentation.ui.TaskLazyColumnComponent
 import wottrich.github.io.smartchecklist.quicklychecklist.R
 import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistUiEffect.InvalidChecklist

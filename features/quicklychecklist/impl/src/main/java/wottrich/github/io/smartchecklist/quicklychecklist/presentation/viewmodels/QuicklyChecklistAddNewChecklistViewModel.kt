@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.datasource.entity.QuicklyChecklist
-import wottrich.github.io.impl.domain.usecase.AddManyTasksUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.AddManyTasksUseCase
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistAddNewChecklistUiEffect
 import github.io.wottrich.kotlin.SingleShotEventBus
 import github.io.wottrich.android.BaseViewModel

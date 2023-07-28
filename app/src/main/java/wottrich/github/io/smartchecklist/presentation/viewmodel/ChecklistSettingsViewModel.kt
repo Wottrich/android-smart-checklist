@@ -4,8 +4,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.CHECK_ALL
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
-import wottrich.github.io.impl.domain.usecase.ChangeTasksCompletedStatusUseCase
-import wottrich.github.io.impl.domain.usecase.GetTasksUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.ChangeTasksCompletedStatusUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.GetTasksUseCase
 import github.io.wottrich.kotlin.SingleShotEventBus
 import github.io.wottrich.android.BaseViewModel
 import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
