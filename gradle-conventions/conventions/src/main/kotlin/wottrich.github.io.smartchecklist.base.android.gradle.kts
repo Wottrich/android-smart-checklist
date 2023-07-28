@@ -52,6 +52,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 
 kotlinExtension.jvmToolchain {
     languageVersion.set(JavaLanguageVersion.of(17))
+    vendor.set(JvmVendorSpec.AZUL)
 }
 
 dependencies {
