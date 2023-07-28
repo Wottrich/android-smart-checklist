@@ -22,8 +22,8 @@ import wottrich.github.io.smartchecklist.presentation.ui.model.SimpleChecklistMo
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.quicklychecklist.domain.ConvertChecklistIntoQuicklyChecklistUseCase
 import wottrich.github.io.smartchecklist.quicklychecklist.domain.GetQuicklyChecklistDeepLinkUseCase
-import github.io.wottrich.kotlin.SingleShotEventBus
-import github.io.wottrich.android.BaseViewModel
+import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
+import wottrich.github.io.smartchecklist.android.BaseViewModel
 
 /**
  * @author Wottrich

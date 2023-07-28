@@ -4,7 +4,7 @@ import github.io.wottrich.ui.support.data.HelpOverviewItem
 import github.io.wottrich.ui.support.domain.GetHelpOverviewItemsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import github.io.wottrich.android.BaseViewModel
+import wottrich.github.io.smartchecklist.android.BaseViewModel
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
 

@@ -3,8 +3,8 @@ package wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmode
 import kotlinx.coroutines.flow.Flow
 import wottrich.github.io.smartchecklist.quicklychecklist.domain.GetQuicklyChecklistDeepLinkUseCase
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistConfirmUiEffect
-import github.io.wottrich.kotlin.SingleShotEventBus
-import github.io.wottrich.android.BaseViewModel
+import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
+import wottrich.github.io.smartchecklist.android.BaseViewModel
 import wottrich.github.io.smartchecklist.coroutines.base.onFailure
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 

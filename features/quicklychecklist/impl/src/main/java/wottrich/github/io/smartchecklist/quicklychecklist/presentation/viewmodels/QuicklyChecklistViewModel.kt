@@ -3,8 +3,8 @@ package wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmode
 import androidx.compose.runtime.mutableStateListOf
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import github.io.wottrich.android.BaseViewModel
-import github.io.wottrich.kotlin.SingleShotEventBus
+import wottrich.github.io.smartchecklist.android.BaseViewModel
+import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

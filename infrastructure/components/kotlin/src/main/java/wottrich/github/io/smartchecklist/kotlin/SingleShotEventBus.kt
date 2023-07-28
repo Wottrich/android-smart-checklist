@@ -1,4 +1,4 @@
-package github.io.wottrich.kotlin
+package wottrich.github.io.smartchecklist.kotlin
 
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
