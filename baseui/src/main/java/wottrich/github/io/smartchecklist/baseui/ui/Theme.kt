@@ -12,7 +12,8 @@ import wottrich.github.io.smartchecklist.baseui.ui.pallet.lightColors
 
 @Composable
 fun ApplicationTheme(
-    colors: SmartChecklistColors = getColorsBySystem(),
+    isSystemInDarkTheme: Boolean = isSystemInDarkTheme(),
+    colors: SmartChecklistColors = getColorsBySystem(isSystemInDarkTheme),
     content: @Composable () -> Unit
 ) {
     val rememberedColors = remember {
@@ -49,8 +50,8 @@ fun SmartChecklistColors.toMaterialTheme(): Colors {
 }
 
 @Composable
-fun getColorsBySystem(): SmartChecklistColors {
-    return if (isSystemInDarkTheme()) {
+fun getColorsBySystem(isSystemInDarkTheme: Boolean): SmartChecklistColors {
+    return if (isSystemInDarkTheme) {
         darkColors()
     } else {
         lightColors()

@@ -49,6 +49,8 @@ fun HomeScreen(
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onOpenEditChecklistTagsScreen: (String) -> Unit,
+    onTagOverviewClicked: () -> Unit
 ) {
     ApplicationTheme {
         Screen(
@@ -56,7 +58,9 @@ fun HomeScreen(
             onShareText = onShareText,
             onChecklistSettings = onChecklistSettings,
             onAboutUsClick = onAboutUsClick,
-            onHelpClick = onHelpClick
+            onHelpClick = onHelpClick,
+            onOpenEditChecklistTagsScreen = onOpenEditChecklistTagsScreen,
+            onTagOverviewClicked = onTagOverviewClicked
         )
     }
 }
@@ -68,6 +72,8 @@ private fun Screen(
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onOpenEditChecklistTagsScreen: (String) -> Unit,
+    onTagOverviewClicked: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -80,13 +86,13 @@ private fun Screen(
     var snackbarColor by remember { mutableStateOf(defaultColor) }
 
     HomeScreenEffects(
-        coroutineScope = coroutineScope,
         snackbarHostState = scaffoldState.snackbarHostState,
         effects = homeViewModel.uiEffects,
         updateSnackbarColor = {
             snackbarColor = it
         },
-        onShareQuicklyChecklist = onShareText
+        onShareQuicklyChecklist = onShareText,
+        onOpenEditChecklistTagsScreen = onOpenEditChecklistTagsScreen
     )
 
     HomeScaffold(
@@ -100,6 +106,7 @@ private fun Screen(
                 onAddNewChecklist = onAddNewChecklist,
                 onAboutUsClick = onAboutUsClick,
                 onHelpClick = onHelpClick,
+                onTagOverviewClicked = onTagOverviewClicked
             )
         },
         onTitleContent = {
@@ -148,6 +155,7 @@ private fun DrawerContent(
     onAddNewChecklist: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onTagOverviewClicked: () -> Unit
 ) {
     fun closeDrawerState() {
         rememberCoroutineScope.launch {
@@ -170,6 +178,7 @@ private fun DrawerContent(
             onHelpClick()
             closeDrawerState()
         },
+        onTagOverviewClicked = onTagOverviewClicked
     )
 }
 

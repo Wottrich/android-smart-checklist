@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 
 @Composable
@@ -100,9 +101,23 @@ private fun RowScope.RightContent(
 @Preview(showBackground = true)
 @Composable
 fun RowComponentPreview() {
-    RowComponent(
-        leftContent = {
-            Text(text = "Text")
-        }
-    )
+    ApplicationTheme(isSystemInDarkTheme = false) {
+        RowComponent(
+            leftContent = {
+                Text(text = "Text")
+            }
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun RowComponentPreviewDarkMode() {
+    ApplicationTheme(isSystemInDarkTheme = true) {
+        RowComponent(
+            leftContent = {
+                Text(text = "Text")
+            }
+        )
+    }
 }

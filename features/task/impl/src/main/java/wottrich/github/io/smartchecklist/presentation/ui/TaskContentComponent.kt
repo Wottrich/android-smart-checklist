@@ -34,6 +34,7 @@ import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentVie
 fun TaskContentComponent(
     showHeaderComponent: Boolean = true,
     showDeleteIcon: Boolean = true,
+    suggestionContent: @Composable ColumnScope.() -> Unit,
     onUpdateClicked: (NewTask) -> Unit,
     onError: (stringRes: Int) -> Unit,
     viewModel: TaskComponentViewModel = getViewModel()
@@ -62,6 +63,7 @@ fun TaskContentComponent(
                 viewModel.sendAction(TaskComponentViewModelAction.Action.AddTask)
             }
         )
+        suggestionContent()
         TaskList(
             tasks = viewModel.tasks,
             showDeleteIcon = showDeleteIcon,

@@ -9,4 +9,5 @@ sealed class HomeUiEffects {
     object SnackbarChecklistDelete : HomeUiEffects()
     data class SnackbarError(@StringRes val errorMessage: Int) : HomeUiEffects()
     data class OnShareQuicklyChecklist(val quicklyChecklistJson: String) : HomeUiEffects()
+    data class OpenEditChecklistTagsScreen(val checklistUuid: String) : HomeUiEffects()
 }

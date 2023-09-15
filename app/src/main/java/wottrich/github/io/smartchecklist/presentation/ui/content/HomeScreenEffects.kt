@@ -20,11 +20,11 @@ import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun HomeScreenEffects(
-    coroutineScope: CoroutineScope,
     snackbarHostState: SnackbarHostState,
     effects: Flow<HomeUiEffects>,
     updateSnackbarColor: (Color) -> Unit,
-    onShareQuicklyChecklist: (String) -> Unit
+    onShareQuicklyChecklist: (String) -> Unit,
+    onOpenEditChecklistTagsScreen: (String) -> Unit
 ) {
     val uncompletedTaskMessage = stringResource(id = string.snackbar_uncompleted_task_message)
     val completeTaskMessage = stringResource(id = string.snackbar_completed_task_message)
@@ -33,14 +33,12 @@ fun HomeScreenEffects(
     val positiveColor = SmartChecklistTheme.colors.status.positive
     val negativeColor = SmartChecklistTheme.colors.status.negative
     LaunchedEffect(key1 = effects) {
-        fun showSnackbar(message: String, color: Color, shouldRemoveLastSnackbar: Boolean = false) {
+        suspend fun showSnackbar(message: String, color: Color, shouldRemoveLastSnackbar: Boolean = false) {
             if (shouldRemoveLastSnackbar) {
                 snackbarHostState.currentSnackbarData?.dismiss()
             }
             updateSnackbarColor(color)
-            coroutineScope.launch {
-                snackbarHostState.showSnackbar(message)
-            }
+            snackbarHostState.showSnackbar(message)
         }
 
         effects.collect {
@@ -60,6 +58,7 @@ fun HomeScreenEffects(
                 is SnackbarError -> {
                     showSnackbar(context.getString(it.errorMessage), negativeColor, true)
                 }
+                is HomeUiEffects.OpenEditChecklistTagsScreen -> onOpenEditChecklistTagsScreen(it.checklistUuid)
             }
         }
     }

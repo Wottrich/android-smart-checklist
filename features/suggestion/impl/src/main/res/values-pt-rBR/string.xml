@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="get_all_tag_suggestion_failed">Aconteceu um problema ao tentar carregar as tags com as sugestões</string>
+    <string name="tag_component_suggestion_label">%s sugestões</string>
+    <string name="tag_setting_open_detail_content_description">Abrir detalhes da tag %s</string>
+    <string name="tag_selectable_checkbox_check_to_uncheck_content_description">Clique para remover a tag %s da checklist</string>
+    <string name="tag_selectable_checkbox_uncheck_to_check_content_description">Clique para adicionar a tag %s na checklist</string>
+    <string name="tags_overview_empty_state">Clique em qualquer lugar da tela para adicionar uma tag nova.</string>
+    <string name="tags_checklist_tags_bottom_sheet_title">Tags da checklist</string>
+    <string name="tags_overview_toolbar_title">Suas tags</string>
+    <string name="tags_register_screen_tag_text_field_placeholder_label">Nome da sua tag</string>
+    <string name="tags_register_screen_suggestion_text_field_label">Sugestão da sua tag</string>
+    <string name="tags_register_screen_suggestion_text_field_placeholder">Digite uma sugestão para sua checklist</string>
+    <string name="tags_register_screen_toolbar_title">Nova tag</string>
+</resources>

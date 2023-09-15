@@ -75,6 +75,7 @@ class HomeViewModel(
             HomeUiActions.Action.OnShareQuicklyChecklistAction -> onShareQuicklyChecklist()
             is HomeUiActions.Action.OnSnackbarError -> onSnackbarError(action.message)
             HomeUiActions.Action.OnShareChecklistAsText -> onShareChecklistAsText()
+            HomeUiActions.Action.OnEditChecklistTags -> onEditChecklistTags()
         }
     }
 
@@ -131,6 +132,15 @@ class HomeViewModel(
                     _uiEffects.emit(HomeUiEffects.SnackbarError(QuicklyChecklistR.string.quickly_checklist_share_error))
                 }
             }
+        }
+    }
+
+    private fun onEditChecklistTags() {
+        launchIO {
+            val checklist = checkNotNull(homeStateFlow.value.checklist) {
+                "You must have a checklist to edit tags"
+            }
+            _uiEffects.emit(HomeUiEffects.OpenEditChecklistTagsScreen(checklist.uuid))
         }
     }
 

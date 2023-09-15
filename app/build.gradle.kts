@@ -19,6 +19,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
@@ -58,6 +59,7 @@ dependencies {
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))
     implementation(project(path = ":features:quicklychecklist:impl"))
+    implementation(project(path = ":features:suggestion:impl"))
     implementation(project(path = ":ui-aboutus"))
     implementation(project(path = ":ui-support"))
     testImplementation(project(path = ":test-tools"))

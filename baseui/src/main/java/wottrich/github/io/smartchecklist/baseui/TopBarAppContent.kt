@@ -7,10 +7,10 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun TopBarContent(
-    title: @Composable () -> Unit,
     navigationIcon: @Composable () -> Unit = {},
     navigationIconAction: () -> Unit = {},
-    actionsContent: @Composable (RowScope.() -> Unit)? = null
+    actionsContent: @Composable (RowScope.() -> Unit)? = null,
+    title: @Composable () -> Unit,
 ) {
     TopAppBar(
         title = {

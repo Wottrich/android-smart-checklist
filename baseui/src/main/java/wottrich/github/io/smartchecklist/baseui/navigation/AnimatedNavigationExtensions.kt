@@ -10,7 +10,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
-import com.google.accompanist.navigation.animation.composable
+import androidx.navigation.compose.composable
 
 private const val ANIMATION_DURATION_IN_MILLS = 500
 
@@ -26,24 +26,32 @@ fun NavGraphBuilder.defaultComposableAnimation(
         arguments = arguments,
         deepLinks = deepLinks,
         enterTransition = {
-            slideInHorizontally(initialOffsetX = { 1000 }, animationSpec = tween(
-                ANIMATION_DURATION_IN_MILLS
-            ))
+            slideInHorizontally(
+                initialOffsetX = { 1000 }, animationSpec = tween(
+                    ANIMATION_DURATION_IN_MILLS
+                )
+            )
         },
         popEnterTransition = {
-            slideInHorizontally(initialOffsetX = { -1000 }, animationSpec = tween(
-                ANIMATION_DURATION_IN_MILLS
-            ))
+            slideInHorizontally(
+                initialOffsetX = { -1000 }, animationSpec = tween(
+                    ANIMATION_DURATION_IN_MILLS
+                )
+            )
         },
         exitTransition = {
-            slideOutHorizontally(targetOffsetX = { -1000 }, animationSpec = tween(
-                ANIMATION_DURATION_IN_MILLS
-            ))
+            slideOutHorizontally(
+                targetOffsetX = { -1000 }, animationSpec = tween(
+                    ANIMATION_DURATION_IN_MILLS
+                )
+            )
         },
         popExitTransition = {
-            slideOutHorizontally(targetOffsetX = { 1000 }, animationSpec = tween(
-                ANIMATION_DURATION_IN_MILLS
-            ))
+            slideOutHorizontally(
+                targetOffsetX = { 1000 }, animationSpec = tween(
+                    ANIMATION_DURATION_IN_MILLS
+                )
+            )
         }
     ) {
         content(it)

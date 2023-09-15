@@ -7,6 +7,7 @@ import wottrich.github.io.smartchecklist.domain.mapper.SimpleChecklistModelMappe
 import wottrich.github.io.smartchecklist.domain.usecase.GetChecklistDrawerUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.ObserveSimpleSelectedChecklistModelUseCase
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
+import wottrich.github.io.smartchecklist.presentation.viewmodel.EditChecklistTagContentViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
@@ -51,5 +52,8 @@ val featureHomeModules = module {
             getChangeTaskStatusUseCase = get(),
             getDeleteTaskUseCase = get()
         )
+    }
+    viewModel {
+        EditChecklistTagContentViewModel()
     }
 }

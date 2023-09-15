@@ -10,6 +10,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
+    implementation(project(":features:suggestion:contract"))
     implementation(libs.bundles.koin.default)
     implementation(libs.bundles.room.default)
     ksp(libs.room.compiler)

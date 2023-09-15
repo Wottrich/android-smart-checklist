@@ -13,5 +13,6 @@ interface HomeUiActions {
         object OnShareQuicklyChecklistAction : Action()
         data class OnSnackbarError(@StringRes val message: Int) : Action()
         object OnShareChecklistAsText : Action()
+        object OnEditChecklistTags : Action()
     }
 }

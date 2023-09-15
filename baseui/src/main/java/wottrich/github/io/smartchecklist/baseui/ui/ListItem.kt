@@ -103,6 +103,14 @@ fun ListItemEndTextContent(
     RowTextContent(primary = primary, secondary = secondary, alignment = Alignment.End)
 }
 
+@Composable
+fun CenterTextContent(
+    primary: RowDefaults.TextState,
+    secondary: RowDefaults.TextState? = null
+) {
+    RowTextContent(primary = primary, secondary = secondary, alignment = Alignment.CenterHorizontally)
+}
+
 
 @Composable
 private fun RowTextContent(

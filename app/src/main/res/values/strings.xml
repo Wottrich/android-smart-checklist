@@ -55,4 +55,9 @@
     <string name="snackbar_completed_task_message">moved to completed</string>
     <string name="snackbar_checklist_deleted">Checklist deleted with success.</string>
 
+    <!--  Suggestion  -->
+    <string name="suggestion_add_tag_content_description">Add new tag</string>
+    <string name="suggestion_tag_item_drawer_content_description">Open your tags overview screen</string>
+    <string name="checklist_edit_tags_content_description">Open tags registered at this checklist</string>
+
 </resources>

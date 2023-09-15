@@ -11,12 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import androidx.navigation.plusAssign
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
@@ -36,6 +36,8 @@ import wottrich.github.io.smartchecklist.presentation.ui.content.HomeScreen
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
 import wottrich.github.io.smartchecklist.quicklychecklist.navigation.quicklyChecklistNavigation
 import wottrich.github.io.smartchecklist.intent.shareIntentText
+import wottrich.github.io.smartchecklist.suggestion.navigation.SuggestionNavigation
+import wottrich.github.io.smartchecklist.suggestion.navigation.suggestionNavigation
 
 class InvalidChecklistId : Exception("Checklist id must not be null")
 
@@ -48,7 +50,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberAnimatedNavController().also {
+            val navController = rememberNavController().also {
                 sharedNavHostController = it
             }
             val bottomSheetNavigator = rememberBottomSheetNavigator()
@@ -78,7 +80,7 @@ class HomeActivity : AppCompatActivity() {
 
     @Composable
     private fun AppNavigator(navHostController: NavHostController) {
-        AnimatedNavHost(
+        NavHost(
             navController = navHostController,
             startDestination = NavigationHome.route,
             builder = {
@@ -91,6 +93,7 @@ class HomeActivity : AppCompatActivity() {
                         shareIntentText(it)
                     }
                 )
+                suggestionNavigation(navHostController)
             }
         )
     }
@@ -119,6 +122,15 @@ class HomeActivity : AppCompatActivity() {
                     },
                     onHelpClick = {
                         navHostController.navigate(NavigationSupport.route)
+                    },
+                    onOpenEditChecklistTagsScreen = { checklistUuid ->
+                        SuggestionNavigation.Destinations.ChecklistTagsScreen.navigate(
+                            navHostController,
+                            checklistUuid = checklistUuid
+                        )
+                    },
+                    onTagOverviewClicked = {
+                        navHostController.navigate(SuggestionNavigation.route)
                     }
                 )
             }

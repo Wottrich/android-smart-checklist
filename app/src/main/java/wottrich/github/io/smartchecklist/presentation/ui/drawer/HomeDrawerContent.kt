@@ -28,7 +28,6 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.R
-import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 import wottrich.github.io.smartchecklist.checklist.R as ChecklistR
 import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
 import wottrich.github.io.smartchecklist.presentation.ui.shared.EditIconStateContent
@@ -55,6 +54,7 @@ fun HomeDrawerStatefulContent(
     onAddNewChecklist: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onTagOverviewClicked: () -> Unit,
     viewModel: HomeDrawerViewModel = getViewModel()
 ) {
     val state by viewModel.drawerStateFlow.collectAsState()
@@ -82,6 +82,7 @@ fun HomeDrawerStatefulContent(
         },
         onAboutUsClick = onAboutUsClick,
         onHelpClick = onHelpClick,
+        onTagOverviewClicked = onTagOverviewClicked
     )
 
 }
@@ -95,6 +96,7 @@ private fun HomeDrawerStateless(
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onTagOverviewClicked: () -> Unit
 ) {
     when (state) {
         is HomeDrawerState.Loading -> CircularProgressIndicator()
@@ -107,6 +109,7 @@ private fun HomeDrawerStateless(
             onEditMode = onEditMode,
             onAboutUsClick = onAboutUsClick,
             onHelpClick = onHelpClick,
+            onTagOverviewClicked = onTagOverviewClicked
         )
     }
 }
@@ -121,6 +124,7 @@ private fun HomeDrawerSuccessContent(
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onTagOverviewClicked: () -> Unit
 ) {
     val buttonContentDescription = stringResource(id = R.string.floating_action_content_description)
     Column(
@@ -181,6 +185,7 @@ private fun HomeDrawerSuccessContent(
                 )
             }
             EditableComponent(isEditModeEnabled = isEditModeEnabled, onEditMode = onEditMode)
+            TagOverviewScreenIcon(onTagOverviewClicked = onTagOverviewClicked)
         }
         Divider(
             modifier = Modifier.fillMaxWidth()
@@ -210,8 +215,8 @@ private fun RowScope.EditableComponent(
 }
 
 @Composable
-private fun RowScope.QuicklyChecklistIcon(
-    onQuicklyChecklist: () -> Unit
+private fun RowScope.TagOverviewScreenIcon(
+    onTagOverviewClicked: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -220,13 +225,13 @@ private fun RowScope.QuicklyChecklistIcon(
     ) {
         IconButton(
             onClick = {
-                onQuicklyChecklist()
+                onTagOverviewClicked()
             }
         ) {
             Icon(
-                painter = painterResource(id = BaseUiR.drawable.ic_quickly_checklist_24),
+                painter = painterResource(id = R.drawable.ic_tags_drawer),
                 contentDescription = stringResource(
-                    id = R.string.checklist_finish_edit_content_description
+                    id = R.string.suggestion_tag_item_drawer_content_description
                 )
             )
         }

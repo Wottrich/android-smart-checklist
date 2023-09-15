@@ -32,3 +32,10 @@ val MIGRATION_III_IV = object : Migration(DatabaseVersions.III, DatabaseVersions
         database.execSQL("DROP TABLE `task`")
     }
 }
+
+val MIGRATION_IV_V = object : Migration(DatabaseVersions.IV, DatabaseVersions.V) {
+    override fun migrate(database: SupportSQLiteDatabase) {
+        database.execSQL("CREATE TABLE `tag` (`uuid` TEXT NOT NULL, `name` TEXT NOT NULL, `is_enabled` INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (`uuid`))")
+        database.execSQL("CREATE TABLE `suggestion` (`uuid` TEXT NOT NULL, `parent_uuid` TEXT NOT NULL, `name` TEXT NOT NULL, `is_enabled` INTEGER NOT NULL DEFAULT 0, PRIMARY KEY (`uuid`), FOREIGN KEY (`parent_uuid`) REFERENCES `tag`(`uuid`) ON UPDATE NO ACTION ON DELETE CASCADE)")
+    }
+}

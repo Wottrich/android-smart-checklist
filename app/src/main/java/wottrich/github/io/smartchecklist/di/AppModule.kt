@@ -7,6 +7,7 @@ import wottrich.github.io.smartchecklist.uisupport.di.supportModule
 import wottrich.github.io.smartchecklist.datasource.injection.databaseModule
 import wottrich.github.io.smartchecklist.di.taskModule
 import wottrich.github.io.smartchecklist.quicklychecklist.di.quicklyChecklistModule
+import wottrich.github.io.smartchecklist.suggestion.di.suggestionModule
 
 /**
  * @author Wottrich
@@ -32,6 +33,7 @@ object AppModule {
         supportModule,
         newChecklistModule,
         quicklyChecklistModule,
+        suggestionModule,
 
         //Database
         databaseModule,

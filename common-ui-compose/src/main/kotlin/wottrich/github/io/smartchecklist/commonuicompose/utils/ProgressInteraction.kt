@@ -27,7 +27,7 @@ fun pressProgressionInteractionState(
         mutableStateOf(false)
     }
     val transition = updateTransition(isDeleting, label = "pressProgressionInteractionState")
-    val float = transition.animateFloat(
+    val progress = transition.animateFloat(
         transitionSpec = {
             tween(
                 durationMillis = timePressingToFinishInMillis.toInt(),
@@ -38,7 +38,7 @@ fun pressProgressionInteractionState(
     ) {
         if (it) 1f else 0f
     }
-    if (float.value >= 1) {
+    if (progress.value >= 1) {
         onFinishTimePressing()
     }
     LaunchedEffect(
@@ -53,7 +53,7 @@ fun pressProgressionInteractionState(
             }
         }
     )
-    return float
+    return progress
 }
 
 private fun onPressInteraction(
