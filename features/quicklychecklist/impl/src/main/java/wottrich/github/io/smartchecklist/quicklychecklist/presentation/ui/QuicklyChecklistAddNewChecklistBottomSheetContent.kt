@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
-import androidx.compose.material.Button
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.Composable
@@ -17,9 +16,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
+import wottrich.github.io.smartchecklist.baseui.components.SmartChecklistButton
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
-import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.smartchecklist.baseui.ui.color.defaultOutlinedTextFieldColors
 import wottrich.github.io.smartchecklist.quicklychecklist.R
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistCompleted
@@ -51,11 +50,20 @@ private fun Effect(
         effects.collect { effect ->
             when (effect) {
                 OnAddNewChecklistCompleted -> {
-                    Toast.makeText(context, context.getString(R.string.quickly_checklist_add_new_checklist_completed), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.quickly_checklist_add_new_checklist_completed),
+                        Toast.LENGTH_SHORT
+                    ).show()
                     onConfirmButtonClick()
                 }
+
                 OnAddNewChecklistFailure -> {
-                    Toast.makeText(context, context.getString(R.string.quickly_checklist_add_new_checklist_failure), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        context,
+                        context.getString(R.string.quickly_checklist_add_new_checklist_failure),
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
@@ -76,11 +84,10 @@ private fun Screen(viewModel: QuicklyChecklistAddNewChecklistViewModel) {
             colors = defaultOutlinedTextFieldColors()
         )
         Spacer(modifier = Modifier.height(BaseFour.SizeTwo))
-        Button(
+        SmartChecklistButton(
             modifier = Modifier.fillMaxWidth(),
             enabled = state.isButtonEnabled,
             onClick = viewModel::onConfirmButtonClicked,
-            colors = defaultButtonColors()
         ) {
             Text(text = stringResource(id = R.string.quickly_checklist_confirm_new_checklist_name))
         }

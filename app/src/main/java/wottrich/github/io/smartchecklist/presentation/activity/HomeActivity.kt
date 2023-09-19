@@ -11,31 +11,31 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import androidx.navigation.plusAssign
-import com.google.accompanist.navigation.animation.AnimatedNavHost
-import com.google.accompanist.navigation.animation.composable
-import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.google.accompanist.navigation.material.BottomSheetNavigator
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
-import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
-import wottrich.github.io.smartchecklist.newchecklist.navigation.newChecklistNavigation
-import wottrich.github.io.smartchecklist.uiaboutus.data.model.AboutUsContentModel
-import wottrich.github.io.smartchecklist.uiaboutus.presentation.ui.AboutUsScreen
-import wottrich.github.io.smartchecklist.uisupport.navigation.NavigationSupport
-import wottrich.github.io.smartchecklist.uisupport.navigation.supportNavigation
 import kotlinx.coroutines.InternalCoroutinesApi
 import wottrich.github.io.smartchecklist.BuildConfig
+import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
+import wottrich.github.io.smartchecklist.intent.shareIntentText
+import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
+import wottrich.github.io.smartchecklist.newchecklist.navigation.newChecklistNavigation
 import wottrich.github.io.smartchecklist.presentation.activity.NavigationHome.Destinations
 import wottrich.github.io.smartchecklist.presentation.ui.StatusBarColor
 import wottrich.github.io.smartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.smartchecklist.presentation.ui.content.HomeScreen
-import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
 import wottrich.github.io.smartchecklist.quicklychecklist.navigation.quicklyChecklistNavigation
-import wottrich.github.io.smartchecklist.intent.shareIntentText
+import wottrich.github.io.smartchecklist.uiaboutus.data.model.AboutUsContentModel
+import wottrich.github.io.smartchecklist.uiaboutus.presentation.ui.AboutUsScreen
+import wottrich.github.io.smartchecklist.uisupport.navigation.NavigationSupport
+import wottrich.github.io.smartchecklist.uisupport.navigation.supportNavigation
 
 class InvalidChecklistId : Exception("Checklist id must not be null")
 
@@ -48,7 +48,7 @@ class HomeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberAnimatedNavController().also {
+            val navController = rememberNavController().also {
                 sharedNavHostController = it
             }
             val bottomSheetNavigator = rememberBottomSheetNavigator()
@@ -78,7 +78,7 @@ class HomeActivity : AppCompatActivity() {
 
     @Composable
     private fun AppNavigator(navHostController: NavHostController) {
-        AnimatedNavHost(
+        NavHost(
             navController = navHostController,
             startDestination = NavigationHome.route,
             builder = {
