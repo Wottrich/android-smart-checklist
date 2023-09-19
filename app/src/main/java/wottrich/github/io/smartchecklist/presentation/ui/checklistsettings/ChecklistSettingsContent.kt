@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
 import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
@@ -27,8 +26,6 @@ import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.FlowCollector
@@ -41,10 +38,10 @@ import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSetting
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
 import wottrich.github.io.smartchecklist.baseui.TopBarContent
+import wottrich.github.io.smartchecklist.baseui.components.SmartChecklistButton
 import wottrich.github.io.smartchecklist.baseui.icons.ArrowBackIcon
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
-import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 
@@ -135,16 +132,9 @@ private fun Screen(
             }
 
             val confirmStringResource = stringResource(id = BaseUiR.string.confirm)
-            Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(all = Dimens.BaseFour.SizeTwo)
-                    .semantics {
-                        contentDescription = confirmStringResource
-                    },
-                onClick = { viewModel.onConfirmClicked() },
-                colors = defaultButtonColors(),
-                enabled = state.isConfirmButtonEnabled
+            SmartChecklistButton(
+                onClick = viewModel::onConfirmClicked,
+                buttonContentDescription = confirmStringResource
             ) {
                 Text(text = confirmStringResource)
             }

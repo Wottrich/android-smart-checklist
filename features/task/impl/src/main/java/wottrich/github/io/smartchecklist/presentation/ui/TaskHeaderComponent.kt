@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -13,8 +12,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import wottrich.github.io.smartchecklist.baseui.TextOneLine
+import wottrich.github.io.smartchecklist.baseui.components.SmartChecklistButton
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
-import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
 import wottrich.github.io.smartchecklist.baseui.ui.color.defaultOutlinedTextFieldColors
 import wottrich.github.io.smartchecklist.task.R
 
@@ -42,13 +41,12 @@ fun TaskHeaderComponent(
             keyboardActions = KeyboardActions(onDone = { onAddItem() }),
             colors = defaultOutlinedTextFieldColors()
         )
-        Button(
+        SmartChecklistButton(
             modifier = Modifier
                 .padding(top = Dimens.BaseFour.SizeTwo)
                 .fillMaxWidth(),
             enabled = textFieldValue.isNotEmpty(),
             onClick = onAddItem,
-            colors = defaultButtonColors(),
         ) {
             Text(text = stringResource(id = R.string.task_header_add_item))
         }

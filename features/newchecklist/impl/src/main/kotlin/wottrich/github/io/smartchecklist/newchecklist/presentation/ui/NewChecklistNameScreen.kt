@@ -6,7 +6,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -22,15 +21,15 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import org.koin.androidx.compose.getViewModel
+import wottrich.github.io.smartchecklist.baseui.components.SmartChecklistButton
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
+import wottrich.github.io.smartchecklist.baseui.ui.color.defaultOutlinedTextFieldColors
+import wottrich.github.io.smartchecklist.newchecklist.R
 import wottrich.github.io.smartchecklist.newchecklist.presentation.states.NewChecklistNameUiEffect
 import wottrich.github.io.smartchecklist.newchecklist.presentation.states.NewChecklistNameUiState
 import wottrich.github.io.smartchecklist.newchecklist.presentation.viewmodels.NewChecklistNameViewModel
-import org.koin.androidx.compose.getViewModel
-import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
-import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
-import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.smartchecklist.baseui.ui.color.defaultOutlinedTextFieldColors
-import wottrich.github.io.smartchecklist.newchecklist.R
 import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 
 @Composable
@@ -98,11 +97,10 @@ private fun Screen(
                 colors = defaultOutlinedTextFieldColors()
             )
         }
-        Button(
+        SmartChecklistButton(
+            onClick = onDoneButtonClicked,
             modifier = Modifier.fillMaxWidth(),
             enabled = state.isDoneButtonEnabled,
-            onClick = onDoneButtonClicked,
-            colors = defaultButtonColors()
         ) {
             Text(text = stringResource(id = R.string.checklist_name_create_checklist_button))
         }

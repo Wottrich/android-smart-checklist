@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.Button
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -24,15 +23,15 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
-import wottrich.github.io.smartchecklist.quicklychecklist.R
 import wottrich.github.io.smartchecklist.baseui.StyledText
+import wottrich.github.io.smartchecklist.baseui.components.SmartChecklistButton
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens.BaseFour
-import wottrich.github.io.smartchecklist.baseui.ui.color.defaultButtonColors
-import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
+import wottrich.github.io.smartchecklist.quicklychecklist.R
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.InitialQuicklyChecklistUiEffect.OnInvalidChecklist
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.InitialQuicklyChecklistUiEffect.OnQuicklyChecklistJson
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmodels.InitialQuicklyChecklistViewModel
+import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 
 @Composable
 fun InitialQuicklyChecklistScreen(
@@ -149,11 +148,10 @@ private fun ScreenContent(
                     }
                 }
             }
-            Button(
+            SmartChecklistButton(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = viewModel.isButtonEnabled,
                 onClick = viewModel::onConfirmButtonClicked,
-                colors = defaultButtonColors()
             ) {
                 Text(text = stringResource(id = BaseUiR.string.default_continue))
             }

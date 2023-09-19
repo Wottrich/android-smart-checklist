@@ -10,7 +10,7 @@ import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
-import com.google.accompanist.navigation.animation.composable
+import androidx.navigation.compose.composable
 
 private const val ANIMATION_DURATION_IN_MILLS = 500
 

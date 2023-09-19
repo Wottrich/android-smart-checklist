@@ -9,5 +9,7 @@ import androidx.compose.runtime.Composable
 fun defaultOutlinedTextFieldColors() = TextFieldDefaults.outlinedTextFieldColors(
     cursorColor = MaterialTheme.colors.onPrimary,
     unfocusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.medium),
-    focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high)
+    focusedBorderColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
+    unfocusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.medium),
+    focusedLabelColor = MaterialTheme.colors.secondary.copy(alpha = ContentAlpha.high),
 )

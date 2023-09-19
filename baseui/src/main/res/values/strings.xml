@@ -2,6 +2,7 @@
 <resources>
     <string name="attention">Attention</string>
     <string name="unknown">Unknown error, please try again later.</string>
+    <string name="try_again">Try again</string>
     <string name="arrow_back_content_description">Back</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
