@@ -44,12 +44,4 @@ val featureHomeModules = module {
             getChecklistAsTextUseCase = get()
         )
     }
-    viewModel {
-        TaskComponentViewModel(
-            getTasksFromSelectedChecklistUseCase = get(),
-            addTaskToDatabaseUseCase = get(),
-            getChangeTaskStatusUseCase = get(),
-            getDeleteTaskUseCase = get()
-        )
-    }
 }

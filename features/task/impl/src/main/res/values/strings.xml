@@ -14,4 +14,10 @@
 
     <string name="checklist_add_new_item_failure">Task name cannot be empty!</string>
 
+    <string name="task_item_component_load_tasks_error">Error to load tasks, please try again!</string>
+
+    <!--  Sort items  -->
+    <string name="task_sort_completed_task_item">Completed tasks</string>
+    <string name="task_sort_uncompleted_task_item">Uncompleted tasks</string>
+
 </resources>
