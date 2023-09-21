@@ -2,7 +2,6 @@ package wottrich.github.io.smartchecklist.presentation.viewmodel
 
 import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateListOf
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
@@ -33,7 +32,6 @@ import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentVie
 import wottrich.github.io.smartchecklist.task.R
 import java.util.concurrent.CancellationException
 
-@OptIn(InternalCoroutinesApi::class)
 class TaskComponentViewModel(
     private val getTasksFromSelectedChecklistUseCase: GetTasksFromSelectedChecklistUseCase,
     private val addTaskToDatabaseUseCase: AddTaskToDatabaseUseCase,
