@@ -5,19 +5,21 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.compose.getViewModel
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction
+import wottrich.github.io.smartchecklist.presentation.sort.ui.TaskSortContent
+import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModelUiEffect
 
@@ -34,6 +36,7 @@ import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentVie
 fun TaskContentComponent(
     showHeaderComponent: Boolean = true,
     showDeleteIcon: Boolean = true,
+    showSortComponent: Boolean = true,
     onUpdateClicked: (NewTask) -> Unit,
     onError: (stringRes: Int) -> Unit,
     viewModel: TaskComponentViewModel = getViewModel()
@@ -62,6 +65,15 @@ fun TaskContentComponent(
                 viewModel.sendAction(TaskComponentViewModelAction.Action.AddTask)
             }
         )
+        TaskSortContent(
+            modifier = Modifier.padding(horizontal = Dimens.BaseFour.SizeThree),
+            showContent = showSortComponent,
+            sortItems = state.sortItems,
+            onSortItemClicked = {
+                viewModel.sendAction(TaskComponentViewModelAction.Action.OnSortItemClicked(it))
+            }
+        )
+        Divider()
         TaskList(
             tasks = viewModel.tasks,
             showDeleteIcon = showDeleteIcon,
@@ -110,7 +122,7 @@ private fun ColumnScope.Header(
 
 @Composable
 private fun TaskList(
-    tasks: List<NewTask>,
+    tasks: List<BaseTaskListItem>,
     showDeleteIcon: Boolean,
     onCheckChange: (NewTask) -> Unit,
     onDeleteTask: (NewTask) -> Unit

@@ -27,6 +27,7 @@ fun HomeContentComponent(
         is HomeUiState.Overview -> TaskContentComponent(
             showHeaderComponent = checklistState.isEditUiState,
             showDeleteIcon = checklistState.isEditUiState,
+            showSortComponent = checklistState.isEditUiState,
             onUpdateClicked = onUpdateItemClicked,
             onError = onError,
         )
