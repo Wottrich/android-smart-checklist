@@ -4,12 +4,10 @@ import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateListOf
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.cancellable
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.withContext
 import wottrich.github.io.smartchecklist.android.BaseViewModel
 import wottrich.github.io.smartchecklist.coroutines.base.onFailure
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
@@ -19,6 +17,7 @@ import wottrich.github.io.smartchecklist.domain.usecase.AddTaskToDatabaseUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetChangeTaskStatusUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksFromSelectedChecklistUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.ReverseTasksIfNeededUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.SortTasksBySelectedSortUseCase
 import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction
@@ -28,6 +27,7 @@ import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewMo
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction.Action.DeleteTask
 import wottrich.github.io.smartchecklist.presentation.sort.model.TaskSortItemState
 import wottrich.github.io.smartchecklist.presentation.state.TaskComponentUiState
+import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModelUiEffect.OnError
 import wottrich.github.io.smartchecklist.task.R
 import java.util.concurrent.CancellationException
@@ -37,14 +37,15 @@ class TaskComponentViewModel(
     private val addTaskToDatabaseUseCase: AddTaskToDatabaseUseCase,
     private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
     private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
-    private val sortTasksBySelectedSortUseCase: SortTasksBySelectedSortUseCase
+    private val sortTasksBySelectedSortUseCase: SortTasksBySelectedSortUseCase,
+    private val reverseTasksIfNeededUseCase: ReverseTasksIfNeededUseCase
 ) : BaseViewModel(), TaskComponentViewModelAction {
 
     private var observerTasksJob: Job? = null
 
     private var checklistUuidReference: String? = null
 
-    var tasks = mutableStateListOf<NewTask>()
+    var tasks = mutableStateListOf<BaseTaskListItem>()
         private set
 
     private val _uiState = MutableStateFlow(TaskComponentUiState())
@@ -63,31 +64,61 @@ class TaskComponentViewModel(
     private fun observeTasks() {
         observerTasksJob?.cancel(CancellationException())
         observerTasksJob = launchIO {
-            getTasksFromSelectedChecklistUseCase().cancellable().collect(
-                FlowCollector { result ->
-                    val simpleModel = checkNotNull(result.getOrNull())
+            getTasksFromSelectedChecklistUseCase().cancellable().collect { result ->
+                result.onSuccess { simpleModel ->
                     checklistUuidReference = simpleModel.parentUuid
-                    sortTasksBySelectedSortUseCase(
-                        SortTasksBySelectedSortUseCase.Params(
-                            uiState.value.sortItems,
-                            simpleModel.tasks
-                        )
-                    ).onSuccess {
-                        withContext(main()) {
-                            tasks.clear()
-                            tasks.addAll(it)
-                        }
-                    }.onFailure {
-                        _uiEffect.emit(OnError(stringRes = R.string.task_item_component_load_tasks_error))
-                    }
+                    sortTasksBySelectedSort(
+                        uiState.value.sortItems,
+                        simpleModel.tasks
+                    )
+                }.onFailure {
+                    emitLoadTasksFailure()
                 }
-            )
+            }
         }
+    }
+
+    private suspend fun sortTasksBySelectedSort(
+        sortItems: List<TaskSortItemState>,
+        tasks: List<NewTask>
+    ) = sortTasksBySelectedSortUseCase(
+        SortTasksBySelectedSortUseCase.Params(
+            sortItems,
+            tasks
+        )
+    ).onSuccess { items ->
+        val selectedSortItem = sortItems.firstOrNull { it.isSelected }?.type
+        val hasNoSelectedSort = selectedSortItem == null
+        reverseTasksIfNeeded(
+            shouldReverse = hasNoSelectedSort || selectedSortItem == SortItemType.UNSELECTED_SORT,
+            tasks = items
+        )
+    }.onFailure {
+        emitLoadTasksFailure()
+    }
+
+    private suspend fun reverseTasksIfNeeded(
+        shouldReverse: Boolean,
+        tasks: List<BaseTaskListItem>
+    ) = reverseTasksIfNeededUseCase(
+        ReverseTasksIfNeededUseCase.Params(
+            shouldReverseList = shouldReverse,
+            tasks = tasks
+        )
+    ).onSuccess { items ->
+        this.tasks.clear()
+        this.tasks.addAll(items)
+    }.onFailure {
+        emitLoadTasksFailure()
+    }
+
+    private suspend fun emitLoadTasksFailure() {
+        _uiEffect.emit(OnError(stringRes = R.string.task_item_component_load_tasks_error))
     }
 
     override fun sendAction(action: Action) {
         when (action) {
-            is AddTask -> handleAddTaskAction()
+            AddTask -> handleAddTaskAction()
             is ChangeTaskStatus -> handleChangeTaskStatus(action.task)
             is DeleteTask -> handleDeleteTask(action.task)
             is Action.OnTextChanged -> {

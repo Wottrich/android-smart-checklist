@@ -1,14 +1,10 @@
 package wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetState
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.Text
@@ -26,6 +22,7 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
 import wottrich.github.io.smartchecklist.presentation.ui.TaskLazyColumnComponent
 import wottrich.github.io.smartchecklist.quicklychecklist.R
 import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
@@ -170,23 +167,9 @@ private fun ScaffoldContent(
     onCheckChange: (NewTask) -> Unit
 ) {
     TaskLazyColumnComponent(
-        taskList = taskList,
+        taskList = taskList.map { BaseTaskListItem.TaskItem(it) },
         onCheckChange = onCheckChange,
         onDeleteTask = {},
         showDeleteItem = false
-    )
-}
-
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-private fun ModalBottomSheetContents(
-    bottomSheetState: ModalBottomSheetState,
-    bottomSheetContent: @Composable ColumnScope.() -> Unit,
-    content: @Composable () -> Unit
-) {
-    ModalBottomSheetLayout(
-        sheetState = bottomSheetState,
-        sheetContent = bottomSheetContent,
-        content = content
     )
 }

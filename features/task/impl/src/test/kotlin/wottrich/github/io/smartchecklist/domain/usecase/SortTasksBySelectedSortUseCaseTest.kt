@@ -6,6 +6,7 @@ import org.junit.Test
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.domain.model.SortItemType
 import wottrich.github.io.smartchecklist.presentation.sort.model.TaskSortItemState
+import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
 import wottrich.github.io.smartchecklist.task.R
 import wottrich.github.io.smartchecklist.testtools.BaseUnitTest
 import kotlin.test.assertEquals
@@ -29,7 +30,7 @@ class SortTasksBySelectedSortUseCaseTest : BaseUnitTest() {
             val tasks = buildTasksCompletedFirst()
             val tasksSorted =
                 sut(SortTasksBySelectedSortUseCase.Params(sortItems, tasks)).getOrNull()
-            assertEquals(tasks, tasksSorted)
+            assertEquals(tasks.map { BaseTaskListItem.TaskItem(it) }, tasksSorted)
         }
 
     @Test
@@ -39,7 +40,9 @@ class SortTasksBySelectedSortUseCaseTest : BaseUnitTest() {
             val tasks = buildTaskUncompletedFirst()
             val result = sut(SortTasksBySelectedSortUseCase.Params(sortItems, tasks))
             val tasksSorted = result.getOrNull()
-            assertTrue(tasksSorted!!.first().isCompleted)
+            val firstTask = tasksSorted!!.first()
+            assertTrue(firstTask is BaseTaskListItem.TaskItem)
+            assertFalse(firstTask.task.isCompleted)
         }
 
     @Test
@@ -49,7 +52,9 @@ class SortTasksBySelectedSortUseCaseTest : BaseUnitTest() {
             val tasks = buildTaskUncompletedFirst()
             val tasksSorted =
                 sut(SortTasksBySelectedSortUseCase.Params(sortItems, tasks)).getOrNull()!!
-            assertFalse(tasksSorted.first().isCompleted)
+            val firstTask = tasksSorted.first()
+            assertTrue(firstTask is BaseTaskListItem.TaskItem)
+            assertTrue(firstTask.task.isCompleted)
         }
 
     private fun buildTaskUncompletedFirst(): List<NewTask> {

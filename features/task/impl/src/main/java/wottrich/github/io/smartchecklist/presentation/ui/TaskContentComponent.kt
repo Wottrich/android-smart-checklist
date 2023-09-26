@@ -19,6 +19,7 @@ import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction
 import wottrich.github.io.smartchecklist.presentation.sort.ui.TaskSortContent
+import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModelUiEffect
 
@@ -121,7 +122,7 @@ private fun ColumnScope.Header(
 
 @Composable
 private fun TaskList(
-    tasks: List<NewTask>,
+    tasks: List<BaseTaskListItem>,
     showDeleteIcon: Boolean,
     onCheckChange: (NewTask) -> Unit,
     onDeleteTask: (NewTask) -> Unit

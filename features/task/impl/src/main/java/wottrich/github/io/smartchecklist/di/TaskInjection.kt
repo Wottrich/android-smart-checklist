@@ -10,6 +10,7 @@ import wottrich.github.io.smartchecklist.domain.usecase.GetChangeTaskStatusUseCa
 import wottrich.github.io.smartchecklist.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksFromSelectedChecklistUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.ReverseTasksIfNeededUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.SortTasksBySelectedSortUseCase
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
 
@@ -27,6 +28,7 @@ private fun Module.injectUseCases() {
     factory { AddManyTasksUseCase(get()) }
     factory { GetTasksFromSelectedChecklistUseCase(get()) }
     factory { SortTasksBySelectedSortUseCase() }
+    factory { ReverseTasksIfNeededUseCase() }
 }
 
 private fun Module.injectViewModels() {
@@ -36,7 +38,8 @@ private fun Module.injectViewModels() {
             addTaskToDatabaseUseCase = get(),
             getChangeTaskStatusUseCase = get(),
             getDeleteTaskUseCase = get(),
-            sortTasksBySelectedSortUseCase = get()
+            sortTasksBySelectedSortUseCase = get(),
+            reverseTasksIfNeededUseCase = get()
         )
     }
 }
