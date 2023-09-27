@@ -8,7 +8,7 @@ import androidx.compose.runtime.remember
 import wottrich.github.io.smartchecklist.commonuicompose.utils.pressProgressionInteractionState
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 
-private const val TIME_TO_DELETE_ITEM_IN_MILLIS = 800L
+private const val TIME_TO_DELETE_ITEM_IN_MILLIS = 350L
 
 @Composable
 fun TaskComponent(
