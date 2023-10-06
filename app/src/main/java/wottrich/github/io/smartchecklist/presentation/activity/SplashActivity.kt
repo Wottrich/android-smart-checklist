@@ -36,7 +36,7 @@ class SplashActivity : AppCompatActivity() {
                 LaunchedEffect(key1 = effects) {
                     effects.collect(FlowCollector {
                         when (it) {
-                            GoToHome -> startActivity<HomeActivity>(finishActualActivity = true)
+                            GoToHome -> startActivity<MainHostActivity>(finishActualActivity = true)
                         }
                     })
                 }

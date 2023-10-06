@@ -6,6 +6,7 @@ import wottrich.github.io.smartchecklist.newchecklist.di.newChecklistModule
 import wottrich.github.io.smartchecklist.uisupport.di.supportModule
 import wottrich.github.io.smartchecklist.datasource.injection.databaseModule
 import wottrich.github.io.smartchecklist.di.taskModule
+import wottrich.github.io.smartchecklist.intent.di.intentExtensionsModule
 import wottrich.github.io.smartchecklist.quicklychecklist.di.quicklyChecklistModule
 
 /**
@@ -22,6 +23,9 @@ object AppModule {
     val appModule = listOf(
         appDefaultModule,
 
+        //Navigation
+        navigationModule,
+
         //Splash
         splashModule,
 
@@ -35,6 +39,9 @@ object AppModule {
 
         //Database
         databaseModule,
+
+        //Extensions
+        intentExtensionsModule,
 
         //Domain,
         coroutinesModule

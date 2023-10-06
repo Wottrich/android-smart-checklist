@@ -1,7 +1,6 @@
 package wottrich.github.io.smartchecklist.baseui.navigation
 
 import androidx.compose.animation.AnimatedVisibilityScope
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -14,7 +13,6 @@ import androidx.navigation.compose.composable
 
 private const val ANIMATION_DURATION_IN_MILLS = 500
 
-@ExperimentalAnimationApi
 fun NavGraphBuilder.defaultComposableAnimation(
     route: String,
     arguments: List<NamedNavArgument> = emptyList(),
