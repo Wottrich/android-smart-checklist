@@ -19,6 +19,6 @@ fun Context.shareIntentText(text: String) {
         type = "text/plain"
     }
 
-    val shareIntent = Intent.createChooser(intent, null)
+    val shareIntent = Intent.createChooser(intent, null).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     startActivity(shareIntent)
 }
