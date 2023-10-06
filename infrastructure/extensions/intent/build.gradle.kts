@@ -8,4 +8,5 @@ android {
 
 dependencies {
     implementation(libs.android.app.compat)
+    implementation(libs.bundles.koin.default)
 }
