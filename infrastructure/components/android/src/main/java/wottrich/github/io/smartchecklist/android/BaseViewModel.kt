@@ -23,21 +23,21 @@ abstract class BaseViewModel(
     private val dispatchersProviders: DispatchersProviders = GlobalContext.get().get()
 ) : ViewModel() {
 
-    fun io() = viewModelScope.coroutineContext + dispatchersProviders.io
+    protected fun io() = viewModelScope.coroutineContext + dispatchersProviders.io
 
-    fun main() = viewModelScope.coroutineContext + dispatchersProviders.main
+    protected fun main() = viewModelScope.coroutineContext + dispatchersProviders.main
 
-    fun launchMain(
+    protected fun launchMain(
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> Unit
     ) = launch(main(), start, block)
 
-    fun launchIO(
+    protected fun launchIO(
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> Unit
     ) = launch(io(), start, block)
 
-    fun launch(
+    protected fun launch(
         context: CoroutineContext = EmptyCoroutineContext,
         start: CoroutineStart = CoroutineStart.DEFAULT,
         block: suspend CoroutineScope.() -> Unit
