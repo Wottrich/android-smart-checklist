@@ -3,9 +3,9 @@ package wottrich.github.io.smartchecklist.presentation.ui
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import wottrich.github.io.smartchecklist.commonuicompose.utils.pressProgressionInteractionState
+import wottrich.github.io.smartchecklist.baseui.behaviour.progress.pressProgressionInteractionState
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 
 private const val TIME_TO_DELETE_ITEM_IN_MILLIS = 350L
