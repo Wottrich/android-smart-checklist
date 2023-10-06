@@ -4,13 +4,13 @@ import androidx.room.Embedded
 import androidx.room.Relation
 
 data class NewChecklistWithNewTasks(
-    @Embedded val newChecklist: NewChecklist,
+    @Embedded override val newChecklist: NewChecklist,
     @Relation(
         parentColumn = "uuid",
         entityColumn = "parent_uuid"
     )
-    val newTasks: List<NewTask>
-) {
+    override val newTasks: List<NewTask>
+): NewChecklistWithNewTasksContract {
     override fun toString(): String {
         val string = StringBuilder()
 
