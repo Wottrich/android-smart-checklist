@@ -7,7 +7,6 @@ import androidx.room.PrimaryKey
 import java.util.Calendar
 import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 
-
 @Entity(
     tableName = "new_task",
     foreignKeys = [
@@ -21,12 +20,12 @@ import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 )
 data class NewTask(
     @PrimaryKey
-    var uuid: String = UuidGenerator.getRandomUuid(),
+    override val uuid: String = UuidGenerator.getRandomUuid(),
     @ColumnInfo(name = "parent_uuid")
-    var parentUuid: String,
-    var name: String,
+    override val parentUuid: String,
+    override val name: String,
     @ColumnInfo(name = "is_completed")
-    var isCompleted: Boolean = false,
+    override val isCompleted: Boolean = false,
     @ColumnInfo(name = "date_created")
     val dateCreated: Calendar = Calendar.getInstance()
-)
+): TaskContract
