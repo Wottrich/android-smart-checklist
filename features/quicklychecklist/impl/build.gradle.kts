@@ -18,6 +18,7 @@ dependencies {
     implementation(project(path = ":infrastructure:generator:uuid"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
+    implementation(project(path = ":infrastructure:extensions:intent"))
     // TODO fix this wrong implementation!!!
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))

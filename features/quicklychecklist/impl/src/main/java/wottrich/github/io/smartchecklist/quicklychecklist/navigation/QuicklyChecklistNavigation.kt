@@ -1,6 +1,5 @@
 package wottrich.github.io.smartchecklist.quicklychecklist.navigation
 
-import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -10,122 +9,134 @@ import androidx.navigation.navOptions
 import androidx.navigation.navigation
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.bottomSheet
+import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
+import wottrich.github.io.smartchecklist.intent.navigation.ShareIntentTextNavigator
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.InitialQuicklyChecklistScreen
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.QuicklyChecklistAddNewChecklistBottomSheetContent
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.QuicklyChecklistConfirmBottomSheetContent
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.QuicklyChecklistScreen
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
-@ExperimentalAnimationApi
-fun NavGraphBuilder.quicklyChecklistNavigation(
-    navHostController: NavHostController,
-    onShareChecklistBack: (String) -> Unit
-) {
-    navigation(
-        startDestination = NavigationQuicklyChecklist.startDestination,
-        route = NavigationQuicklyChecklist.route
+class QuicklyChecklistContextNavigator(
+    private val shareIntentTextNavigator: ShareIntentTextNavigator
+) : SmartChecklistNavigation {
+    @OptIn(ExperimentalMaterialNavigationApi::class)
+    override fun startNavigation(
+        navGraphBuilder: NavGraphBuilder,
+        navHostController: NavHostController
     ) {
-        defaultComposableAnimation(
-            route = NavigationQuicklyChecklist.Destinations.InitialQuicklyChecklistScreen.route,
-            deepLinks = NavigationQuicklyChecklist.Destinations.InitialQuicklyChecklistScreen.deepLinks
-        ) { navBackStackEntry ->
+        navGraphBuilder.apply {
+            navigation(
+                startDestination = NavigationQuicklyChecklist.startDestination,
+                route = NavigationQuicklyChecklist.route
+            ) {
+                defaultComposableAnimation(
+                    route = NavigationQuicklyChecklist.Destinations.InitialQuicklyChecklistScreen.route,
+                    deepLinks = NavigationQuicklyChecklist.Destinations.InitialQuicklyChecklistScreen.deepLinks
+                ) { navBackStackEntry ->
 
-            val savedStateHandle = navBackStackEntry.savedStateHandle
-            val invalidChecklist = savedStateHandle.get<Boolean>("invalidChecklist") ?: false
-            if (invalidChecklist) {
-                navBackStackEntry.savedStateHandle.remove<Boolean>("invalidChecklist")
-            }
-            val encodedQuicklyChecklist = navBackStackEntry.arguments?.getString("checklist", null)
+                    val savedStateHandle = navBackStackEntry.savedStateHandle
+                    val invalidChecklist =
+                        savedStateHandle.get<Boolean>("invalidChecklist") ?: false
+                    if (invalidChecklist) {
+                        navBackStackEntry.savedStateHandle.remove<Boolean>("invalidChecklist")
+                    }
+                    val encodedQuicklyChecklist =
+                        navBackStackEntry.arguments?.getString("checklist", null)
 
-            InitialQuicklyChecklistScreen(
-                encodedQuicklyChecklist = encodedQuicklyChecklist,
-                isInvalidChecklistError = invalidChecklist,
-                onBackPressed = { navHostController.popBackStack() },
-                onConfirmButtonClicked = {
-                    val route =
-                        NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.routeWithParam(
-                            it
-                        )
-                    navHostController.navigate(route)
-                }
-            )
-        }
-        defaultComposableAnimation(
-            route = NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.route,
-            arguments = NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.arguments
-        ) { navBackStackEntry ->
-            val param = navBackStackEntry.arguments?.getString(
-                "quicklychecklistjson"
-            ).orEmpty()
-            QuicklyChecklistScreen(
-                quicklyChecklistJson = param,
-                onBackPressed = {
-                    navHostController.previousBackStackEntry?.savedStateHandle?.set(
-                        "invalidChecklist",
-                        false
-                    )
-                    navHostController.popBackStack()
-                },
-                onInvalidChecklist = {
-                    navHostController.previousBackStackEntry?.savedStateHandle?.set(
-                        "invalidChecklist",
-                        true
-                    )
-                    navHostController.popBackStack()
-                },
-                onConfirmBottomSheetEdit = {
-                    val route =
-                        NavigationQuicklyChecklist.Destinations.QuicklyChecklistConfirmBottomSheet.routeWithParam(
-                            it
-                        )
-                    navHostController.navigate(route)
-                }
-            )
-        }
-        bottomSheet(
-            route = NavigationQuicklyChecklist.Destinations.QuicklyChecklistConfirmBottomSheet.route,
-            arguments = NavigationQuicklyChecklist.Destinations.QuicklyChecklistConfirmBottomSheet.arguments
-        ) { navBackStackEntry ->
-            val param = navBackStackEntry.arguments?.getString(
-                "quicklychecklistjson"
-            ).orEmpty()
-            QuicklyChecklistConfirmBottomSheetContent(
-                quicklyChecklistJson = param,
-                hasExistentChecklist = false,
-                onShareBackClick = onShareChecklistBack,
-                onSaveChecklist = {
-                    val route =
-                        NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet.routeWithParam(
-                            it
-                        )
-                    navHostController.navigate(
-                        route,
-                        navOptions {
-                            popUpTo(
-                                NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.route
-                            )
+                    InitialQuicklyChecklistScreen(
+                        encodedQuicklyChecklist = encodedQuicklyChecklist,
+                        isInvalidChecklistError = invalidChecklist,
+                        onBackPressed = { navHostController.popBackStack() },
+                        onConfirmButtonClicked = {
+                            val route =
+                                NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.routeWithParam(
+                                    it
+                                )
+                            navHostController.navigate(route)
                         }
                     )
-                },
-                onReplaceExistentChecklist = {}
-            )
-        }
-        bottomSheet(
-            route = NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet.route,
-            arguments = NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet.arguments
-        ) { navBackStackEntry ->
-            val param = navBackStackEntry.arguments?.getString(
-                "quicklychecklistjson"
-            ).orEmpty()
-            QuicklyChecklistAddNewChecklistBottomSheetContent(
-                quicklyChecklistJson = param,
-                onConfirmButtonClick = {
-                    navHostController.popBackStack()
                 }
-            )
+                defaultComposableAnimation(
+                    route = NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.route,
+                    arguments = NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.arguments
+                ) { navBackStackEntry ->
+                    val param = navBackStackEntry.arguments?.getString(
+                        "quicklychecklistjson"
+                    ).orEmpty()
+                    QuicklyChecklistScreen(
+                        quicklyChecklistJson = param,
+                        onBackPressed = {
+                            navHostController.previousBackStackEntry?.savedStateHandle?.set(
+                                "invalidChecklist",
+                                false
+                            )
+                            navHostController.popBackStack()
+                        },
+                        onInvalidChecklist = {
+                            navHostController.previousBackStackEntry?.savedStateHandle?.set(
+                                "invalidChecklist",
+                                true
+                            )
+                            navHostController.popBackStack()
+                        },
+                        onConfirmBottomSheetEdit = {
+                            val route =
+                                NavigationQuicklyChecklist.Destinations.QuicklyChecklistConfirmBottomSheet.routeWithParam(
+                                    it
+                                )
+                            navHostController.navigate(route)
+                        }
+                    )
+                }
+                bottomSheet(
+                    route = NavigationQuicklyChecklist.Destinations.QuicklyChecklistConfirmBottomSheet.route,
+                    arguments = NavigationQuicklyChecklist.Destinations.QuicklyChecklistConfirmBottomSheet.arguments
+                ) { navBackStackEntry ->
+                    val param = navBackStackEntry.arguments?.getString(
+                        "quicklychecklistjson"
+                    ).orEmpty()
+                    QuicklyChecklistConfirmBottomSheetContent(
+                        quicklyChecklistJson = param,
+                        hasExistentChecklist = false,
+                        onShareBackClick = {
+                            shareIntentTextNavigator.shareIntentText(it)
+                        },
+                        onSaveChecklist = {
+                            val route =
+                                NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet.routeWithParam(
+                                    it
+                                )
+                            navHostController.navigate(
+                                route,
+                                navOptions {
+                                    popUpTo(
+                                        NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.route
+                                    )
+                                }
+                            )
+                        },
+                        onReplaceExistentChecklist = {}
+                    )
+                }
+                bottomSheet(
+                    route = NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet.route,
+                    arguments = NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet.arguments
+                ) { navBackStackEntry ->
+                    val param = navBackStackEntry.arguments?.getString(
+                        "quicklychecklistjson"
+                    ).orEmpty()
+                    QuicklyChecklistAddNewChecklistBottomSheetContent(
+                        quicklyChecklistJson = param,
+                        onConfirmButtonClick = {
+                            navHostController.popBackStack()
+                        }
+                    )
+                }
+            }
         }
     }
+
 }
 
 object NavigationQuicklyChecklist {
@@ -150,6 +161,7 @@ object NavigationQuicklyChecklist {
                     type = NavType.StringType
                 }
             )
+
             fun routeWithParam(quicklyChecklistJson: String): String {
                 return route.replace(param, quicklyChecklistJson)
             }
@@ -163,6 +175,7 @@ object NavigationQuicklyChecklist {
                     type = NavType.StringType
                 }
             )
+
             fun routeWithParam(quicklyChecklistJson: String): String {
                 return route.replace(param, quicklyChecklistJson)
             }
@@ -176,6 +189,7 @@ object NavigationQuicklyChecklist {
                     type = NavType.StringType
                 }
             )
+
             fun routeWithParam(quicklyChecklistJson: String): String {
                 return route.replace(param, quicklyChecklistJson)
             }
