@@ -18,8 +18,8 @@ fun TaskComponent(
     onDeleteTask: () -> Unit
 ) {
     val interactionSource = remember { MutableInteractionSource() }
-    val taskItemHeight = remember { mutableStateOf(0) }
-    val taskItemWidth = remember { mutableStateOf(0) }
+    val taskItemHeight = remember { mutableIntStateOf(0) }
+    val taskItemWidth = remember { mutableIntStateOf(0) }
     val interactions = interactionSource.interactions
     val progress by pressProgressionInteractionState(
         interactions = interactions,
@@ -34,13 +34,13 @@ fun TaskComponent(
                 onCheckChange = onCheckChange,
                 interactionSource = interactionSource,
                 onSizeChanged = {
-                    taskItemHeight.value = it.height
-                    taskItemWidth.value = it.width
+                    taskItemHeight.intValue = it.height
+                    taskItemWidth.intValue = it.width
                 }
             )
             TaskDeleteItemLayer(
-                width = taskItemWidth.value.toFloat(),
-                height = taskItemHeight.value.toFloat(),
+                width = taskItemWidth.intValue.toFloat(),
+                height = taskItemHeight.intValue.toFloat(),
                 progress = progress
             )
         }
