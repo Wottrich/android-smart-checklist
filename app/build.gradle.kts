@@ -48,7 +48,6 @@ dependencies {
     implementation(libs.bundles.compose.navigation.default)
     implementation(project(path = ":baseui"))
     implementation(project(path = ":datasource"))
-    implementation(project(path = ":infrastructure:extensions:date"))
     implementation(project(path = ":infrastructure:extensions:intent"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
