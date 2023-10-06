@@ -22,6 +22,9 @@ object AppModule {
     val appModule = listOf(
         appDefaultModule,
 
+        //Navigation
+        navigationModule,
+
         //Splash
         splashModule,
 
