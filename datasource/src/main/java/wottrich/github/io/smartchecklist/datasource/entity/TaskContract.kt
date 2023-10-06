@@ -1,8 +1,8 @@
 package wottrich.github.io.smartchecklist.datasource.entity
 
-
-interface ChecklistContract {
+interface TaskContract {
     val uuid: String
+    val parentUuid: String
     val name: String
-    val isSelected: Boolean
+    val isCompleted: Boolean
 }

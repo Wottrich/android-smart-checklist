@@ -1,4 +1,4 @@
-package wottrich.github.io.smartchecklist.commonuicompose.utils
+package wottrich.github.io.smartchecklist.baseui.behaviour.progress
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.animateFloat

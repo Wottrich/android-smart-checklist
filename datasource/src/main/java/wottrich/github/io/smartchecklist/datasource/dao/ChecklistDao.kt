@@ -25,10 +25,6 @@ interface ChecklistDao {
 
     @Transaction
     @Query("SELECT * FROM new_checklist")
-    fun observeChecklistsWithTaskUpdate() : Flow<List<NewChecklistWithNewTasks>>
-
-    @Transaction
-    @Query("SELECT * FROM new_checklist")
     suspend fun selectAllChecklistWithTasks(): List<NewChecklistWithNewTasks>
 
     @Transaction
@@ -53,9 +49,6 @@ interface ChecklistDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(new_checklist: NewChecklist): Long?
-
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertMany(newChecklists: List<NewChecklist>)
 
     @Update
     suspend fun update(new_checklist: NewChecklist)

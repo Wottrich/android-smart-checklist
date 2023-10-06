@@ -58,10 +58,11 @@ class QuicklyChecklistViewModel(
 
     fun onCheckChange(newTask: NewTask) {
         val state = state.value
-        val newTaskList = tasks.toList().apply {
+        val newTaskList = tasks.toList().toMutableList().apply {
             val elementIndex = indexOf(newTask)
-            val element = this.getOrNull(elementIndex)
-            element?.isCompleted = !newTask.isCompleted
+            getOrNull(elementIndex)?.copy(isCompleted = !newTask.isCompleted)?.let {
+                this[elementIndex] = it
+            }
         }
         updateTasks(newTaskList)
         _state.value = state.copy(tasks = tasks)

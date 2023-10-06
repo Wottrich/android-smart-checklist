@@ -28,7 +28,7 @@ fun IconCompletableTaskContent(
         R.string.task_item_component_click_to_check_item_description
     }
 
-    AnimatedContent(targetState = isCompletedTask) {
+    AnimatedContent(targetState = isCompletedTask, label = "IconCompletableTask$taskName") {
         val checkIcon = if (it) {
             BaseUiR.drawable.ic_completed
         } else {
