@@ -12,9 +12,9 @@ data class NewChecklist(
     @PrimaryKey
     override val uuid: String = UuidGenerator.getRandomUuid(),
     @ColumnInfo(name = "name")
-    override var name: String,
+    override val name: String,
     @ColumnInfo(name = "is_selected", defaultValue = "0")
-    override var isSelected: Boolean = false,
+    override val isSelected: Boolean = false,
     @ColumnInfo(name = "created_date")
     val createdDate: Calendar = Calendar.getInstance(),
     @ColumnInfo(name = "last_update")

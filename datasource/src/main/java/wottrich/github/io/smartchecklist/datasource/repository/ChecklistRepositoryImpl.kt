@@ -20,8 +20,7 @@ class ChecklistRepositoryImpl(
 
     private suspend fun List<NewChecklistWithNewTasks>.getOrSaveSelectedChecklist(): NewChecklistWithNewTasks? {
         return firstOrNull() ?: getFirstChecklist()?.also {
-            val checklist = it.newChecklist
-            checklist.isSelected = true
+            val checklist = it.newChecklist.copy(isSelected = true)
             checklistDao.update(checklist)
         }
     }
@@ -35,10 +34,8 @@ class ChecklistRepositoryImpl(
     }
 
     override suspend fun updateSelectedChecklist(checklistUuid: String) {
-        val checklistToBeSelected = checklistDao.getChecklist(checklistUuid)
-        val currentSelectedChecklist = checklistDao.selectSelectedChecklist(true)
-        currentSelectedChecklist?.isSelected = false
-        checklistToBeSelected.isSelected = true
+        val checklistToBeSelected = checklistDao.getChecklist(checklistUuid).copy(isSelected = true)
+        val currentSelectedChecklist = checklistDao.selectSelectedChecklist(true)?.copy(isSelected = false)
         if (currentSelectedChecklist == null) {
             checklistDao.update(checklistToBeSelected)
         } else {
