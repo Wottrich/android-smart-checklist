@@ -52,7 +52,6 @@ dependencies {
     implementation(project(path = ":infrastructure:extensions:intent"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
-    implementation(project(path = ":common-ui-compose"))
     implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":features:checklist:impl"))
     implementation(project(path = ":features:task:impl"))

@@ -13,7 +13,6 @@ dependencies {
     implementation(libs.gson)
 
     implementation(project(path = ":baseui"))
-    implementation(project(path = ":common-ui-compose"))
     implementation(project(path = ":datasource"))
     implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":infrastructure:generator:uuid"))

@@ -17,7 +17,6 @@ dependencies {
     implementation(project(path = ":datasource"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
-    implementation(project(path = ":common-ui-compose"))
 
     testImplementation(project(path = ":test-tools"))
     testImplementation(libs.bundles.test.default)

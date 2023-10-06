@@ -16,7 +16,6 @@ dependencyResolutionManagement {
 rootProject.name = "AndroidSmartCheckList"
 include ':app'
 include ':baseui'
-include ':common-ui-compose'
 include ':datasource'
 include ':domain:coroutines'
 include ':features:checklist:impl'
