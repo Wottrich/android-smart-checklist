@@ -35,5 +35,13 @@ Arquitetura
 ![jetpack](https://user-images.githubusercontent.com/24254062/142502983-a2c083c5-9116-4483-bfff-05ccd29c7b0b.png)
 ![app_bundle](https://user-images.githubusercontent.com/24254062/142503195-b254a0ac-29ee-4dbe-acb9-abb77ea1ef33.png)
 
+# Contributions
+
+Open an issue about the problem found before opening the Pull Request. It will help you not feel unhappy if someone is already fixing the problem.
+
+Wants to contribute with the project?
+
+Read about ![CODE_OF_CONDUCT](https://github.com/Wottrich/android-smart-checklist/blob/develop/CODE_OF_CONDUCT.md) rules and feel free to contribute.
+
 # License
 [MIT License](https://github.com/Wottrich/android-smart-checklist/blob/master/LICENSE)
