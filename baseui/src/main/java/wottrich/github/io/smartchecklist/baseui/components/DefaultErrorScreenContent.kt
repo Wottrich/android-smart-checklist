@@ -3,6 +3,7 @@ package wottrich.github.io.smartchecklist.baseui.components
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.Icon
@@ -47,7 +48,10 @@ fun DefaultErrorScreenContent(
             primary = RowDefaults.title(text = title, fontWeight = FontWeight.Bold),
             secondary = RowDefaults.description(text = description)
         )
-        SmartChecklistButton(onClick = onButtonClick) {
+        SmartChecklistButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = onButtonClick
+        ) {
             Text(text = buttonLabel)
         }
     }

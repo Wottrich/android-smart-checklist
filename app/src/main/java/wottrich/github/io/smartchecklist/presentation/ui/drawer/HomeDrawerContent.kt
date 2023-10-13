@@ -162,6 +162,7 @@ private fun HomeDrawerSuccessContent(
         )
         Row {
             SmartChecklistButton(
+                modifier = Modifier.fillMaxWidth(),
                 onClick = onAddNewChecklist,
                 buttonContentDescription = buttonContentDescription
             ) {
