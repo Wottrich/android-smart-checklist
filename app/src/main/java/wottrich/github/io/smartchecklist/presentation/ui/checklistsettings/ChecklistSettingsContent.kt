@@ -133,6 +133,7 @@ private fun Screen(
 
             val confirmStringResource = stringResource(id = BaseUiR.string.confirm)
             SmartChecklistButton(
+                modifier = Modifier.fillMaxWidth(),
                 onClick = viewModel::onConfirmClicked,
                 buttonContentDescription = confirmStringResource
             ) {

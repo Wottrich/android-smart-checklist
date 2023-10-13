@@ -162,6 +162,7 @@ private fun HomeDrawerSuccessContent(
         )
         Row {
             SmartChecklistButton(
+                modifier = Modifier.weight(1f),
                 onClick = onAddNewChecklist,
                 buttonContentDescription = buttonContentDescription
             ) {
@@ -171,7 +172,10 @@ private fun HomeDrawerSuccessContent(
                     ).uppercase()
                 )
             }
-            EditableComponent(isEditModeEnabled = isEditModeEnabled, onEditMode = onEditMode)
+            EditableComponent(
+                isEditModeEnabled = isEditModeEnabled,
+                onEditMode = onEditMode
+            )
         }
         Divider(
             modifier = Modifier.fillMaxWidth()
