@@ -41,8 +41,10 @@ class SortTasksBySelectedSortUseCaseTest : BaseUnitTest() {
             val result = sut(SortTasksBySelectedSortUseCase.Params(sortItems, tasks))
             val tasksSorted = result.getOrNull()
             val firstTask = tasksSorted!!.first()
+            val section: BaseTaskListItem.SectionItem = tasksSorted.firstOrNull { it is BaseTaskListItem.SectionItem } as BaseTaskListItem.SectionItem
             assertTrue(firstTask is BaseTaskListItem.TaskItem)
             assertFalse(firstTask.task.isCompleted)
+            assertEquals(section.sectionName, R.string.task_sort_completed_task_item)
         }
 
     @Test
@@ -53,8 +55,10 @@ class SortTasksBySelectedSortUseCaseTest : BaseUnitTest() {
             val tasksSorted =
                 sut(SortTasksBySelectedSortUseCase.Params(sortItems, tasks)).getOrNull()!!
             val firstTask = tasksSorted.first()
+            val section: BaseTaskListItem.SectionItem = tasksSorted.firstOrNull { it is BaseTaskListItem.SectionItem } as BaseTaskListItem.SectionItem
             assertTrue(firstTask is BaseTaskListItem.TaskItem)
             assertTrue(firstTask.task.isCompleted)
+            assertEquals(section.sectionName, R.string.task_sort_uncompleted_task_item)
         }
 
     private fun buildTaskUncompletedFirst(): List<NewTask> {
