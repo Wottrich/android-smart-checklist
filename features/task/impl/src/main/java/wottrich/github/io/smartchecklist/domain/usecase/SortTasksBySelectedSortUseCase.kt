@@ -29,10 +29,10 @@ class SortTasksBySelectedSortUseCase :
         val uncompletedTasks = tasksGroupedByIsCompleted[false].orEmpty()
         return when (selectedSort) {
             SortItemType.COMPLETED_TASKS -> {
-                completedTasks + BaseTaskListItem.SectionItem(R.string.task_sort_completed_task_item) + uncompletedTasks
+                completedTasks + BaseTaskListItem.SectionItem(R.string.task_sort_uncompleted_task_item) + uncompletedTasks
             }
             SortItemType.UNCOMPLETED_TASKS -> {
-                uncompletedTasks + BaseTaskListItem.SectionItem(R.string.task_sort_uncompleted_task_item) + completedTasks
+                uncompletedTasks + BaseTaskListItem.SectionItem(R.string.task_sort_completed_task_item) + completedTasks
             }
             SortItemType.UNSELECTED_SORT -> taskItems
         }
