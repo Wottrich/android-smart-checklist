@@ -67,6 +67,7 @@ class TaskComponentViewModel(
             getTasksFromSelectedChecklistUseCase().cancellable().collect { result ->
                 result.onSuccess { simpleModel ->
                     checklistUuidReference = simpleModel.parentUuid
+                    _uiState.value = uiState.value.copy(checklistName = simpleModel.checklistName)
                     sortTasksBySelectedSort(
                         uiState.value.sortItems,
                         simpleModel.tasks

@@ -27,13 +27,13 @@ fun TaskLazyColumnComponent(
 ) {
     LazyColumn(
         content = {
-            item {
-                Column(modifier = Modifier.padding(all = Dimens.BaseFour.SizeThree)) {
-                    StyledText(textStyle = MaterialTheme.typography.h5) {
-                        Text(text = stringResource(id = R.string.taks_your_tasks_label_header))
-                    }
-                }
-            }
+//            item {
+//                Column(modifier = Modifier.padding(all = Dimens.BaseFour.SizeThree)) {
+//                    StyledText(textStyle = MaterialTheme.typography.h5) {
+//                        Text(text = stringResource(id = R.string.taks_your_tasks_label_header))
+//                    }
+//                }
+//            }
             items(
                 count = taskList.size,
                 key = { taskList[it].getTaskItemOrNull()?.task?.uuid ?: "Section" },

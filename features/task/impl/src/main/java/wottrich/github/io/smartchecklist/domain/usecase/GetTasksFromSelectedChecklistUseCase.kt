@@ -18,6 +18,7 @@ class GetTasksFromSelectedChecklistUseCase(
                 Result.success(
                     SelectedChecklistTasksSimpleModel(
                         it.newChecklist.uuid,
+                        it.newChecklist.name,
                         it.newTasks
                     )
                 )
