@@ -20,4 +20,10 @@
     <string name="task_sort_completed_task_item">Completed tasks</string>
     <string name="task_sort_uncompleted_task_item">Uncompleted tasks</string>
 
+    <!--  Completable Count Strings  -->
+    <string name="completable_count_bottom_sheet_title">Task counter</string>
+    <string name="completable_count_bottom_sheet_subtitle">You have completed %s out of %s tasks.</string>
+    <string name="completable_count_completable_component_tip">In this icon above you can check how many tasks you have already completed</string>
+    <string name="completable_count_bottom_sheet_button_label">Okay!</string>
+
 </resources>

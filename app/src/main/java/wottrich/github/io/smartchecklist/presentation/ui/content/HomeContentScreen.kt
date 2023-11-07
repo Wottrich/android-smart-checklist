@@ -17,8 +17,15 @@ fun HomeContentScreen(
     showDeleteDialog: DeleteAlertDialogState,
     onAddNewChecklist: () -> Unit,
     onHideDeleteDialog: () -> Unit,
+    onTaskCounterClicked: () -> Unit,
 ) {
-    Screen(paddingValues, checklistState, homeViewModel, onAddNewChecklist)
+    Screen(
+        paddingValues,
+        checklistState,
+        homeViewModel,
+        onAddNewChecklist,
+        onTaskCounterClicked
+    )
     DeleteDialog(
         showDeleteDialog,
         homeViewModel,
@@ -32,6 +39,7 @@ private fun Screen(
     checklistState: HomeState,
     homeViewModel: HomeViewModel,
     onAddNewChecklist: () -> Unit,
+    onTaskCounterClicked: () -> Unit,
 ) {
     Box(
         modifier = Modifier.padding(paddingValues)
@@ -42,7 +50,8 @@ private fun Screen(
                 homeViewModel.sendAction(HomeUiActions.Action.OnShowTaskChangeStatusSnackbar(it))
             },
             onNewChecklistClicked = onAddNewChecklist,
-            onError = { homeViewModel.sendAction(HomeUiActions.Action.OnSnackbarError(it))}
+            onError = { homeViewModel.sendAction(HomeUiActions.Action.OnSnackbarError(it))},
+            onTaskCounterClicked = onTaskCounterClicked
         )
     }
 }

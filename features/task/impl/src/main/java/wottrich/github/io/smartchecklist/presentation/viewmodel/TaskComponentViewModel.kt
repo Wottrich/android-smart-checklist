@@ -67,7 +67,6 @@ class TaskComponentViewModel(
             getTasksFromSelectedChecklistUseCase().cancellable().collect { result ->
                 result.onSuccess { simpleModel ->
                     checklistUuidReference = simpleModel.parentUuid
-                    _uiState.value = uiState.value.copy(checklistName = simpleModel.checklistName)
                     sortTasksBySelectedSort(
                         uiState.value.sortItems,
                         simpleModel.tasks
@@ -107,6 +106,7 @@ class TaskComponentViewModel(
             tasks = tasks
         )
     ).onSuccess { items ->
+        println("Reverse -> $items")
         this.tasks.clear()
         this.tasks.addAll(items)
     }.onFailure {

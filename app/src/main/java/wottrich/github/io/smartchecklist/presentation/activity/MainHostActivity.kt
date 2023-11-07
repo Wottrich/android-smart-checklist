@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,11 +16,10 @@ import com.google.accompanist.navigation.material.ModalBottomSheetLayout
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import kotlinx.coroutines.InternalCoroutinesApi
 import org.koin.android.ext.android.inject
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 import wottrich.github.io.smartchecklist.navigation.AppNavigator
 import wottrich.github.io.smartchecklist.navigation.NavigationHome
 import wottrich.github.io.smartchecklist.presentation.ui.StatusBarColor
-
-class InvalidChecklistId : Exception("Checklist id must not be null")
 
 @InternalCoroutinesApi
 @OptIn(ExperimentalMaterialNavigationApi::class)
@@ -55,6 +55,10 @@ class MainHostActivity : AppCompatActivity() {
     ) {
         ModalBottomSheetLayout(
             bottomSheetNavigator = bottomSheetNavigator,
+            sheetShape = RoundedCornerShape(
+                topStart = Dimens.BaseFour.SizeThree,
+                topEnd = Dimens.BaseFour.SizeThree
+            ),
             content = content
         )
     }

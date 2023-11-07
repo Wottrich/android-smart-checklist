@@ -25,10 +25,9 @@ val featureHomeModules = module {
     factory { SimpleChecklistModelMapper() }
     factory { GetChecklistDrawerUseCase(get(), get()) }
     factory { ObserveSimpleSelectedChecklistModelUseCase(get(), get()) }
-    viewModel { (checklistId: String) ->
+    viewModel {
         ChecklistSettingsViewModel(
             dispatchersProviders = get(),
-            checklistId = checklistId,
             getTasksUseCase = get(),
             changeTasksCompletedStatusUseCase = get()
         )

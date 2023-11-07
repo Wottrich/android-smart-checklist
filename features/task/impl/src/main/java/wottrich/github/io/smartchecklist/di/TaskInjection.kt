@@ -2,7 +2,11 @@ package wottrich.github.io.smartchecklist.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
+import org.koin.dsl.bind
 import org.koin.dsl.module
+import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
+import wottrich.github.io.smartchecklist.data.repository.TaskRepositoryImpl
+import wottrich.github.io.smartchecklist.domain.repository.TaskRepository
 import wottrich.github.io.smartchecklist.domain.usecase.AddManyTasksUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.ChangeTasksCompletedStatusUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.AddTaskToDatabaseUseCase
@@ -12,9 +16,14 @@ import wottrich.github.io.smartchecklist.domain.usecase.GetTasksFromSelectedChec
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.ReverseTasksIfNeededUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.SortTasksBySelectedSortUseCase
+import wottrich.github.io.smartchecklist.navigation.TaskContextNavigator
+import wottrich.github.io.smartchecklist.presentation.ui.checklistinformationheader.ChecklistInformationHeaderViewModel
+import wottrich.github.io.smartchecklist.presentation.ui.checklistinformationheader.CompletableCountBottomSheetViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
 
 val taskModule = module {
+    single { TaskContextNavigator() } bind SmartChecklistNavigation::class
+    factory<TaskRepository> { TaskRepositoryImpl(get(), get()) }
     injectUseCases()
     injectViewModels()
 }
@@ -40,6 +49,16 @@ private fun Module.injectViewModels() {
             getDeleteTaskUseCase = get(),
             sortTasksBySelectedSortUseCase = get(),
             reverseTasksIfNeededUseCase = get()
+        )
+    }
+    viewModel {
+        CompletableCountBottomSheetViewModel(
+            getTasksUseCase = get()
+        )
+    }
+    viewModel {
+        ChecklistInformationHeaderViewModel(
+            getTasksFromSelectedChecklistUseCase = get()
         )
     }
 }

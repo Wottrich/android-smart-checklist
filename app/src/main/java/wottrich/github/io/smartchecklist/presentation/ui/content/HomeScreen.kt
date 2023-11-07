@@ -49,6 +49,7 @@ fun HomeScreen(
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onTaskCounterClicked: () -> Unit,
 ) {
     ApplicationTheme {
         Screen(
@@ -56,7 +57,8 @@ fun HomeScreen(
             onShareText = onShareText,
             onChecklistSettings = onChecklistSettings,
             onAboutUsClick = onAboutUsClick,
-            onHelpClick = onHelpClick
+            onHelpClick = onHelpClick,
+            onTaskCounterClicked = onTaskCounterClicked
         )
     }
 }
@@ -68,6 +70,7 @@ private fun Screen(
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onTaskCounterClicked: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -136,7 +139,8 @@ private fun Screen(
             onAddNewChecklist = onAddNewChecklist,
             onHideDeleteDialog = {
                 showDeleteDialog = HIDE
-            }
+            },
+            onTaskCounterClicked = onTaskCounterClicked,
         )
     }
 }

@@ -35,7 +35,7 @@ class ChecklistRepositoryImpl(
 
     override suspend fun updateSelectedChecklist(checklistUuid: String) {
         val checklistToBeSelected = checklistDao.getChecklist(checklistUuid).copy(isSelected = true)
-        val currentSelectedChecklist = checklistDao.selectSelectedChecklist(true)?.copy(isSelected = false)
+        val currentSelectedChecklist = checklistDao.getSelectedChecklist()?.copy(isSelected = false)
         if (currentSelectedChecklist == null) {
             checklistDao.update(checklistToBeSelected)
         } else {

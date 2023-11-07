@@ -6,7 +6,6 @@ import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiState
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.presentation.ui.TaskContentComponent
-import wottrich.github.io.smartchecklist.presentation.ui.checklist.ChecklistInformationHeaderComponent
 
 /**
  * @author Wottrich
@@ -22,6 +21,7 @@ fun HomeContentComponent(
     checklistState: HomeState,
     onUpdateItemClicked: (NewTask) -> Unit,
     onError: (Int) -> Unit,
+    onTaskCounterClicked: () -> Unit,
     onNewChecklistClicked: () -> Unit
 ) {
     when (checklistState.homeUiState) {
@@ -31,6 +31,7 @@ fun HomeContentComponent(
             showSortComponent = checklistState.isEditUiState,
             onUpdateClicked = onUpdateItemClicked,
             onError = onError,
+            onTaskCounterClicked = onTaskCounterClicked
         )
         is HomeUiState.Empty -> HomeEmptyStateComponent(onNewChecklistClicked)
         HomeUiState.Loading -> CircularProgressIndicator()

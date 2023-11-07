@@ -20,7 +20,7 @@ import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction
 import wottrich.github.io.smartchecklist.presentation.sort.ui.TaskSortContent
 import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
-import wottrich.github.io.smartchecklist.presentation.ui.checklist.ChecklistInformationHeaderComponent
+import wottrich.github.io.smartchecklist.presentation.ui.checklistinformationheader.ChecklistInformationHeaderComponent
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModelUiEffect
 
@@ -40,6 +40,7 @@ fun TaskContentComponent(
     showSortComponent: Boolean = true,
     onUpdateClicked: (NewTask) -> Unit,
     onError: (stringRes: Int) -> Unit,
+    onTaskCounterClicked: () -> Unit,
     viewModel: TaskComponentViewModel = getViewModel()
 ) {
 
@@ -75,11 +76,7 @@ fun TaskContentComponent(
             }
         )
         Divider()
-        ChecklistInformationHeaderComponent(
-            checklistName = state.checklistName,
-            completedTasksCount = viewModel.tasks.filterIsInstance(BaseTaskListItem.TaskItem::class.java).filter { it.task.isCompleted }.size,
-            totalTasksCount = viewModel.tasks.filterIsInstance(BaseTaskListItem.TaskItem::class.java).size
-        )
+        ChecklistInformationHeaderComponent(onTaskCounterClicked = onTaskCounterClicked)
         Divider()
         TaskList(
             tasks = viewModel.tasks,
