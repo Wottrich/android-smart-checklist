@@ -106,7 +106,6 @@ class TaskComponentViewModel(
             tasks = tasks
         )
     ).onSuccess { items ->
-        println("Reverse -> $items")
         this.tasks.clear()
         this.tasks.addAll(items)
     }.onFailure {
