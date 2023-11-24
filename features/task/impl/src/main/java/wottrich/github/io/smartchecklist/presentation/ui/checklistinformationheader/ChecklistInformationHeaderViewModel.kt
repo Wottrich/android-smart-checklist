@@ -18,7 +18,7 @@ class ChecklistInformationHeaderViewModel(
 
     init {
         launchIO {
-            getTasksFromSelectedChecklistUseCase().cancellable().collect { result ->
+            getTasksFromSelectedChecklistUseCase().collect { result ->
                 result.onSuccess { simpleModel ->
                     _uiState.value = uiState.value.copy(
                         isLoading = false,
