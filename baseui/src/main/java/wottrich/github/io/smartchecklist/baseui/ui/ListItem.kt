@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -108,7 +109,11 @@ fun CenterTextContent(
     primary: RowDefaults.TextState,
     secondary: RowDefaults.TextState? = null
 ) {
-    RowTextContent(primary = primary, secondary = secondary, alignment = Alignment.CenterHorizontally)
+    RowTextContent(
+        primary = primary,
+        secondary = secondary,
+        alignment = Alignment.CenterHorizontally
+    )
 }
 
 
@@ -122,7 +127,7 @@ private fun RowTextContent(
         primary = {
             Text(
                 text = primary.text,
-                color = primary.color,
+                color = primary.color.copy(alpha = primary.alpha),
                 fontWeight = primary.fontWeight,
                 style = primary.style
             )
@@ -131,7 +136,7 @@ private fun RowTextContent(
             secondary?.let {
                 Text(
                     text = secondary.text,
-                    color = secondary.color,
+                    color = secondary.color.copy(alpha = secondary.alpha),
                     fontWeight = secondary.fontWeight,
                     style = secondary.style
                 )
@@ -148,7 +153,7 @@ fun TextStateComponent(
     Text(
         modifier = modifier,
         text = textState.text,
-        color = textState.color,
+        color = textState.color.copy(alpha = textState.alpha),
         fontWeight = textState.fontWeight,
         textAlign = textState.textAlign,
         style = textState.style
@@ -161,6 +166,7 @@ object RowDefaults {
     @Composable
     fun title(
         text: String,
+        alpha: Float = LocalContentAlpha.current,
         color: Color = SmartChecklistTheme.colors.onPrimary,
         fontWeight: FontWeight = FontWeight.Normal,
         textAlign: TextAlign? = null
@@ -168,6 +174,7 @@ object RowDefaults {
         return TextState(
             text,
             color = color,
+            alpha = alpha,
             fontWeight = fontWeight,
             textAlign = textAlign,
             style = MaterialTheme.typography.h6
@@ -177,6 +184,7 @@ object RowDefaults {
     @Composable
     fun description(
         text: String,
+        alpha: Float = LocalContentAlpha.current,
         color: Color = SmartChecklistTheme.colors.onPrimary,
         fontWeight: FontWeight = FontWeight.Normal,
         textAlign: TextAlign? = null
@@ -184,6 +192,7 @@ object RowDefaults {
         return TextState(
             text,
             color = color,
+            alpha = alpha,
             fontWeight = fontWeight,
             textAlign = textAlign,
             style = MaterialTheme.typography.subtitle1
@@ -191,18 +200,45 @@ object RowDefaults {
     }
 
     @Composable
+    fun smallDescription(
+        text: String,
+        alpha: Float = LocalContentAlpha.current,
+        color: Color = SmartChecklistTheme.colors.onPrimary,
+        fontWeight: FontWeight = FontWeight.Normal,
+        textAlign: TextAlign? = null
+    ): TextState {
+        return TextState(
+            text,
+            alpha = alpha,
+            color = color,
+            fontWeight = fontWeight,
+            textAlign = textAlign,
+            style = MaterialTheme.typography.subtitle2
+        )
+    }
+
+    @Composable
     fun text(
         text: String,
+        alpha: Float = LocalContentAlpha.current,
         color: Color = SmartChecklistTheme.colors.onPrimary,
         fontWeight: FontWeight = FontWeight.Normal,
         textAlign: TextAlign? = null,
         style: TextStyle
     ): TextState {
-        return TextState(text = text, color = color, fontWeight = fontWeight, textAlign = textAlign, style = style)
+        return TextState(
+            text = text,
+            alpha = alpha,
+            color = color,
+            fontWeight = fontWeight,
+            textAlign = textAlign,
+            style = style
+        )
     }
 
     data class TextState(
         val text: String,
+        val alpha: Float,
         val color: Color,
         val fontWeight: FontWeight,
         val textAlign: TextAlign?,
