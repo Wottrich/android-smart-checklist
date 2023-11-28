@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
@@ -140,17 +141,12 @@ private fun HomeDrawerSuccessContent(
                         )
                     }
                 }
-                items(
-                    items = checklists,
-                    key = { it.checklistUuid }
-                ) { item ->
-                    HomeDrawerChecklistItemComponent(
-                        isEditModeEnabled = isEditModeEnabled,
-                        checklistItemModel = item,
-                        onItemClick = { onItemClick(item) },
-                        onDeleteItemClicked = { onDeleteChecklist(item) }
-                    )
-                }
+                checklistItems(
+                    checklists = checklists,
+                    isEditModeEnabled = isEditModeEnabled,
+                    onItemClick = onItemClick,
+                    onDeleteChecklist = onDeleteChecklist
+                )
                 item {
                     Spacer(
                         modifier = Modifier
@@ -184,6 +180,28 @@ private fun HomeDrawerSuccessContent(
             onAboutUsClick = onAboutUsClick,
             onHelpClick = onHelpClick
         )
+    }
+}
+
+private fun LazyListScope.checklistItems(
+    checklists: List<HomeDrawerChecklistItemModel>,
+    isEditModeEnabled: Boolean,
+    onItemClick: (checklist: HomeDrawerChecklistItemModel) -> Unit,
+    onDeleteChecklist: (checklist: HomeDrawerChecklistItemModel) -> Unit
+) {
+    items(
+        items = checklists,
+        key = { it.checklistUuid }
+    ) { item ->
+        Column(modifier = Modifier.padding(horizontal = Dimens.BaseFour.SizeThree)) {
+            Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
+            HomeDrawerChecklistItemComponent(
+                isEditModeEnabled = isEditModeEnabled,
+                checklistItemModel = item,
+                onItemClick = { onItemClick(item) },
+                onDeleteItemClicked = { onDeleteChecklist(item) }
+            )
+        }
     }
 }
 
