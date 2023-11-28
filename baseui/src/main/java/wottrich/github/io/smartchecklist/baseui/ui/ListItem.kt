@@ -75,14 +75,12 @@ fun CoreRow(
     content: @Composable RowScope.() -> Unit
 ) {
     Row(
-        modifier = modifier.composed {
-            wrapContentHeight()
-                .fillMaxWidth()
-                .padding(
-                    horizontal = Dimens.BaseFour.SizeFour,
-                    vertical = Dimens.BaseFour.SizeFour
-                )
-        }
+        modifier = modifier.wrapContentHeight()
+            .fillMaxWidth()
+            .padding(
+                horizontal = Dimens.BaseFour.SizeFour,
+                vertical = Dimens.BaseFour.SizeFour
+            )
     ) {
         content()
     }
@@ -173,8 +171,8 @@ object RowDefaults {
     ): TextState {
         return TextState(
             text,
-            color = color,
             alpha = alpha,
+            color = color,
             fontWeight = fontWeight,
             textAlign = textAlign,
             style = MaterialTheme.typography.h6
@@ -191,8 +189,8 @@ object RowDefaults {
     ): TextState {
         return TextState(
             text,
-            color = color,
             alpha = alpha,
+            color = color,
             fontWeight = fontWeight,
             textAlign = textAlign,
             style = MaterialTheme.typography.subtitle1
