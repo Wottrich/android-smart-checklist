@@ -1,37 +1,32 @@
 package wottrich.github.io.smartchecklist.presentation.ui.drawer
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Divider
+import androidx.compose.material.ContentAlpha
 import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
 import androidx.compose.material.Surface
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
-import wottrich.github.io.smartchecklist.R
-import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.unit.dp
+import wottrich.github.io.smartchecklist.baseui.RowComponent
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
-import wottrich.github.io.smartchecklist.baseui.ui.ListItem
 import wottrich.github.io.smartchecklist.baseui.ui.ListItemEndTextContent
 import wottrich.github.io.smartchecklist.baseui.ui.ListItemStartTextContent
 import wottrich.github.io.smartchecklist.baseui.ui.RowDefaults
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
+import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
 
 /**
  * @author Wottrich
@@ -41,6 +36,8 @@ import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
  * Copyright © 2021 AndroidSmartCheckList. All rights reserved.
  *
  */
+
+private val checklistItemShape = RoundedCornerShape(Dimens.BaseFour.SizeTwo)
 
 @Composable
 fun HomeDrawerChecklistItemComponent(
@@ -52,96 +49,114 @@ fun HomeDrawerChecklistItemComponent(
     val modifier = Modifier
         .clickable { onItemClick() }
 
-    ItemContent(
+    ChecklistItemContent(
         modifier,
         isEditModeEnabled,
         checklistItemModel,
         onDeleteItemClicked
     )
-    Divider(Modifier.padding(start = Dimens.BaseFour.SizeFive))
 }
 
 @Composable
-private fun ItemContent(
+private fun ChecklistItemContent(
     modifier: Modifier,
     isEditModeEnabled: Boolean,
     checklistItemModel: HomeDrawerChecklistItemModel,
     onDeleteItemClicked: () -> Unit
 ) {
-    ListItem(
-        modifier = modifier.background(Color.Transparent),
-        startIcon = {
-            Row(
-                modifier = Modifier.wrapContentSize(),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                DeleteIcon(
+    ChecklistItemAlphaProvider(
+        isEditModeEnabled,
+        checklistItemModel.isChecklistSelected,
+    ) {
+        ChecklistItemSurface(
+            content = {
+                ChecklistItemMolecule(
+                    modifier = modifier,
                     isEditModeEnabled = isEditModeEnabled,
+                    checklistItemModel = checklistItemModel,
                     onDeleteItemClicked = onDeleteItemClicked
                 )
             }
+        )
+    }
+}
+
+@Composable
+private fun ChecklistItemAlphaProvider(
+    isEditModeEnabled: Boolean,
+    isChecklistSelected: Boolean,
+    content: @Composable () -> Unit
+) {
+    val alpha = if (isEditModeEnabled || isChecklistSelected) ContentAlpha.high
+    else ContentAlpha.disabled
+    CompositionLocalProvider(
+        LocalContentAlpha provides alpha,
+        content = content
+    )
+}
+
+@Composable
+private fun ChecklistItemSurface(
+    content: @Composable () -> Unit
+) {
+    Surface(
+        shape = checklistItemShape,
+        elevation = 1.dp,
+    ) {
+        content()
+    }
+}
+
+@Composable
+private fun ChecklistItemMolecule(
+    modifier: Modifier,
+    isEditModeEnabled: Boolean,
+    checklistItemModel: HomeDrawerChecklistItemModel,
+    onDeleteItemClicked: () -> Unit
+) {
+    RowComponent(
+        modifier = modifier,
+        leftIconContent = {
+            if (checklistItemModel.isChecklistSelected) {
+                Icon(imageVector = Icons.Default.Check, contentDescription = null)
+            }
         },
-        startContent = {
+        leftContent = {
             ListItemStartTextContent(
-                primary = RowDefaults.title(text = checklistItemModel.checklistName),
-                secondary = RowDefaults.description(
-                    text = getSecondaryText(hasIncompleteItem = checklistItemModel.hasUncompletedTask),
-                    color = getSecondaryColor(hasIncompleteItem = checklistItemModel.hasUncompletedTask)
+                primary = RowDefaults.title(
+                    text = checklistItemModel.checklistName,
+                    alpha = LocalContentAlpha.current
                 )
             )
         },
-        endContent = {
-            Column(
-                horizontalAlignment = Alignment.End
-            ) {
-                ListItemEndTextContent(
-                    primary = RowDefaults.description(text = checklistItemModel.completeCountLabel)
+        rightIconContent = {
+            DeleteIcon(
+                isEditModeEnabled = isEditModeEnabled,
+                onDeleteItemClicked = onDeleteItemClicked
+            )
+        },
+        rightContent = {
+            ListItemEndTextContent(
+                primary = RowDefaults.smallDescription(
+                    text = checklistItemModel.completeCountLabel,
+                    color = getSecondaryColor(
+                        hasIncompleteItem = checklistItemModel.hasUncompletedTask
+                    )
                 )
-                Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
-                if (checklistItemModel.isChecklistSelected) {
-                    Surface(
-                        shape = RoundedCornerShape(50),
-                        color = SmartChecklistTheme.colors.secondary
-                    ) {
-                        Box(
-                            modifier = Modifier.padding(
-                                horizontal = Dimens.BaseFour.SizeThree,
-                                vertical = Dimens.BaseFour.SizeOne
-                            )
-                        ) {
-                            ListItemEndTextContent(
-                                primary = RowDefaults.description(
-                                    text = stringResource(id = R.string.home_drawer_checklist_selected_label),
-                                    color = SmartChecklistTheme.colors.onSecondary,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            )
-                        }
-                    }
-                }
-            }
+            )
         }
     )
 }
 
 @Composable
-private fun getSecondaryText(hasIncompleteItem: Boolean): String {
-    val textId = if (hasIncompleteItem) {
-        R.string.drawer_checklist_uncompleted
-    } else {
-        R.string.drawer_checklist_completed
-    }
-    return stringResource(id = textId)
-}
-
-@Composable
-private fun getSecondaryColor(hasIncompleteItem: Boolean): Color {
+private fun getSecondaryColor(
+    hasIncompleteItem: Boolean
+): Color {
     return if (hasIncompleteItem) {
         SmartChecklistTheme.colors.status.negative
     } else {
         SmartChecklistTheme.colors.status.positive
-    }
+    }.copy(alpha = LocalContentAlpha.current)
 }
 
 @Composable
@@ -157,5 +172,109 @@ private fun RowScope.DeleteIcon(
             imageVector = Icons.Default.Delete,
             contentDescription = null
         )
+    }
+}
+
+class HomeDrawerChecklistItemComponentPreviewParam :
+    PreviewParameterProvider<Pair<Boolean, HomeDrawerChecklistItemModel>> {
+    override val values: Sequence<Pair<Boolean, HomeDrawerChecklistItemModel>> = sequenceOf(
+        Pair(
+            true,
+            HomeDrawerChecklistItemModel(
+                checklistUuid = "123",
+                checklistName = "Checklist Name",
+                completeCountLabel = "2/2",
+                isChecklistSelected = false,
+                hasUncompletedTask = false
+            )
+        ),
+        Pair(
+            true,
+            HomeDrawerChecklistItemModel(
+                checklistUuid = "123",
+                checklistName = "Checklist Name",
+                completeCountLabel = "1/2",
+                isChecklistSelected = false,
+                hasUncompletedTask = true
+            )
+        ),
+        Pair(
+            true,
+            HomeDrawerChecklistItemModel(
+                checklistUuid = "123",
+                checklistName = "Checklist Name",
+                completeCountLabel = "2/2",
+                isChecklistSelected = true,
+                hasUncompletedTask = false
+            )
+        ),
+        Pair(
+            true,
+            HomeDrawerChecklistItemModel(
+                checklistUuid = "123",
+                checklistName = "Checklist Name",
+                completeCountLabel = "1/2",
+                isChecklistSelected = true,
+                hasUncompletedTask = true
+            )
+        ),
+        Pair(
+            false,
+            HomeDrawerChecklistItemModel(
+                checklistUuid = "123",
+                checklistName = "Checklist Name",
+                completeCountLabel = "2/2",
+                isChecklistSelected = false,
+                hasUncompletedTask = false
+            )
+        ),
+        Pair(
+            false,
+            HomeDrawerChecklistItemModel(
+                checklistUuid = "123",
+                checklistName = "Checklist Name",
+                completeCountLabel = "1/2",
+                isChecklistSelected = false,
+                hasUncompletedTask = true
+            )
+        ),
+        Pair(
+            false,
+            HomeDrawerChecklistItemModel(
+                checklistUuid = "123",
+                checklistName = "Checklist Name",
+                completeCountLabel = "2/2",
+                isChecklistSelected = true,
+                hasUncompletedTask = false
+            )
+        ),
+        Pair(
+            false,
+            HomeDrawerChecklistItemModel(
+                checklistUuid = "123",
+                checklistName = "Checklist Name",
+                completeCountLabel = "1/2",
+                isChecklistSelected = true,
+                hasUncompletedTask = true
+            )
+        )
+    )
+
+}
+
+@Preview
+@Composable
+private fun HomeDrawerChecklistItemComponentPreview(
+    @PreviewParameter(HomeDrawerChecklistItemComponentPreviewParam::class) params: Pair<Boolean, HomeDrawerChecklistItemModel>,
+) {
+    ApplicationTheme(params.first) {
+        Surface {
+            HomeDrawerChecklistItemComponent(
+                isEditModeEnabled = false,
+                checklistItemModel = params.second,
+                onItemClick = { },
+                onDeleteItemClicked = { }
+            )
+        }
     }
 }
