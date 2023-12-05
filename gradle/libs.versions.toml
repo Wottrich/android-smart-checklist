@@ -7,7 +7,8 @@ coroutines = "1.5.2"
 appCompat = "1.4.1"
 lifecycleRuntime = "2.5.1"
 lifecycleViewModelKtx = "2.3.1"
-koin = "3.1.5"
+koin = "3.4.5"
+koinCore = "3.4.3"
 composeCompiler = "1.4.8"
 compose = "1.4.3"
 composeActivity = "1.7.2"
@@ -48,7 +49,7 @@ coroutines-core = { group="org.jetbrains.kotlinx", name="kotlinx-coroutines-core
 # Gson
 gson = { group="com.squareup.retrofit2", name="converter-gson", version.ref="retrofit" }
 # Koin
-koin-core = { group="io.insert-koin", name="koin-core", version.ref="koin" }
+koin-core = { group="io.insert-koin", name="koin-core", version.ref="koinCore" }
 koin-android = { group="io.insert-koin", name="koin-android", version.ref="koin" }
 koin-android-compose = { group="io.insert-koin", name="koin-androidx-compose", version.ref="koin" }
 # Kotlin
