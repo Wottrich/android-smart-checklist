@@ -3,6 +3,7 @@ package wottrich.github.io.smartchecklist.datasource.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
+import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
 import wottrich.github.io.smartchecklist.datasource.entity.NewChecklistWithNewTasks
 
 class ChecklistRepositoryImpl(
@@ -16,6 +17,10 @@ class ChecklistRepositoryImpl(
         return checklistDao.observeSelectedChecklistWithTasks().map {
             it.getOrSaveSelectedChecklist()
         }
+    }
+
+    override fun observeSelectedChecklist(): Flow<NewChecklist?> {
+        return checklistDao.observeSelectedChecklist()
     }
 
     private suspend fun List<NewChecklistWithNewTasks>.getOrSaveSelectedChecklist(): NewChecklistWithNewTasks? {
