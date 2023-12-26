@@ -36,6 +36,14 @@ interface ChecklistDao {
     fun observeSelectedChecklistWithTasks(): Flow<List<NewChecklistWithNewTasks>>
 
     @Transaction
+    @Query("SELECT * FROM new_checklist WHERE is_selected='1' LIMIT 1")
+    fun getSelectedChecklistWithTasks(): List<NewChecklistWithNewTasks>
+
+    @Transaction
+    @Query("SELECT uuid FROM new_checklist WHERE is_selected='1' LIMIT 1")
+    fun observeSelectedChecklistUuid(): Flow<String?>
+
+    @Transaction
     @Query("SELECT * FROM new_checklist WHERE is_selected='1'")
     fun observeSelectedChecklist(): Flow<NewChecklist?>
 

@@ -4,15 +4,12 @@ import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.datasource.dao.TaskDao
 import wottrich.github.io.smartchecklist.datasource.entity.NewTask
-import wottrich.github.io.smartchecklist.domain.usecase.AddTaskToDatabaseUseCase.Params
 
 class AddTaskToDatabaseUseCase(private val taskDao: TaskDao) :
-    KotlinResultUseCase<Params, NewTask>() {
-    override suspend fun execute(params: Params): Result<NewTask> {
-        val (checklistId, taskName) = params
-        val task = generateTask(checklistId, taskName)
-        val id = taskDao.insert(task)
-        return if (id != null) Result.success(task)
+    KotlinResultUseCase<NewTask, NewTask>() {
+    override suspend fun execute(params: NewTask): Result<NewTask> {
+        val id = taskDao.insert(params)
+        return if (id != null) Result.success(params)
         else Result.failure(Throwable("Error to add task"))
     }
 

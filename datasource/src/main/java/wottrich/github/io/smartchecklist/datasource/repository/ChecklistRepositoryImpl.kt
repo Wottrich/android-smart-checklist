@@ -2,6 +2,7 @@ package wottrich.github.io.smartchecklist.datasource.repository
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
 import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
 import wottrich.github.io.smartchecklist.datasource.entity.NewChecklistWithNewTasks
@@ -17,6 +18,10 @@ class ChecklistRepositoryImpl(
         return checklistDao.observeSelectedChecklistWithTasks().map {
             it.getOrSaveSelectedChecklist()
         }
+    }
+
+    override suspend fun getSelectedChecklistWithTasks(): NewChecklistWithNewTasks? {
+        return checklistDao.getSelectedChecklistWithTasks().getOrSaveSelectedChecklist()
     }
 
     override fun observeSelectedChecklist(): Flow<NewChecklist?> {
@@ -40,7 +45,8 @@ class ChecklistRepositoryImpl(
 
     override suspend fun updateSelectedChecklist(checklistUuid: String) {
         val checklistToBeSelected = checklistDao.getChecklist(checklistUuid).copy(isSelected = true)
-        val currentSelectedChecklist = checklistDao.selectSelectedChecklist(true)?.copy(isSelected = false)
+        val currentSelectedChecklist =
+            checklistDao.selectSelectedChecklist(true)?.copy(isSelected = false)
         if (currentSelectedChecklist == null) {
             checklistDao.update(checklistToBeSelected)
         } else {
@@ -50,5 +56,15 @@ class ChecklistRepositoryImpl(
 
     override suspend fun deleteChecklistByUuid(checklistUuid: String) {
         checklistDao.deleteChecklistByUuid(checklistUuid)
+    }
+
+    override fun observeSelectedChecklistUuid(): Flow<String?> {
+        return checklistDao.observeSelectedChecklistUuid().mapNotNull { selectedChecklistUuid ->
+            selectedChecklistUuid ?: getFirstChecklist()?.run {
+                val checklist = this.newChecklist.copy(isSelected = true)
+                checklistDao.update(checklist)
+                this.newChecklist.uuid
+            }
+        }
     }
 }
