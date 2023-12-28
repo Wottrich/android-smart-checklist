@@ -1,29 +1,29 @@
 package wottrich.github.io.smartchecklist.presentation.viewmodel
 
 import androidx.annotation.StringRes
-import wottrich.github.io.smartchecklist.checklist.domain.DeleteChecklistUseCase
-import wottrich.github.io.smartchecklist.checklist.domain.GetChecklistAsTextUseCase
-import wottrich.github.io.smartchecklist.coroutines.base.onFailure
-import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
-import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import wottrich.github.io.smartchecklist.quicklychecklist.R as QuicklyChecklistR
+import wottrich.github.io.smartchecklist.android.BaseViewModel
+import wottrich.github.io.smartchecklist.checklist.domain.DeleteChecklistUseCase
+import wottrich.github.io.smartchecklist.checklist.domain.GetChecklistAsTextUseCase
+import wottrich.github.io.smartchecklist.coroutines.base.onFailure
+import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
+import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.domain.usecase.ObserveSimpleSelectedChecklistModelUseCase
+import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiState
 import wottrich.github.io.smartchecklist.presentation.state.TopBarHomeUiEffects
 import wottrich.github.io.smartchecklist.presentation.ui.model.SimpleChecklistModel
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
 import wottrich.github.io.smartchecklist.quicklychecklist.domain.ConvertChecklistIntoQuicklyChecklistUseCase
 import wottrich.github.io.smartchecklist.quicklychecklist.domain.GetQuicklyChecklistDeepLinkUseCase
-import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
-import wottrich.github.io.smartchecklist.android.BaseViewModel
+import wottrich.github.io.smartchecklist.quicklychecklist.R as QuicklyChecklistR
 
 /**
  * @author Wottrich
@@ -96,7 +96,7 @@ class HomeViewModel(
         }
     }
 
-    private fun onShowTaskChangeStatusSnackbar(task: NewTask) {
+    private fun onShowTaskChangeStatusSnackbar(task: Task) {
         launchIO {
             handleUpdateTaskEffect(task)
         }
@@ -171,7 +171,7 @@ class HomeViewModel(
         _homeStateFlow.value = homeStateFlow.value.copy(homeUiState = state)
     }
 
-    private suspend fun handleUpdateTaskEffect(task: NewTask) {
+    private suspend fun handleUpdateTaskEffect(task: Task) {
         val effect = if (task.isCompleted) {
             HomeUiEffects.SnackbarTaskUncompleted(task.name)
         } else {

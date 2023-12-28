@@ -2,20 +2,20 @@ package wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmode
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import wottrich.github.io.smartchecklist.newchecklist.domain.AddNewChecklistUseCase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
-import wottrich.github.io.smartchecklist.datasource.entity.QuicklyChecklist
-import wottrich.github.io.smartchecklist.domain.usecase.AddManyTasksUseCase
-import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistAddNewChecklistUiEffect
-import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
 import wottrich.github.io.smartchecklist.android.BaseViewModel
-import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 import wottrich.github.io.smartchecklist.coroutines.base.onFailure
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
+import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
+import wottrich.github.io.smartchecklist.datasource.data.model.QuicklyChecklist
+import wottrich.github.io.smartchecklist.domain.usecase.AddManyTasksUseCase
+import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
+import wottrich.github.io.smartchecklist.newchecklist.domain.usecase.AddNewChecklistUseCase
+import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistAddNewChecklistUiEffect
+import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 
 class QuicklyChecklistAddNewChecklistViewModel(
     private val addNewChecklistUseCase: AddNewChecklistUseCase,
@@ -44,9 +44,9 @@ class QuicklyChecklistAddNewChecklistViewModel(
 
     fun onConfirmButtonClicked() {
         launchIO {
-            val newChecklist = NewChecklist(name = uiState.value.checklistName)
-            val newTasks = getTasksWithChecklistId(newChecklist.uuid)
-            addNewChecklistUseCase(newChecklist).onSuccess {
+            val checklist = Checklist(name = uiState.value.checklistName)
+            val newTasks = getTasksWithChecklistId(checklist.uuid)
+            addNewChecklistUseCase(checklist).onSuccess {
                 handleAddNewTasksInNewChecklist(newTasks)
             }.onFailure {
                 emitOnAddNewChecklistFailure()
@@ -54,7 +54,7 @@ class QuicklyChecklistAddNewChecklistViewModel(
         }
     }
 
-    private fun handleAddNewTasksInNewChecklist(newTasks: List<NewTask>) {
+    private fun handleAddNewTasksInNewChecklist(newTasks: List<Task>) {
         launchIO {
             addManyTasksUseCase(newTasks).onSuccess {
                 emitOnAddNewChecklistCompleted()
@@ -72,7 +72,7 @@ class QuicklyChecklistAddNewChecklistViewModel(
         _effects.emit(QuicklyChecklistAddNewChecklistUiEffect.OnAddNewChecklistFailure)
     }
 
-    private fun getTasksWithChecklistId(parentUuid: String): List<NewTask> {
+    private fun getTasksWithChecklistId(parentUuid: String): List<Task> {
         return quicklyChecklist?.getConvertedTasks()
             ?.map {
                 it.copy(uuid = UuidGenerator.getRandomUuid(), parentUuid = parentUuid)

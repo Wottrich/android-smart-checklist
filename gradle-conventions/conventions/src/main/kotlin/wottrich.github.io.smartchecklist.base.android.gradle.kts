@@ -7,7 +7,7 @@ plugins {
 internal val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
 
 android {
-    compileSdkVersion(33)
+    compileSdkVersion(34)
     defaultConfig {
         minSdk = 21
         targetSdk = 33

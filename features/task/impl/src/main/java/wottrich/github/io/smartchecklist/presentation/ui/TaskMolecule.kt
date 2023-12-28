@@ -17,12 +17,12 @@ import androidx.compose.ui.unit.IntSize
 import wottrich.github.io.smartchecklist.baseui.RowComponent
 import wottrich.github.io.smartchecklist.baseui.TextOneLine
 import wottrich.github.io.smartchecklist.baseui.icons.DeleteIcon
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.task.R.string
 
 @Composable
 fun TaskMolecule(
-    task: NewTask,
+    task: Task,
     showDeleteItem: Boolean,
     onCheckChange: () -> Unit,
     interactionSource: MutableInteractionSource,
@@ -54,7 +54,7 @@ private fun Modifier.taskMoleculeModifier(
 
 @Composable
 private fun LeftIconContent(
-    task: NewTask,
+    task: Task,
     showDeleteItem: Boolean,
     interactionSource: MutableInteractionSource
 ) {
@@ -75,7 +75,7 @@ private fun LeftIconContent(
 }
 
 @Composable
-private fun LeftContent(task: NewTask) {
+private fun LeftContent(task: Task) {
     TextOneLine(
         primary = {
             Text(
@@ -87,7 +87,7 @@ private fun LeftContent(task: NewTask) {
 }
 
 @Composable
-private fun RightIconContent(task: NewTask, onCheckChange: () -> Unit) {
+private fun RightIconContent(task: Task, onCheckChange: () -> Unit) {
     IconCompletableTaskContent(
         taskName = task.name,
         isCompletedTask = task.isCompleted
@@ -104,7 +104,8 @@ private fun getTextDecoration(isCompleted: Boolean): TextDecoration? {
 @Composable
 fun TaskMoleculePreview() {
     TaskMolecule(
-        task = NewTask(
+        task = Task(
+            uuid = "123",
             parentUuid = "123434",
             name = "Task 1",
             isCompleted = false

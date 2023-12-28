@@ -6,13 +6,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import wottrich.github.io.smartchecklist.baseui.behaviour.progress.pressProgressionInteractionState
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
 
 private const val TIME_TO_DELETE_ITEM_IN_MILLIS = 350L
 
 @Composable
 fun TaskComponent(
-    task: NewTask,
+    task: Task,
     showDeleteItem: Boolean,
     onCheckChange: () -> Unit,
     onDeleteTask: () -> Unit

@@ -12,6 +12,8 @@
     <string name="taks_your_tasks_label_header">Suas tarefas</string>
 
     <string name="checklist_add_new_item_failure">O nome da tarefa não pode estar vazio!</string>
+    <string name="checklist_add_new_task_unknown_error">Algo aconteceu, por favor tente novamente</string>
+    <string name="checklist_change_task_state_failure">Algum problema aconteceu ao trocar o status da sua tarefa</string>
 
     <string name="task_item_component_load_tasks_error">Erro ao carregar as tarefas, tente novamente, por favor!</string>
 

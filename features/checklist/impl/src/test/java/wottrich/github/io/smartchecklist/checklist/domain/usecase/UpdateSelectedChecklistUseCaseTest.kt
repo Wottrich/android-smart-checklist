@@ -6,7 +6,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
-import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepository
 import kotlin.test.assertTrue
 
 /**
