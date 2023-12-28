@@ -8,7 +8,7 @@ import wottrich.github.io.smartchecklist.checklist.domain.UpdateSelectedChecklis
 import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
 import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
 import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
-import wottrich.github.io.smartchecklist.newchecklist.domain.AddNewChecklistUseCase
+import wottrich.github.io.smartchecklist.newchecklist.domain.usecase.AddNewChecklistUseCase
 import wottrich.github.io.smartchecklist.newchecklist.presentation.states.NewChecklistNameUiEffect
 import wottrich.github.io.smartchecklist.newchecklist.presentation.states.NewChecklistNameUiState
 

@@ -1,13 +1,12 @@
-package wottrich.github.io.smartchecklist.newchecklist.domain
+package wottrich.github.io.smartchecklist.newchecklist.domain.usecase
 
 import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepository
-import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
 
-class AddNewChecklistUseCase(
+class AddNewChecklistUseCaseImpl(
     private val checklistRepository: ChecklistRepository
-) : KotlinResultUseCase<Checklist, Long?>() {
+) : AddNewChecklistUseCase() {
     override suspend fun execute(params: Checklist): Result<Long?> {
         return try {
             Result.success(checklistRepository.insertChecklist(params))

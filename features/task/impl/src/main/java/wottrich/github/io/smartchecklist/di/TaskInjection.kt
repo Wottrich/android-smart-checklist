@@ -6,6 +6,7 @@ import org.koin.dsl.module
 import wottrich.github.io.smartchecklist.data.repository.TaskRepository
 import wottrich.github.io.smartchecklist.data.repository.TaskRepositoryImpl
 import wottrich.github.io.smartchecklist.domain.usecase.AddManyTasksUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.AddManyTasksUseCaseImpl
 import wottrich.github.io.smartchecklist.domain.usecase.AddTaskToDatabaseUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.ChangeTasksCompletedStatusUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetChangeTaskStatusUseCase
@@ -29,7 +30,7 @@ private fun Module.injectUseCases() {
     factory { GetChangeTaskStatusUseCase(get()) }
     factory { GetDeleteTaskUseCase(get()) }
     factory { GetTasksUseCase(get()) }
-    factory { AddManyTasksUseCase(get()) }
+    factory<AddManyTasksUseCase> { AddManyTasksUseCaseImpl(get()) }
     factory { SortTasksBySelectedSortUseCase() }
     factory { ReverseTasksIfNeededUseCase() }
 }

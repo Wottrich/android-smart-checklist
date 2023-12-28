@@ -3,5 +3,6 @@ plugins {
 }
 
 dependencies {
+    implementation(project(":domain:coroutines"))
     implementation(project(":datasource:public"))
 }

@@ -13,7 +13,7 @@ import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.datasource.data.model.QuicklyChecklist
 import wottrich.github.io.smartchecklist.domain.usecase.AddManyTasksUseCase
 import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
-import wottrich.github.io.smartchecklist.newchecklist.domain.AddNewChecklistUseCase
+import wottrich.github.io.smartchecklist.newchecklist.domain.usecase.AddNewChecklistUseCase
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistAddNewChecklistUiEffect
 import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 
