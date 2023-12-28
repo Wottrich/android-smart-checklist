@@ -22,8 +22,9 @@ import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
-import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
-import wottrich.github.io.smartchecklist.presentation.ui.TaskLazyColumnComponent
+// TODO Fix it!
+//import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
+//import wottrich.github.io.smartchecklist.presentation.ui.TaskLazyColumnComponent
 import wottrich.github.io.smartchecklist.quicklychecklist.R
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistUiEffect.InvalidChecklist
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistUiEffect.OnConfirmQuicklyChecklist
@@ -166,10 +167,10 @@ private fun ScaffoldContent(
     taskList: List<Task>,
     onCheckChange: (Task) -> Unit
 ) {
-    TaskLazyColumnComponent(
-        taskList = taskList.map { BaseTaskListItem.TaskItem(it) },
-        onCheckChange = onCheckChange,
-        onDeleteTask = {},
-        showDeleteItem = false
-    )
+//    TaskLazyColumnComponent(
+//        taskList = taskList.map { BaseTaskListItem.TaskItem(it) },
+//        onCheckChange = onCheckChange,
+//        onDeleteTask = {},
+//        showDeleteItem = false
+//    )
 }
