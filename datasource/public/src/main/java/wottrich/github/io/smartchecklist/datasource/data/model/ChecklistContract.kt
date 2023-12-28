@@ -1,4 +1,4 @@
-package wottrich.github.io.smartchecklist.datasource.entity
+package wottrich.github.io.smartchecklist.datasource.data.model
 
 
 interface ChecklistContract {

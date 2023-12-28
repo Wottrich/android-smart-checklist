@@ -11,7 +11,7 @@ dependencies {
     implementation(libs.kotlin.stdlib.jdk8)
     implementation(libs.bundles.koin.default)
     implementation(project(path = ":domain:coroutines"))
-    implementation(project(path = ":datasource"))
+    implementation(project(path = ":datasource:public"))
     implementation(project(path = ":baseui"))
     testImplementation(project(path = ":test-tools"))
     testImplementation(libs.bundles.test.default)

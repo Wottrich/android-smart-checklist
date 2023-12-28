@@ -3,11 +3,12 @@ package wottrich.github.io.smartchecklist.datasource.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistContract
 import java.util.Calendar
 import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 
 @Entity(tableName = "new_checklist")
-data class NewChecklist(
+data class ChecklistDTO(
     @ColumnInfo(name = "uuid")
     @PrimaryKey
     override val uuid: String = UuidGenerator.getRandomUuid(),

@@ -1,11 +1,11 @@
 package wottrich.github.io.smartchecklist.checklist.domain.usecase
 
+import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepository
 import wottrich.github.io.smartchecklist.checklist.domain.UpdateSelectedChecklistUseCase
 import wottrich.github.io.smartchecklist.coroutines.UseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.coroutines.failureEmptyResult
 import wottrich.github.io.smartchecklist.coroutines.successEmptyResult
-import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
 
 /**
  * @author Wottrich

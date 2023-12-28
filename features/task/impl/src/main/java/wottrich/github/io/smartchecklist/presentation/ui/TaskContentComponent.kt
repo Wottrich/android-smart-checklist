@@ -16,7 +16,7 @@ import androidx.compose.ui.Modifier
 import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction
 import wottrich.github.io.smartchecklist.presentation.sort.ui.TaskSortContent
 import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
@@ -37,7 +37,7 @@ fun TaskContentComponent(
     showHeaderComponent: Boolean = true,
     showDeleteIcon: Boolean = true,
     showSortComponent: Boolean = true,
-    onUpdateClicked: (NewTask) -> Unit,
+    onUpdateClicked: (Task) -> Unit,
     onError: (stringRes: Int) -> Unit,
     viewModel: TaskComponentViewModel = getViewModel()
 ) {
@@ -124,8 +124,8 @@ private fun ColumnScope.Header(
 private fun TaskList(
     tasks: List<BaseTaskListItem>,
     showDeleteIcon: Boolean,
-    onCheckChange: (NewTask) -> Unit,
-    onDeleteTask: (NewTask) -> Unit
+    onCheckChange: (Task) -> Unit,
+    onDeleteTask: (Task) -> Unit
 ) {
     TaskLazyColumnComponent(
         taskList = tasks,

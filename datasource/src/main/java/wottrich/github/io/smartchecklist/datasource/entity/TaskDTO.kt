@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
+import wottrich.github.io.smartchecklist.datasource.data.model.TaskContract
 import java.util.Calendar
 import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 
@@ -12,13 +13,13 @@ import wottrich.github.io.smartchecklist.uuid.UuidGenerator
     foreignKeys = [
         ForeignKey(
             onDelete = ForeignKey.CASCADE,
-            entity = NewChecklist::class,
+            entity = ChecklistDTO::class,
             parentColumns = arrayOf("uuid"),
             childColumns = arrayOf("parent_uuid")
         )
     ]
 )
-data class NewTask(
+data class TaskDTO(
     @PrimaryKey
     override val uuid: String = UuidGenerator.getRandomUuid(),
     @ColumnInfo(name = "parent_uuid")

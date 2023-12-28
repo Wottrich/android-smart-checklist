@@ -9,6 +9,7 @@ android {
 }
 
 dependencies {
+    api(project(":datasource:public"))
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation(libs.bundles.koin.default)
     implementation(libs.bundles.room.default)

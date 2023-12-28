@@ -3,21 +3,21 @@ package wottrich.github.io.smartchecklist.quicklychecklist.presentation.viewmode
 import androidx.compose.runtime.mutableStateListOf
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import wottrich.github.io.smartchecklist.android.BaseViewModel
-import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import wottrich.github.io.smartchecklist.android.BaseViewModel
+import wottrich.github.io.smartchecklist.coroutines.base.onFailure
+import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
+import wottrich.github.io.smartchecklist.datasource.data.model.QuicklyChecklist
+import wottrich.github.io.smartchecklist.datasource.data.model.QuicklyTask
+import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
+import wottrich.github.io.smartchecklist.quicklychecklist.R
 import wottrich.github.io.smartchecklist.quicklychecklist.domain.ConvertQuicklyChecklistIntoJsonUseCase
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistUiEffect
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistUiState
-import wottrich.github.io.smartchecklist.coroutines.base.onFailure
-import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
-import wottrich.github.io.smartchecklist.datasource.entity.QuicklyChecklist
-import wottrich.github.io.smartchecklist.datasource.entity.QuicklyTask
-import wottrich.github.io.smartchecklist.quicklychecklist.R
 
 class QuicklyChecklistViewModel(
     private val quicklyChecklistJson: String,
@@ -32,7 +32,7 @@ class QuicklyChecklistViewModel(
     private val _effects = SingleShotEventBus<QuicklyChecklistUiEffect>()
     val effects: Flow<QuicklyChecklistUiEffect> = _effects.events
 
-    var tasks = mutableStateListOf<NewTask>()
+    var tasks = mutableStateListOf<Task>()
         private set
 
     init {
@@ -56,7 +56,7 @@ class QuicklyChecklistViewModel(
         }
     }
 
-    fun onCheckChange(newTask: NewTask) {
+    fun onCheckChange(newTask: Task) {
         val state = state.value
         val newTaskList = tasks.toList().toMutableList().apply {
             val elementIndex = indexOf(newTask)
@@ -103,13 +103,13 @@ class QuicklyChecklistViewModel(
         }
     }
 
-    private fun updateTasks(newTasks: List<NewTask>) {
+    private fun updateTasks(newTasks: List<Task>) {
         quicklyChecklist = quicklyChecklist?.copy(tasks = newTasks.geConvertedQuicklyChecklist())
         tasks.clear()
         tasks.addAll(newTasks)
     }
 
-    private fun List<NewTask>.geConvertedQuicklyChecklist() = this.map {
+    private fun List<Task>.geConvertedQuicklyChecklist() = this.map {
         QuicklyTask(name = it.name, isCompleted = it.isCompleted)
     }
 }

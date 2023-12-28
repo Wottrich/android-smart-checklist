@@ -14,15 +14,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import wottrich.github.io.smartchecklist.baseui.StyledText
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
 import wottrich.github.io.smartchecklist.task.R
 
 @Composable
 fun TaskLazyColumnComponent(
     taskList: List<BaseTaskListItem>,
-    onCheckChange: (NewTask) -> Unit,
-    onDeleteTask: (NewTask) -> Unit,
+    onCheckChange: (Task) -> Unit,
+    onDeleteTask: (Task) -> Unit,
     showDeleteItem: Boolean = true
 ) {
     LazyColumn(
@@ -78,10 +78,10 @@ private fun TaskSection(
 
 @Composable
 private fun TaskItem(
-    task: NewTask,
+    task: Task,
     showDeleteItem: Boolean,
-    onCheckChange: (NewTask) -> Unit,
-    onDeleteTask: (NewTask) -> Unit
+    onCheckChange: (Task) -> Unit,
+    onDeleteTask: (Task) -> Unit
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))

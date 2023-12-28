@@ -2,6 +2,8 @@ package wottrich.github.io.smartchecklist.checklist.di
 
 import org.koin.core.module.Module
 import org.koin.dsl.module
+import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepositoryImpl
 import wottrich.github.io.smartchecklist.checklist.domain.DeleteChecklistUseCase
 import wottrich.github.io.smartchecklist.checklist.domain.GetChecklistAsTextUseCase
 import wottrich.github.io.smartchecklist.checklist.domain.ObserveSelectedChecklistUuidUseCase
@@ -20,4 +22,5 @@ private fun Module.injectUseCases() {
     factory<UpdateSelectedChecklistUseCase> { UpdateSelectedChecklistUseCaseImpl(get()) }
     factory<GetChecklistAsTextUseCase> { GetChecklistAsTextUseCaseImpl(get()) }
     factory<ObserveSelectedChecklistUuidUseCase> { ObserveSelectedChecklistUuidUseCaseImpl(get()) }
+    factory<ChecklistRepository> { ChecklistRepositoryImpl(get()) }
 }

@@ -5,8 +5,10 @@ import org.koin.dsl.module
 import wottrich.github.io.smartchecklist.datasource.AppDatabase
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
 import wottrich.github.io.smartchecklist.datasource.dao.TaskDao
-import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
-import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepositoryImpl
+import wottrich.github.io.smartchecklist.datasource.data.datasource.ChecklistDatasource
+import wottrich.github.io.smartchecklist.datasource.data.datasource.TaskDatasource
+import wottrich.github.io.smartchecklist.datasource.repository.ChecklistDatasourceImpl
+import wottrich.github.io.smartchecklist.datasource.repository.TaskDatasourceImpl
 
 /**
  * @author Wottrich
@@ -16,11 +18,12 @@ import wottrich.github.io.smartchecklist.datasource.repository.ChecklistReposito
  * Copyright © 2020 AndroidSmartCheckList. All rights reserved.
  *
  */
- 
+
 val databaseModule = module {
 
     single<ChecklistDao> { AppDatabase.getInstance(androidContext()).checklistDao() }
     single<TaskDao> { AppDatabase.getInstance(androidContext()).taskDao() }
-    factory<ChecklistRepository> { ChecklistRepositoryImpl(get()) }
+    factory<TaskDatasource> { TaskDatasourceImpl(get()) }
+    factory<ChecklistDatasource> { ChecklistDatasourceImpl(get()) }
 
 }

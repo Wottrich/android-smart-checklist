@@ -8,8 +8,8 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
-import wottrich.github.io.smartchecklist.datasource.entity.NewChecklistWithNewTasks
+import wottrich.github.io.smartchecklist.datasource.entity.ChecklistDTO
+import wottrich.github.io.smartchecklist.datasource.entity.ChecklistWithTasksDTO
 
 /**
  * @author Wottrich
@@ -25,19 +25,15 @@ interface ChecklistDao {
 
     @Transaction
     @Query("SELECT * FROM new_checklist")
-    suspend fun selectAllChecklistWithTasks(): List<NewChecklistWithNewTasks>
+    suspend fun selectAllChecklistWithTasks(): List<ChecklistWithTasksDTO>
 
     @Transaction
     @Query("SELECT * FROM new_checklist WHERE is_selected=:isSelected")
-    suspend fun selectSelectedChecklist(isSelected: Boolean): NewChecklist?
+    suspend fun selectSelectedChecklist(isSelected: Boolean): ChecklistDTO?
 
     @Transaction
     @Query("SELECT * FROM new_checklist WHERE is_selected='1' LIMIT 1")
-    fun observeSelectedChecklistWithTasks(): Flow<List<NewChecklistWithNewTasks>>
-
-    @Transaction
-    @Query("SELECT * FROM new_checklist WHERE is_selected='1' LIMIT 1")
-    fun getSelectedChecklistWithTasks(): List<NewChecklistWithNewTasks>
+    fun getSelectedChecklistWithTasks(): List<ChecklistWithTasksDTO>
 
     @Transaction
     @Query("SELECT uuid FROM new_checklist WHERE is_selected='1' LIMIT 1")
@@ -45,28 +41,28 @@ interface ChecklistDao {
 
     @Transaction
     @Query("SELECT * FROM new_checklist WHERE is_selected='1'")
-    fun observeSelectedChecklist(): Flow<NewChecklist?>
+    fun observeSelectedChecklist(): Flow<ChecklistDTO?>
 
     @Transaction
     @Query("SELECT * FROM new_checklist")
-    fun observeAllChecklistWithTasks(): Flow<List<NewChecklistWithNewTasks>>
+    fun observeAllChecklistWithTasks(): Flow<List<ChecklistWithTasksDTO>>
 
     @Transaction
     @Query("SELECT * FROM new_checklist WHERE uuid=:uuid")
-    suspend fun getChecklist(uuid: String): NewChecklist
+    suspend fun getChecklist(uuid: String): ChecklistDTO
 
     @Transaction
     @Query("SELECT * FROM new_checklist WHERE uuid=:uuid")
-    suspend fun getChecklistWithTasks(uuid: String): NewChecklistWithNewTasks
+    suspend fun getChecklistWithTasks(uuid: String): ChecklistWithTasksDTO
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(new_checklist: NewChecklist): Long?
+    suspend fun insert(new_checklist: ChecklistDTO): Long?
 
     @Update
-    suspend fun update(new_checklist: NewChecklist)
+    suspend fun update(new_checklist: ChecklistDTO)
 
     @Update
-    suspend fun updateChecklists(checklists: List<NewChecklist>)
+    suspend fun updateChecklists(checklists: List<ChecklistDTO>)
 
     suspend fun deleteChecklistByUuid(checklistUuid: String) {
         val checklist = getChecklist(checklistUuid)
@@ -74,5 +70,5 @@ interface ChecklistDao {
     }
 
     @Delete
-    suspend fun delete(checklist: NewChecklist)
+    suspend fun delete(checklist: ChecklistDTO)
 }

@@ -13,9 +13,9 @@ import junit.framework.Assert.assertTrue
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import org.junit.Test
+import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
 import wottrich.github.io.smartchecklist.domain.usecase.GetChecklistDrawerUseCase
 import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
-import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
 
 class HomeDrawerViewModelTest : BaseUnitTest() {
 
@@ -25,7 +25,7 @@ class HomeDrawerViewModelTest : BaseUnitTest() {
     private lateinit var deleteChecklistUseCase: DeleteChecklistUseCase
 
     private val dummyChecklistId = "0"
-    private val dummyChecklist = NewChecklist(uuid = dummyChecklistId, name = "Checklist1")
+    private val dummyChecklist = Checklist(uuid = dummyChecklistId, name = "Checklist1")
     private val dummyChecklistWithTasks = HomeDrawerChecklistItemModel(
         dummyChecklist.uuid,
         dummyChecklist.name,

@@ -3,11 +3,11 @@ package wottrich.github.io.smartchecklist.quicklychecklist.domain
 import com.google.gson.Gson
 import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
-import wottrich.github.io.smartchecklist.datasource.entity.NewChecklistWithNewTasks
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
-import wottrich.github.io.smartchecklist.datasource.entity.QuicklyChecklist
-import wottrich.github.io.smartchecklist.datasource.entity.QuicklyTask
-import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistWithTasks
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
+import wottrich.github.io.smartchecklist.datasource.data.model.QuicklyChecklist
+import wottrich.github.io.smartchecklist.datasource.data.model.QuicklyTask
+import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepository
 
 class ConvertChecklistIntoQuicklyChecklistUseCase(
     private val checklistRepository: ChecklistRepository
@@ -22,13 +22,13 @@ class ConvertChecklistIntoQuicklyChecklistUseCase(
         }
     }
 
-    private fun createQuicklyChecklist(checklistWithTasks: NewChecklistWithNewTasks): QuicklyChecklist {
+    private fun createQuicklyChecklist(checklistWithTasks: ChecklistWithTasks): QuicklyChecklist {
         return QuicklyChecklist(
-            checklistUuid = checklistWithTasks.newChecklist.uuid,
-            tasks = checklistWithTasks.newTasks.toQuicklyTaskList()
+            checklistUuid = checklistWithTasks.checklist.uuid,
+            tasks = checklistWithTasks.tasks.toQuicklyTaskList()
         )
     }
 
-    private fun List<NewTask>.toQuicklyTaskList() =
+    private fun List<Task>.toQuicklyTaskList() =
         this.map { QuicklyTask(it.name, it.isCompleted) }
 }

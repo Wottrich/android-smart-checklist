@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 import wottrich.github.io.smartchecklist.domain.mapper.SimpleChecklistModelMapper
 import wottrich.github.io.smartchecklist.presentation.ui.model.SimpleChecklistModel
-import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepository
 
 class ObserveSimpleSelectedChecklistModelUseCase(
     private val checklistRepository: ChecklistRepository,

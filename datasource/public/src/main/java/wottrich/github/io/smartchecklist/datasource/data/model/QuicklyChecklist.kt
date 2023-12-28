@@ -1,11 +1,14 @@
-package wottrich.github.io.smartchecklist.datasource.entity
+package wottrich.github.io.smartchecklist.datasource.data.model
+
+import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 
 data class QuicklyChecklist(
     val checklistUuid: String = "",
     val tasks: List<QuicklyTask> = listOf()
 ) {
     fun getConvertedTasks() = tasks.map {
-        NewTask(
+        Task(
+            uuid = UuidGenerator.getRandomUuid(),
             parentUuid = checklistUuid,
             name = it.name,
             isCompleted = it.isCompleted

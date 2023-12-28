@@ -13,7 +13,7 @@ dependencies {
     implementation(libs.gson)
 
     implementation(project(path = ":baseui"))
-    implementation(project(path = ":datasource"))
+    implementation(project(path = ":datasource:public"))
     implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":infrastructure:generator:uuid"))
     implementation(project(path = ":infrastructure:components:android"))

@@ -14,7 +14,7 @@ dependencies {
 
     implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":baseui"))
-    implementation(project(path = ":datasource"))
+    implementation(project(path = ":datasource:public"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
     implementation(project(path = ":features:checklist:public"))
