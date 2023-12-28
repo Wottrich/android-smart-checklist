@@ -6,8 +6,8 @@ import io.mockk.coVerify
 import io.mockk.mockk
 import org.junit.Before
 import org.junit.Test
-import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
-import wottrich.github.io.smartchecklist.datasource.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepository
+import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
 
 /**
  * @author Wottrich
@@ -31,7 +31,7 @@ class DeleteChecklistUseCaseTest : BaseUnitTest() {
 
     @Test
     fun `WHEN use case is requested THEN must delete item`() = runBlockingUnitTest {
-        val expectedChecklist = NewChecklist(uuid = "0", name = "Checklist 0")
+        val expectedChecklist = Checklist(uuid = "0", name = "Checklist 0")
         coEvery { checklistRepository.deleteChecklistByUuid(any()) } returns Unit
 
         sut(expectedChecklist.uuid)

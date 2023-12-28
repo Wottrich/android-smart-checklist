@@ -8,8 +8,8 @@ import androidx.room.TypeConverters
 import wottrich.github.io.smartchecklist.datasource.converter.Converters
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
 import wottrich.github.io.smartchecklist.datasource.dao.TaskDao
-import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.entity.ChecklistDTO
+import wottrich.github.io.smartchecklist.datasource.entity.TaskDTO
 import wottrich.github.io.smartchecklist.datasource.migration.MIGRATION_III_IV
 import wottrich.github.io.smartchecklist.datasource.migration.MIGRATION_II_III
 import wottrich.github.io.smartchecklist.datasource.migration.MIGRATION_I_II
@@ -25,7 +25,7 @@ import wottrich.github.io.smartchecklist.datasource.version.DatabaseVersions
  */
 
 @Database(
-    entities = [NewChecklist::class, NewTask::class],
+    entities = [ChecklistDTO::class, TaskDTO::class],
     version = DatabaseVersions.currentVersion,
     exportSchema = true
 )

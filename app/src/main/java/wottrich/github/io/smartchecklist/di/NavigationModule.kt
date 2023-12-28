@@ -9,7 +9,6 @@ val navigationModule = module {
     single {
         HomeContextNavigator(
             get(),
-            get(),
             getProperty(AppProperties.VERSION_NAME),
             getProperty(AppProperties.VERSION_CODE)
         )

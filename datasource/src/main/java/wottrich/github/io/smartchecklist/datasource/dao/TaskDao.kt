@@ -8,7 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.entity.TaskDTO
 
 /**
  * @author Wottrich
@@ -24,25 +24,25 @@ interface TaskDao {
 
     @Transaction
     @Query("SELECT * FROM new_task WHERE parent_uuid=:parentUuid")
-    fun observeTasksUpdate(parentUuid: String): Flow<List<NewTask>>
+    fun observeTasksUpdate(parentUuid: String): Flow<List<TaskDTO>>
 
     @Transaction
     @Query("SELECT * FROM new_task WHERE parent_uuid=:parentUuid")
-    suspend fun getTasks(parentUuid: String): List<NewTask>
+    suspend fun getTasks(parentUuid: String): List<TaskDTO>
 
     @Transaction
-    @Insert(entity = NewTask::class, onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insert(task: NewTask): Long?
+    @Insert(entity = TaskDTO::class, onConflict = OnConflictStrategy.IGNORE)
+    suspend fun insert(task: TaskDTO): Long?
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertMany(tasks: List<NewTask>)
+    suspend fun insertMany(tasks: List<TaskDTO>)
 
     @Update
-    suspend fun update(task: NewTask)
+    suspend fun update(task: TaskDTO)
 
     @Update
-    suspend fun updateTasks(tasks: List<NewTask>)
+    suspend fun updateTasks(tasks: List<TaskDTO>)
 
     @Delete
-    suspend fun delete(task: NewTask)
+    suspend fun delete(task: TaskDTO)
 }

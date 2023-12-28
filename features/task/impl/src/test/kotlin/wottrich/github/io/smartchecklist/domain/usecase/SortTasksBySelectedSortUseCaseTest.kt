@@ -3,7 +3,7 @@ package wottrich.github.io.smartchecklist.domain.usecase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.junit.Before
 import org.junit.Test
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.domain.model.SortItemType
 import wottrich.github.io.smartchecklist.presentation.sort.model.TaskSortItemState
 import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
@@ -41,7 +41,8 @@ class SortTasksBySelectedSortUseCaseTest : BaseUnitTest() {
             val result = sut(SortTasksBySelectedSortUseCase.Params(sortItems, tasks))
             val tasksSorted = result.getOrNull()
             val firstTask = tasksSorted!!.first()
-            val section: BaseTaskListItem.SectionItem = tasksSorted.firstOrNull { it is BaseTaskListItem.SectionItem } as BaseTaskListItem.SectionItem
+            val section: BaseTaskListItem.SectionItem =
+                tasksSorted.firstOrNull { it is BaseTaskListItem.SectionItem } as BaseTaskListItem.SectionItem
             assertTrue(firstTask is BaseTaskListItem.TaskItem)
             assertFalse(firstTask.task.isCompleted)
             assertEquals(section.sectionName, R.string.task_sort_completed_task_item)
@@ -55,20 +56,21 @@ class SortTasksBySelectedSortUseCaseTest : BaseUnitTest() {
             val tasksSorted =
                 sut(SortTasksBySelectedSortUseCase.Params(sortItems, tasks)).getOrNull()!!
             val firstTask = tasksSorted.first()
-            val section: BaseTaskListItem.SectionItem = tasksSorted.firstOrNull { it is BaseTaskListItem.SectionItem } as BaseTaskListItem.SectionItem
+            val section: BaseTaskListItem.SectionItem =
+                tasksSorted.firstOrNull { it is BaseTaskListItem.SectionItem } as BaseTaskListItem.SectionItem
             assertTrue(firstTask is BaseTaskListItem.TaskItem)
             assertTrue(firstTask.task.isCompleted)
             assertEquals(section.sectionName, R.string.task_sort_uncompleted_task_item)
         }
 
-    private fun buildTaskUncompletedFirst(): List<NewTask> {
+    private fun buildTaskUncompletedFirst(): List<Task> {
         return listOf(
-            NewTask(
+            Task(
                 parentUuid = "123_parent",
                 name = "First task",
                 isCompleted = false
             ),
-            NewTask(
+            Task(
                 parentUuid = "123_parent",
                 name = "Second task",
                 isCompleted = true
@@ -76,14 +78,14 @@ class SortTasksBySelectedSortUseCaseTest : BaseUnitTest() {
         )
     }
 
-    private fun buildTasksCompletedFirst(): List<NewTask> {
+    private fun buildTasksCompletedFirst(): List<Task> {
         return listOf(
-            NewTask(
+            Task(
                 parentUuid = "123_parent",
                 name = "First task",
                 isCompleted = true
             ),
-            NewTask(
+            Task(
                 parentUuid = "123_parent",
                 name = "Second task",
                 isCompleted = false

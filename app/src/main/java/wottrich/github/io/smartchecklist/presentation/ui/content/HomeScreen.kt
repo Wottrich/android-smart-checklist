@@ -17,12 +17,18 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
+import org.koin.compose.koinInject
 import wottrich.github.io.smartchecklist.R.string
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.intent.navigation.ShareIntentTextNavigator
+import wottrich.github.io.smartchecklist.navigation.NavigationHome
+import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiState
@@ -31,7 +37,7 @@ import wottrich.github.io.smartchecklist.presentation.ui.content.DeleteAlertDial
 import wottrich.github.io.smartchecklist.presentation.ui.content.DeleteAlertDialogState.SHOW
 import wottrich.github.io.smartchecklist.presentation.ui.drawer.HomeDrawerStatefulContent
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeViewModel
-import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.uisupport.navigation.NavigationSupport
 
 /**
  * @author Wottrich
@@ -44,21 +50,32 @@ import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 
 @Composable
 fun HomeScreen(
-    onAddNewChecklist: () -> Unit,
-    onShareText: (String) -> Unit,
-    onChecklistSettings: (checklistId: String) -> Unit,
-    onAboutUsClick: () -> Unit,
-    onHelpClick: () -> Unit,
-    onTaskCounterClicked: () -> Unit,
+    navHostController: NavHostController,
+    shareIntentTextNavigator: ShareIntentTextNavigator = koinInject()
 ) {
     ApplicationTheme {
         Screen(
-            onAddNewChecklist = onAddNewChecklist,
-            onShareText = onShareText,
-            onChecklistSettings = onChecklistSettings,
-            onAboutUsClick = onAboutUsClick,
-            onHelpClick = onHelpClick,
-            onTaskCounterClicked = onTaskCounterClicked
+            onAddNewChecklist = {
+                navHostController.navigate(NavigatorNewChecklist.route)
+            },
+            onShareText = {
+                shareIntentTextNavigator.shareIntentText(it)
+            },
+            onChecklistSettings = {
+                val route =
+                    NavigationHome.Destinations.ChecklistSettingsScreen.route
+                        .replace("{checklistId}", it)
+                navHostController.navigate(route)
+            },
+            onAboutUsClick = {
+                navHostController.navigate(NavigationHome.Destinations.AboutUsScreen.route)
+            },
+            onHelpClick = {
+                navHostController.navigate(NavigationSupport.route)
+            },
+            onTaskCounterClicked = {
+                // TODO fix it
+            }
         )
     }
 }
@@ -184,6 +201,7 @@ private fun TopBarTitleContent(checklistState: HomeState) {
         checklistState.checklist == null -> {
             Text(text = stringResource(id = string.label_home_fragment))
         }
+
         else -> {
             val checklist = checkNotNull(checklistState.checklist)
             Text(text = checklist.name)

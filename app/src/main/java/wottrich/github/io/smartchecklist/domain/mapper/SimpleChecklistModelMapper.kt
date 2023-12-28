@@ -1,12 +1,12 @@
 package wottrich.github.io.smartchecklist.domain.mapper
 
+import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
 import wottrich.github.io.smartchecklist.presentation.ui.model.SimpleChecklistModel
-import wottrich.github.io.smartchecklist.datasource.entity.NewChecklist
 
 class SimpleChecklistModelMapper {
-    fun mapToSimpleChecklistModel(newChecklist: NewChecklist) =
+    fun mapToSimpleChecklistModel(checklist: Checklist) =
         SimpleChecklistModel(
-            newChecklist.uuid,
-            newChecklist.name
+            checklist.uuid,
+            checklist.name
         )
 }
