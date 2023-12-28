@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import wottrich.github.io.smartchecklist.android.BaseViewModel
 import wottrich.github.io.smartchecklist.coroutines.base.onFailure
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksUseCase
 
 class CompletableCountBottomSheetViewModel(
@@ -25,7 +25,7 @@ class CompletableCountBottomSheetViewModel(
         }
     }
 
-    private fun onGetTasksSuccess(tasks: List<NewTask>) {
+    private fun onGetTasksSuccess(tasks: List<Task>) {
         val completedTasksCount = tasks.filter { it.isCompleted }.size
         _uiState.value = uiState.value.copy(
             isLoading = false,

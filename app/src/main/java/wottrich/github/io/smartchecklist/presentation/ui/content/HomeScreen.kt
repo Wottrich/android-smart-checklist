@@ -28,6 +28,8 @@ import wottrich.github.io.smartchecklist.R.string
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.intent.navigation.ShareIntentTextNavigator
 import wottrich.github.io.smartchecklist.navigation.NavigationHome
+import wottrich.github.io.smartchecklist.navigation.NavigatorTask
+import wottrich.github.io.smartchecklist.navigation.TaskContextNavigator
 import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
@@ -74,7 +76,7 @@ fun HomeScreen(
                 navHostController.navigate(NavigationSupport.route)
             },
             onTaskCounterClicked = {
-                // TODO fix it
+                navHostController.navigate(NavigatorTask.Destinations.CompletableCountBottomSheetScreen.route)
             }
         )
     }

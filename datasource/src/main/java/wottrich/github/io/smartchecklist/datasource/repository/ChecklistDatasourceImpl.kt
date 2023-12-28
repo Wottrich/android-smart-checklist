@@ -69,7 +69,7 @@ class ChecklistDatasourceImpl(
     override suspend fun updateSelectedChecklist(checklistUuid: String) {
         val checklistToBeSelected = checklistDao.getChecklist(checklistUuid).copy(isSelected = true)
         val currentSelectedChecklist =
-            checklistDao.selectSelectedChecklist(true)?.copy(isSelected = false)
+            checklistDao.getSelectedChecklist()?.copy(isSelected = false)
         if (currentSelectedChecklist == null) {
             checklistDao.update(checklistToBeSelected)
         } else {

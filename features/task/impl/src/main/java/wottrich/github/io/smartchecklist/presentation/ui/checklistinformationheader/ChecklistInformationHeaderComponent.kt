@@ -35,7 +35,7 @@ import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 import wottrich.github.io.smartchecklist.baseui.ui.RowDefaults
 import wottrich.github.io.smartchecklist.baseui.ui.TextStateComponent
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
-import wottrich.github.io.smartchecklist.datasource.entity.NewTask
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
 
 @Composable
 fun ChecklistInformationHeaderComponent(
@@ -151,17 +151,17 @@ private fun TaskInformationHeaderComponentPreview() {
         val zerar = remember { mutableStateOf(false) }
         val tasks = remember(zerar.value) {
             mutableStateListOf(
-                NewTask(
+                Task(
                     parentUuid = "123",
                     name = "Task name",
                     isCompleted = false
                 ),
-                NewTask(
+                Task(
                     parentUuid = "123",
                     name = "Task name",
                     isCompleted = false
                 ),
-                NewTask(
+                Task(
                     parentUuid = "123",
                     name = "Task name",
                     isCompleted = true
@@ -176,7 +176,7 @@ private fun TaskInformationHeaderComponentPreview() {
             Row {
                 Button(onClick = {
                     tasks.add(
-                        NewTask(
+                        Task(
                             parentUuid = "123",
                             name = "Task: ${tasks.size}",
                             isCompleted = true

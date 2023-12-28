@@ -60,6 +60,7 @@ private fun Module.injectViewModels() {
     }
     viewModel {
         ChecklistInformationHeaderViewModel(
+            observeSelectedChecklistUuidUseCase = get(),
             getTasksFromSelectedChecklistUseCase = get()
         )
     }
