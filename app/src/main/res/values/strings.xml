@@ -31,6 +31,7 @@
     <string name="checklist_settings_screen_content_description">Click to go to settings screen</string>
     <string name="checklist_finish_edit_content_description">Click to finish edit</string>
     <string name="checklist_more_options_content_description">Click to see more options</string>
+    <string name="checklist_sort_task_option_content_description">Click to open screen to sort task</string>
     <string name="checklist_delete_checklist_confirm_label">You are about to delete this checklist forever, do you want to continue?</string>
     <string name="checklist_share_quickly_checklist_label">Share checklist with other person</string>
     <string name="checklist_share_quickly_checklist_content_description">Click to share your checklist with another SmartChecklist user</string>

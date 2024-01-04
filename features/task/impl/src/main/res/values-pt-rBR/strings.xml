@@ -20,6 +20,7 @@
     <!--  Sort items  -->
     <string name="task_sort_completed_task_item">Tasks completadas</string>
     <string name="task_sort_uncompleted_task_item">Tasks incompletas</string>
+    <string name="task_sort_bottom_sheet_select_sort_failure">Erro ao selecionar ordenação, tente novamente, por favor!</string>
 
     <!--  Completable Count Strings  -->
     <string name="completable_count_bottom_sheet_title">Contador de tarefas</string>

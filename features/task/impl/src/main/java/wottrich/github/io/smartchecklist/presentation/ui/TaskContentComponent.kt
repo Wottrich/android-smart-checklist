@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -15,10 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.compose.getViewModel
-import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction
-import wottrich.github.io.smartchecklist.presentation.sort.ui.TaskSortContent
 import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
 import wottrich.github.io.smartchecklist.presentation.ui.checklistinformationheader.ChecklistInformationHeaderComponent
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
@@ -65,14 +62,6 @@ fun TaskContentComponent(
             },
             onAddItem = {
                 viewModel.sendAction(TaskComponentViewModelAction.Action.AddTask)
-            }
-        )
-        TaskSortContent(
-            modifier = Modifier.padding(horizontal = Dimens.BaseFour.SizeThree),
-            showContent = showSortComponent,
-            sortItems = state.sortItems,
-            onSortItemClicked = {
-                viewModel.sendAction(TaskComponentViewModelAction.Action.OnSortItemClicked(it))
             }
         )
         Divider()

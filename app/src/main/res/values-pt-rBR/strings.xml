@@ -32,6 +32,7 @@
     <string name="checklist_edit_checklist_content_description">Clique para editar a checklist</string>
     <string name="checklist_finish_edit_content_description">Clique para concluir a edição da checklist</string>
     <string name="checklist_more_options_content_description">Clique para ver mais opções</string>
+    <string name="checklist_sort_task_option_content_description">Clique para abrir a tela para ordernar as tarefas</string>
     <string name="checklist_delete_checklist_confirm_label">Você está prestes a deletar esse checklist para sempre, deseja continuar?</string>
     <string name="checklist_share_quickly_checklist_label">Compartilhe sua checklist com outra pessoa</string>
     <string name="checklist_share_quickly_checklist_content_description">Clique para compartilhar a checklist com outro usuário do app SmartChecklist</string>
