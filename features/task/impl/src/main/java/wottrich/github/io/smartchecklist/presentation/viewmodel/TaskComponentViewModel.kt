@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.withContext
 import wottrich.github.io.smartchecklist.android.BaseViewModel
 import wottrich.github.io.smartchecklist.checklist.domain.ObserveSelectedChecklistUuidUseCase
 import wottrich.github.io.smartchecklist.coroutines.base.onFailure
@@ -110,8 +111,12 @@ class TaskComponentViewModel(
             tasks = tasks
         )
     ).onSuccess { items ->
-        this.tasks.clear()
-        this.tasks.addAll(items)
+        withContext(main()) {
+            this@TaskComponentViewModel.apply {
+                this.tasks.clear()
+                this.tasks.addAll(items)
+            }
+        }
     }.onFailure {
         emitLoadTasksFailure()
     }
