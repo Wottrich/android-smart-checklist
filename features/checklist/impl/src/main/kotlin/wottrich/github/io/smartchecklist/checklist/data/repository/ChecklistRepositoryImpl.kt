@@ -28,6 +28,10 @@ class ChecklistRepositoryImpl(
         return datasource.deleteChecklistByUuid(checklistUuid)
     }
 
+    override fun observeSelectedChecklistWithTasks(): Flow<ChecklistWithTasks?> {
+        return datasource.observeSelectedChecklistWithTasks()
+    }
+
     override fun observeAllChecklistsWithTask(): Flow<List<ChecklistWithTasks>> {
         return datasource.observeAllChecklistsWithTask()
     }

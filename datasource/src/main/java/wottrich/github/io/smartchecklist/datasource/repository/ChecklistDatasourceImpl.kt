@@ -81,6 +81,12 @@ class ChecklistDatasourceImpl(
         checklistDao.deleteChecklistByUuid(checklistUuid)
     }
 
+    override fun observeSelectedChecklistWithTasks(): Flow<ChecklistWithTasks?> {
+        return checklistDao.observeSelectedChecklistWithTasks().map {
+            it.getOrSaveSelectedChecklist()?.mapToChecklist()
+        }
+    }
+
     override fun observeAllChecklistsWithTask(): Flow<List<ChecklistWithTasks>> {
         return checklistDao.observeAllChecklistWithTasks().map {
             it.map { dto -> dto.mapToChecklist() }

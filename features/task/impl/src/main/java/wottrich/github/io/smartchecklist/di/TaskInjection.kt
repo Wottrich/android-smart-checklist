@@ -15,6 +15,7 @@ import wottrich.github.io.smartchecklist.domain.usecase.GetChangeTaskStatusUseCa
 import wottrich.github.io.smartchecklist.domain.usecase.GetDeleteTaskUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksFromSelectedChecklistUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.ObserveChecklistWithTasksUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.ReverseTasksIfNeededUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.SortTasksBySelectedSortUseCase
 import wottrich.github.io.smartchecklist.navigation.TaskContextNavigator
@@ -39,6 +40,7 @@ private fun Module.injectUseCases() {
     factory<AddManyTasksUseCase> { AddManyTasksUseCaseImpl(get()) }
     factory { SortTasksBySelectedSortUseCase() }
     factory { ReverseTasksIfNeededUseCase() }
+    factory { ObserveChecklistWithTasksUseCase(get()) }
 }
 
 private fun Module.injectViewModels() {
@@ -60,8 +62,7 @@ private fun Module.injectViewModels() {
     }
     viewModel {
         ChecklistInformationHeaderViewModel(
-            observeSelectedChecklistUuidUseCase = get(),
-            getTasksFromSelectedChecklistUseCase = get()
+            observeChecklistWithTasksUseCase = get()
         )
     }
 }

@@ -5,45 +5,32 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import wottrich.github.io.smartchecklist.android.BaseViewModel
-import wottrich.github.io.smartchecklist.checklist.domain.ObserveSelectedChecklistUuidUseCase
-import wottrich.github.io.smartchecklist.coroutines.base.onFailure
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
-import wottrich.github.io.smartchecklist.domain.usecase.GetTasksFromSelectedChecklistUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.ObserveChecklistWithTasksUseCase
 
 @OptIn(InternalCoroutinesApi::class)
 class ChecklistInformationHeaderViewModel(
-    private val observeSelectedChecklistUuidUseCase: ObserveSelectedChecklistUuidUseCase,
-    private val getTasksFromSelectedChecklistUseCase: GetTasksFromSelectedChecklistUseCase
+    private val observeChecklistWithTasksUseCase: ObserveChecklistWithTasksUseCase,
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ChecklistInformationHeaderUiState())
     val uiState = _uiState.asStateFlow()
 
-    private var checklistUuid: String? = null
-
     init {
         launchIO {
-            observeSelectedChecklistUuidUseCase().collect(
+            observeChecklistWithTasksUseCase().collect(
                 FlowCollector {
-                    checklistUuid = it.getOrNull()
-                    loadTasksFromSelectedChecklist()
+                    it.onSuccess { checklistWithTasks ->
+                        _uiState.value = uiState.value.copy(
+                            isLoading = false,
+                            checklistName = checklistWithTasks.checklist.name,
+                            completedTasksCount = getCompletedTasksCount(checklistWithTasks.tasks),
+                            totalTasksCount = checklistWithTasks.tasks.size
+                        )
+                    }
                 }
             )
-        }
-    }
-    
-    private fun loadTasksFromSelectedChecklist() {
-        if (checklistUuid == null) return
-        launchIO {
-            getTasksFromSelectedChecklistUseCase(checkNotNull(checklistUuid)).onSuccess { tasks ->
-                _uiState.value = uiState.value.copy(
-                    isLoading = false,
-                    checklistName = "TODO fix it",// TODO simpleModel.checklistName,
-                    completedTasksCount = getCompletedTasksCount(tasks),
-                    totalTasksCount = tasks.size
-                )
-            }.onFailure { throw it }
         }
     }
 
