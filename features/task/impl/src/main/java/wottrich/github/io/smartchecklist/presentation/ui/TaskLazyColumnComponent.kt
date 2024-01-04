@@ -16,7 +16,6 @@ import wottrich.github.io.smartchecklist.baseui.StyledText
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
-import wottrich.github.io.smartchecklist.task.R
 
 @Composable
 fun TaskLazyColumnComponent(
@@ -27,13 +26,6 @@ fun TaskLazyColumnComponent(
 ) {
     LazyColumn(
         content = {
-            item {
-                Column(modifier = Modifier.padding(all = Dimens.BaseFour.SizeThree)) {
-                    StyledText(textStyle = MaterialTheme.typography.h5) {
-                        Text(text = stringResource(id = R.string.taks_your_tasks_label_header))
-                    }
-                }
-            }
             items(
                 count = taskList.size,
                 key = { taskList[it].getTaskItemOrNull()?.task?.uuid ?: "Section" },

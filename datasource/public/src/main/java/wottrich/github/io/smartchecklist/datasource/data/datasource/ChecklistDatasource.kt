@@ -10,6 +10,8 @@ interface ChecklistDatasource {
     suspend fun getSelectedChecklistWithTasks(): ChecklistWithTasks?
     suspend fun updateSelectedChecklist(checklistUuid: String)
     suspend fun deleteChecklistByUuid(checklistUuid: String)
+    suspend fun getSelectedChecklist(): Checklist?
+    fun observeSelectedChecklistWithTasks(): Flow<ChecklistWithTasks?>
     fun observeAllChecklistsWithTask(): Flow<List<ChecklistWithTasks>>
     fun observeSelectedChecklist(): Flow<Checklist?>
     fun observeSelectedChecklistUuid(): Flow<String?>

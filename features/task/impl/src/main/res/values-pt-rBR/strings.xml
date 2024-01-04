@@ -21,4 +21,10 @@
     <string name="task_sort_completed_task_item">Tasks completadas</string>
     <string name="task_sort_uncompleted_task_item">Tasks incompletas</string>
 
+    <!--  Completable Count Strings  -->
+    <string name="completable_count_bottom_sheet_title">Contador de tarefas</string>
+    <string name="completable_count_bottom_sheet_subtitle">Você completou %s de %s tarefas.</string>
+    <string name="completable_count_completable_component_tip">Nesse ícone acima você pode verificar quantas tarefas você já completou na sua checklist</string>
+    <string name="completable_count_bottom_sheet_button_label">Ok!</string>
+
 </resources>

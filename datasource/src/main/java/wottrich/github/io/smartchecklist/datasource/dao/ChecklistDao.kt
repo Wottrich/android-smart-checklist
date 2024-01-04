@@ -28,12 +28,16 @@ interface ChecklistDao {
     suspend fun selectAllChecklistWithTasks(): List<ChecklistWithTasksDTO>
 
     @Transaction
-    @Query("SELECT * FROM new_checklist WHERE is_selected=:isSelected")
-    suspend fun selectSelectedChecklist(isSelected: Boolean): ChecklistDTO?
+    @Query("SELECT * FROM new_checklist WHERE is_selected='1' LIMIT 1")
+    suspend fun getSelectedChecklist(): ChecklistDTO?
 
     @Transaction
     @Query("SELECT * FROM new_checklist WHERE is_selected='1' LIMIT 1")
     fun getSelectedChecklistWithTasks(): List<ChecklistWithTasksDTO>
+
+    @Transaction
+    @Query("SELECT * FROM new_checklist WHERE is_selected='1' LIMIT 1")
+    fun observeSelectedChecklistWithTasks(): Flow<List<ChecklistWithTasksDTO>>
 
     @Transaction
     @Query("SELECT uuid FROM new_checklist WHERE is_selected='1' LIMIT 1")

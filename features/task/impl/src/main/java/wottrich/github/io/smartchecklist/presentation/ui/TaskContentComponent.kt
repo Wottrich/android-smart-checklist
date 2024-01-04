@@ -20,6 +20,7 @@ import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction
 import wottrich.github.io.smartchecklist.presentation.sort.ui.TaskSortContent
 import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
+import wottrich.github.io.smartchecklist.presentation.ui.checklistinformationheader.ChecklistInformationHeaderComponent
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModelUiEffect
 
@@ -39,6 +40,7 @@ fun TaskContentComponent(
     showSortComponent: Boolean = true,
     onUpdateClicked: (Task) -> Unit,
     onError: (stringRes: Int) -> Unit,
+    onTaskCounterClicked: () -> Unit,
     viewModel: TaskComponentViewModel = getViewModel()
 ) {
 
@@ -55,7 +57,7 @@ fun TaskContentComponent(
             .background(MaterialTheme.colors.background)
             .fillMaxHeight()
     ) {
-        Header(
+        TaskEditHeaderVisibility(
             showHeaderComponent = showHeaderComponent,
             taskName = state.taskName,
             onTextFieldValueChange = {
@@ -73,6 +75,8 @@ fun TaskContentComponent(
                 viewModel.sendAction(TaskComponentViewModelAction.Action.OnSortItemClicked(it))
             }
         )
+        Divider()
+        ChecklistInformationHeaderComponent(onTaskCounterClicked = onTaskCounterClicked)
         Divider()
         TaskList(
             tasks = viewModel.tasks,
@@ -105,14 +109,14 @@ private fun Effects(
 }
 
 @Composable
-private fun ColumnScope.Header(
+private fun ColumnScope.TaskEditHeaderVisibility(
     showHeaderComponent: Boolean,
     taskName: String,
     onTextFieldValueChange: (String) -> Unit,
     onAddItem: () -> Unit,
 ) {
     AnimatedVisibility(visible = showHeaderComponent) {
-        TaskHeaderComponent(
+        TaskEditHeaderComponent(
             textFieldValue = taskName,
             onTextFieldValueChange = onTextFieldValueChange,
             onAddItem = onAddItem

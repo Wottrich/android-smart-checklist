@@ -18,7 +18,7 @@ import wottrich.github.io.smartchecklist.baseui.ui.color.defaultOutlinedTextFiel
 import wottrich.github.io.smartchecklist.task.R
 
 @Composable
-fun TaskHeaderComponent(
+fun TaskEditHeaderComponent(
     textFieldValue: String,
     onTextFieldValueChange: ((String) -> Unit),
     onAddItem: (() -> Unit)

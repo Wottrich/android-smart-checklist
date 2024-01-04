@@ -12,7 +12,6 @@ import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProvid
 
 class ChecklistSettingsViewModel(
     dispatchersProviders: DispatchersProviders,
-    private val checklistId: String,
     private val getTasksUseCase: GetTasksUseCase,
     private val changeTasksCompletedStatusUseCase: ChangeTasksCompletedStatusUseCase
 ) : BaseViewModel(dispatchersProviders) {
@@ -50,7 +49,7 @@ class ChecklistSettingsViewModel(
 
     fun onConfirmClicked() {
         launchIO {
-            val tasks = getTasksUseCase(checklistId).getOrNull().orEmpty()
+            val tasks = getTasksUseCase().getOrNull().orEmpty()
             changeTasksCompletedStatusUseCase(
                 ChangeTasksCompletedStatusUseCase.Params(
                     tasks = tasks,

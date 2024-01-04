@@ -47,21 +47,17 @@ import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun ChecklistSettingsScreen(
-    checklistId: String,
     onCloseScreen: () -> Unit
 ) {
     ApplicationTheme {
-        ScreenAndEffects(checklistId, onCloseScreen)
+        ScreenAndEffects(onCloseScreen)
     }
 }
 
 @Composable
 private fun ScreenAndEffects(
-    checklistId: String,
     onCloseScreen: () -> Unit,
-    viewModel: ChecklistSettingsViewModel = getViewModel {
-        parametersOf(checklistId)
-    }
+    viewModel: ChecklistSettingsViewModel = getViewModel()
 ) {
     Effects(viewModel, onCloseScreen)
     Screen(onCloseScreen, viewModel)

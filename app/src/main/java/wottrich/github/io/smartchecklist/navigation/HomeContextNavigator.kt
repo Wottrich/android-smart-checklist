@@ -2,13 +2,10 @@ package wottrich.github.io.smartchecklist.navigation
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.composable
-import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
-import wottrich.github.io.smartchecklist.presentation.activity.InvalidChecklistId
 import wottrich.github.io.smartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.smartchecklist.presentation.ui.content.HomeScreen
 import wottrich.github.io.smartchecklist.uiaboutus.data.model.AboutUsContentModel
@@ -34,15 +31,9 @@ class HomeContextNavigator(
                     HomeScreen(navHostController = navHostController)
                 }
                 defaultComposableAnimation(
-                    route = NavigationHome.Destinations.ChecklistSettingsScreen.route,
-                    arguments = listOf(
-                        navArgument("checklistId") { type = NavType.StringType }
-                    )
-                ) { navBackStackEntry ->
-                    val checklistId = navBackStackEntry.arguments?.getString("checklistId")
-                        ?: throw InvalidChecklistId()
+                    route = NavigationHome.Destinations.ChecklistSettingsScreen.route
+                ) {
                     ChecklistSettingsScreen(
-                        checklistId,
                         onCloseScreen = {
                             navHostController.popBackStack()
                         }

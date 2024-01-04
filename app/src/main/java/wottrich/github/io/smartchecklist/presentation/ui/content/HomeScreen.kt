@@ -28,6 +28,8 @@ import wottrich.github.io.smartchecklist.R.string
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.intent.navigation.ShareIntentTextNavigator
 import wottrich.github.io.smartchecklist.navigation.NavigationHome
+import wottrich.github.io.smartchecklist.navigation.NavigatorTask
+import wottrich.github.io.smartchecklist.navigation.TaskContextNavigator
 import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
@@ -72,6 +74,9 @@ fun HomeScreen(
             },
             onHelpClick = {
                 navHostController.navigate(NavigationSupport.route)
+            },
+            onTaskCounterClicked = {
+                navHostController.navigate(NavigatorTask.Destinations.CompletableCountBottomSheetScreen.route)
             }
         )
     }
@@ -84,6 +89,7 @@ private fun Screen(
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onTaskCounterClicked: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -152,7 +158,8 @@ private fun Screen(
             onAddNewChecklist = onAddNewChecklist,
             onHideDeleteDialog = {
                 showDeleteDialog = HIDE
-            }
+            },
+            onTaskCounterClicked = onTaskCounterClicked,
         )
     }
 }
