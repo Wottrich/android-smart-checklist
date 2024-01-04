@@ -22,13 +22,6 @@ class ChecklistDatasourceImpl(
         return checklistDao.insert(checklist.mapToDTO())
     }
 
-    private fun Checklist.mapToDTO() =
-        ChecklistDTO(
-            this.uuid,
-            this.name,
-            this.isSelected
-        )
-
     override suspend fun getChecklistWithTasksByUuid(uuid: String): ChecklistWithTasks {
         return checklistDao.getChecklistWithTasks(uuid).mapDataTo {
             it.mapToChecklist()
@@ -81,6 +74,10 @@ class ChecklistDatasourceImpl(
         checklistDao.deleteChecklistByUuid(checklistUuid)
     }
 
+    override suspend fun getSelectedChecklist(): Checklist? {
+        return checklistDao.getSelectedChecklist()?.mapToModel()
+    }
+
     override fun observeSelectedChecklistWithTasks(): Flow<ChecklistWithTasks?> {
         return checklistDao.observeSelectedChecklistWithTasks().map {
             it.getOrSaveSelectedChecklist()?.mapToChecklist()
@@ -113,4 +110,18 @@ class ChecklistDatasourceImpl(
             }
         }
     }
+
+    private fun ChecklistDTO.mapToModel() =
+        Checklist(
+            this.uuid,
+            this.name,
+            this.isSelected
+        )
+
+    private fun Checklist.mapToDTO() =
+        ChecklistDTO(
+            this.uuid,
+            this.name,
+            this.isSelected
+        )
 }

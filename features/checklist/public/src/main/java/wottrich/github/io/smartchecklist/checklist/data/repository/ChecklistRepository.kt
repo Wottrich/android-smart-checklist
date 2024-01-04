@@ -8,6 +8,7 @@ interface ChecklistRepository {
     suspend fun insertChecklist(checklist: Checklist): Long?
     suspend fun getChecklistWithTasksByUuid(uuid: String): ChecklistWithTasks
     suspend fun getSelectedChecklistWithTasks(): ChecklistWithTasks?
+    suspend fun getSelectedChecklist(): Checklist?
     suspend fun updateSelectedChecklist(checklistUuid: String)
     suspend fun deleteChecklistByUuid(checklistUuid: String)
     fun observeSelectedChecklistWithTasks(): Flow<ChecklistWithTasks?>

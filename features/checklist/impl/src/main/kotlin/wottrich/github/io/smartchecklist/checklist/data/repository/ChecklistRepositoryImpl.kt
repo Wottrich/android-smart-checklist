@@ -20,6 +20,10 @@ class ChecklistRepositoryImpl(
         return datasource.getSelectedChecklistWithTasks()
     }
 
+    override suspend fun getSelectedChecklist(): Checklist? {
+        return datasource.getSelectedChecklist()
+    }
+
     override suspend fun updateSelectedChecklist(checklistUuid: String) {
         return datasource.updateSelectedChecklist(checklistUuid)
     }

@@ -6,10 +6,12 @@ import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepo
 import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepositoryImpl
 import wottrich.github.io.smartchecklist.checklist.domain.DeleteChecklistUseCase
 import wottrich.github.io.smartchecklist.checklist.domain.GetChecklistAsTextUseCase
+import wottrich.github.io.smartchecklist.checklist.domain.GetSelectedChecklistUseCase
 import wottrich.github.io.smartchecklist.checklist.domain.ObserveSelectedChecklistUuidUseCase
 import wottrich.github.io.smartchecklist.checklist.domain.UpdateSelectedChecklistUseCase
 import wottrich.github.io.smartchecklist.checklist.domain.usecase.DeleteChecklistUseCaseImpl
 import wottrich.github.io.smartchecklist.checklist.domain.usecase.GetChecklistAsTextUseCaseImpl
+import wottrich.github.io.smartchecklist.checklist.domain.usecase.GetSelectedChecklistUseCaseImpl
 import wottrich.github.io.smartchecklist.checklist.domain.usecase.ObserveSelectedChecklistUuidUseCaseImpl
 import wottrich.github.io.smartchecklist.checklist.domain.usecase.UpdateSelectedChecklistUseCaseImpl
 
@@ -23,4 +25,7 @@ private fun Module.injectUseCases() {
     factory<GetChecklistAsTextUseCase> { GetChecklistAsTextUseCaseImpl(get()) }
     factory<ObserveSelectedChecklistUuidUseCase> { ObserveSelectedChecklistUuidUseCaseImpl(get()) }
     factory<ChecklistRepository> { ChecklistRepositoryImpl(get()) }
+    factory<GetSelectedChecklistUseCase> {
+        GetSelectedChecklistUseCaseImpl(get())
+    }
 }
