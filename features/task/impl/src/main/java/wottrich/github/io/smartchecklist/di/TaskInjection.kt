@@ -57,6 +57,7 @@ private fun Module.injectViewModels() {
     }
     viewModel {
         CompletableCountBottomSheetViewModel(
+            getSelectedChecklistUseCase = get(),
             getTasksUseCase = get()
         )
     }
