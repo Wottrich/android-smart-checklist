@@ -77,6 +77,9 @@ fun HomeScreen(
             },
             onTaskCounterClicked = {
                 navHostController.navigate(NavigatorTask.Destinations.CompletableCountBottomSheetScreen.route)
+            },
+            onOpenSortTaskList = {
+                navHostController.navigate(NavigatorTask.Destinations.SortTaskListBottomSheetScreen.route)
             }
         )
     }
@@ -90,6 +93,7 @@ private fun Screen(
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
     onTaskCounterClicked: () -> Unit,
+    onOpenSortTaskList: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -138,7 +142,8 @@ private fun Screen(
                 },
                 onShareQuicklyChecklist = { homeViewModel.sendAction(HomeUiActions.Action.OnShareQuicklyChecklistAction) },
                 homeViewModel = homeViewModel,
-                onShowDeleteDialog = { showDeleteDialog = SHOW }
+                onShowDeleteDialog = { showDeleteDialog = SHOW },
+                onOpenSortTaskList = onOpenSortTaskList
             )
         },
         snackbarHost = { snackbarHostState ->
@@ -218,7 +223,8 @@ private fun RowScope.TopBarActionContent(
     onChecklistSettings: () -> Unit,
     onShareQuicklyChecklist: () -> Unit,
     homeViewModel: HomeViewModel,
-    onShowDeleteDialog: () -> Unit
+    onShowDeleteDialog: () -> Unit,
+    onOpenSortTaskList: () -> Unit
 ) {
     if (checklistState.shouldShowActionContent()) {
         HomeTopBarActionsEffect(
@@ -233,7 +239,8 @@ private fun RowScope.TopBarActionContent(
             },
             onChecklistSettings = onChecklistSettings,
             onShareQuicklyChecklist = onShareQuicklyChecklist,
-            onChangeState = { homeViewModel.sendAction(HomeUiActions.Action.OnChangeEditModeAction) }
+            onChangeState = { homeViewModel.sendAction(HomeUiActions.Action.OnChangeEditModeAction) },
+            onOpenSortTaskList = onOpenSortTaskList
         )
     }
 }

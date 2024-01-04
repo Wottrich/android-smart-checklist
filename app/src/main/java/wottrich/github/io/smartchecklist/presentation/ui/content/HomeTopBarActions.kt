@@ -7,6 +7,7 @@ import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -36,10 +37,17 @@ fun RowScope.HomeTopBarActionsContent(
     onCopyChecklist: () -> Unit,
     onChecklistSettings: () -> Unit,
     onShareQuicklyChecklist: () -> Unit,
-    onChangeState: () -> Unit
+    onChangeState: () -> Unit,
+    onOpenSortTaskList: () -> Unit
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     EditIconStateContent(isEditMode = isEditMode, onChangeState = onChangeState)
+    IconButton(onClick = onOpenSortTaskList) {
+        Icon(
+            imageVector = Icons.Default.List,
+            contentDescription = stringResource(id = R.string.checklist_sort_task_option_content_description)
+        )
+    }
     IconButton(onClick = { isExpanded = true }) {
         Icon(
             imageVector = Icons.Default.MoreVert,
