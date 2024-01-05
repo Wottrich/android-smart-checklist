@@ -34,7 +34,6 @@ import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentVie
 fun TaskContentComponent(
     showHeaderComponent: Boolean = true,
     showDeleteIcon: Boolean = true,
-    showSortComponent: Boolean = true,
     onUpdateClicked: (Task) -> Unit,
     onError: (stringRes: Int) -> Unit,
     onTaskCounterClicked: () -> Unit,
@@ -65,7 +64,9 @@ fun TaskContentComponent(
             }
         )
         Divider()
-        ChecklistInformationHeaderComponent(onTaskCounterClicked = onTaskCounterClicked)
+        AnimatedVisibility(visible = !showHeaderComponent) {
+            ChecklistInformationHeaderComponent(onTaskCounterClicked = onTaskCounterClicked)
+        }
         Divider()
         TaskList(
             tasks = viewModel.tasks,
