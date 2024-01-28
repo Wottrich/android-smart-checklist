@@ -14,9 +14,7 @@ fun HomeContentScreen(
     paddingValues: PaddingValues,
     homeViewModel: HomeViewModel,
     checklistState: HomeState,
-    showDeleteDialog: DeleteAlertDialogState,
     onAddNewChecklist: () -> Unit,
-    onHideDeleteDialog: () -> Unit,
     onTaskCounterClicked: () -> Unit,
 ) {
     Screen(
@@ -25,11 +23,6 @@ fun HomeContentScreen(
         homeViewModel,
         onAddNewChecklist,
         onTaskCounterClicked
-    )
-    DeleteDialog(
-        showDeleteDialog,
-        homeViewModel,
-        onHideDialog = { onHideDeleteDialog() }
     )
 }
 
@@ -50,26 +43,8 @@ private fun Screen(
                 homeViewModel.sendAction(HomeUiActions.Action.OnShowTaskChangeStatusSnackbar(it))
             },
             onNewChecklistClicked = onAddNewChecklist,
-            onError = { homeViewModel.sendAction(HomeUiActions.Action.OnSnackbarError(it))},
+            onError = { homeViewModel.sendAction(HomeUiActions.Action.OnSnackbarError(it)) },
             onTaskCounterClicked = onTaskCounterClicked
         )
     }
-}
-
-@Composable
-private fun DeleteDialog(
-    showDeleteDialog: DeleteAlertDialogState,
-    homeViewModel: HomeViewModel,
-    onHideDialog: () -> Unit
-) {
-    DeleteAlertDialogContent(
-        deleteAlertDialogState = showDeleteDialog,
-        onConfirmDeleteChecklist = {
-            homeViewModel.sendAction(HomeUiActions.Action.DeleteChecklistAction)
-            onHideDialog()
-        },
-        onDismiss = {
-            onHideDialog()
-        }
-    )
 }

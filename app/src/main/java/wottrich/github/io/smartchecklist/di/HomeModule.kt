@@ -1,7 +1,9 @@
 package wottrich.github.io.smartchecklist.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
+import wottrich.github.io.smartchecklist.deletechecklist.viewmodel.DeleteChecklistBottomSheetViewModel
 import wottrich.github.io.smartchecklist.domain.mapper.HomeDrawerChecklistItemModelMapper
 import wottrich.github.io.smartchecklist.domain.mapper.SimpleChecklistModelMapper
 import wottrich.github.io.smartchecklist.domain.usecase.GetChecklistDrawerUseCase
@@ -9,7 +11,6 @@ import wottrich.github.io.smartchecklist.domain.usecase.ObserveSimpleSelectedChe
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeViewModel
-import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
 
 /**
  * @author Wottrich
@@ -19,7 +20,7 @@ import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentVie
  * Copyright © 2020 AndroidSmartCheckList. All rights reserved.
  *
  */
- 
+
 val featureHomeModules = module {
     factory { HomeDrawerChecklistItemModelMapper() }
     factory { SimpleChecklistModelMapper() }
@@ -27,20 +28,19 @@ val featureHomeModules = module {
     factory { ObserveSimpleSelectedChecklistModelUseCase(get(), get()) }
     viewModel {
         ChecklistSettingsViewModel(
-            dispatchersProviders = get(),
-            getTasksUseCase = get(),
-            changeTasksCompletedStatusUseCase = get()
+            getSelectedChecklistUseCase = get(),
+            shareChecklistAsTextUseCase = get(),
+            convertChecklistIntoQuicklyChecklistUseCase = get(),
+            getQuicklyChecklistDeepLinkUseCase = get()
         )
     }
+    viewModelOf(::DeleteChecklistBottomSheetViewModel)
     viewModel { HomeDrawerViewModel(get(), get(), get(), get()) }
     viewModel {
         HomeViewModel(
             dispatchers = get(),
             observeSimpleSelectedChecklistModelUseCase = get(),
-            deleteChecklistUseCase = get(),
-            convertChecklistIntoQuicklyChecklistUseCase = get(),
-            getQuicklyChecklistDeepLinkUseCase = get(),
-            getChecklistAsTextUseCase = get()
+            deleteChecklistUseCase = get()
         )
     }
 }

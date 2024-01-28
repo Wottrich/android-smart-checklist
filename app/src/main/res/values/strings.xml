@@ -22,8 +22,6 @@
     <!-- Home drawer -->
     <string name="home_drawer_checklist_selected_label">Selected</string>
 
-    <string name="checklist_copy_label">Copy</string>
-    <string name="checklist_copy_content_description">Click to copy checklist between applications</string>
     <string name="checklist_delete_label">Delete checklist</string>
     <string name="checklist_delete_checklist_content_description">Click to delete checklist (confirmation required)</string>
     <string name="checklist_edit_checklist_content_description">Click to edit</string>
@@ -32,15 +30,16 @@
     <string name="checklist_finish_edit_content_description">Click to finish edit</string>
     <string name="checklist_more_options_content_description">Click to see more options</string>
     <string name="checklist_sort_task_option_content_description">Click to open screen to sort task</string>
-    <string name="checklist_delete_checklist_confirm_label">You are about to delete this checklist forever, do you want to continue?</string>
-    <string name="checklist_share_quickly_checklist_label">Share checklist with other person</string>
-    <string name="checklist_share_quickly_checklist_content_description">Click to share your checklist with another SmartChecklist user</string>
+    <string name="checklist_delete_checklist_confirm_label">You are about to delete this checklist forever!\nDo you want to continue?</string>
 
     <!-- Settings -->
     <string name="checklist_settings_screen_title">Settings Screen</string>
-    <string name="checklist_settings_screen_task_action_label">Action on tasks:</string>
-    <string name="checklist_settings_screen_check_all_label">Check all</string>
-    <string name="checklist_settings_screen_uncheck_all_label">Uncheck all</string>
+    <string name="checklist_settings_copy_checklist_title">Copy checklist</string>
+    <string name="checklist_settings_copy_checklist_subtitle">Share with your friend on some message app</string>
+    <string name="checklist_settings_share_checklist_title">Share checklist</string>
+    <string name="checklist_settings_share_checklist_subtitle">Share with your friends on there SmartChecklist\'s app</string>
+    <string name="checklist_settings_error_copy_checklist">Error to copy checklist, please try again!</string>
+    <string name="checklist_settings_error_share_checklist">Error to share checklist, please try again!</string>
 
     <!--  Drawer  -->
     <string name="drawer_your_checklists_header_label">Your checklists</string>
