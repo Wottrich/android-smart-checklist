@@ -8,6 +8,7 @@ import kotlin.coroutines.EmptyCoroutineContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.CoroutineStart
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.koin.core.context.GlobalContext
 
 /**
@@ -26,6 +27,10 @@ abstract class BaseViewModel(
     protected fun io() = viewModelScope.coroutineContext + dispatchersProviders.io
 
     protected fun main() = viewModelScope.coroutineContext + dispatchersProviders.main
+
+    protected suspend fun withMainContext(
+        block: suspend CoroutineScope.() -> Unit
+    ) = withContext(main(), block)
 
     protected fun launchMain(
         start: CoroutineStart = CoroutineStart.DEFAULT,

@@ -10,8 +10,6 @@ interface HomeUiActions {
         object OnChangeEditModeAction : Action()
         data class OnShowTaskChangeStatusSnackbar(val task: Task) : Action()
         object DeleteChecklistAction : Action()
-        object OnShareQuicklyChecklistAction : Action()
         data class OnSnackbarError(@StringRes val message: Int) : Action()
-        object OnShareChecklistAsText : Action()
     }
 }

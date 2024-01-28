@@ -1,76 +1,55 @@
 package wottrich.github.io.smartchecklist.presentation.viewmodel
 
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.CHECK_ALL
-import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
-import wottrich.github.io.smartchecklist.domain.usecase.ChangeTasksCompletedStatusUseCase
-import wottrich.github.io.smartchecklist.domain.usecase.GetTasksUseCase
-import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
+import androidx.annotation.StringRes
+import wottrich.github.io.smartchecklist.R
 import wottrich.github.io.smartchecklist.android.BaseViewModel
-import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
+import wottrich.github.io.smartchecklist.checklist.domain.GetChecklistAsTextUseCase
+import wottrich.github.io.smartchecklist.checklist.domain.GetSelectedChecklistUseCase
+import wottrich.github.io.smartchecklist.coroutines.base.onFailure
+import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
+import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
+import wottrich.github.io.smartchecklist.quicklychecklist.domain.ConvertChecklistIntoQuicklyChecklistUseCase
+import wottrich.github.io.smartchecklist.quicklychecklist.domain.GetQuicklyChecklistDeepLinkUseCase
 
 class ChecklistSettingsViewModel(
-    dispatchersProviders: DispatchersProviders,
-    private val getTasksUseCase: GetTasksUseCase,
-    private val changeTasksCompletedStatusUseCase: ChangeTasksCompletedStatusUseCase
-) : BaseViewModel(dispatchersProviders) {
-
-    private val _uiState = MutableStateFlow(ChecklistSettingUiState())
-    val uiState = _uiState.asStateFlow()
+    private val getSelectedChecklistUseCase: GetSelectedChecklistUseCase,
+    private val shareChecklistAsTextUseCase: GetChecklistAsTextUseCase,
+    private val convertChecklistIntoQuicklyChecklistUseCase: ConvertChecklistIntoQuicklyChecklistUseCase,
+    private val getQuicklyChecklistDeepLinkUseCase: GetQuicklyChecklistDeepLinkUseCase
+) : BaseViewModel() {
 
     private val _uiEffect = SingleShotEventBus<ChecklistSettingUiEffect>()
     val uiEffect = _uiEffect.events
 
-    fun onChangeSwitcher(tasksAction: ChecklistSettingsAllTasksAction) {
-        when (tasksAction) {
-            CHECK_ALL -> onCheckAllTasksClicked()
-            UNCHECK_ALL -> onUncheckAllTasksClicked()
+    fun onCopyChecklistClicked() {
+        launchIO {
+            val checklist = checkNotNull(getSelectedChecklistUseCase().getOrNull())
+            shareChecklistAsTextUseCase(checklist.uuid).onSuccess {
+                _uiEffect.emit(ChecklistSettingUiEffect.ShareChecklistAsText(it))
+            }.onFailure {
+                _uiEffect.emit(ChecklistSettingUiEffect.SnackbarError(R.string.checklist_settings_error_copy_checklist))
+            }
         }
     }
 
-    private fun onUncheckAllTasksClicked() {
-        val allTasksActionValue = if (uiState.value.allTasksAction == UNCHECK_ALL) null
-        else UNCHECK_ALL
-        _uiState.value = uiState.value.copy(
-            allTasksAction = allTasksActionValue,
-            isConfirmButtonEnabled = allTasksActionValue != null
-        )
-    }
-
-    private fun onCheckAllTasksClicked() {
-        val allTasksActionValue = if (uiState.value.allTasksAction == CHECK_ALL) null
-        else CHECK_ALL
-        _uiState.value = uiState.value.copy(
-            allTasksAction = allTasksActionValue,
-            isConfirmButtonEnabled = allTasksActionValue != null
-        )
-    }
-
-    fun onConfirmClicked() {
+    fun onShareChecklistClicked() {
         launchIO {
-            val tasks = getTasksUseCase().getOrNull().orEmpty()
-            changeTasksCompletedStatusUseCase(
-                ChangeTasksCompletedStatusUseCase.Params(
-                    tasks = tasks,
-                    isCompleted = uiState.value.allTasksAction == CHECK_ALL
-                )
-            )
-            _uiEffect.emit(ChecklistSettingUiEffect.CloseScreen)
+            val checklist = checkNotNull(getSelectedChecklistUseCase().getOrNull())
+            convertChecklistIntoQuicklyChecklistUseCase(checklist.uuid).onSuccess {
+                getQuicklyChecklistDeepLinkUseCase(it).onSuccess { deeplink ->
+                    _uiEffect.emit(ChecklistSettingUiEffect.ShareChecklistAsText(deeplink))
+                }.onFailure {
+                    _uiEffect.emit(ChecklistSettingUiEffect.SnackbarError(R.string.checklist_settings_error_share_checklist))
+                }
+            }.onFailure {
+                _uiEffect.emit(ChecklistSettingUiEffect.SnackbarError(R.string.checklist_settings_error_share_checklist))
+            }
         }
     }
 }
 
 sealed class ChecklistSettingUiEffect {
-    object CloseScreen : ChecklistSettingUiEffect()
-}
-
-data class ChecklistSettingUiState(
-    val allTasksAction: ChecklistSettingsAllTasksAction? = null,
-    val isConfirmButtonEnabled: Boolean = false
-)
-
-enum class ChecklistSettingsAllTasksAction {
-    UNCHECK_ALL,
-    CHECK_ALL
+    data object CloseScreen : ChecklistSettingUiEffect()
+    data class ShareChecklistAsText(val text: String) : ChecklistSettingUiEffect()
+    data class SnackbarError(@StringRes val textRes: Int) : ChecklistSettingUiEffect()
 }

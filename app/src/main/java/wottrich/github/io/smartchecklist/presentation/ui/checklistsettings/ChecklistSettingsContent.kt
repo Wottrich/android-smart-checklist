@@ -1,92 +1,113 @@
 package wottrich.github.io.smartchecklist.presentation.ui.checklistsettings
 
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.ContentAlpha
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.ListItem
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.BiasAlignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.flow.FlowCollector
 import org.koin.androidx.compose.getViewModel
-import org.koin.core.parameter.parametersOf
+import org.koin.compose.koinInject
 import wottrich.github.io.smartchecklist.R
-import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
-import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingUiEffect.CloseScreen
-import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.CHECK_ALL
-import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsAllTasksAction.UNCHECK_ALL
-import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
 import wottrich.github.io.smartchecklist.baseui.TopBarContent
+import wottrich.github.io.smartchecklist.baseui.components.ButtonVariant
 import wottrich.github.io.smartchecklist.baseui.components.SmartChecklistButton
 import wottrich.github.io.smartchecklist.baseui.icons.ArrowBackIcon
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
-import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
+import wottrich.github.io.smartchecklist.intent.navigation.ShareIntentTextNavigator
+import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingUiEffect
+import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingUiEffect.CloseScreen
+import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingsViewModel
 
 
 @Composable
 fun ChecklistSettingsScreen(
-    onCloseScreen: () -> Unit
+    onCloseScreen: () -> Unit,
+    onDeleteChecklist: () -> Unit,
+    shareIntentTextNavigator: ShareIntentTextNavigator = koinInject()
 ) {
     ApplicationTheme {
-        ScreenAndEffects(onCloseScreen)
-    }
-}
-
-@Composable
-private fun ScreenAndEffects(
-    onCloseScreen: () -> Unit,
-    viewModel: ChecklistSettingsViewModel = getViewModel()
-) {
-    Effects(viewModel, onCloseScreen)
-    Screen(onCloseScreen, viewModel)
-}
-
-@OptIn(InternalCoroutinesApi::class)
-@Composable
-private fun Effects(
-    viewModel: ChecklistSettingsViewModel,
-    onCloseScreen: () -> Unit
-) {
-    val effects = viewModel.uiEffect
-    LaunchedEffect(key1 = effects) {
-        effects.collect(
-            FlowCollector {
-                when (it) {
-                    CloseScreen -> onCloseScreen()
-                }
+        ScreenAndEffects(
+            onCloseScreen,
+            onDeleteChecklist = onDeleteChecklist,
+            onShareChecklistAsText = {
+                shareIntentTextNavigator.shareIntentText(it)
             }
         )
     }
 }
 
 @Composable
-private fun Screen(
+private fun ScreenAndEffects(
+    onCloseScreen: () -> Unit,
+    onDeleteChecklist: () -> Unit,
+    onShareChecklistAsText: (String) -> Unit,
+    viewModel: ChecklistSettingsViewModel = getViewModel()
+) {
+    val scaffoldState = rememberScaffoldState()
+    Effects(
+        viewModel = viewModel,
+        snackbarHostState = scaffoldState.snackbarHostState,
+        onCloseScreen = onCloseScreen,
+        onShareChecklistAsText = onShareChecklistAsText
+    )
+    ScreenScaffold(
+        scaffoldState = scaffoldState,
+        onCopyChecklist = { viewModel.onCopyChecklistClicked() },
+        onShareChecklist = { viewModel.onShareChecklistClicked() },
+        onBackButton = onCloseScreen,
+        onDeleteChecklist = onDeleteChecklist
+    )
+}
+
+@Composable
+private fun Effects(
+    viewModel: ChecklistSettingsViewModel,
+    snackbarHostState: SnackbarHostState,
+    onCloseScreen: () -> Unit,
+    onShareChecklistAsText: (String) -> Unit
+) {
+    val effects = viewModel.uiEffect
+    val context = LocalContext.current
+    LaunchedEffect(key1 = effects) {
+        effects.collect {
+            when (it) {
+                CloseScreen -> onCloseScreen()
+                is ChecklistSettingUiEffect.ShareChecklistAsText -> onShareChecklistAsText(it.text)
+                is ChecklistSettingUiEffect.SnackbarError -> {
+                    snackbarHostState.showSnackbar(context.getString(it.textRes))
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun ScreenScaffold(
+    scaffoldState: ScaffoldState,
+    onCopyChecklist: () -> Unit,
+    onShareChecklist: () -> Unit,
     onBackButton: () -> Unit,
-    viewModel: ChecklistSettingsViewModel
+    onDeleteChecklist: () -> Unit,
 ) {
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             TopBarContent(
                 title = {
@@ -99,100 +120,61 @@ private fun Screen(
             )
         }
     ) {
-        val state by viewModel.uiState.collectAsState()
         Column(
             modifier = Modifier.padding(it)
         ) {
-            Column(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(horizontal = Dimens.BaseFour.SizeFour)
-                    .padding(top = Dimens.BaseFour.SizeTwo)
-            ) {
-                Text(text = stringResource(id = R.string.checklist_settings_screen_task_action_label))
-                Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
-                Switcher(
-                    state = state.allTasksAction,
-                    condition = { if (state.allTasksAction == CHECK_ALL) -1f else 1f },
-                    firstOption = {
-                        SwitcherOptionsContent(label = stringResource(id = R.string.checklist_settings_screen_check_all_label)) {
-                            viewModel.onChangeSwitcher(CHECK_ALL)
-                        }
-                    },
-                    secondOption = {
-                        SwitcherOptionsContent(label = stringResource(id = R.string.checklist_settings_screen_uncheck_all_label)) {
-                            viewModel.onChangeSwitcher(UNCHECK_ALL)
-                        }
-                    }
-                )
-            }
-
-            val confirmStringResource = stringResource(id = BaseUiR.string.confirm)
-            SmartChecklistButton(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = viewModel::onConfirmClicked,
-                buttonContentDescription = confirmStringResource
-            ) {
-                Text(text = confirmStringResource)
-            }
+            SettingsComponent(
+                onCopyChecklist = onCopyChecklist,
+                onShareChecklist = onShareChecklist,
+                onDeleteChecklist = onDeleteChecklist
+            )
         }
     }
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
-private fun <T> Switcher(
-    state: T?,
-    condition: (T) -> Float,
-    firstOption: @Composable() RowScope.() -> Unit,
-    secondOption: @Composable() RowScope.() -> Unit,
+private fun ColumnScope.SettingsComponent(
+    onCopyChecklist: () -> Unit,
+    onShareChecklist: () -> Unit,
+    onDeleteChecklist: () -> Unit
 ) {
-    val transition = updateTransition(state, "UpdateTransition")
-    val animatedFloat = transition.animateFloat(
-        transitionSpec = { tween(500) },
-        label = "UpdateTransitionAnimation"
-    ) {
-        if (it == null) -1f else condition(it)
-    }
-    val align = BiasAlignment(animatedFloat.value, 0f)
-
-    Box(
+    Column(
         modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
-            .background(SmartChecklistTheme.colors.surface)
-            .height(Dimens.BaseFour.SizeTen)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxHeight()
-                .fillMaxWidth(0.5f)
-                .align(align)
-                .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
-                .background(
-                    SmartChecklistTheme.colors.secondaryVariant.copy(
-                        alpha = if (state != null) ContentAlpha.high else ContentAlpha.disabled
-                    )
-                )
-        )
-        Row(modifier = Modifier.fillMaxHeight()) {
-            firstOption()
-            secondOption()
-        }
-    }
-}
-
-@Composable
-private fun RowScope.SwitcherOptionsContent(label: String, onClick: () -> Unit) {
-    Text(
-        modifier = Modifier
-            .fillMaxHeight()
             .weight(1f)
-            .clip(RoundedCornerShape(Dimens.BaseFour.SizeTwo))
-            .clickable { onClick() }
-            .padding(vertical = Dimens.BaseFour.SizeTwo)
-            .padding(end = Dimens.BaseFour.SizeTwo),
-        text = label,
-        color = SmartChecklistTheme.colors.onSurface,
-        textAlign = TextAlign.Center
-    )
+            .padding(top = Dimens.BaseFour.SizeTwo)
+    ) {
+        ListItem(
+            modifier = Modifier.clickable(onClick = onCopyChecklist),
+            text = {
+                Text(text = stringResource(id = R.string.checklist_settings_copy_checklist_title))
+            },
+            secondaryText = {
+                Text(text = stringResource(id = R.string.checklist_settings_copy_checklist_subtitle))
+            },
+            trailing = {
+                Icon(imageVector = Icons.Default.Send, contentDescription = null)
+            }
+        )
+        ListItem(
+            modifier = Modifier.clickable(onClick = onShareChecklist),
+            text = {
+                Text(text = stringResource(id = R.string.checklist_settings_share_checklist_title))
+            },
+            secondaryText = {
+                Text(text = stringResource(id = R.string.checklist_settings_share_checklist_subtitle))
+            },
+            trailing = {
+                Icon(imageVector = Icons.Default.Share, contentDescription = null)
+            }
+        )
+    }
+
+    SmartChecklistButton(
+        onClick = onDeleteChecklist,
+        modifier = Modifier.fillMaxWidth(),
+        buttonVariant = ButtonVariant.NEGATIVE
+    ) {
+        Text(text = stringResource(id = R.string.checklist_delete_label))
+    }
 }

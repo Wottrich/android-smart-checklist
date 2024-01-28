@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -26,22 +27,17 @@ fun TaskLazyColumnComponent(
 ) {
     LazyColumn(
         content = {
-            items(
-                count = taskList.size,
-                key = { taskList[it].getTaskItemOrNull()?.task?.uuid ?: "Section" },
-                contentType = { taskList[it] },
-                itemContent = {
-                    when (val item = taskList[it]) {
-                        is BaseTaskListItem.SectionItem -> TaskSection(sectionItem = item)
-                        is BaseTaskListItem.TaskItem -> TaskItem(
-                            task = item.task,
-                            showDeleteItem = showDeleteItem,
-                            onCheckChange = onCheckChange,
-                            onDeleteTask = onDeleteTask
-                        )
-                    }
+            items(taskList) {
+                when (it) {
+                    is BaseTaskListItem.SectionItem -> TaskSection(sectionItem = it)
+                    is BaseTaskListItem.TaskItem -> TaskItem(
+                        task = it.task,
+                        showDeleteItem = showDeleteItem,
+                        onCheckChange = onCheckChange,
+                        onDeleteTask = onDeleteTask
+                    )
                 }
-            )
+            }
             item {
                 Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTen))
             }

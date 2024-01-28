@@ -1,22 +1,16 @@
 package wottrich.github.io.smartchecklist.presentation.ui.content
 
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.tooling.preview.Preview
 import wottrich.github.io.smartchecklist.R
 import wottrich.github.io.smartchecklist.presentation.ui.shared.EditIconStateContent
 
@@ -32,118 +26,44 @@ import wottrich.github.io.smartchecklist.presentation.ui.shared.EditIconStateCon
 @Composable
 fun RowScope.HomeTopBarActionsContent(
     isEditMode: Boolean,
-    onShowDeleteConfirmDialog: (() -> Unit),
-    onCopyChecklist: () -> Unit,
     onChecklistSettings: () -> Unit,
-    onShareQuicklyChecklist: () -> Unit,
-    onChangeState: () -> Unit
+    onChangeState: () -> Unit,
+    onOpenSortTaskList: () -> Unit
 ) {
-    var isExpanded by remember { mutableStateOf(false) }
-    EditIconStateContent(isEditMode = isEditMode, onChangeState = onChangeState)
-    IconButton(onClick = { isExpanded = true }) {
+    IconButton(onClick = onChecklistSettings) {
         Icon(
-            imageVector = Icons.Default.MoreVert,
-            contentDescription = stringResource(id = R.string.checklist_more_options_content_description)
+            imageVector = Icons.Default.Settings,
+            contentDescription = stringResource(R.string.checklist_settings_screen_content_description)
         )
     }
-    DropdownMenuActions(
-        isExpanded = isExpanded,
-        dismissDropdownMenu = { isExpanded = false },
-        onShowDeleteConfirmDialog = onShowDeleteConfirmDialog,
-        onCopyChecklist = onCopyChecklist,
-        onChecklistSettings = onChecklistSettings,
-        onShareQuicklyChecklist = onShareQuicklyChecklist
-    )
-}
-
-@Composable
-private fun DropdownMenuActions(
-    isExpanded: Boolean,
-    dismissDropdownMenu: () -> Unit,
-    onShowDeleteConfirmDialog: () -> Unit,
-    onCopyChecklist: () -> Unit,
-    onChecklistSettings: () -> Unit,
-    onShareQuicklyChecklist: () -> Unit
-) {
-    DropdownMenu(
-        expanded = isExpanded,
-        onDismissRequest = { dismissDropdownMenu() }
-    ) {
-        DeleteDropdownMenuItem {
-            dismissDropdownMenu()
-            onShowDeleteConfirmDialog()
-        }
-        CopyChecklistDropdownMenuItem {
-            dismissDropdownMenu()
-            onCopyChecklist()
-        }
-        ChecklistSettingsDropdownMenuItem {
-            dismissDropdownMenu()
-            onChecklistSettings()
-        }
-        ShareQuicklyChecklistDropdownMenuItem {
-            dismissDropdownMenu()
-            onShareQuicklyChecklist()
-        }
+    IconButton(onClick = onOpenSortTaskList) {
+        Icon(
+            imageVector = Icons.Default.List,
+            contentDescription = stringResource(id = R.string.checklist_sort_task_option_content_description)
+        )
     }
+    EditIconStateContent(isEditMode = isEditMode, onChangeState = onChangeState)
 }
 
+@Preview(showBackground = true)
 @Composable
-private fun DeleteDropdownMenuItem(onShowDeleteConfirmDialog: () -> Unit) {
-    val onShowDeleteConfirmDialogContentDescription = stringResource(
-        id = R.string.checklist_delete_checklist_content_description
-    )
-    DropdownMenuItem(
-        modifier = Modifier.semantics {
-            contentDescription = onShowDeleteConfirmDialogContentDescription
-        },
-        onClick = onShowDeleteConfirmDialog
-    ) {
-        Text(text = stringResource(id = R.string.checklist_delete_label))
-    }
-}
-
-@Composable
-private fun CopyChecklistDropdownMenuItem(onCopyChecklist: () -> Unit) {
-    val onShareClickContentDescription = stringResource(
-        id = R.string.checklist_copy_content_description
-    )
-    DropdownMenuItem(
-        modifier = Modifier.semantics {
-            contentDescription = onShareClickContentDescription
-        },
-        onClick = onCopyChecklist
-    ) {
-        Text(text = stringResource(id = R.string.checklist_copy_label))
-    }
-}
-
-@Composable
-private fun ChecklistSettingsDropdownMenuItem(onChecklistSettings: () -> Unit) {
-    val onShareClickContentDescription = stringResource(
-        id = R.string.checklist_settings_screen_content_description
-    )
-    DropdownMenuItem(
-        modifier = Modifier.semantics {
-            contentDescription = onShareClickContentDescription
-        },
-        onClick = onChecklistSettings
-    ) {
-        Text(text = stringResource(id = R.string.checklist_settings_screen_label))
-    }
-}
-
-@Composable
-private fun ShareQuicklyChecklistDropdownMenuItem(onChecklistSettings: () -> Unit) {
-    val onShareClickContentDescription = stringResource(
-        id = R.string.checklist_share_quickly_checklist_content_description
-    )
-    DropdownMenuItem(
-        modifier = Modifier.semantics {
-            contentDescription = onShareClickContentDescription
-        },
-        onClick = onChecklistSettings
-    ) {
-        Text(text = stringResource(id = R.string.checklist_share_quickly_checklist_label))
+private fun HomeTopBarActionsContentPreview() {
+    Column {
+        Row {
+            HomeTopBarActionsContent(
+                isEditMode = false,
+                onChecklistSettings = { },
+                onChangeState = { },
+                onOpenSortTaskList = { }
+            )
+        }
+        Row {
+            HomeTopBarActionsContent(
+                isEditMode = true,
+                onChecklistSettings = { },
+                onChangeState = { },
+                onOpenSortTaskList = { }
+            )
+        }
     }
 }

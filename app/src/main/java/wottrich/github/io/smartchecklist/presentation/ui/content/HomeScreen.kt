@@ -8,7 +8,6 @@ import androidx.compose.material.SnackbarHost
 import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -19,24 +18,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
-import org.koin.compose.koinInject
 import wottrich.github.io.smartchecklist.R.string
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
-import wottrich.github.io.smartchecklist.intent.navigation.ShareIntentTextNavigator
 import wottrich.github.io.smartchecklist.navigation.NavigationHome
 import wottrich.github.io.smartchecklist.navigation.NavigatorTask
-import wottrich.github.io.smartchecklist.navigation.TaskContextNavigator
 import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiState
-import wottrich.github.io.smartchecklist.presentation.state.TopBarHomeUiEffects
-import wottrich.github.io.smartchecklist.presentation.ui.content.DeleteAlertDialogState.HIDE
-import wottrich.github.io.smartchecklist.presentation.ui.content.DeleteAlertDialogState.SHOW
 import wottrich.github.io.smartchecklist.presentation.ui.drawer.HomeDrawerStatefulContent
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeViewModel
 import wottrich.github.io.smartchecklist.uisupport.navigation.NavigationSupport
@@ -52,21 +43,15 @@ import wottrich.github.io.smartchecklist.uisupport.navigation.NavigationSupport
 
 @Composable
 fun HomeScreen(
-    navHostController: NavHostController,
-    shareIntentTextNavigator: ShareIntentTextNavigator = koinInject()
+    navHostController: NavHostController
 ) {
     ApplicationTheme {
         Screen(
             onAddNewChecklist = {
                 navHostController.navigate(NavigatorNewChecklist.route)
             },
-            onShareText = {
-                shareIntentTextNavigator.shareIntentText(it)
-            },
             onChecklistSettings = {
-                val route =
-                    NavigationHome.Destinations.ChecklistSettingsScreen.route
-                        .replace("{checklistId}", it)
+                val route = NavigationHome.Navigation.Settings.route
                 navHostController.navigate(route)
             },
             onAboutUsClick = {
@@ -77,6 +62,9 @@ fun HomeScreen(
             },
             onTaskCounterClicked = {
                 navHostController.navigate(NavigatorTask.Destinations.CompletableCountBottomSheetScreen.route)
+            },
+            onOpenSortTaskList = {
+                navHostController.navigate(NavigatorTask.Destinations.SortTaskListBottomSheetScreen.route)
             }
         )
     }
@@ -85,18 +73,17 @@ fun HomeScreen(
 @Composable
 private fun Screen(
     onAddNewChecklist: () -> Unit,
-    onShareText: (String) -> Unit,
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
     onTaskCounterClicked: () -> Unit,
+    onOpenSortTaskList: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
     val scaffoldState = rememberScaffoldState()
     val drawerState = scaffoldState.drawerState
     val coroutineScope = rememberCoroutineScope()
-    var showDeleteDialog by remember { mutableStateOf(HIDE) }
 
     val defaultColor = SnackbarDefaults.backgroundColor
     var snackbarColor by remember { mutableStateOf(defaultColor) }
@@ -107,8 +94,7 @@ private fun Screen(
         effects = homeViewModel.uiEffects,
         updateSnackbarColor = {
             snackbarColor = it
-        },
-        onShareQuicklyChecklist = onShareText
+        }
     )
 
     HomeScaffold(
@@ -130,15 +116,13 @@ private fun Screen(
         actionContent = {
             TopBarActionContent(
                 checklistState = checklistState,
-                onCopyChecklist = onShareText,
                 onChecklistSettings = {
                     checklistState.checklist?.uuid?.let {
                         onChecklistSettings(it)
                     }
                 },
-                onShareQuicklyChecklist = { homeViewModel.sendAction(HomeUiActions.Action.OnShareQuicklyChecklistAction) },
                 homeViewModel = homeViewModel,
-                onShowDeleteDialog = { showDeleteDialog = SHOW }
+                onOpenSortTaskList = onOpenSortTaskList
             )
         },
         snackbarHost = { snackbarHostState ->
@@ -154,11 +138,7 @@ private fun Screen(
             paddingValues = paddingValues,
             homeViewModel = homeViewModel,
             checklistState = checklistState,
-            showDeleteDialog = showDeleteDialog,
             onAddNewChecklist = onAddNewChecklist,
-            onHideDeleteDialog = {
-                showDeleteDialog = HIDE
-            },
             onTaskCounterClicked = onTaskCounterClicked,
         )
     }
@@ -214,41 +194,17 @@ private fun TopBarTitleContent(checklistState: HomeState) {
 @Composable
 private fun RowScope.TopBarActionContent(
     checklistState: HomeState,
-    onCopyChecklist: (String) -> Unit,
     onChecklistSettings: () -> Unit,
-    onShareQuicklyChecklist: () -> Unit,
     homeViewModel: HomeViewModel,
-    onShowDeleteDialog: () -> Unit
+    onOpenSortTaskList: () -> Unit
 ) {
     if (checklistState.shouldShowActionContent()) {
-        HomeTopBarActionsEffect(
-            effects = homeViewModel.topBarUiEffect,
-            onCopyChecklist = onCopyChecklist
-        )
         HomeTopBarActionsContent(
             isEditMode = checklistState.isEditUiState,
-            onShowDeleteConfirmDialog = onShowDeleteDialog,
-            onCopyChecklist = {
-                homeViewModel.sendAction(HomeUiActions.Action.OnShareChecklistAsText)
-            },
             onChecklistSettings = onChecklistSettings,
-            onShareQuicklyChecklist = onShareQuicklyChecklist,
-            onChangeState = { homeViewModel.sendAction(HomeUiActions.Action.OnChangeEditModeAction) }
+            onChangeState = { homeViewModel.sendAction(HomeUiActions.Action.OnChangeEditModeAction) },
+            onOpenSortTaskList = onOpenSortTaskList
         )
-    }
-}
-
-@Composable
-private fun HomeTopBarActionsEffect(
-    effects: Flow<TopBarHomeUiEffects>,
-    onCopyChecklist: (String) -> Unit
-) {
-    LaunchedEffect(key1 = effects) {
-        effects.collectLatest {
-            when (it) {
-                is TopBarHomeUiEffects.ShareChecklistAsText -> onCopyChecklist(it.checklistAsText)
-            }
-        }
     }
 }
 

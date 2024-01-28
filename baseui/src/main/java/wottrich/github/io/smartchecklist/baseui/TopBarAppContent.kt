@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.IconButton
 import androidx.compose.material.TopAppBar
 import androidx.compose.runtime.Composable
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun TopBarContent(
@@ -21,6 +22,7 @@ fun TopBarContent(
                 navigationIcon()
             }
         },
-        actions = actionsContent ?: {}
+        actions = actionsContent ?: {},
+        backgroundColor = SmartChecklistTheme.colors.background
     )
 }

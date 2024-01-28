@@ -11,7 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import wottrich.github.io.smartchecklist.R.string
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects
-import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects.OnShareQuicklyChecklist
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects.SnackbarChecklistDelete
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects.SnackbarError
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects.SnackbarTaskCompleted
@@ -23,8 +22,7 @@ fun HomeScreenEffects(
     coroutineScope: CoroutineScope,
     snackbarHostState: SnackbarHostState,
     effects: Flow<HomeUiEffects>,
-    updateSnackbarColor: (Color) -> Unit,
-    onShareQuicklyChecklist: (String) -> Unit
+    updateSnackbarColor: (Color) -> Unit
 ) {
     val uncompletedTaskMessage = stringResource(id = string.snackbar_uncompleted_task_message)
     val completeTaskMessage = stringResource(id = string.snackbar_completed_task_message)
@@ -56,7 +54,6 @@ fun HomeScreenEffects(
                 is SnackbarChecklistDelete -> {
                     showSnackbar(deleteChecklistMessage, positiveColor, true)
                 }
-                is OnShareQuicklyChecklist -> onShareQuicklyChecklist(it.quicklyChecklistJson)
                 is SnackbarError -> {
                     showSnackbar(context.getString(it.errorMessage), negativeColor, true)
                 }

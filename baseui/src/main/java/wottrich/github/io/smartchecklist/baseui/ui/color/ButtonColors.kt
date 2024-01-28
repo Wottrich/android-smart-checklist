@@ -9,6 +9,14 @@ import androidx.compose.ui.graphics.Color
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
+internal fun negativeButtonColor(): ButtonColors = DefaultButtonColor(
+    backgroundColor = SmartChecklistTheme.colors.status.negative,
+    contentColor = SmartChecklistTheme.colors.status.onNegative,
+    disabledBackgroundColor = SmartChecklistTheme.colors.status.negative.copy(alpha = ContentAlpha.disabled),
+    disabledContentColor = SmartChecklistTheme.colors.status.onNegative.copy(alpha = ContentAlpha.disabled)
+)
+
+@Composable
 internal fun defaultButtonColors(): ButtonColors = DefaultButtonColor(
     backgroundColor = SmartChecklistTheme.colors.secondary,
     contentColor = Color.White,

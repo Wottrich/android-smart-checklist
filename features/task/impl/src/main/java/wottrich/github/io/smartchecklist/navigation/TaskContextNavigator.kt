@@ -7,6 +7,7 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.bottomSheet
 import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
 import wottrich.github.io.smartchecklist.presentation.ui.checklistinformationheader.CompletableCountBottomSheetScreen
+import wottrich.github.io.smartchecklist.presentation.ui.sort.SortTaskListBottomSheet
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 class TaskContextNavigator : SmartChecklistNavigation {
@@ -15,17 +16,17 @@ class TaskContextNavigator : SmartChecklistNavigation {
         navHostController: NavHostController
     ) {
         navGraphBuilder.apply {
-            navigation(
-                startDestination = NavigatorTask.startDestination,
-                route = NavigatorTask.route
+            bottomSheet(
+                route = NavigatorTask.Destinations.CompletableCountBottomSheetScreen.route
             ) {
-                bottomSheet(
-                    route = NavigatorTask.Destinations.CompletableCountBottomSheetScreen.route
-                ) {
-                    CompletableCountBottomSheetScreen(
-                        onClose = { navHostController.popBackStack() }
-                    )
-                }
+                CompletableCountBottomSheetScreen(
+                    onClose = { navHostController.popBackStack() }
+                )
+            }
+            bottomSheet(
+                route = NavigatorTask.Destinations.SortTaskListBottomSheetScreen.route
+            ) {
+                SortTaskListBottomSheet(navHostController)
             }
         }
     }
@@ -36,6 +37,7 @@ object NavigatorTask {
     val startDestination = Destinations.CompletableCountBottomSheetScreen.route
 
     sealed class Destinations(val route: String) {
-        object CompletableCountBottomSheetScreen : Destinations("CompletableCountBottomSheetScreen")
+        data object CompletableCountBottomSheetScreen : Destinations("CompletableCountBottomSheetScreen")
+        data object SortTaskListBottomSheetScreen : Destinations("SortTaskListBottomSheetScreen")
     }
 }

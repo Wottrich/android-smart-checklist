@@ -4,19 +4,14 @@ import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.domain.model.SortItemType
-import wottrich.github.io.smartchecklist.presentation.sort.model.TaskSortItemState
 import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
 import wottrich.github.io.smartchecklist.task.R
 
 class SortTasksBySelectedSortUseCase :
     KotlinResultUseCase<SortTasksBySelectedSortUseCase.Params, List<BaseTaskListItem>>() {
     override suspend fun execute(params: Params): Result<List<BaseTaskListItem>> {
-        val selectedSort = getSelectedSortItem(params.sortItems)
+        val selectedSort = params.selectedSortItem
         return Result.success(getSortedListBySelectedType(params.tasks, selectedSort))
-    }
-
-    private fun getSelectedSortItem(sortItems: List<TaskSortItemState>): SortItemType {
-        return sortItems.firstOrNull { it.isSelected }?.type ?: SortItemType.UNSELECTED_SORT
     }
 
     private fun getSortedListBySelectedType(
@@ -42,7 +37,7 @@ class SortTasksBySelectedSortUseCase :
     }
 
     class Params(
-        val sortItems: List<TaskSortItemState>,
+        val selectedSortItem: SortItemType,
         val tasks: List<Task>
     )
 }
