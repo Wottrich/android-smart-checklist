@@ -10,7 +10,6 @@ abstract class KotlinResultUseCase<Params, ReturnType>(
     private val appDispatchersProviders: DispatchersProviders = GlobalContext.get().get()
 ) : UseCase<Params, Result<ReturnType>> where ReturnType : Any? {
 
-    @Suppress("UNCHECKED_CAST")
     override suspend operator fun invoke(params: Params): Result<ReturnType> {
         return invokeImpl(params)
     }
