@@ -3,5 +3,5 @@
     <string name="support_help_overview_title">Ajuda</string>
     <string name="support_help_overview_tutorial_label">Tutoriais</string>
     <string name="support_help_overview_tutorial_how_delete_tasks">Como deletar tarefas</string>
-    <string name="support_help_overview_tutorial_how_delete_tasks_explain">Para deletar uma tarefa basta você clicar no botão de deletar até deletar a terefa</string>
+    <string name="support_help_overview_tutorial_how_delete_tasks_explain">Quando você clicar para editar sua checklist a opção de deletar um item aparecerá, então é só você clicar no icone e confirmar a deleção logo depois.</string>
 </resources>

@@ -11,6 +11,9 @@
     <string name="task_item_component_click_to_check_item_description">Item %s completed, click to turn incomplete</string>
     <string name="task_item_component_click_to_uncheck_item_description">Item %s incomplete, click to turn complete</string>
     <string name="taks_your_tasks_label_header">Your Tasks</string>
+    <string name="task_item_component_delete_item_confirm_title">Confirm to delete task %s</string>
+    <string name="task_item_component_delete_item_confirm_label">Confirm</string>
+    <string name="task_item_component_delete_item_cancel_label">Cancel</string>
 
     <string name="checklist_add_new_item_failure">Task name cannot be empty!</string>
     <string name="checklist_add_new_task_unknown_error">Something happen, please try again</string>

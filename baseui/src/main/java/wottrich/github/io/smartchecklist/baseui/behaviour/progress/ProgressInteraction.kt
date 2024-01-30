@@ -20,13 +20,15 @@ import kotlinx.coroutines.flow.Flow
 fun pressProgressionInteractionState(
     interactions: Flow<Interaction>,
     timePressingToFinishInMillis: Long,
-    onFinishTimePressing: () -> Unit,
     key: String? = null
 ): State<Float> {
     var isDeleting by remember(key) {
         mutableStateOf(false)
     }
-    val transition = updateTransition(isDeleting, label = "pressProgressionInteractionState")
+    val transition = updateTransition(
+        isDeleting,
+        label = "pressProgressionInteractionState$key"
+    )
     val result = transition.animateFloat(
         transitionSpec = {
             tween(
@@ -34,15 +36,13 @@ fun pressProgressionInteractionState(
                 easing = LinearEasing
             )
         },
-        label = "pressProgressionInteractionState"
+        label = "pressProgressionInteractionStateResult$key"
     ) {
         if (it) 1f else 0f
     }
-    if (result.value >= 1) {
-        onFinishTimePressing()
-    }
     LaunchedEffect(
         key1 = interactions,
+        key2 = key,
         block = {
             interactions.collect {
                 onPressInteraction(
