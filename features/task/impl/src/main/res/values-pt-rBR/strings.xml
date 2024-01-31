@@ -10,6 +10,9 @@
     <string name="task_item_component_click_to_check_item_description">Item %s completo, clique para tornar incompleto</string>
     <string name="task_item_component_click_to_uncheck_item_description">Item %s incompleto, clique para completar</string>
     <string name="taks_your_tasks_label_header">Suas tarefas</string>
+    <string name="task_item_component_delete_item_confirm_title">Confirme se deseja deletar a tarefa %s</string>
+    <string name="task_item_component_delete_item_confirm_label">Confirmar</string>
+    <string name="task_item_component_delete_item_cancel_label">Cancelar</string>
 
     <string name="checklist_add_new_item_failure">O nome da tarefa não pode estar vazio!</string>
     <string name="checklist_add_new_task_unknown_error">Algo aconteceu, por favor tente novamente</string>
