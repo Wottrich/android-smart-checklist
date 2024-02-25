@@ -8,4 +8,7 @@
     <string name="no">No</string>
     <string name="confirm">Confirm</string>
     <string name="default_continue">Continue</string>
+
+    <string name="item_completable_component_click_to_check_item_description">Item %s completed, click to turn incomplete</string>
+    <string name="item_completable_component_click_to_uncheck_item_description">Item %s incomplete, click to turn complete</string>
 </resources>

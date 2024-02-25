@@ -148,7 +148,7 @@ object NavigationQuicklyChecklist {
             Destinations(route = "InitialQuicklyChecklistScreen?checklist={checklist}") {
             val deepLinks = listOf(
                 navDeepLink {
-                    uriPattern = "http://wottrich.github.io/quicklychecklist?checklist={checklist}"
+                    uriPattern = "https://wottrich.github.io/quicklychecklist?checklist={checklist}"
                 }
             )
         }

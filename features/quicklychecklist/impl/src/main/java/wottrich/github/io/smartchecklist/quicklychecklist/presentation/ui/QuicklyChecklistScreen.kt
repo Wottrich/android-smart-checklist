@@ -1,7 +1,11 @@
 package wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -20,11 +24,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
+import wottrich.github.io.smartchecklist.baseui.components.completable.CompletableComponent
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
+import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
-// TODO Fix it!
-//import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
-//import wottrich.github.io.smartchecklist.presentation.ui.TaskLazyColumnComponent
 import wottrich.github.io.smartchecklist.quicklychecklist.R
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistUiEffect.InvalidChecklist
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.states.QuicklyChecklistUiEffect.OnConfirmQuicklyChecklist
@@ -167,10 +170,16 @@ private fun ScaffoldContent(
     taskList: List<Task>,
     onCheckChange: (Task) -> Unit
 ) {
-//    TaskLazyColumnComponent(
-//        taskList = taskList.map { BaseTaskListItem.TaskItem(it) },
-//        onCheckChange = onCheckChange,
-//        onDeleteTask = {},
-//        showDeleteItem = false
-//    )
+    LazyColumn {
+        items(taskList) { task ->
+            Column {
+                Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
+                CompletableComponent(
+                    name = task.name,
+                    isCompleted = task.isCompleted,
+                    onCheckChange = { onCheckChange(task) }
+                )
+            }
+        }
+    }
 }
