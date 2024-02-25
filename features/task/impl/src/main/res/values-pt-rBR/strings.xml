@@ -10,5 +10,25 @@
     <string name="task_item_component_click_to_check_item_description">Item %s completo, clique para tornar incompleto</string>
     <string name="task_item_component_click_to_uncheck_item_description">Item %s incompleto, clique para completar</string>
     <string name="taks_your_tasks_label_header">Suas tarefas</string>
+    <string name="task_item_component_delete_item_confirm_title">Confirme se deseja deletar a tarefa %s</string>
+    <string name="task_item_component_delete_item_confirm_label">Confirmar</string>
+    <string name="task_item_component_delete_item_cancel_label">Cancelar</string>
+
+    <string name="checklist_add_new_item_failure">O nome da tarefa não pode estar vazio!</string>
+    <string name="checklist_add_new_task_unknown_error">Algo aconteceu, por favor tente novamente</string>
+    <string name="checklist_change_task_state_failure">Algum problema aconteceu ao trocar o status da sua tarefa</string>
+
+    <string name="task_item_component_load_tasks_error">Erro ao carregar as tarefas, tente novamente, por favor!</string>
+
+    <!--  Sort items  -->
+    <string name="task_sort_completed_task_item">Tasks completadas</string>
+    <string name="task_sort_uncompleted_task_item">Tasks incompletas</string>
+    <string name="task_sort_bottom_sheet_select_sort_failure">Erro ao selecionar ordenação, tente novamente, por favor!</string>
+
+    <!--  Completable Count Strings  -->
+    <string name="completable_count_bottom_sheet_title">Contador de tarefas</string>
+    <string name="completable_count_bottom_sheet_subtitle">Você completou %s de %s tarefas.</string>
+    <string name="completable_count_completable_component_tip">Nesse ícone acima você pode verificar quantas tarefas você já completou na sua checklist</string>
+    <string name="completable_count_bottom_sheet_button_label">Ok!</string>
 
 </resources>

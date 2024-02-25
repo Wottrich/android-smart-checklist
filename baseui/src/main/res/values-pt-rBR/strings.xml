@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="attention">Atenção</string>
+    <string name="unknown">Erro desconhecido, por favor tente novamente mais tarde</string>
+    <string name="try_again">Tentar novamente</string>
+    <string name="arrow_back_content_description">Voltar</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="confirm">Confirmar</string>
+    <string name="default_continue">Continuar</string>
+
+    <string name="item_completable_component_click_to_check_item_description">Item %s completo, clique para tornar incompleto</string>
+    <string name="item_completable_component_click_to_uncheck_item_description">Item %s incompleto, clique para completar</string>
+</resources>

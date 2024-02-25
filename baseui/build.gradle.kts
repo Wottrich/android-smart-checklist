@@ -1,51 +1,17 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
+    id("wottrich.github.io.smartchecklist.android.lib")
 }
 
 android {
-    compileSdk = AndroidSdk.targetSdk
-    buildToolsVersion = AndroidSdk.buildToolsVersion
-
-    defaultConfig {
-        minSdk = AndroidSdk.minSdk
-        targetSdk = AndroidSdk.targetSdk
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = AndroidSdk.javaVersion
-        targetCompatibility = AndroidSdk.javaVersion
-    }
-    kotlinOptions {
-        jvmTarget = AndroidSdk.javaVersion.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeVersion
-    }
+    buildFeatures.compose = true
+    composeOptions.kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
+    namespace = "wottrich.github.io.smartchecklist.baseui"
 }
 
 dependencies {
-
-    kotlinAndCoreKtx()
-
-    moduleTools()
-    composeUi()
-
-    navigation(true)
-
-    koin()
-
-    unitTest()
-    instrumentalTest()
+    implementation(libs.android.material)
+    implementation(libs.bundles.compose.default)
+    implementation(libs.bundles.compose.navigation.default)
+    implementation(libs.bundles.koin.default)
+    testImplementation(libs.bundles.test.default)
 }
