@@ -6,8 +6,8 @@ plugins {
 android {
     defaultConfig {
         applicationId = "wottrich.github.io.androidsmartchecklist"
-        versionCode = 7
-        versionName = "1.5.0"
+        versionCode = 8
+        versionName = "2.0.0"
         multiDexEnabled = true
     }
 
