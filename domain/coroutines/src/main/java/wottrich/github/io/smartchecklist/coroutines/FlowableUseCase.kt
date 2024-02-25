@@ -1,10 +1,10 @@
 package wottrich.github.io.smartchecklist.coroutines
 
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.withContext
 import org.koin.core.context.GlobalContext
 import wottrich.github.io.smartchecklist.coroutines.base.Result
@@ -17,18 +17,21 @@ abstract class FlowableUseCase<Params, ReturnType>(
         return invokeImpl(params)
     }
 
+    @Suppress("UNCHECKED_CAST")
     override suspend fun invoke(): Flow<Result<ReturnType>> {
         return invokeImpl(UseCase.None() as Params)
     }
 
+    open fun mapError(throwable: Throwable): Result<ReturnType> {
+        return Result.failure(throwable)
+    }
+
     private suspend fun invokeImpl(params: Params): Flow<Result<ReturnType>> {
         return appendRequestInAsyncThread {
-            flow {
-                val flowCollector = this
-                execute(params).flowOn(appDispatchersProviders.main).collect { result ->
-                    flowCollector.emit(result)
+            execute(params).buffer(onBufferOverflow = BufferOverflow.DROP_OLDEST)
+                .catch {
+                    emit(mapError(it))
                 }
-            }
         }
     }
 
