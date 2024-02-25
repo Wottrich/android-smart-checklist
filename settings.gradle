@@ -1,16 +1,35 @@
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+    }
+    includeBuild("gradle-conventions/conventions")
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
 rootProject.name = "AndroidSmartCheckList"
-include ':datasource'
-include ':tools'
 include ':app'
 include ':baseui'
+include ':datasource'
+include ':domain:coroutines'
 include ':features:checklist:impl'
 include ':features:checklist:public'
+include ':features:newchecklist:impl'
+include ':features:newchecklist:public'
+include ':features:quicklychecklist:impl'
 include ':features:task:impl'
 include ':features:task:public'
+include ':infrastructure:components:android'
+include ':infrastructure:components:kotlin'
+include ':infrastructure:extensions:intent'
+include ':infrastructure:generator:uuid'
 include ':test-tools'
 include ':ui-aboutus'
 include ':ui-support'
-include ':features:newchecklist:impl'
-include ':features:newchecklist:public'
-include ':common-ui-compose'
-include ':features:quicklychecklist:impl'
+include ':datasource:public'

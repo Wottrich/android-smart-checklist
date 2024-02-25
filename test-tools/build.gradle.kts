@@ -1,48 +1,15 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
+    id("wottrich.github.io.smartchecklist.android.lib")
 }
 
 android {
-    compileSdk = AndroidSdk.targetSdk
-    buildToolsVersion = AndroidSdk.buildToolsVersion
-
-    defaultConfig {
-        minSdk = AndroidSdk.minSdk
-        targetSdk = AndroidSdk.targetSdk
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = AndroidSdk.javaVersion
-        targetCompatibility = AndroidSdk.javaVersion
-    }
-    kotlinOptions {
-        jvmTarget = AndroidSdk.javaVersion.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeVersion
-    }
+    namespace = "wottrich.github.io.smartchecklist.testtools"
 }
 
 dependencies {
-
-    kotlinAndCoreKtx()
-    moduleTools()
-    composeUi()
-    coroutines()
-    koin()
-    unitTest(true)
-    instrumentalTest(true)
-
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.test)
+    implementation(libs.bundles.koin.default)
+    implementation(libs.bundles.test.default)
+    implementation(project(path = ":domain:coroutines"))
 }

@@ -1,58 +1,22 @@
 plugins {
-    id(Plugins.androidLibrary)
-    id(Plugins.kotlinAndroid)
+    id("wottrich.github.io.smartchecklist.feature.impl")
 }
 
 android {
-    compileSdk = AndroidSdk.targetSdk
-    buildToolsVersion = AndroidSdk.buildToolsVersion
-
-    defaultConfig {
-        minSdk = AndroidSdk.minSdk
-        targetSdk = AndroidSdk.targetSdk
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        consumerProguardFiles("consumer-rules.pro")
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-    compileOptions {
-        sourceCompatibility = AndroidSdk.javaVersion
-        targetCompatibility = AndroidSdk.javaVersion
-    }
-    kotlinOptions {
-        jvmTarget = AndroidSdk.javaVersion.toString()
-    }
-    buildFeatures {
-        compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = Versions.composeVersion
-    }
+    namespace = "wottrich.github.io.smartchecklist.newchecklist"
 }
 
 dependencies {
-
-    kotlinAndCoreKtx()
-
-    moduleTools()
-
-    implementation(project(path = ":datasource"))
+    api(project(path = ":features:newchecklist:public"))
+    implementation(libs.bundles.koin.default)
+    implementation(libs.bundles.compose.default)
+    implementation(libs.bundles.compose.navigation.default)
+    implementation(project(path = ":domain:coroutines"))
+    implementation(project(path = ":datasource:public"))
     implementation(project(path = ":baseui"))
-    implementation(project(path = ":features:checklist:impl"))
-
-    composeUi()
-
-    navigation(withAnimation = true)
-
-    koin()
-
+    implementation(project(path = ":infrastructure:components:android"))
+    implementation(project(path = ":infrastructure:components:kotlin"))
+    implementation(project(path = ":features:checklist:public"))
     testImplementation(project(path = ":test-tools"))
-
-    unitTest()
-    instrumentalTest()
+    testImplementation(libs.bundles.test.default)
 }
