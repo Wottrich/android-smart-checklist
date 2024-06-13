@@ -6,8 +6,8 @@ plugins {
 android {
     defaultConfig {
         applicationId = "wottrich.github.io.androidsmartchecklist"
-        versionCode = 8
-        versionName = "2.0.0"
+        versionCode = 9
+        versionName = "2.0.1"
         multiDexEnabled = true
 
         buildConfigField("String", "PRIVACY_POLICY_URL", "\"https://github.com/Wottrich/android-smart-checklist/blob/master/privacity_rules.txt\"")
