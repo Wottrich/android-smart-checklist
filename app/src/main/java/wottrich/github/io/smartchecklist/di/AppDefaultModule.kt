@@ -10,12 +10,15 @@ import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
 import wottrich.github.io.smartchecklist.navigation.AppNavigator
 import wottrich.github.io.smartchecklist.navigation.OpenPlayStoreNavigator
 import wottrich.github.io.smartchecklist.navigation.OpenPlayStoreNavigatorImpl
+import wottrich.github.io.smartchecklist.navigation.PrivacyPolicy
+import wottrich.github.io.smartchecklist.navigation.PrivacyPolicyImpl
 
 val appDefaultModule = module {
     single<ClipboardManager> {
         androidContext().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
     }
     single<OpenPlayStoreNavigator> { OpenPlayStoreNavigatorImpl(androidContext()) }
+    single<PrivacyPolicy> { PrivacyPolicyImpl(androidContext()) }
     single { AppNavigator(getAll<SmartChecklistNavigation>()) }
 
     getKoin().setProperty(AppProperties.VERSION_NAME, BuildConfig.VERSION_NAME)

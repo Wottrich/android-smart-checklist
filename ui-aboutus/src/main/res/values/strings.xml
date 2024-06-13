@@ -2,4 +2,5 @@
 <resources>
     <string name="about_us_screen_title">About us</string>
     <string name="about_us_screen_app_version_label">App version</string>
+    <string name="about_us_screen_privacy_policy_label">Privacy policy</string>
 </resources>
