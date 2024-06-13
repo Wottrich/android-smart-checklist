@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_description">We currently do not collect any user information.\n\nIf you have questions about this Privacy Policy or the personal data we process, you can contact our Personal Data Protection Officer through the following channels:\n\nWottrich78@gmail.com\n\nAssigned: Lucas Cruz Wottrich</string>
+    <string name="privacy_policy_button">Visit the website</string>
+</resources>
