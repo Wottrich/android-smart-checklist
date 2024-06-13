@@ -6,9 +6,11 @@ plugins {
 android {
     defaultConfig {
         applicationId = "wottrich.github.io.androidsmartchecklist"
-        versionCode = 8
-        versionName = "2.0.0"
+        versionCode = 9
+        versionName = "2.0.1"
         multiDexEnabled = true
+
+        buildConfigField("String", "PRIVACY_POLICY_URL", "\"https://github.com/Wottrich/android-smart-checklist/blob/master/privacity_rules.txt\"")
     }
 
     buildTypes {
@@ -57,6 +59,7 @@ dependencies {
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))
     implementation(project(path = ":features:quicklychecklist:impl"))
+    implementation(project(path = ":ui-privacy-policy:impl"))
     implementation(project(path = ":ui-aboutus"))
     implementation(project(path = ":ui-support"))
     testImplementation(project(path = ":test-tools"))

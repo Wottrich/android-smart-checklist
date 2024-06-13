@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="privacy_policy_title">Política de privacidade</string>
+    <string name="privacy_policy_description">Atualmente não coletamos nenhuma informação do usuário.\n\nCaso tenha dúvidas sobre esta Política de Privacidade ou sobre os dados pessoais que tratamos, você pode entrar em contato com o nosso Encarregado de Proteção de Dados Pessoais, através dos seguintes canais:\n\nWottrich78@gmail.com\n\nAtt.: Lucas Cruz Wottrich</string>
+    <string name="privacy_policy_button">Visite o site</string>
+</resources>

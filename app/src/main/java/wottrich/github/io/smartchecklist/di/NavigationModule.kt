@@ -8,9 +8,10 @@ import wottrich.github.io.smartchecklist.navigation.HomeContextNavigator
 val navigationModule = module {
     single {
         HomeContextNavigator(
-            get(),
-            getProperty(AppProperties.VERSION_NAME),
-            getProperty(AppProperties.VERSION_CODE)
+            openPlayStoreNavigator = get(),
+            privacyPolicy = get(),
+            versionName = getProperty(AppProperties.VERSION_NAME),
+            versionCode = getProperty(AppProperties.VERSION_CODE)
         )
     } bind SmartChecklistNavigation::class
 }

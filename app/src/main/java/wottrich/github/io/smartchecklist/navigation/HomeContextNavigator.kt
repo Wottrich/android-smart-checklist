@@ -13,10 +13,12 @@ import wottrich.github.io.smartchecklist.presentation.ui.checklistsettings.Check
 import wottrich.github.io.smartchecklist.presentation.ui.content.HomeScreen
 import wottrich.github.io.smartchecklist.uiaboutus.data.model.AboutUsContentModel
 import wottrich.github.io.smartchecklist.uiaboutus.presentation.ui.AboutUsScreen
+import wottrich.github.io.smartchecklist.uiprivacypolicy.ui.PrivacyPolicyScreen
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
 class HomeContextNavigator(
     private val openPlayStoreNavigator: OpenPlayStoreNavigator,
+    private val privacyPolicy: PrivacyPolicy,
     private val versionName: String,
     private val versionCode: String
 ) : SmartChecklistNavigation {
@@ -47,6 +49,21 @@ class HomeContextNavigator(
                         },
                         onVersionAppClick = {
                             openPlayStoreNavigator.openPlayStore()
+                        },
+                        onPrivacyPolicyClick = {
+                            navHostController.navigate(NavigationHome.Destinations.PrivacyPolicyScreen.route)
+                        }
+                    )
+                }
+                composable(
+                    route = NavigationHome.Destinations.PrivacyPolicyScreen.route
+                ) {
+                    PrivacyPolicyScreen(
+                        onOpenPrivacyPolicy = {
+                            privacyPolicy.openPrivacyPolicy()
+                        },
+                        onBackButton = {
+                            navHostController.popBackStack()
                         }
                     )
                 }
@@ -95,6 +112,8 @@ object NavigationHome {
         object HomeScreen : Destinations(route = "HomeScreen")
 
         object AboutUsScreen : Destinations(route = "AboutUsScreen")
+
+        data object PrivacyPolicyScreen : Destinations(route = "PrivacyPolicyScreen")
     }
 
     sealed class Navigation(val route: String) {
