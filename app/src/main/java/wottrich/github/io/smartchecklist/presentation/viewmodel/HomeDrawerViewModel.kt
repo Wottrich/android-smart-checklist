@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import wottrich.github.io.smartchecklist.domain.usecase.GetChecklistDrawerUseCase
-import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
+import wottrich.github.io.smartchecklist.domain.model.HomeDrawerChecklistItemModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerEvent.DeleteChecklistClicked
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerEvent.EditModeClicked
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerEvent.ItemClicked

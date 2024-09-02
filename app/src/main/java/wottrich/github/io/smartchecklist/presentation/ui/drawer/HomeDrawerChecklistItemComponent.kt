@@ -26,7 +26,7 @@ import wottrich.github.io.smartchecklist.baseui.ui.ListItemEndTextContent
 import wottrich.github.io.smartchecklist.baseui.ui.ListItemStartTextContent
 import wottrich.github.io.smartchecklist.baseui.ui.RowDefaults
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
-import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
+import wottrich.github.io.smartchecklist.domain.model.HomeDrawerChecklistItemModel
 
 /**
  * @author Wottrich

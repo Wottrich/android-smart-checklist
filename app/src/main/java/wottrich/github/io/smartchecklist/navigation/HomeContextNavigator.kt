@@ -8,7 +8,7 @@ import com.google.accompanist.navigation.material.ExperimentalMaterialNavigation
 import com.google.accompanist.navigation.material.bottomSheet
 import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
-import wottrich.github.io.smartchecklist.deletechecklist.view.DeleteChecklistBottomSheetScreen
+import wottrich.github.io.smartchecklist.checklist.presentation.view.DeleteChecklistBottomSheetScreen
 import wottrich.github.io.smartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.smartchecklist.presentation.ui.content.HomeScreen
 import wottrich.github.io.smartchecklist.uiaboutus.data.model.AboutUsContentModel
