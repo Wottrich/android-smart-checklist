@@ -1,4 +1,4 @@
-package wottrich.github.io.smartchecklist.deletechecklist.view
+package wottrich.github.io.smartchecklist.checklist.presentation.view
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,14 +16,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.koinViewModel
-import wottrich.github.io.smartchecklist.R
 import wottrich.github.io.smartchecklist.baseui.StyledText
 import wottrich.github.io.smartchecklist.baseui.components.ButtonVariant
 import wottrich.github.io.smartchecklist.baseui.components.SmartChecklistButton
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
-import wottrich.github.io.smartchecklist.deletechecklist.viewmodel.DeleteChecklistBottomSheetViewModel
-import wottrich.github.io.smartchecklist.deletechecklist.viewmodel.DeleteChecklistUiEffect
+import wottrich.github.io.smartchecklist.checklist.R
+import wottrich.github.io.smartchecklist.checklist.presentation.viewmodel.DeleteChecklistBottomSheetViewModel
+import wottrich.github.io.smartchecklist.checklist.presentation.viewmodel.DeleteChecklistUiEffect
 import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 
 @Composable

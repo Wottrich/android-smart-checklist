@@ -1,4 +1,4 @@
-package wottrich.github.io.smartchecklist.deletechecklist.viewmodel
+package wottrich.github.io.smartchecklist.checklist.presentation.viewmodel
 
 import kotlinx.coroutines.flow.Flow
 import wottrich.github.io.smartchecklist.android.BaseViewModel
