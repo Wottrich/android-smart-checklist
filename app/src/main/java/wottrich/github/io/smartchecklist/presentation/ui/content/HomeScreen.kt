@@ -73,7 +73,7 @@ fun HomeScreen(
 @Composable
 private fun Screen(
     onAddNewChecklist: () -> Unit,
-    onChecklistSettings: (checklistId: String) -> Unit,
+    onChecklistSettings: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
     onTaskCounterClicked: () -> Unit,
@@ -117,9 +117,7 @@ private fun Screen(
             TopBarActionContent(
                 checklistState = checklistState,
                 onChecklistSettings = {
-                    checklistState.checklist?.uuid?.let {
-                        onChecklistSettings(it)
-                    }
+                    onChecklistSettings()
                 },
                 homeViewModel = homeViewModel,
                 onOpenSortTaskList = onOpenSortTaskList
