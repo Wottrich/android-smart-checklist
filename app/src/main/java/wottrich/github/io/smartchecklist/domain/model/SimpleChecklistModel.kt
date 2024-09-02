@@ -1,4 +1,4 @@
-package wottrich.github.io.smartchecklist.presentation.ui.model
+package wottrich.github.io.smartchecklist.domain.model
 
 data class SimpleChecklistModel(
     val uuid: String,

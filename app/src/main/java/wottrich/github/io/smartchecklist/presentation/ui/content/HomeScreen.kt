@@ -178,13 +178,13 @@ private fun DrawerContent(
 private fun TopBarTitleContent(checklistState: HomeState) {
     when {
         checklistState.homeUiState == HomeUiState.Loading -> Unit
-        checklistState.checklist == null -> {
+        checklistState.checklistName.isNullOrBlank() -> {
             Text(text = stringResource(id = string.label_home_fragment))
         }
 
         else -> {
-            val checklist = checkNotNull(checklistState.checklist)
-            Text(text = checklist.name)
+            val checklist = checkNotNull(checklistState.checklistName)
+            Text(text = checklist)
         }
     }
 }
