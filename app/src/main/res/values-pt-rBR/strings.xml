@@ -31,7 +31,6 @@
     <string name="checklist_finish_edit_content_description">Clique para concluir a edição da checklist</string>
     <string name="checklist_more_options_content_description">Clique para ver mais opções</string>
     <string name="checklist_sort_task_option_content_description">Clique para abrir a tela para ordernar as tarefas</string>
-    <string name="checklist_delete_checklist_confirm_label">Você está prestes a deletar esse checklist para sempre!\nDeseja continuar?</string>
 
     <!-- Settings -->
     <string name="checklist_settings_screen_title">Tela de configuração</string>

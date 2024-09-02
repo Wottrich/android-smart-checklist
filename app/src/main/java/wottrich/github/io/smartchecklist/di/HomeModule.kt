@@ -3,7 +3,7 @@ package wottrich.github.io.smartchecklist.di
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
-import wottrich.github.io.smartchecklist.deletechecklist.viewmodel.DeleteChecklistBottomSheetViewModel
+import wottrich.github.io.smartchecklist.checklist.presentation.viewmodel.DeleteChecklistBottomSheetViewModel
 import wottrich.github.io.smartchecklist.domain.mapper.HomeDrawerChecklistItemModelMapper
 import wottrich.github.io.smartchecklist.domain.mapper.SimpleChecklistModelMapper
 import wottrich.github.io.smartchecklist.domain.usecase.GetChecklistDrawerUseCase
