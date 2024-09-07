@@ -11,8 +11,8 @@ import wottrich.github.io.smartchecklist.android.BaseViewModel
 import wottrich.github.io.smartchecklist.coroutines.base.onFailure
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
-import wottrich.github.io.smartchecklist.datasource.data.model.QuicklyChecklist
-import wottrich.github.io.smartchecklist.datasource.data.model.QuicklyTask
+import wottrich.github.io.smartchecklist.quicklychecklist.domain.data.QuicklyChecklist
+import wottrich.github.io.smartchecklist.quicklychecklist.domain.data.QuicklyTask
 import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
 import wottrich.github.io.smartchecklist.quicklychecklist.R
 import wottrich.github.io.smartchecklist.quicklychecklist.domain.ConvertQuicklyChecklistIntoJsonUseCase

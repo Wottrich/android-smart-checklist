@@ -72,7 +72,9 @@ private fun Screen(
     ScreenContent(
         scaffoldState = rememberScaffoldState,
         onBackPressed = onBackPressed,
-        viewModel = viewModel
+        isChecklistReceived = viewModel.isChecklistReceived,
+        isButtonEnabled = viewModel.isButtonEnabled,
+        onConfirmButtonClicked = viewModel::onConfirmButtonClicked
     )
 }
 
@@ -103,7 +105,9 @@ private fun ScreenEffect(
 private fun ScreenContent(
     scaffoldState: ScaffoldState,
     onBackPressed: () -> Unit,
-    viewModel: InitialQuicklyChecklistViewModel
+    isButtonEnabled: Boolean,
+    isChecklistReceived: Boolean,
+    onConfirmButtonClicked: () -> Unit
 ) {
     Scaffold(
         scaffoldState = scaffoldState,
@@ -128,7 +132,7 @@ private fun ScreenContent(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                if (viewModel.isChecklistReceived) {
+                if (isChecklistReceived) {
                     StyledText(
                         textStyle = MaterialTheme.typography.h6
                     ) {
@@ -150,8 +154,8 @@ private fun ScreenContent(
             }
             SmartChecklistButton(
                 modifier = Modifier.fillMaxWidth(),
-                enabled = viewModel.isButtonEnabled,
-                onClick = viewModel::onConfirmButtonClicked,
+                enabled = isButtonEnabled,
+                onClick = onConfirmButtonClicked,
             ) {
                 Text(text = stringResource(id = BaseUiR.string.default_continue))
             }
@@ -163,11 +167,12 @@ private fun ScreenContent(
 @Composable
 fun QuicklyChecklistScreenPreview() {
     ApplicationTheme {
-        InitialQuicklyChecklistScreen(
-            encodedQuicklyChecklist = null,
-            isInvalidChecklistError = false,
-            onBackPressed = {},
-            onConfirmButtonClicked = {}
+        ScreenContent(
+            scaffoldState = rememberScaffoldState(),
+            onBackPressed = { /*TODO*/ },
+            isButtonEnabled = false,
+            isChecklistReceived = true,
+            onConfirmButtonClicked = { },
         )
     }
 }

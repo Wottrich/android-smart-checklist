@@ -1,5 +1,6 @@
-package wottrich.github.io.smartchecklist.datasource.data.model
+package wottrich.github.io.smartchecklist.quicklychecklist.domain.data
 
+import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.uuid.UuidGenerator
 
 data class QuicklyChecklist(

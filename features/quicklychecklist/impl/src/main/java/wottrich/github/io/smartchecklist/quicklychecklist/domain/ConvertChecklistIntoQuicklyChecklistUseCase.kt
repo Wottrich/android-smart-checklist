@@ -5,8 +5,8 @@ import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
 import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistWithTasks
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
-import wottrich.github.io.smartchecklist.datasource.data.model.QuicklyChecklist
-import wottrich.github.io.smartchecklist.datasource.data.model.QuicklyTask
+import wottrich.github.io.smartchecklist.quicklychecklist.domain.data.QuicklyChecklist
+import wottrich.github.io.smartchecklist.quicklychecklist.domain.data.QuicklyTask
 import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepository
 
 class ConvertChecklistIntoQuicklyChecklistUseCase(
