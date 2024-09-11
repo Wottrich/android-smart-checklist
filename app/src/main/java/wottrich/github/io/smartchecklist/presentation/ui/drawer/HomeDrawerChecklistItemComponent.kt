@@ -1,6 +1,7 @@
 package wottrich.github.io.smartchecklist.presentation.ui.drawer
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -48,6 +49,7 @@ fun HomeDrawerChecklistItemComponent(
 ) {
     val modifier = Modifier
         .clickable { onItemClick() }
+        .background(SmartChecklistTheme.colors.surface)
 
     ChecklistItemContent(
         modifier,
