@@ -1,4 +1,6 @@
 package wottrich.github.io.smartchecklist.domain.model
 
-class ChecklistComponentState {
+sealed class ChecklistComponentState {
+    data object Loading : ChecklistComponentState()
+    data class Success(val data: TaskComponentModel) : ChecklistComponentState()
 }

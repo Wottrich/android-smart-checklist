@@ -2,9 +2,10 @@
 <resources>
 
     <!--  Task Header  -->
-    <string name="task_header_list_title">Put tasks in your checklist:</string>
-    <string name="task_header_type_task_name_hint">Enter a task name</string>
-    <string name="task_header_add_item">Add</string>
+    <string name="task_header_list_title">What do you need to do?</string>
+    <string name="task_header_type_hint">Type so you don\'t forget</string>
+    <string name="task_header_add_item">Add task</string>
+    <string name="task_header_add_section">Add section</string>
 
     <!--  Task Item Component  -->
     <string name="task_item_component_delete_item">Click to delete %s item</string>
