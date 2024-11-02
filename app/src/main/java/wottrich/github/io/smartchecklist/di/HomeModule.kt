@@ -30,8 +30,6 @@ val featureHomeModules = module {
         ChecklistSettingsViewModel(
             getSelectedChecklistUseCase = get(),
             shareChecklistAsTextUseCase = get(),
-            convertChecklistIntoQuicklyChecklistUseCase = get(),
-            getQuicklyChecklistDeepLinkUseCase = get()
         )
     }
     viewModelOf(::DeleteChecklistBottomSheetViewModel)

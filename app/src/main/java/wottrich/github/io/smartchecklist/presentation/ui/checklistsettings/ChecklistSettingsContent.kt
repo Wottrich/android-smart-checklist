@@ -70,7 +70,6 @@ private fun ScreenAndEffects(
     ScreenScaffold(
         scaffoldState = scaffoldState,
         onCopyChecklist = { viewModel.onCopyChecklistClicked() },
-        onShareChecklist = { viewModel.onShareChecklistClicked() },
         onBackButton = onCloseScreen,
         onDeleteChecklist = onDeleteChecklist
     )
@@ -102,7 +101,6 @@ private fun Effects(
 private fun ScreenScaffold(
     scaffoldState: ScaffoldState,
     onCopyChecklist: () -> Unit,
-    onShareChecklist: () -> Unit,
     onBackButton: () -> Unit,
     onDeleteChecklist: () -> Unit,
 ) {
@@ -125,7 +123,6 @@ private fun ScreenScaffold(
         ) {
             SettingsComponent(
                 onCopyChecklist = onCopyChecklist,
-                onShareChecklist = onShareChecklist,
                 onDeleteChecklist = onDeleteChecklist
             )
         }
@@ -136,7 +133,6 @@ private fun ScreenScaffold(
 @Composable
 private fun ColumnScope.SettingsComponent(
     onCopyChecklist: () -> Unit,
-    onShareChecklist: () -> Unit,
     onDeleteChecklist: () -> Unit
 ) {
     Column(
@@ -154,18 +150,6 @@ private fun ColumnScope.SettingsComponent(
             },
             trailing = {
                 Icon(imageVector = Icons.Default.Send, contentDescription = null)
-            }
-        )
-        ListItem(
-            modifier = Modifier.clickable(onClick = onShareChecklist),
-            text = {
-                Text(text = stringResource(id = R.string.checklist_settings_share_checklist_title))
-            },
-            secondaryText = {
-                Text(text = stringResource(id = R.string.checklist_settings_share_checklist_subtitle))
-            },
-            trailing = {
-                Icon(imageVector = Icons.Default.Share, contentDescription = null)
             }
         )
     }
