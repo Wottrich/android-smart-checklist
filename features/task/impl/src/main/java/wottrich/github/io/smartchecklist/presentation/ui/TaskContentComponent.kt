@@ -15,8 +15,9 @@ import androidx.compose.ui.Modifier
 import kotlinx.coroutines.flow.Flow
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
+import wottrich.github.io.smartchecklist.domain.model.TaskComponentModel
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction
-import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
+import wottrich.github.io.smartchecklist.presentation.state.TaskComponentUiState
 import wottrich.github.io.smartchecklist.presentation.ui.checklistinformationheader.ChecklistInformationHeaderComponent
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModel
 import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModelUiEffect
@@ -56,11 +57,15 @@ fun TaskContentComponent(
         TaskEditHeaderVisibility(
             showHeaderComponent = showHeaderComponent,
             taskName = state.taskName,
+            showSectionButton = state.showSectionButton,
             onTextFieldValueChange = {
                 viewModel.sendAction(TaskComponentViewModelAction.Action.OnTextChanged(it))
             },
             onAddItem = {
                 viewModel.sendAction(TaskComponentViewModelAction.Action.AddTask)
+            },
+            onAddSection = {
+                viewModel.sendAction(TaskComponentViewModelAction.Action.AddSection)
             }
         )
         Divider()
@@ -68,19 +73,21 @@ fun TaskContentComponent(
             ChecklistInformationHeaderComponent(onTaskCounterClicked = onTaskCounterClicked)
         }
         Divider()
-        TaskList(
-            tasks = viewModel.tasks,
-            showDeleteIcon = showDeleteIcon,
-            onCheckChange = {
-                viewModel.sendAction(
-                    TaskComponentViewModelAction.Action.ChangeTaskStatus(it)
-                )
-                onUpdateClicked(it)
-            },
-            onDeleteTask = {
-                viewModel.sendAction(TaskComponentViewModelAction.Action.DeleteTask(it))
-            }
-        )
+        state.checklist?.let {
+            TaskList(
+                tasks = it,
+                showDeleteIcon = showDeleteIcon,
+                onCheckChange = {
+                    viewModel.sendAction(
+                        TaskComponentViewModelAction.Action.ChangeTaskStatus(it)
+                    )
+                    onUpdateClicked(it)
+                },
+                onDeleteTask = {
+                    viewModel.sendAction(TaskComponentViewModelAction.Action.DeleteTask(it))
+                }
+            )
+        }
     }
 }
 
@@ -99,24 +106,40 @@ private fun Effects(
 }
 
 @Composable
+private fun Screen(
+    showHeaderComponent: Boolean,
+    state: TaskComponentUiState,
+    onTextFieldValueChange: (String) -> Unit,
+    onAddItem: () -> Unit,
+    onAddSection: () -> Unit,
+    onTaskCounterClicked: () -> Unit,
+) {
+
+}
+
+@Composable
 private fun ColumnScope.TaskEditHeaderVisibility(
     showHeaderComponent: Boolean,
     taskName: String,
+    showSectionButton: Boolean,
     onTextFieldValueChange: (String) -> Unit,
     onAddItem: () -> Unit,
+    onAddSection: () -> Unit,
 ) {
     AnimatedVisibility(visible = showHeaderComponent) {
         TaskEditHeaderComponent(
             textFieldValue = taskName,
+            showSectionButton = showSectionButton,
             onTextFieldValueChange = onTextFieldValueChange,
-            onAddItem = onAddItem
+            onAddItem = onAddItem,
+            onAddSection = onAddSection
         )
     }
 }
 
 @Composable
 private fun TaskList(
-    tasks: List<BaseTaskListItem>,
+    tasks: TaskComponentModel,
     showDeleteIcon: Boolean,
     onCheckChange: (Task) -> Unit,
     onDeleteTask: (Task) -> Unit

@@ -10,7 +10,7 @@ class AddNewChecklistUseCaseImpl(
 ) : AddNewChecklistUseCase() {
     override suspend fun execute(params: NewChecklistModel): Result<Long?> {
         return try {
-            val checklist = Checklist(uuid = params.uuid, name = params.name)
+            val checklist = Checklist(uuid = params.uuid, parentUuid = params.parentUuid, name = params.name)
             Result.success(checklistRepository.insertChecklist(checklist))
         } catch (ex: Exception) {
             Result.failure(ex)
