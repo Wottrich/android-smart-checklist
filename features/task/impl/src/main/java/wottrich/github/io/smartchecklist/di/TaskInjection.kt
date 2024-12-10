@@ -6,18 +6,15 @@ import org.koin.core.module.Module
 import org.koin.core.module.dsl.factoryOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
-import wottrich.github.io.smartchecklist.data.repository.TaskRepository
+import wottrich.github.io.smartchecklist.domain.repository.TaskRepository
 import wottrich.github.io.smartchecklist.data.repository.TaskRepositoryImpl
 import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
 import wottrich.github.io.smartchecklist.data.datasource.SortItemSource
 import wottrich.github.io.smartchecklist.data.repository.SortItemRepositoryImpl
 import wottrich.github.io.smartchecklist.domain.repository.SortItemRepository
-import wottrich.github.io.smartchecklist.domain.usecase.AddManyTasksUseCase
-import wottrich.github.io.smartchecklist.domain.usecase.AddManyTasksUseCaseImpl
-import wottrich.github.io.smartchecklist.domain.usecase.AddTaskToDatabaseUseCase
-import wottrich.github.io.smartchecklist.domain.usecase.ChangeTasksCompletedStatusUseCase
-import wottrich.github.io.smartchecklist.domain.usecase.GetChangeTaskStatusUseCase
-import wottrich.github.io.smartchecklist.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.InsertNewTaskUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.ChangeTaskStatusUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.DeleteTaskUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetSortItemListUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksFromSelectedChecklistUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksSortedUseCase
@@ -45,12 +42,10 @@ val taskModule = module {
 private fun Module.injectUseCases() {
     factoryOf(::GetTasksSortedUseCase)
     factory { GetTasksFromSelectedChecklistUseCase(get()) }
-    factory { ChangeTasksCompletedStatusUseCase(get()) }
-    factory { AddTaskToDatabaseUseCase(get()) }
-    factory { GetChangeTaskStatusUseCase(get()) }
-    factory { GetDeleteTaskUseCase(get()) }
+    factory { InsertNewTaskUseCase(get()) }
+    factory { ChangeTaskStatusUseCase(get()) }
+    factory { DeleteTaskUseCase(get()) }
     factory { GetTasksUseCase(get()) }
-    factory<AddManyTasksUseCase> { AddManyTasksUseCaseImpl(get()) }
     factory { SortTasksBySelectedSortUseCase() }
     factory { ReverseTasksIfNeededUseCase() }
     factory { ObserveChecklistWithTasksUseCase(get()) }

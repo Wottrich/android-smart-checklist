@@ -36,8 +36,6 @@
     <string name="checklist_settings_screen_title">Tela de configuração</string>
     <string name="checklist_settings_copy_checklist_title">Copiar lista de tarefas</string>
     <string name="checklist_settings_copy_checklist_subtitle">Compartilhe com seus amigos em algum app de mensagem</string>
-    <string name="checklist_settings_share_checklist_title">Compartilhar checklist</string>
-    <string name="checklist_settings_share_checklist_subtitle">Compartilhe com seus amigos no app SmartChecklist</string>
     <string name="checklist_settings_error_copy_checklist">Tivemos problemas para copiar sua checklist! Tente novamente, por favor!</string>
     <string name="checklist_settings_error_share_checklist">Tivemos problemas para compartilhar sua checklist! Tente novamente, por favor!</string>
 
