@@ -15,9 +15,9 @@ import wottrich.github.io.smartchecklist.coroutines.base.onFailure
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.domain.model.SortItemType
-import wottrich.github.io.smartchecklist.domain.usecase.AddTaskToDatabaseUseCase
-import wottrich.github.io.smartchecklist.domain.usecase.GetChangeTaskStatusUseCase
-import wottrich.github.io.smartchecklist.domain.usecase.GetDeleteTaskUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.InsertNewTaskUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.ChangeTaskStatusUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.DeleteTaskUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksFromSelectedChecklistUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.ObserveSortItemSelectedUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.ReverseTasksIfNeededUseCase
@@ -38,9 +38,9 @@ class TaskComponentViewModel(
     private val observeSortItemSelectedUseCase: ObserveSortItemSelectedUseCase,
     private val observeSelectedChecklistUuidUseCase: ObserveSelectedChecklistUuidUseCase,
     private val getTasksFromSelectedChecklistUseCase: GetTasksFromSelectedChecklistUseCase,
-    private val addTaskToDatabaseUseCase: AddTaskToDatabaseUseCase,
-    private val getChangeTaskStatusUseCase: GetChangeTaskStatusUseCase,
-    private val getDeleteTaskUseCase: GetDeleteTaskUseCase,
+    private val insertNewTaskUseCase: InsertNewTaskUseCase,
+    private val changeTaskStatusUseCase: ChangeTaskStatusUseCase,
+    private val deleteTaskUseCase: DeleteTaskUseCase,
     private val sortTasksBySelectedSortUseCase: SortTasksBySelectedSortUseCase,
     private val reverseTasksIfNeededUseCase: ReverseTasksIfNeededUseCase
 ) : BaseViewModel(), TaskComponentViewModelAction {
@@ -174,7 +174,7 @@ class TaskComponentViewModel(
         _uiState.value = _uiState.value.copy(
             taskName = ""
         )
-        addTaskToDatabaseUseCase(newTask).onSuccess {
+        insertNewTaskUseCase(newTask).onSuccess {
             loadTasks()
         }.onFailure {
             _uiEffect.emit(OnError(stringRes = R.string.checklist_add_new_task_unknown_error))
@@ -187,7 +187,7 @@ class TaskComponentViewModel(
 
     private fun handleChangeTaskStatus(task: Task) {
         launchIO {
-            getChangeTaskStatusUseCase(task).onSuccess {
+            changeTaskStatusUseCase(task).onSuccess {
                 loadTasks()
             }.onFailure {
                 _uiEffect.emit(OnError(stringRes = R.string.checklist_change_task_state_failure))
@@ -197,7 +197,7 @@ class TaskComponentViewModel(
 
     private fun handleDeleteTask(task: Task) {
         launchIO {
-            getDeleteTaskUseCase(task).onSuccess {
+            deleteTaskUseCase(task).onSuccess {
                 loadTasks()
             }
         }
