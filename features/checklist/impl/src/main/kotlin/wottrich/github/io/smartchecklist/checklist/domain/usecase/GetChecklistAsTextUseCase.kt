@@ -1,15 +1,17 @@
 package wottrich.github.io.smartchecklist.checklist.domain.usecase
 
-import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepository
 import wottrich.github.io.smartchecklist.checklist.domain.GetChecklistAsTextUseCase
+import wottrich.github.io.smartchecklist.checklist.domain.GetSelectedChecklistUseCase
+import wottrich.github.io.smartchecklist.coroutines.UseCase
 import wottrich.github.io.smartchecklist.coroutines.base.Result
 
 class GetChecklistAsTextUseCaseImpl(
-    private val checklistRepository: ChecklistRepository
+    private val getSelectedChecklistUseCase: GetSelectedChecklistUseCase
 ) : GetChecklistAsTextUseCase() {
-    override suspend fun execute(params: String): Result<String> {
+    override suspend fun execute(params: UseCase.None): Result<String> {
         return try {
-            Result.success(checklistRepository.getChecklistWithTasksByUuid(params).toString())
+            val checklist = getSelectedChecklistUseCase()
+            Result.success(checklist.toString())
         } catch (ex: Exception) {
             Result.failure(ex)
         }

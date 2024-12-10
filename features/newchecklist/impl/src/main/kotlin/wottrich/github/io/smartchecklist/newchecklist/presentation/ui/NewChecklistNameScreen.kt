@@ -6,14 +6,18 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -21,6 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.baseui.components.SmartChecklistButton
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
@@ -37,8 +42,10 @@ fun NewChecklistNameScreen(
     onCloseScreen: () -> Unit,
     viewModel: NewChecklistNameViewModel = getViewModel()
 ) {
+    val scaffoldState = rememberScaffoldState()
     ApplicationTheme {
         Scaffold(
+            scaffoldState = scaffoldState,
             topBar = {
                 IconButton(onClick = onCloseScreen) {
                     Icon(
@@ -52,13 +59,14 @@ fun NewChecklistNameScreen(
             val state by viewModel.state.collectAsState()
             Effects(
                 viewModel = viewModel,
+                snackbarHostState = scaffoldState.snackbarHostState,
                 onCloseScreen = onCloseScreen
             )
             Screen(
                 state = state,
                 contentPaddingValues = it,
-                onTextFieldValueChange = {
-                    viewModel.onTextChange(it)
+                onTextFieldValueChange = { text ->
+                    viewModel.onTextChange(text)
                 },
                 onDoneButtonClicked = {
                     viewModel.onDoneButtonClicked()
@@ -94,7 +102,11 @@ private fun Screen(
                 placeholder = {
                     Text(text = stringResource(id = R.string.checklist_name_screen_type_checklist_name_hint))
                 },
-                colors = defaultOutlinedTextFieldColors()
+                colors = defaultOutlinedTextFieldColors(),
+                keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                keyboardActions = KeyboardActions(
+                    onDone = { onDoneButtonClicked() }
+                )
             )
         }
         SmartChecklistButton(
@@ -110,13 +122,18 @@ private fun Screen(
 @Composable
 private fun Effects(
     viewModel: NewChecklistNameViewModel,
-    onCloseScreen: () -> Unit
+    snackbarHostState: SnackbarHostState,
+    onCloseScreen: () -> Unit,
 ) {
     val effects = viewModel.effects
+    val createChecklistFailedMessage = stringResource(id = R.string.checklist_name_create_checklist_failed_message)
     LaunchedEffect(key1 = effects) {
         effects.collect { effect ->
             when (effect) {
                 is NewChecklistNameUiEffect.CloseScreen -> onCloseScreen()
+                NewChecklistNameUiEffect.CreateChecklistFailed -> {
+                    snackbarHostState.showSnackbar(createChecklistFailedMessage)
+                }
             }
         }
     }

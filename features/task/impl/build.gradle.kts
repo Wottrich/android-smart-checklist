@@ -18,6 +18,7 @@ dependencies {
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
     implementation(project(path = ":features:checklist:public"))
+    implementation(project(path = ":features:newchecklist:public"))
 
     testImplementation(project(path = ":test-tools"))
     testImplementation(libs.bundles.test.default)
