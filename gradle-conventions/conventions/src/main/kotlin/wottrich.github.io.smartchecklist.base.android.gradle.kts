@@ -1,3 +1,4 @@
+import gradle.kotlin.dsl.accessors._7244ddc599ca65e2ebad7d615d91b637.versionCatalogs
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.dsl.kotlinExtension
 
@@ -5,7 +6,7 @@ plugins {
     kotlin("android")
 }
 
-internal val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
+private val libs: VersionCatalog = versionCatalogs.named("libs")
 
 android {
     compileSdkVersion(35)
@@ -56,6 +57,6 @@ kotlinExtension.jvmToolchain {
 dependencies {
     val implementation by configurations
 
-    implementation(libs.kotlin.stdlib)
-    implementation(libs.android.core.ktx)
+    implementation(libs.findLibrary("kotlin.stdlib").get())
+    implementation(libs.findLibrary("android.core.ktx").get())
 }
