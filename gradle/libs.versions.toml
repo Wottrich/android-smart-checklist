@@ -32,10 +32,8 @@ android-activity-ktx = { group="androidx.activity",  name="activity-ktx", versio
 # Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-ui-tooling = { group="androidx.compose.ui", name="ui-tooling" }
-# compose-runtime = { group="androidx.compose.runtime", name="runtime", version.ref="compose" }
 compose-material = { group="androidx.compose.material", name="material" }
 compose-navigation = { group="androidx.navigation", name="navigation-compose", version.ref="composeNavigation" }
-#androidx.compose.material:material-icons-core
 compose-icons = { group="androidx.compose.material", name="material-icons-core" }
 gradlePlugins-compose-compiler = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 # Compose accompanist
@@ -82,7 +80,6 @@ jetbrains-kotlin-parcelize = { id="org.jetbrains.kotlin.plugin.parcelize", versi
 ksp = { id="com.google.devtools.ksp", version.ref="ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 [bundles]
-# "compose-ui", "compose-runtime",
 compose-default = [ "compose-material", "compose-icons" ]
 compose-navigation-default = [ "compose-navigation", "compose-accompanist-navigation", "compose-accompanist-navigation-animation" ]
 koin-default = [ "koin-core", "koin-android", "koin-android-compose" ]
