@@ -3,7 +3,7 @@ package wottrich.github.io.smartchecklist.baseui.icons
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -29,7 +29,7 @@ fun ArrowBackIcon(
 ) {
     VectorIcon(
         modifier = modifier,
-        imageVector = Icons.Default.ArrowBack,
+        imageVector = Icons.AutoMirrored.Default.ArrowBack,
         contentDescription = contentDescription,
         tint = SmartChecklistTheme.colors.onSurface
     )

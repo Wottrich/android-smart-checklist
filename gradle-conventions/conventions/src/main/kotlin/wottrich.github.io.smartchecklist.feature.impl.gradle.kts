@@ -5,8 +5,3 @@ plugins {
 }
 
 internal val libs = the<org.gradle.accessors.dm.LibrariesForLibs>()
-
-android {
-    buildFeatures.compose = true
-    composeOptions.kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-}

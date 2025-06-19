@@ -1,5 +1,6 @@
 plugins {
     id("wottrich.github.io.smartchecklist.android.app")
+    id("wottrich.github.io.smartchecklist.compose")
     alias(libs.plugins.ksp)
 }
 
@@ -19,13 +20,7 @@ android {
         }
     }
 
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
+    android.buildFeatures.buildConfig = true
 
     packaging {
         resources.excludes.apply {
@@ -45,10 +40,10 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.android.core.ktx)
     implementation(libs.android.app.compat)
-    implementation(libs.compose.accompanist.system.ui.controller)
     implementation(libs.bundles.compose.default)
     implementation(libs.bundles.koin.default)
     implementation(libs.bundles.compose.navigation.default)
+    implementation(libs.android.activity.ktx)
     implementation(project(path = ":baseui"))
     implementation(project(path = ":datasource"))
     implementation(project(path = ":infrastructure:extensions:intent"))
