@@ -1,7 +1,9 @@
 package wottrich.github.io.smartchecklist.presentation.ui.content
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material.DrawerState
 import androidx.compose.material.FabPosition
 import androidx.compose.material.Icon
@@ -10,12 +12,16 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Scaffold
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.SnackbarHostState
+import androidx.compose.material.Surface
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.primarySurface
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
@@ -42,7 +48,11 @@ fun HomeScaffold(
             drawerContent()
         },
         bottomBar = {
-            HomeTopBar(coroutineScope, drawerState, onTitleContent, actionContent)
+            Surface(color = MaterialTheme.colors.primarySurface) {
+                Box(modifier = Modifier.navigationBarsPadding()) {
+                    HomeTopBar(coroutineScope, drawerState, onTitleContent, actionContent)
+                }
+            }
         }
     ) { innerPadding ->
         content(innerPadding)
@@ -75,6 +85,7 @@ private fun HomeTopBar(
         title = {
             onTitleContent()
         },
-        actions = actionContent
+        actions = actionContent,
+        elevation = 0.dp
     )
 }
