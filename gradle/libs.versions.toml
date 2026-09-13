@@ -1,23 +1,21 @@
 [versions]
-kotlin = "2.1.21"
-ksp = "2.1.21-2.0.1"
-gradle = "8.10.1"
-coreKtx = "1.7.0"
-coroutines = "1.7.1"
-appCompat = "1.4.1"
-lifecycleRuntime = "2.5.1"
-lifecycleViewModelKtx = "2.3.1"
+kotlin = "2.4.20"
+ksp = "2.3.11"
+gradle = "9.3.0"
+coreKtx = "1.18.0"
+coroutines = "1.10.2"
+appCompat = "1.8.0"
+lifecycleRuntime = "2.10.0"
+lifecycleViewModelKtx = "2.10.0"
 koin = "3.5.0"
-composeBom = "2025.11.01"
-compose = "1.5.4"
-composeNavigation = "2.7.0-beta2"
-composeAccompanist = "0.31.5-beta"
+composeBom = "2026.04.01"
+composeNavigation = "2.8.7"
 coroutinesCore = "1.7.3"
 retrofit = "2.9.0"
 loggingInterceptor = "4.9.0"
 room = "2.7.1"
 androidMaterial = "1.5.0"
-androidActivityKtx = "1.10.1"
+androidActivityKtx = "1.13.0"
 mockK = "1.12.2"
 coreTesting = "2.1.0"
 junit = "4.13.2"
@@ -25,6 +23,7 @@ junitExt = "1.1.3-beta01"
 espressoCore = "3.4.0-beta01"
 [libraries]
 # Android
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
 android-core-ktx = { group="androidx.core", name="core-ktx", version.ref="coreKtx" }
 android-app-compat = { group="androidx.appcompat", name="appcompat", version.ref="appCompat" }
 android-material = { group="com.google.android.material", name="material", version.ref="androidMaterial" }
@@ -32,13 +31,11 @@ android-activity-ktx = { group="androidx.activity",  name="activity-ktx", versio
 # Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-ui-tooling = { group="androidx.compose.ui", name="ui-tooling" }
+compose-ui-tooling-preview = { group="androidx.compose.ui", name="ui-tooling-preview" }
 compose-material = { group="androidx.compose.material", name="material" }
 compose-navigation = { group="androidx.navigation", name="navigation-compose", version.ref="composeNavigation" }
 compose-icons = { group="androidx.compose.material", name="material-icons-core" }
 gradlePlugins-compose-compiler = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
-# Compose accompanist
-compose-accompanist-navigation = { group="com.google.accompanist", name="accompanist-navigation-material", version.ref="composeAccompanist" }
-compose-accompanist-navigation-animation = { group="com.google.accompanist", name="accompanist-navigation-animation", version.ref="composeAccompanist" }
 # Coroutines
 coroutines-core = { group="org.jetbrains.kotlinx", name="kotlinx-coroutines-core", version.ref="coroutines" }
 # Gson
@@ -81,7 +78,7 @@ ksp = { id="com.google.devtools.ksp", version.ref="ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 [bundles]
 compose-default = [ "compose-material", "compose-icons" ]
-compose-navigation-default = [ "compose-navigation", "compose-accompanist-navigation", "compose-accompanist-navigation-animation" ]
+compose-navigation-default = [ "compose-navigation"]
 koin-default = [ "koin-core", "koin-android", "koin-android-compose" ]
 room-default = [ "room-runtime", "room-ktx" ]
 test-default = [ "mockk", "core-testing", "junit", "koin-test" ]

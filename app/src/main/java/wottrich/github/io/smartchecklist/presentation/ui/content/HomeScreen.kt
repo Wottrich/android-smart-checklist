@@ -23,7 +23,6 @@ import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.R.string
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.navigation.NavigationHome
-import wottrich.github.io.smartchecklist.navigation.NavigatorTask
 import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
@@ -60,12 +59,6 @@ fun HomeScreen(
             onHelpClick = {
                 navHostController.navigate(NavigationSupport.route)
             },
-            onTaskCounterClicked = {
-                navHostController.navigate(NavigatorTask.Destinations.CompletableCountBottomSheetScreen.route)
-            },
-            onOpenSortTaskList = {
-                navHostController.navigate(NavigatorTask.Destinations.SortTaskListBottomSheetScreen.route)
-            }
         )
     }
 }
@@ -76,8 +69,6 @@ private fun Screen(
     onChecklistSettings: (checklistId: String) -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
-    onTaskCounterClicked: () -> Unit,
-    onOpenSortTaskList: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -121,8 +112,7 @@ private fun Screen(
                         onChecklistSettings(it)
                     }
                 },
-                homeViewModel = homeViewModel,
-                onOpenSortTaskList = onOpenSortTaskList
+                homeViewModel = homeViewModel
             )
         },
         snackbarHost = { snackbarHostState ->
@@ -139,7 +129,6 @@ private fun Screen(
             homeViewModel = homeViewModel,
             checklistState = checklistState,
             onAddNewChecklist = onAddNewChecklist,
-            onTaskCounterClicked = onTaskCounterClicked,
         )
     }
 }
@@ -196,14 +185,12 @@ private fun RowScope.TopBarActionContent(
     checklistState: HomeState,
     onChecklistSettings: () -> Unit,
     homeViewModel: HomeViewModel,
-    onOpenSortTaskList: () -> Unit
 ) {
     if (checklistState.shouldShowActionContent()) {
         HomeTopBarActionsContent(
             isEditMode = checklistState.isEditUiState,
             onChecklistSettings = onChecklistSettings,
             onChangeState = { homeViewModel.sendAction(HomeUiActions.Action.OnChangeEditModeAction) },
-            onOpenSortTaskList = onOpenSortTaskList
         )
     }
 }

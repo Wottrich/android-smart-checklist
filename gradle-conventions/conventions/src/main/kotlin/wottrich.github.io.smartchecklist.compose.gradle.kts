@@ -10,5 +10,6 @@ dependencies {
 
     implementation(platform(libs.findLibrary("compose.bom").get()))
     implementation(libs.findBundle("compose.default").get())
+    implementation(libs.findLibrary("compose.ui.tooling.preview").get())
     debugImplementation(libs.findLibrary("compose.ui.tooling").get())
 }

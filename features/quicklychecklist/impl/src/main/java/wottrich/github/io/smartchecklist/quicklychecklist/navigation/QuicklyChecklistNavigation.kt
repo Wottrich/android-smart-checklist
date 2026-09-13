@@ -5,22 +5,16 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
-import androidx.navigation.navOptions
 import androidx.navigation.navigation
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.bottomSheet
 import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
 import wottrich.github.io.smartchecklist.intent.navigation.ShareIntentTextNavigator
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.InitialQuicklyChecklistScreen
-import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.QuicklyChecklistAddNewChecklistBottomSheetContent
-import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.QuicklyChecklistConfirmBottomSheetContent
 import wottrich.github.io.smartchecklist.quicklychecklist.presentation.ui.QuicklyChecklistScreen
 
 class QuicklyChecklistContextNavigator(
     private val shareIntentTextNavigator: ShareIntentTextNavigator
 ) : SmartChecklistNavigation {
-    @OptIn(ExperimentalMaterialNavigationApi::class)
     override fun startNavigation(
         navGraphBuilder: NavGraphBuilder,
         navHostController: NavHostController
@@ -86,50 +80,6 @@ class QuicklyChecklistContextNavigator(
                                     it
                                 )
                             navHostController.navigate(route)
-                        }
-                    )
-                }
-                bottomSheet(
-                    route = NavigationQuicklyChecklist.Destinations.QuicklyChecklistConfirmBottomSheet.route,
-                    arguments = NavigationQuicklyChecklist.Destinations.QuicklyChecklistConfirmBottomSheet.arguments
-                ) { navBackStackEntry ->
-                    val param = navBackStackEntry.arguments?.getString(
-                        "quicklychecklistjson"
-                    ).orEmpty()
-                    QuicklyChecklistConfirmBottomSheetContent(
-                        quicklyChecklistJson = param,
-                        hasExistentChecklist = false,
-                        onShareBackClick = {
-                            shareIntentTextNavigator.shareIntentText(it)
-                        },
-                        onSaveChecklist = {
-                            val route =
-                                NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet.routeWithParam(
-                                    it
-                                )
-                            navHostController.navigate(
-                                route,
-                                navOptions {
-                                    popUpTo(
-                                        NavigationQuicklyChecklist.Destinations.QuicklyChecklistScreen.route
-                                    )
-                                }
-                            )
-                        },
-                        onReplaceExistentChecklist = {}
-                    )
-                }
-                bottomSheet(
-                    route = NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet.route,
-                    arguments = NavigationQuicklyChecklist.Destinations.AddNewQuicklyChecklistBottomSheet.arguments
-                ) { navBackStackEntry ->
-                    val param = navBackStackEntry.arguments?.getString(
-                        "quicklychecklistjson"
-                    ).orEmpty()
-                    QuicklyChecklistAddNewChecklistBottomSheetContent(
-                        quicklyChecklistJson = param,
-                        onConfirmButtonClick = {
-                            navHostController.popBackStack()
                         }
                     )
                 }
