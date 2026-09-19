@@ -27,6 +27,7 @@ extensions.configure<ApplicationExtension> {
             )
         }
         getByName("debug") {
+            isMinifyEnabled = false
             applicationIdSuffix = ".debug"
             isDebuggable = true
             versionNameSuffix = "-debug"
