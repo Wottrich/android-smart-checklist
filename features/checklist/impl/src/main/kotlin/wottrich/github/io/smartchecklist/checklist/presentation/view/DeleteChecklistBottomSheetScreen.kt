@@ -28,13 +28,12 @@ import wottrich.github.io.smartchecklist.baseui.R as BaseUiR
 
 @Composable
 fun DeleteChecklistBottomSheetScreen(
-    onCloseFlow: () -> Unit,
     onCloseBottomSheet: () -> Unit,
     viewModel: DeleteChecklistBottomSheetViewModel = koinViewModel()
 ) {
     Effects(
         viewModel = viewModel,
-        onDeletedWithSuccess = onCloseFlow
+        onDeletedWithSuccess = onCloseBottomSheet
     )
     DeleteChecklistBottomSheetComponent(
         onConfirm = { viewModel.onDeleteChecklistClicked() },

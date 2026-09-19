@@ -1,5 +1,6 @@
 plugins {
     id("wottrich.github.io.smartchecklist.feature.impl")
+    id("wottrich.github.io.smartchecklist.compose")
 }
 
 android {
