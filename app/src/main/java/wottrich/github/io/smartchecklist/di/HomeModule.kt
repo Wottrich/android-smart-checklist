@@ -26,12 +26,7 @@ val featureHomeModules = module {
     factory { SimpleChecklistModelMapper() }
     factory { GetChecklistDrawerUseCase(get(), get()) }
     factory { ObserveSimpleSelectedChecklistModelUseCase(get(), get()) }
-    viewModel {
-        ChecklistSettingsViewModel(
-            getSelectedChecklistUseCase = get(),
-            shareChecklistAsTextUseCase = get(),
-        )
-    }
+    viewModelOf(::ChecklistSettingsViewModel)
     viewModelOf(::DeleteChecklistBottomSheetViewModel)
     viewModel { HomeDrawerViewModel(get(), get(), get(), get()) }
     viewModel {

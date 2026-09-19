@@ -16,7 +16,6 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
-import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -35,7 +34,7 @@ import wottrich.github.io.smartchecklist.baseui.components.SmartChecklistButton
 import wottrich.github.io.smartchecklist.baseui.icons.ArrowBackIcon
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
-import wottrich.github.io.smartchecklist.deletechecklist.view.DeleteChecklistBottomSheetScreen
+import wottrich.github.io.smartchecklist.checklist.presentation.view.DeleteChecklistBottomSheetScreen
 import wottrich.github.io.smartchecklist.intent.navigation.ShareIntentTextNavigator
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingUiEffect
 import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSettingUiEffect.CloseScreen
