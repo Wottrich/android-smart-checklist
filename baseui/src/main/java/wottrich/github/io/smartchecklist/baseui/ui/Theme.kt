@@ -33,19 +33,19 @@ fun ApplicationTheme(
 
 fun SmartChecklistColors.toMaterialTheme(): Colors {
     return Colors(
-        primary,
-        primaryVariant,
-        secondary,
-        secondaryVariant,
-        background,
-        surface,
-        error,
-        onPrimary,
-        onSecondary,
-        onBackground,
-        onSurface,
-        onError,
-        isLight
+        primary = primary,
+        primaryVariant = primaryVariant,
+        secondary = secondary,
+        secondaryVariant = secondaryVariant,
+        background = background,
+        surface = surface,
+        error = error,
+        onPrimary = onPrimary,
+        onSecondary = onSecondary,
+        onBackground = onBackground,
+        onSurface = onSurface,
+        onError = onError,
+        isLight = isLight
     )
 }
 

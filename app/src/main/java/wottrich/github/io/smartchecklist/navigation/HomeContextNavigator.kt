@@ -4,18 +4,14 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
-import com.google.accompanist.navigation.material.bottomSheet
 import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
-import wottrich.github.io.smartchecklist.deletechecklist.view.DeleteChecklistBottomSheetScreen
 import wottrich.github.io.smartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.smartchecklist.presentation.ui.content.HomeScreen
 import wottrich.github.io.smartchecklist.uiaboutus.data.model.AboutUsContentModel
 import wottrich.github.io.smartchecklist.uiaboutus.presentation.ui.AboutUsScreen
 import wottrich.github.io.smartchecklist.uiprivacypolicy.ui.PrivacyPolicyScreen
 
-@OptIn(ExperimentalMaterialNavigationApi::class)
 class HomeContextNavigator(
     private val openPlayStoreNavigator: OpenPlayStoreNavigator,
     private val privacyPolicy: PrivacyPolicy,
@@ -77,26 +73,8 @@ class HomeContextNavigator(
                         ChecklistSettingsScreen(
                             onCloseScreen = {
                                 navHostController.navigateUp()
-                            },
-                            onDeleteChecklist = {
-                                navHostController.navigate(
-                                    NavigationSetting.Destinations.DeleteChecklistBottomSheet.route
-                                )
                             }
                         )
-                    }
-                    bottomSheet(
-                        route = NavigationSetting.Destinations.DeleteChecklistBottomSheet.route
-                    ) {
-                        DeleteChecklistBottomSheetScreen(
-                            onCloseFlow = {
-                                navHostController.popBackStack(
-                                    route = NavigationSetting.startDestinations,
-                                    inclusive = true,
-                                    saveState = false
-                                )
-                            },
-                            onCloseBottomSheet = { navHostController.navigateUp() })
                     }
                 }
             }
@@ -128,8 +106,5 @@ object NavigationSetting {
     sealed class Destinations(val route: String) {
         data object ChecklistSettingsScreen :
             Destinations(route = "ChecklistSettingsScreen")
-
-        data object DeleteChecklistBottomSheet :
-            Destinations(route = "DeleteChecklistBottomSheet")
     }
 }

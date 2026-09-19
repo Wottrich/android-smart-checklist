@@ -3,10 +3,11 @@ package wottrich.github.io.smartchecklist.testtools
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
-import kotlinx.coroutines.test.runBlockingTest
+import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.rules.TestWatcher
 import org.junit.runner.Description
@@ -23,7 +24,7 @@ import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProvid
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CoroutinesTestRule(
-    val testDispatchers: TestCoroutineDispatcher = TestCoroutineDispatcher()
+    val testDispatchers: TestDispatcher = UnconfinedTestDispatcher()
 ) : TestWatcher() {
 
     val dispatchers = object : DispatchersProviders {
@@ -42,10 +43,9 @@ class CoroutinesTestRule(
     override fun finished(description: Description?) {
         super.finished(description)
         Dispatchers.resetMain()
-        testDispatchers.cleanupTestCoroutines()
     }
 
-    fun runBlockingUnitTest(block: suspend TestCoroutineScope.() -> Unit) =
-        testDispatchers.runBlockingTest(block)
+    fun runBlockingUnitTest(block: suspend TestScope.() -> Unit) =
+        runTest(testBody = block)
 
 }

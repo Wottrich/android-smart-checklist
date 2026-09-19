@@ -1,6 +1,5 @@
 package wottrich.github.io.smartchecklist.presentation.viewmodel
 
-import androidx.annotation.StringRes
 import androidx.compose.runtime.mutableStateListOf
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.Job
@@ -8,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import wottrich.github.io.smartchecklist.android.BaseViewModel
 import wottrich.github.io.smartchecklist.checklist.domain.ObserveSelectedChecklistUuidUseCase
@@ -28,9 +28,11 @@ import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewMo
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction.Action.AddTask
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction.Action.ChangeTaskStatus
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction.Action.DeleteTask
+import wottrich.github.io.smartchecklist.presentation.effect.TaskComponentViewModelUiEffect
 import wottrich.github.io.smartchecklist.presentation.state.TaskComponentUiState
 import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
-import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentViewModelUiEffect.OnError
+import wottrich.github.io.smartchecklist.presentation.effect.TaskComponentViewModelUiEffect.OnError
+import wottrich.github.io.smartchecklist.presentation.ui.TaskBottomSheetType
 import wottrich.github.io.smartchecklist.task.R
 
 @OptIn(InternalCoroutinesApi::class)
@@ -46,9 +48,6 @@ class TaskComponentViewModel(
 ) : BaseViewModel(), TaskComponentViewModelAction {
 
     private var checklistUuidReference: String? = null
-
-    var tasks = mutableStateListOf<BaseTaskListItem>()
-        private set
 
     private val _uiState = MutableStateFlow(TaskComponentUiState())
     val uiState = _uiState.asStateFlow()
@@ -66,6 +65,25 @@ class TaskComponentViewModel(
                     loadSortItems()
                 }
             )
+        }
+    }
+
+    override fun sendAction(action: Action) {
+        when (action) {
+            AddTask -> handleAddTaskAction()
+            is ChangeTaskStatus -> handleChangeTaskStatus(action.task)
+            is DeleteTask -> handleDeleteTask(action.task)
+            is Action.OnTextChanged -> {
+                _uiState.value = _uiState.value.copy(
+                    taskName = action.text
+                )
+            }
+
+            Action.OnSortTaskClicked -> onSortTaskClicked()
+            Action.OnCompletableCountClicked -> onCompletableCountClicked()
+            Action.OnUpdateCloseBottomSheet -> {
+                _uiState.value = uiState.value.copy(taskBottomSheetType = null)
+            }
         }
     }
 
@@ -130,10 +148,7 @@ class TaskComponentViewModel(
         )
     ).onSuccess { items ->
         withContext(main()) {
-            this@TaskComponentViewModel.apply {
-                this.tasks.clear()
-                this.tasks.addAll(items)
-            }
+            _uiState.update { it.copy(tasks = items) }
         }
     }.onFailure {
         emitLoadTasksFailure()
@@ -143,16 +158,17 @@ class TaskComponentViewModel(
         _uiEffect.emit(OnError(stringRes = R.string.task_item_component_load_tasks_error))
     }
 
-    override fun sendAction(action: Action) {
-        when (action) {
-            AddTask -> handleAddTaskAction()
-            is ChangeTaskStatus -> handleChangeTaskStatus(action.task)
-            is DeleteTask -> handleDeleteTask(action.task)
-            is Action.OnTextChanged -> {
-                _uiState.value = _uiState.value.copy(
-                    taskName = action.text
-                )
-            }
+    private fun onSortTaskClicked() {
+        launchMain {
+            _uiState.value = uiState.value.copy(taskBottomSheetType = TaskBottomSheetType.SORT_TASK_LIST)
+            _uiEffect.emit(TaskComponentViewModelUiEffect.OpenBottomSheet)
+        }
+    }
+
+    private fun onCompletableCountClicked() {
+        launchMain {
+            _uiState.value = uiState.value.copy(taskBottomSheetType = TaskBottomSheetType.COMPLETABLE_COUNT)
+            _uiEffect.emit(TaskComponentViewModelUiEffect.OpenBottomSheet)
         }
     }
 
@@ -204,6 +220,3 @@ class TaskComponentViewModel(
     }
 }
 
-sealed class TaskComponentViewModelUiEffect {
-    data class OnError(@StringRes val stringRes: Int) : TaskComponentViewModelUiEffect()
-}

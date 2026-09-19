@@ -10,5 +10,8 @@ interface TaskComponentViewModelAction {
         data class ChangeTaskStatus(val task: Task) : Action()
         data class DeleteTask(val task: Task) : Action()
         data class OnTextChanged(val text: String) : Action()
+        data object OnSortTaskClicked : Action()
+        data object OnCompletableCountClicked : Action()
+        data object OnUpdateCloseBottomSheet : Action()
     }
 }
