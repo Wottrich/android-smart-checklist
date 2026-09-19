@@ -22,11 +22,12 @@ class SortTaskListViewModel(
 
     override fun sendAction(action: SortTaskListAction.Action) {
         when (action) {
+            SortTaskListAction.Action.OnInit -> onInit()
             is SortTaskListAction.Action.OnSelectedItem -> onSelectedItem(action.sortItem)
         }
     }
 
-    init {
+    private fun onInit() {
         launchIO {
             getSortItemListUseCase().onSuccess {
                 withContext(main()) {

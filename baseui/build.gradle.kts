@@ -1,10 +1,9 @@
 plugins {
     id("wottrich.github.io.smartchecklist.android.lib")
+    id("wottrich.github.io.smartchecklist.compose")
 }
 
 android {
-    buildFeatures.compose = true
-    composeOptions.kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
     namespace = "wottrich.github.io.smartchecklist.baseui"
 }
 

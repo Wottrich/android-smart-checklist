@@ -15,14 +15,12 @@ fun HomeContentScreen(
     homeViewModel: HomeViewModel,
     checklistState: HomeState,
     onAddNewChecklist: () -> Unit,
-    onTaskCounterClicked: () -> Unit,
 ) {
     Screen(
-        paddingValues,
-        checklistState,
-        homeViewModel,
-        onAddNewChecklist,
-        onTaskCounterClicked
+        paddingValues = paddingValues,
+        checklistState = checklistState,
+        homeViewModel = homeViewModel,
+        onAddNewChecklist = onAddNewChecklist,
     )
 }
 
@@ -32,7 +30,6 @@ private fun Screen(
     checklistState: HomeState,
     homeViewModel: HomeViewModel,
     onAddNewChecklist: () -> Unit,
-    onTaskCounterClicked: () -> Unit,
 ) {
     Box(
         modifier = Modifier.padding(paddingValues)
@@ -44,7 +41,6 @@ private fun Screen(
             },
             onNewChecklistClicked = onAddNewChecklist,
             onError = { homeViewModel.sendAction(HomeUiActions.Action.OnSnackbarError(it)) },
-            onTaskCounterClicked = onTaskCounterClicked
         )
     }
 }
