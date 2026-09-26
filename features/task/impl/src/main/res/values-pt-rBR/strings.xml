@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="task_header_list_title">Insira tarefas na sua checklist:</string>
-    <string name="task_header_type_task_name_hint">Digite o nome da tarefa</string>
-    <string name="task_header_add_item">Adicionar</string>
+    <string name="task_header_list_title">O que você precisa fazer?</string>
+    <string name="task_header_type_hint">Digite para não esquecer!</string>
+    <string name="task_header_add_item">Adicionar tarefa</string>
+    <string name="task_header_add_section">Adicionar seção</string>
 
     <!--  Task Item Component  -->
     <string name="task_item_component_delete_item">Clique para deletar o item %s</string>

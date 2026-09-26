@@ -6,7 +6,8 @@ interface TaskComponentViewModelAction {
     fun sendAction(action: Action)
 
     sealed class Action {
-        object AddTask : Action()
+        data object AddTask : Action()
+        data object AddSection  : Action()
         data class ChangeTaskStatus(val task: Task) : Action()
         data class DeleteTask(val task: Task) : Action()
         data class OnTextChanged(val text: String) : Action()

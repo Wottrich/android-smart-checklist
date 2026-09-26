@@ -1,7 +1,10 @@
 package wottrich.github.io.smartchecklist.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import wottrich.github.io.smartchecklist.domain.repository.TaskRepository
 import wottrich.github.io.smartchecklist.data.repository.TaskRepositoryImpl
@@ -13,6 +16,7 @@ import wottrich.github.io.smartchecklist.domain.usecase.ChangeTaskStatusUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.DeleteTaskUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetSortItemListUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksFromSelectedChecklistUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.GetTasksSortedUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.ObserveChecklistWithTasksUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.ObserveSortItemSelectedUseCase
@@ -33,6 +37,7 @@ val taskModule = module {
 }
 
 private fun Module.injectUseCases() {
+    factoryOf(::GetTasksSortedUseCase)
     factory { GetTasksFromSelectedChecklistUseCase(get()) }
     factory { InsertNewTaskUseCase(get()) }
     factory { ChangeTaskStatusUseCase(get()) }
@@ -47,18 +52,7 @@ private fun Module.injectUseCases() {
 }
 
 private fun Module.injectViewModels() {
-    viewModel {
-        TaskComponentViewModel(
-            observeSortItemSelectedUseCase = get(),
-            observeSelectedChecklistUuidUseCase = get(),
-            getTasksFromSelectedChecklistUseCase = get(),
-            insertNewTaskUseCase = get(),
-            changeTaskStatusUseCase = get(),
-            deleteTaskUseCase = get(),
-            sortTasksBySelectedSortUseCase = get(),
-            reverseTasksIfNeededUseCase = get()
-        )
-    }
+    viewModelOf(::TaskComponentViewModel)
     viewModel {
         CompletableCountBottomSheetViewModel(
             getSelectedChecklistUseCase = get(),
