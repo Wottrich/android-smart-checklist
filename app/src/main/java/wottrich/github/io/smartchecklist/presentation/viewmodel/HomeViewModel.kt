@@ -11,13 +11,13 @@ import wottrich.github.io.smartchecklist.checklist.domain.DeleteChecklistUseCase
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
+import wottrich.github.io.smartchecklist.domain.model.SimpleChecklistModel
 import wottrich.github.io.smartchecklist.domain.usecase.ObserveSimpleSelectedChecklistModelUseCase
 import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiEffects
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiState
-import wottrich.github.io.smartchecklist.presentation.ui.model.SimpleChecklistModel
 
 /**
  * @author Wottrich
@@ -41,12 +41,17 @@ class HomeViewModel(
     private val _uiEffects = SingleShotEventBus<HomeUiEffects>()
     val uiEffects: Flow<HomeUiEffects> = _uiEffects.events
 
+    private var selectedChecklistUuid: String? = null
+
     init {
         launchIO {
             observeSimpleSelectedChecklistModelUseCase().collect(
                 FlowCollector { selectedChecklistResult ->
                     val selectedChecklist = selectedChecklistResult.getOrNull()
                     handleSelectedChecklist(selectedChecklist)
+                    withMainContext {
+                        selectedChecklistUuid = selectedChecklist?.uuid
+                    }
                 }
             )
         }
@@ -66,7 +71,7 @@ class HomeViewModel(
 
     private fun onDeleteChecklistAction() {
         launchIO {
-            homeStateFlow.value.checklist?.uuid?.let {
+            selectedChecklistUuid?.let {
                 deleteChecklistUseCase(it).onSuccess {
                     _uiEffects.emit(HomeUiEffects.SnackbarChecklistDelete)
                 }
@@ -98,7 +103,7 @@ class HomeViewModel(
         val nextUiState = getNextUiState(selectedChecklist)
         _homeStateFlow.value = homeStateFlow.value.copy(
             homeUiState = nextUiState,
-            checklist = selectedChecklist
+            checklistName = selectedChecklist?.name
         )
     }
 

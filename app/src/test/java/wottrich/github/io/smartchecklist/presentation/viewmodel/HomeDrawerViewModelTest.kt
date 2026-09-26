@@ -15,7 +15,7 @@ import kotlinx.coroutines.flow.flow
 import org.junit.Test
 import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
 import wottrich.github.io.smartchecklist.domain.usecase.GetChecklistDrawerUseCase
-import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
+import wottrich.github.io.smartchecklist.domain.model.HomeDrawerChecklistItemModel
 
 class HomeDrawerViewModelTest : BaseUnitTest() {
 

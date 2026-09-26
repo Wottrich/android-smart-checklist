@@ -14,7 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import wottrich.github.io.smartchecklist.baseui.StyledText
-import wottrich.github.io.smartchecklist.baseui.components.completable.CompletableComponent
+import wottrich.github.io.smartchecklist.baseui.components.checkbox.CheckboxItemComponent
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
@@ -74,11 +74,11 @@ private fun TaskItem(
 ) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Spacer(modifier = Modifier.height(Dimens.BaseFour.SizeTwo))
-        CompletableComponent(
-            name = task.name,
+        CheckboxItemComponent(
+            label = task.name,
             isCompleted = task.isCompleted,
             onCheckChange = { onCheckChange(task) },
-            leftIconContent = {
+            rightIconContent = {
                 TaskDeleteComponent(
                     name = task.name,
                     showDeleteItem = showDeleteItem,

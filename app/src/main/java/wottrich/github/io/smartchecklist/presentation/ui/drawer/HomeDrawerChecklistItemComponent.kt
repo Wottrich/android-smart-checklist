@@ -1,6 +1,7 @@
 package wottrich.github.io.smartchecklist.presentation.ui.drawer
 
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -26,7 +27,7 @@ import wottrich.github.io.smartchecklist.baseui.ui.ListItemEndTextContent
 import wottrich.github.io.smartchecklist.baseui.ui.ListItemStartTextContent
 import wottrich.github.io.smartchecklist.baseui.ui.RowDefaults
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
-import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
+import wottrich.github.io.smartchecklist.domain.model.HomeDrawerChecklistItemModel
 
 /**
  * @author Wottrich
@@ -48,6 +49,7 @@ fun HomeDrawerChecklistItemComponent(
 ) {
     val modifier = Modifier
         .clickable { onItemClick() }
+        .background(SmartChecklistTheme.colors.surface)
 
     ChecklistItemContent(
         modifier,

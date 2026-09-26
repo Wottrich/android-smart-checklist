@@ -2,7 +2,8 @@ package wottrich.github.io.smartchecklist.datasource.data.model
 
 data class ChecklistWithTasks(
     override val checklist: Checklist,
-    override val tasks: List<Task>
+    override val tasks: List<Task>,
+    override val checklistSectionEmbedded: List<ChecklistSectionWithTask>
 ) : ChecklistWithNewTasksContract {
     override fun toString(): String {
         val string = StringBuilder()

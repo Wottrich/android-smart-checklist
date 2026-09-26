@@ -5,9 +5,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import wottrich.github.io.smartchecklist.android.BaseViewModel
 import wottrich.github.io.smartchecklist.checklist.domain.UpdateSelectedChecklistUseCase
+import wottrich.github.io.smartchecklist.coroutines.base.onFailure
+import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
-import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
 import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
+import wottrich.github.io.smartchecklist.newchecklist.domain.model.NewChecklistModel
 import wottrich.github.io.smartchecklist.newchecklist.domain.usecase.AddNewChecklistUseCase
 import wottrich.github.io.smartchecklist.newchecklist.presentation.states.NewChecklistNameUiEffect
 import wottrich.github.io.smartchecklist.newchecklist.presentation.states.NewChecklistNameUiState
@@ -39,10 +41,13 @@ class NewChecklistNameViewModel(
     private fun createNewChecklistAndUpdateSelected() {
         launchIO {
             val checklistName = state.value.checklistName
-            val checklist = Checklist(name = checklistName)
-            addNewChecklistUseCase(checklist).getOrNull()
-            updateSelectedChecklistUseCase(checklist.uuid)
-            _effects.emit(NewChecklistNameUiEffect.CloseScreen)
+            val checklist = NewChecklistModel(name = checklistName)
+            addNewChecklistUseCase(checklist).onSuccess {
+                updateSelectedChecklistUseCase(checklist.uuid)
+                _effects.emit(NewChecklistNameUiEffect.CloseScreen)
+            }.onFailure {
+                _effects.emit(NewChecklistNameUiEffect.CreateChecklistFailed)
+            }
         }
     }
 

@@ -16,16 +16,8 @@ class TaskDatasourceImpl(
         return taskDao.insert(task.mapToDTO())
     }
 
-    override suspend fun insertManyTasks(tasks: List<Task>) {
-        return taskDao.insertMany(tasks.map { it.mapToDTO() })
-    }
-
     override suspend fun updateTask(task: Task) {
         taskDao.update(task.mapToDTO())
-    }
-
-    override suspend fun updateTasks(tasks: List<Task>) {
-        taskDao.updateTasks(tasks.map { it.mapToDTO() })
     }
 
     override suspend fun deleteTask(task: Task) {

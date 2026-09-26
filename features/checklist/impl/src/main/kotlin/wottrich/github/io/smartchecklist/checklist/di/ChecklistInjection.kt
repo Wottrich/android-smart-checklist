@@ -1,6 +1,8 @@
 package wottrich.github.io.smartchecklist.checklist.di
 
 import org.koin.core.module.Module
+import org.koin.core.module.dsl.factoryOf
+import org.koin.dsl.bind
 import org.koin.dsl.module
 import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepository
 import wottrich.github.io.smartchecklist.checklist.data.repository.ChecklistRepositoryImpl
@@ -22,7 +24,7 @@ val checklistModule = module {
 private fun Module.injectUseCases() {
     factory<DeleteChecklistUseCase> { DeleteChecklistUseCaseImpl(get()) }
     factory<UpdateSelectedChecklistUseCase> { UpdateSelectedChecklistUseCaseImpl(get()) }
-    factory<GetChecklistAsTextUseCase> { GetChecklistAsTextUseCaseImpl(get()) }
+    factoryOf(::GetChecklistAsTextUseCaseImpl) bind GetChecklistAsTextUseCase::class
     factory<ObserveSelectedChecklistUuidUseCase> { ObserveSelectedChecklistUuidUseCaseImpl(get()) }
     factory<ChecklistRepository> { ChecklistRepositoryImpl(get()) }
     factory<GetSelectedChecklistUseCase> {

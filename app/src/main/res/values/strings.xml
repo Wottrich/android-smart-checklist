@@ -30,14 +30,11 @@
     <string name="checklist_finish_edit_content_description">Click to finish edit</string>
     <string name="checklist_more_options_content_description">Click to see more options</string>
     <string name="checklist_sort_task_option_content_description">Click to open screen to sort task</string>
-    <string name="checklist_delete_checklist_confirm_label">You are about to delete this checklist forever!\nDo you want to continue?</string>
 
     <!-- Settings -->
     <string name="checklist_settings_screen_title">Settings Screen</string>
     <string name="checklist_settings_copy_checklist_title">Copy checklist</string>
     <string name="checklist_settings_copy_checklist_subtitle">Share with your friend on some message app</string>
-    <string name="checklist_settings_share_checklist_title">Share checklist</string>
-    <string name="checklist_settings_share_checklist_subtitle">Share with your friends on there SmartChecklist\'s app</string>
     <string name="checklist_settings_error_copy_checklist">Error to copy checklist, please try again!</string>
     <string name="checklist_settings_error_share_checklist">Error to share checklist, please try again!</string>
 

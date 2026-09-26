@@ -3,7 +3,7 @@ package wottrich.github.io.smartchecklist.di
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.androidx.viewmodel.dsl.viewModelOf
 import org.koin.dsl.module
-import wottrich.github.io.smartchecklist.deletechecklist.viewmodel.DeleteChecklistBottomSheetViewModel
+import wottrich.github.io.smartchecklist.checklist.presentation.viewmodel.DeleteChecklistBottomSheetViewModel
 import wottrich.github.io.smartchecklist.domain.mapper.HomeDrawerChecklistItemModelMapper
 import wottrich.github.io.smartchecklist.domain.mapper.SimpleChecklistModelMapper
 import wottrich.github.io.smartchecklist.domain.usecase.GetChecklistDrawerUseCase
@@ -26,14 +26,7 @@ val featureHomeModules = module {
     factory { SimpleChecklistModelMapper() }
     factory { GetChecklistDrawerUseCase(get(), get()) }
     factory { ObserveSimpleSelectedChecklistModelUseCase(get(), get()) }
-    viewModel {
-        ChecklistSettingsViewModel(
-            getSelectedChecklistUseCase = get(),
-            shareChecklistAsTextUseCase = get(),
-            convertChecklistIntoQuicklyChecklistUseCase = get(),
-            getQuicklyChecklistDeepLinkUseCase = get()
-        )
-    }
+    viewModelOf(::ChecklistSettingsViewModel)
     viewModelOf(::DeleteChecklistBottomSheetViewModel)
     viewModel { HomeDrawerViewModel(get(), get(), get(), get()) }
     viewModel {

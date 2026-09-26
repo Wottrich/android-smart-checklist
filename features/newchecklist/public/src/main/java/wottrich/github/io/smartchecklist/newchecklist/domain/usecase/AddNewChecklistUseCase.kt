@@ -1,6 +1,6 @@
 package wottrich.github.io.smartchecklist.newchecklist.domain.usecase
 
 import wottrich.github.io.smartchecklist.coroutines.KotlinResultUseCase
-import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
+import wottrich.github.io.smartchecklist.newchecklist.domain.model.NewChecklistModel
 
-abstract class AddNewChecklistUseCase : KotlinResultUseCase<Checklist, Long?>()
+abstract class AddNewChecklistUseCase : KotlinResultUseCase<NewChecklistModel, Long?>()

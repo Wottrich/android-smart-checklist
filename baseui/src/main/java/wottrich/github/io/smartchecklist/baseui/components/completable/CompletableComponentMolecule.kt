@@ -1,5 +1,6 @@
 package wottrich.github.io.smartchecklist.baseui.components.completable
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Text
@@ -11,6 +12,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import wottrich.github.io.smartchecklist.baseui.RowComponent
 import wottrich.github.io.smartchecklist.baseui.TextOneLine
 import wottrich.github.io.smartchecklist.baseui.icons.IconCompletableContent
+import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
 fun CompletableComponentMolecule(
@@ -33,12 +35,14 @@ fun CompletableComponentMolecule(
     )
 }
 
+@Composable
 private fun Modifier.taskMoleculeModifier(
     onCheckChange: () -> Unit,
 ): Modifier {
     return this
         .clickable { onCheckChange() }
         .clip(CompletableItemShape)
+        .background(SmartChecklistTheme.colors.surface)
 }
 
 @Composable

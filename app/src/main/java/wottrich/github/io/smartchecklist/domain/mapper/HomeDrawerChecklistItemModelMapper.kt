@@ -2,7 +2,7 @@ package wottrich.github.io.smartchecklist.domain.mapper
 
 import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistWithTasks
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
-import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
+import wottrich.github.io.smartchecklist.domain.model.HomeDrawerChecklistItemModel
 
 class HomeDrawerChecklistItemModelMapper {
     fun mapToHomeDrawerChecklistItemModelMapper(checklistWithNewTasks: ChecklistWithTasks) =
