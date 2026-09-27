@@ -5,6 +5,7 @@
     <string name="task_header_type_hint">Digite para não esquecer!</string>
     <string name="task_header_add_item">Adicionar tarefa</string>
     <string name="task_header_add_section">Adicionar seção</string>
+    <string name="task_header_add_section_content_description">Clique para adicionar uma nova seção dentro da sua lista de tarefas</string>
 
     <!--  Task Item Component  -->
     <string name="task_item_component_delete_item">Clique para deletar o item %s</string>

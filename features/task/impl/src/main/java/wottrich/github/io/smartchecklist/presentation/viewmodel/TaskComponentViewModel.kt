@@ -1,23 +1,21 @@
 package wottrich.github.io.smartchecklist.presentation.viewmodel
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateListOf
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.withContext
 import wottrich.github.io.smartchecklist.android.BaseViewModel
 import wottrich.github.io.smartchecklist.coroutines.base.onFailure
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.domain.model.ChecklistComponentState
-import wottrich.github.io.smartchecklist.domain.usecase.InsertNewTaskUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.ChangeTaskStatusUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.DeleteTaskUseCase
 import wottrich.github.io.smartchecklist.domain.usecase.GetTasksSortedUseCase
+import wottrich.github.io.smartchecklist.domain.usecase.InsertNewTaskUseCase
 import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
 import wottrich.github.io.smartchecklist.newchecklist.domain.model.NewChecklistModel
 import wottrich.github.io.smartchecklist.newchecklist.domain.usecase.AddNewChecklistUseCase
@@ -27,9 +25,8 @@ import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewMo
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction.Action.ChangeTaskStatus
 import wottrich.github.io.smartchecklist.presentation.action.TaskComponentViewModelAction.Action.DeleteTask
 import wottrich.github.io.smartchecklist.presentation.effect.TaskComponentViewModelUiEffect
-import wottrich.github.io.smartchecklist.presentation.state.TaskComponentUiState
-import wottrich.github.io.smartchecklist.presentation.task.model.BaseTaskListItem
 import wottrich.github.io.smartchecklist.presentation.effect.TaskComponentViewModelUiEffect.OnError
+import wottrich.github.io.smartchecklist.presentation.state.TaskComponentUiState
 import wottrich.github.io.smartchecklist.presentation.ui.TaskBottomSheetType
 import wottrich.github.io.smartchecklist.task.R
 
@@ -108,14 +105,16 @@ class TaskComponentViewModel(
 
     private fun onSortTaskClicked() {
         launchMain {
-            _uiState.value = uiState.value.copy(taskBottomSheetType = TaskBottomSheetType.SORT_TASK_LIST)
+            _uiState.value =
+                uiState.value.copy(taskBottomSheetType = TaskBottomSheetType.SORT_TASK_LIST)
             _uiEffect.emit(TaskComponentViewModelUiEffect.OpenBottomSheet)
         }
     }
 
     private fun onCompletableCountClicked() {
         launchMain {
-            _uiState.value = uiState.value.copy(taskBottomSheetType = TaskBottomSheetType.COMPLETABLE_COUNT)
+            _uiState.value =
+                uiState.value.copy(taskBottomSheetType = TaskBottomSheetType.COMPLETABLE_COUNT)
             _uiEffect.emit(TaskComponentViewModelUiEffect.OpenBottomSheet)
         }
     }
@@ -153,9 +152,7 @@ class TaskComponentViewModel(
             name = taskName
         )
         resetNameField()
-        insertNewTaskUseCase(newTask).onSuccess {
-//TODO            loadSortItems()
-        }.onFailure {
+        insertNewTaskUseCase(newTask).onFailure {
             _uiEffect.emit(OnError(stringRes = R.string.checklist_add_new_task_unknown_error))
         }
     }
@@ -166,9 +163,7 @@ class TaskComponentViewModel(
 
     private fun handleChangeTaskStatus(task: Task) {
         launchIO {
-            changeTaskStatusUseCase(task).onSuccess {
-//TODO                loadSortItems()
-            }.onFailure {
+            changeTaskStatusUseCase(task).onFailure {
                 _uiEffect.emit(OnError(stringRes = R.string.checklist_change_task_state_failure))
             }
         }
@@ -176,9 +171,7 @@ class TaskComponentViewModel(
 
     private fun handleDeleteTask(task: Task) {
         launchIO {
-            deleteTaskUseCase(task).onSuccess {
-//TODO                loadSortItems()
-            }
+            deleteTaskUseCase(task)
         }
     }
 

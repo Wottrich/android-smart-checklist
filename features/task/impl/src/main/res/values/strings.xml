@@ -6,6 +6,7 @@
     <string name="task_header_type_hint">Type so you don\'t forget</string>
     <string name="task_header_add_item">Add task</string>
     <string name="task_header_add_section">Add section</string>
+    <string name="task_header_add_section_content_description">Click to add new section inside your checklist</string>
 
     <!--  Task Item Component  -->
     <string name="task_item_component_delete_item">Click to delete %s item</string>
