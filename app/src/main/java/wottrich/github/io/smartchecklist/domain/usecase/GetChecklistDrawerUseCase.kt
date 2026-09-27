@@ -16,7 +16,9 @@ class GetChecklistDrawerUseCase(
 ) : FlowableUseCase<UseCase.None, List<HomeDrawerChecklistItemModel>>() {
     override suspend fun execute(params: UseCase.None): Flow<Result<List<HomeDrawerChecklistItemModel>>> {
         return checklistRepository.observeAllChecklistsWithTask().mapNotNull {
-            val checklists = it.map { newChecklistWithNewTasks ->
+            val checklists = it.filter { embedded ->
+                embedded.checklist.parentUuid == null
+            }.map { newChecklistWithNewTasks ->
                 mapper.mapToHomeDrawerChecklistItemModelMapper(newChecklistWithNewTasks)
             }
             Result.success(checklists)

@@ -24,6 +24,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import org.koin.compose.koinInject
@@ -145,7 +146,9 @@ private fun ScreenScaffold(
         }
     ) {
         Column(
-            modifier = Modifier.padding(it)
+            modifier = Modifier
+                .padding(it)
+                .padding(bottom = Dimens.BaseFour.SizeFour)
         ) {
             SettingsComponent(
                 onCopyChecklist = onCopyChecklist,
@@ -187,4 +190,15 @@ private fun ColumnScope.SettingsComponent(
     ) {
         Text(text = stringResource(id = R.string.checklist_delete_label))
     }
+}
+
+@Preview
+@Composable
+private fun ChecklistSettingsScreenPreview() {
+    ScreenScaffold(
+        rememberScaffoldState(),
+        {},
+        {},
+        {},
+    )
 }
