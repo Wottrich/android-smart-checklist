@@ -33,7 +33,6 @@ fun SmartChecklistButton(
     Button(
         modifier = modifier
             .padding(horizontal = Dimens.BaseFour.SizeTwo)
-            .padding(bottom = Dimens.BaseFour.SizeTwo)
             .semantics {
                 contentDescription = buttonContentDescription.orEmpty()
             },

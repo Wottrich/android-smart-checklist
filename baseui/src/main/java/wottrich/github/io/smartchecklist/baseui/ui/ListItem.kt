@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import wottrich.github.io.smartchecklist.baseui.StyledText
 import wottrich.github.io.smartchecklist.baseui.TextTwoLine
+import wottrich.github.io.smartchecklist.baseui.ui.fonts.robotoFontFamily
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 /**
@@ -148,6 +149,7 @@ fun TextStateComponent(
         modifier = modifier,
         text = textState.text,
         color = textState.color.copy(alpha = textState.alpha),
+        fontFamily = robotoFontFamily,
         fontWeight = textState.fontWeight,
         textAlign = textState.textAlign,
         style = textState.style
