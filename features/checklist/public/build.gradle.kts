@@ -5,7 +5,7 @@ plugins {
 dependencies {
     implementation(libs.kotlin.stdlib.jdk8)
     implementation(libs.kotlin.stdlib)
-    implementation(libs.kotlin.coroutines)
+    implementation(libs.coroutines.core)
     implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":datasource:public"))
 }
