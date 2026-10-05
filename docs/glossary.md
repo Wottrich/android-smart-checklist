@@ -14,6 +14,10 @@ Canonical project vocabulary. Terms are defined by their meaning in this project
 
 **Checklist as text** — the plain-text export representation of a Checklist (title + its Tasks), used for the share flow.
 
+**Drive Backup** — the optional manual backup of all checklists/tasks to a single hidden JSON file (`smart-checklist-backup.json`) in the `appDataFolder` of the user's Google Drive (issue #94). The app's only networked feature.
+
+**Backup file schema** — the versioned `@Serializable` model of the backup file (`BackupFileModel`, `schemaVersion`). Restoring a file with an unknown `schemaVersion` or corrupted content is refused.
+
 ## Architecture vocabulary
 
 **UDF (Unidirectional Data Flow)** — state flows down (Screen renders state), events flow up (Screen sends Actions, ViewModel emits Effects). The project's stated architecture alongside MVVM.

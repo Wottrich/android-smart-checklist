@@ -3,6 +3,7 @@ package wottrich.github.io.smartchecklist.datasource.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
+import java.util.Calendar
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
 import wottrich.github.io.smartchecklist.datasource.data.datasource.ChecklistDatasource
 import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
@@ -10,7 +11,9 @@ import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistSectionW
 import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistWithTasks
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistDTO
+import wottrich.github.io.smartchecklist.datasource.entity.ChecklistSectionWithTaskDTO
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistWithTasksDTO
+import wottrich.github.io.smartchecklist.datasource.entity.TaskDTO
 
 private fun <T, R> T.mapDataTo(block: (T) -> R): R {
     return block(this)
@@ -51,7 +54,9 @@ class ChecklistDatasourceImpl(
             Checklist(
                 uuid = it.uuid,
                 name = it.name,
-                isSelected = it.isSelected
+                isSelected = it.isSelected,
+                createdDate = it.createdDate.timeInMillis,
+                lastUpdate = it.lastUpdate.timeInMillis
             )
         },
         this.tasks.map {
@@ -59,7 +64,8 @@ class ChecklistDatasourceImpl(
                 uuid = it.uuid,
                 parentUuid = it.parentUuid,
                 name = it.name,
-                isCompleted = it.isCompleted
+                isCompleted = it.isCompleted,
+                dateCreated = it.dateCreated.timeInMillis
             )
         },
         this.checklistSectionEmbedded.map { embedded ->
@@ -68,7 +74,9 @@ class ChecklistDatasourceImpl(
                     Checklist(
                         uuid = section.uuid,
                         parentUuid = section.parentUuid,
-                        name = section.name
+                        name = section.name,
+                        createdDate = section.createdDate.timeInMillis,
+                        lastUpdate = section.lastUpdate.timeInMillis
                     )
                 },
                 tasks = embedded.tasks.map { task ->
@@ -76,7 +84,8 @@ class ChecklistDatasourceImpl(
                         uuid = task.uuid,
                         parentUuid = task.parentUuid,
                         name = task.name,
-                        isCompleted = task.isCompleted
+                        isCompleted = task.isCompleted,
+                        dateCreated = task.dateCreated.timeInMillis
                     )
                 }
             )
@@ -97,6 +106,59 @@ class ChecklistDatasourceImpl(
     override suspend fun deleteChecklistByUuid(checklistUuid: String) {
         checklistDao.deleteChecklistByUuid(checklistUuid)
     }
+
+    override suspend fun getAllChecklistsWithTasks(): List<ChecklistWithTasks> {
+        return checklistDao.getAllChecklistsWithTasks().map { it.mapToChecklist() }
+    }
+
+    override suspend fun replaceAllChecklists(checklists: List<ChecklistWithTasks>) {
+        checklistDao.replaceAllChecklists(checklists.map { it.mapToDTO() })
+    }
+
+    private fun ChecklistWithTasks.mapToDTO() = ChecklistWithTasksDTO(
+        checklist = checklist.mapDataTo { checklist ->
+            ChecklistDTO(
+                uuid = checklist.uuid,
+                parentUuid = checklist.parentUuid,
+                name = checklist.name,
+                isSelected = checklist.isSelected,
+                createdDate = Calendar.getInstance().apply { timeInMillis = checklist.createdDate },
+                lastUpdate = Calendar.getInstance().apply { timeInMillis = checklist.lastUpdate },
+            )
+        },
+        tasks = tasks.map { task ->
+            TaskDTO(
+                uuid = task.uuid,
+                parentUuid = task.parentUuid,
+                name = task.name,
+                isCompleted = task.isCompleted,
+                dateCreated = Calendar.getInstance().apply { timeInMillis = task.dateCreated },
+            )
+        },
+        checklistSectionEmbedded = checklistSectionEmbedded.map { section ->
+            ChecklistSectionWithTaskDTO(
+                checklistSection = section.checklistSection.mapDataTo { checklist ->
+                    ChecklistDTO(
+                        uuid = checklist.uuid,
+                        parentUuid = checklist.parentUuid,
+                        name = checklist.name,
+                        isSelected = checklist.isSelected,
+                        createdDate = Calendar.getInstance().apply { timeInMillis = checklist.createdDate },
+                        lastUpdate = Calendar.getInstance().apply { timeInMillis = checklist.lastUpdate },
+                    )
+                },
+                tasks = section.tasks.map { task ->
+                    TaskDTO(
+                        uuid = task.uuid,
+                        parentUuid = task.parentUuid,
+                        name = task.name,
+                        isCompleted = task.isCompleted,
+                        dateCreated = Calendar.getInstance().apply { timeInMillis = task.dateCreated },
+                    )
+                }
+            )
+        }
+    )
 
     override suspend fun getSelectedChecklist(): Checklist? {
         return checklistDao.getSelectedChecklist()?.mapToModel()

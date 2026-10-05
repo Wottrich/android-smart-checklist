@@ -10,6 +10,7 @@ import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistDTO
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistWithTasksDTO
+import wottrich.github.io.smartchecklist.datasource.entity.TaskDTO
 
 /**
  * @author Wottrich
@@ -50,6 +51,57 @@ interface ChecklistDao {
     @Transaction
     @Query("SELECT * FROM new_checklist")
     fun observeAllChecklistWithTasks(): Flow<List<ChecklistWithTasksDTO>>
+
+    @Transaction
+    @Query("SELECT * FROM new_checklist")
+    suspend fun getAllChecklistsWithTasks(): List<ChecklistWithTasksDTO>
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllChecklists(checklists: List<ChecklistDTO>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAllTasks(tasks: List<TaskDTO>)
+
+    @Query("DELETE FROM new_task")
+    suspend fun deleteAllTasks()
+
+    @Query("DELETE FROM new_checklist")
+    suspend fun deleteAllChecklists()
+
+    /**
+     * Replaces every checklist/task with [checklists] in a single transaction.
+     * Used exclusively by the Google Drive backup restore (issue #94).
+     *
+     * Rows are inserted parents-first (sections reference their parent checklist
+     * through the `parent_uuid` foreign key) and the selection is normalized to at
+     * most one selected checklist (the first one marked as selected, when any).
+     */
+    @Transaction
+    suspend fun replaceAllChecklists(checklists: List<ChecklistWithTasksDTO>) {
+        deleteAllTasks()
+        deleteAllChecklists()
+        val selectedUuid = checklists.firstOrNull { it.checklist.isSelected }?.checklist?.uuid
+        val normalized = checklists.map {
+            val checklist = it.checklist.copy(isSelected = it.checklist.uuid == selectedUuid)
+            ChecklistWithTasksDTO(
+                checklist = checklist,
+                tasks = it.tasks,
+                checklistSectionEmbedded = it.checklistSectionEmbedded
+            )
+        }
+        insertAllChecklists(normalized.map { it.checklist }.sortedParentsFirst())
+        insertAllTasks(normalized.flatMap { withTasks ->
+            withTasks.tasks.map { it.copy(parentUuid = withTasks.checklist.uuid) }
+        })
+    }
+
+    /** Root checklists before their sections, so the self foreign key never fails. */
+    private fun List<ChecklistDTO>.sortedParentsFirst(): List<ChecklistDTO> {
+        val insertedUuids = map { it.uuid }.toHashSet()
+        return sortedBy { checklist ->
+            if (checklist.parentUuid != null && insertedUuids.contains(checklist.parentUuid)) 1 else 0
+        }
+    }
 
     @Transaction
     @Query("SELECT * FROM new_checklist WHERE uuid=:uuid")

@@ -15,13 +15,26 @@ import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 @Composable
 fun HelpAboutUsContent(
     onAboutUsClick: () -> Unit,
-    onHelpClick: () -> Unit
+    onHelpClick: () -> Unit,
+    onBackupClick: () -> Unit = {},
 ) {
     Row(
         modifier = Modifier.fillMaxWidth()
     ) {
+        BackupTextButtonContent(onBackupClick)
         AboutUsTextButtonComponent(onAboutUsClick)
         HelpTextButtonContent(onHelpClick)
+    }
+}
+
+@Composable
+private fun RowScope.BackupTextButtonContent(onBackupClick: () -> Unit) {
+    TextButton(
+        modifier = Modifier.weight(1f),
+        onClick = { onBackupClick() },
+        colors = ButtonDefaults.textButtonColors(contentColor = SmartChecklistTheme.colors.onPrimary)
+    ) {
+        Text(text = stringResource(id = string.drawer_bottom_items_backup))
     }
 }
 

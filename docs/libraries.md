@@ -17,6 +17,10 @@ All dependency coordinates and versions live in [`gradle/libs.versions.toml`](..
 | `android-material` | Material Components (XML theme base for `AppTheme`) | `:baseui` |
 | `android-activity-ktx` | Activity helpers (`setContent`) | UI modules |
 | `kotlin-stdlib`, `kotlin-stdlib-jdk8` | Kotlin standard library | All modules |
+| `kotlinx-serialization-json` (+ `kotlin-serialization` plugin) | Backup file JSON encoding (`BackupFileModel` schema, versioned) | `:features:backup:public`, `:features:backup:impl` |
+| `androidx-credentials`, `googleid` | Credential Manager: Google account selection for the backup feature | `:features:backup:impl` |
+| `play-services-auth` | `AuthorizationClient`: `drive.appdata` OAuth grant + access token for the backup feature | `:features:backup:impl` |
+| `google-api-client-android`, `google-api-services-drive` | Google Drive REST client — writes/reads the hidden `appDataFolder` backup file (both artifacts exclude `guava:listenablefuture` to avoid the classpath clash) | `:features:backup:impl` |
 
 ## Toolchain / build-time
 
@@ -45,7 +49,7 @@ Collected in the `test-default` bundle plus extras:
 
 These catalog entries exist but no module consumes them (candidates for removal — tracked in [Tooling → Known debt](tooling.md#known-technical-debt)):
 
-- `retrofit`, `retrofit-logging-interceptor`, `gson` — the app has **no networking**; these are leftovers from an abandoned backend experiment.
+- `retrofit`, `retrofit-logging-interceptor`, `gson` — these are leftovers from an abandoned backend experiment. The Google Drive backup (issue #94) is the app's only network feature, and it deliberately uses the Google API client + kotlinx-serialization, not Retrofit/Gson. Do not wire these.
 - `junit-ext`, `espresso-core` — there are **no instrumented tests** in the repository.
 
 ## Bundles

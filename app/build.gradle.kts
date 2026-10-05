@@ -29,9 +29,17 @@ android {
             add("META-INF/LICENSE")
             add("META-INF/LICENSE.txt")
             add("META-INF/NOTICE.txt")
+            // Google Drive backup (issue #94) transitive jars ship this index file twice.
+            add("META-INF/INDEX.LIST")
         }
     }
     namespace = "wottrich.github.io.smartchecklist"
+}
+
+// Google Drive backup (issue #94): the full Guava comes with the Drive API client,
+// so drop the standalone `listenablefuture` stub to avoid the classic duplicate-class clash.
+configurations.configureEach {
+    exclude(group = "com.google.guava", module = "listenablefuture")
 }
 
 dependencies {
@@ -50,6 +58,7 @@ dependencies {
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
     implementation(project(path = ":domain:coroutines"))
+    implementation(project(path = ":features:backup:impl"))
     implementation(project(path = ":features:checklist:impl"))
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))
