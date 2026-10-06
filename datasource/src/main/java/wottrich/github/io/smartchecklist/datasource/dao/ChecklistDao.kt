@@ -81,27 +81,19 @@ interface ChecklistDao {
         deleteAllTasks()
         deleteAllChecklists()
         val selectedUuid = checklists.firstOrNull { it.checklist.isSelected }?.checklist?.uuid
-        val normalized = checklists.map {
-            val checklist = it.checklist.copy(isSelected = it.checklist.uuid == selectedUuid)
-            ChecklistWithTasksDTO(
-                checklist = checklist,
-                tasks = it.tasks,
-                checklistSectionEmbedded = it.checklistSectionEmbedded
-            )
-        }
-        insertAllChecklists(normalized.map { it.checklist }.sortedParentsFirst())
-        insertAllTasks(normalized.flatMap { withTasks ->
+        insertAllChecklists(
+            checklists.map { it.checklist }
+                .map { it.copy(isSelected = it.uuid == selectedUuid) }
+                .sortedParentsFirst()
+        )
+        insertAllTasks(checklists.flatMap { withTasks ->
             withTasks.tasks.map { it.copy(parentUuid = withTasks.checklist.uuid) }
         })
     }
 
     /** Root checklists before their sections, so the self foreign key never fails. */
-    private fun List<ChecklistDTO>.sortedParentsFirst(): List<ChecklistDTO> {
-        val insertedUuids = map { it.uuid }.toHashSet()
-        return sortedBy { checklist ->
-            if (checklist.parentUuid != null && insertedUuids.contains(checklist.parentUuid)) 1 else 0
-        }
-    }
+    private fun List<ChecklistDTO>.sortedParentsFirst(): List<ChecklistDTO> =
+        sortedBy { it.parentUuid != null }
 
     @Transaction
     @Query("SELECT * FROM new_checklist WHERE uuid=:uuid")

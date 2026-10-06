@@ -1,10 +1,9 @@
 package wottrich.github.io.smartchecklist.backup.presentation.viewmodel
 
-import androidx.annotation.StringRes
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import wottrich.github.io.smartchecklist.backup.R
 import wottrich.github.io.smartchecklist.android.BaseViewModel
+import wottrich.github.io.smartchecklist.backup.R
 import wottrich.github.io.smartchecklist.backup.data.repository.BackupStatusModel
 import wottrich.github.io.smartchecklist.backup.domain.BackupError
 import wottrich.github.io.smartchecklist.backup.domain.ConnectGoogleDriveUseCase
@@ -22,11 +21,12 @@ import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProvid
 import wottrich.github.io.smartchecklist.kotlin.SingleShotEventBus
 
 /**
- * Consent seam: [BackupRepositoryImpl] cannot carry Android types, so on
- * `BackupError.NeedsConsent` the ViewModel asks [GoogleDriveAuthorization] directly
- * (both live in this impl module) for the resolvable consent intent and emits
- * [BackupUiEffects.RequestConsent]. The screen launches it and re-sends
- * [BackupUiActions.Action.ConnectAction] on success.
+ * Consent seam: the public `BackupRepository` contract cannot carry Android types,
+ * so on `BackupError.NeedsConsent` the ViewModel asks the impl-level
+ * [GoogleDriveAuthorization] directly for the resolvable consent intent and emits
+ * [BackupUiEffects.RequestConsent]. When the consent screen returns, the result
+ * data is consumed through [GoogleDriveAuthorization.completeConsent] and the
+ * interrupted action is re-dispatched against the repository.
  */
 class BackupViewModel(
     dispatchersProviders: DispatchersProviders,
@@ -50,7 +50,7 @@ class BackupViewModel(
     init {
         launchIO {
             getBackupStatusUseCase().onSuccess { status ->
-                showOverview(status.connectedAccountEmail, status.lastBackupDate)
+                showOverview(status)
             }
         }
     }
@@ -71,14 +71,10 @@ class BackupViewModel(
         launchIO {
             connectGoogleDriveUseCase()
                 .onSuccess { status ->
-                    showOverview(status.connectedAccountEmail, status.lastBackupDate, isWorking = false)
+                    showOverview(status)
                 }
                 .onFailure { exception ->
-                    if (exception is BackupError.NeedsConsent) {
-                        requestConsent(followUpAction = BackupUiActions.Action.ConnectAction)
-                    } else {
-                        handleFailure(exception)
-                    }
+                    handleFailureOrConsent(exception, BackupUiActions.Action.ConnectAction)
                 }
         }
     }
@@ -124,7 +120,7 @@ class BackupViewModel(
     private fun onConsentCanceledAction() {
         setWorking(false)
         launchIO {
-            _uiEffects.emit(BackupUiEffects.SnackbarError(R.string.backup_connect_canceled))
+            _uiEffects.emit(BackupUiEffects.ShowSnackbar(R.string.backup_connect_canceled))
         }
     }
 
@@ -133,8 +129,8 @@ class BackupViewModel(
         launchIO {
             disconnectGoogleDriveUseCase()
                 .onSuccess {
-                    showOverview(connectedAccountEmail = null, lastBackupDate = null, isWorking = false)
-                    _uiEffects.emit(BackupUiEffects.DisconnectCompleted)
+                    showOverview(BackupStatusModel(isConnected = false, connectedAccountEmail = null, lastBackupDate = null))
+                    _uiEffects.emit(BackupUiEffects.ShowSnackbar(R.string.backup_disconnected))
                 }
                 .onFailure { exception -> handleFailure(exception) }
         }
@@ -146,7 +142,7 @@ class BackupViewModel(
             createBackupUseCase()
                 .onSuccess {
                     refreshOverview()
-                    _uiEffects.emit(BackupUiEffects.BackupCompleted)
+                    _uiEffects.emit(BackupUiEffects.ShowSnackbar(R.string.backup_backup_completed))
                 }
                 .onFailure { exception -> handleFailureOrConsent(exception, BackupUiActions.Action.BackupNowAction) }
         }
@@ -158,9 +154,35 @@ class BackupViewModel(
             restoreBackupUseCase()
                 .onSuccess {
                     refreshOverview()
-                    _uiEffects.emit(BackupUiEffects.RestoreCompleted)
+                    _uiEffects.emit(BackupUiEffects.ShowSnackbar(R.string.backup_restore_completed))
                 }
                 .onFailure { exception -> handleFailureOrConsent(exception, BackupUiActions.Action.RestoreAction) }
+        }
+    }
+
+    /** Re-reads the persisted status and renders it in the overview state. */
+    private suspend fun refreshOverview() {
+        getBackupStatusUseCase().onSuccess { status ->
+            showOverview(status)
+        }
+    }
+
+    private fun showOverview(
+        status: BackupStatusModel,
+        isWorking: Boolean = false,
+    ) {
+        _uiState.value = BackupUiState.Overview(
+            isConnected = status.isConnected,
+            connectedAccountEmail = status.connectedAccountEmail,
+            lastBackupDate = status.lastBackupDate,
+            isWorking = isWorking,
+        )
+    }
+
+    private fun setWorking(isWorking: Boolean) {
+        val state = _uiState.value
+        if (state is BackupUiState.Overview) {
+            _uiState.value = state.copy(isWorking = isWorking)
         }
     }
 
@@ -175,43 +197,15 @@ class BackupViewModel(
         }
     }
 
-    /** Re-reads the persisted status and renders it in the overview state. */
-    private suspend fun refreshOverview() {
-        var status: BackupStatusModel? = null
-        getBackupStatusUseCase().onSuccess { status = it }
-        status?.let { showOverview(it.connectedAccountEmail, it.lastBackupDate, isWorking = false) }
-    }
-
-    private fun showOverview(
-        connectedAccountEmail: String?,
-        lastBackupDate: Long?,
-        isWorking: Boolean = false,
-    ) {
-        _uiState.value = BackupUiState.Overview(
-            connectedAccountEmail = connectedAccountEmail,
-            lastBackupDate = lastBackupDate,
-            isWorking = isWorking,
-        )
-    }
-
-    private fun setWorking(isWorking: Boolean) {
-        val state = _uiState.value
-        if (state is BackupUiState.Overview) {
-            _uiState.value = state.copy(isWorking = isWorking)
-        }
-    }
-
     private suspend fun handleFailure(exception: Throwable) {
         setWorking(false)
-        _uiEffects.emit(BackupUiEffects.SnackbarError(exception.mapToStringRes()))
+        _uiEffects.emit(BackupUiEffects.ShowSnackbar(exception.mapToStringRes()))
     }
 
     private fun Throwable.mapToStringRes(): Int = when (this) {
-        is BackupError.NotConnected -> R.string.backup_error_not_connected
         is BackupError.NeedsConsent -> R.string.backup_error_not_connected
         is BackupError.NoBackupFound -> R.string.backup_error_no_backup_found
         is BackupError.CorruptedBackupFile -> R.string.backup_error_corrupted_backup
-        is BackupError.DriveIoError -> R.string.backup_error_drive_io
         else -> R.string.backup_error_drive_io
     }
 }

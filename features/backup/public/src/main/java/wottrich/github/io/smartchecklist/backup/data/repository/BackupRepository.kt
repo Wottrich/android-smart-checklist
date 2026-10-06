@@ -28,10 +28,14 @@ interface BackupRepository {
 }
 
 /**
- * @param connectedAccountEmail null means "not connected".
+ * @param isConnected whether the `drive.appdata` consent is currently granted.
+ * Kept independent from [connectedAccountEmail]: the authorization result does
+ * not always expose the account email.
+ * @param connectedAccountEmail best-effort display info, null when unknown.
  * @param lastBackupDate epoch millis, null means "never backed up".
  */
 data class BackupStatusModel(
+    val isConnected: Boolean,
     val connectedAccountEmail: String?,
     val lastBackupDate: Long?,
 )

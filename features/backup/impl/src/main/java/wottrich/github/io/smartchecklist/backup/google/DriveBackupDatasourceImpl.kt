@@ -14,11 +14,15 @@ import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProvid
 /**
  * Google Drive `appDataFolder` file operations, built per operation from a
  * short-lived Bearer access token (no deprecated `GoogleAccountCredential` /
- * `AndroidHttp`).
+ * `AndroidHttp`). The TLS transport and JSON factory are stateless and shared;
+ * only the token-bearing request initializer is per call.
  */
 internal class DriveBackupDatasourceImpl(
     private val dispatchersProviders: DispatchersProviders
 ) : DriveBackupDatasource {
+
+    private val jsonFactory by lazy { GsonFactory.getDefaultInstance() }
+    private val httpTransport by lazy { GoogleNetHttpTransport.newTrustedTransport() }
 
     override suspend fun write(
         accessToken: String,
@@ -28,17 +32,14 @@ internal class DriveBackupDatasourceImpl(
         try {
             val drive = buildDrive(accessToken)
             val existingFileId = findFileId(drive, fileName)
+            val contentStream = InputStreamContent(JSON_MIME_TYPE, content.inputStream())
             if (existingFileId == null) {
                 val metadata = File()
                     .setName(fileName)
                     .setParents(listOf(APP_DATA_FOLDER))
-                drive.files()
-                    .create(metadata, InputStreamContent(JSON_MIME_TYPE, content.inputStream()))
-                    .execute()
+                drive.files().create(metadata, contentStream).execute()
             } else {
-                drive.files()
-                    .update(existingFileId, null, InputStreamContent(JSON_MIME_TYPE, content.inputStream()))
-                    .execute()
+                drive.files().update(existingFileId, null, contentStream).execute()
             }
             Result.success(Unit)
         } catch (exception: Exception) {
@@ -60,20 +61,6 @@ internal class DriveBackupDatasourceImpl(
             }
         }
 
-    override suspend fun delete(accessToken: String, fileName: String): Result<Unit> =
-        withContext(dispatchersProviders.io) {
-            try {
-                val drive = buildDrive(accessToken)
-                val fileId = findFileId(drive, fileName)
-                if (fileId != null) {
-                    drive.files().delete(fileId).execute()
-                }
-                Result.success(Unit)
-            } catch (exception: Exception) {
-                Result.failure(exception)
-            }
-        }
-
     /** `null` when the file does not exist in the `appDataFolder` space. */
     private fun findFileId(drive: Drive, fileName: String): String? {
         return try {
@@ -90,11 +77,10 @@ internal class DriveBackupDatasourceImpl(
     }
 
     private fun buildDrive(accessToken: String): Drive {
-        val httpTransport = GoogleNetHttpTransport.newTrustedTransport()
         val requestInitializer = HttpRequestInitializer { httpRequest ->
             httpRequest.headers.authorization = "Bearer $accessToken"
         }
-        return Drive.Builder(httpTransport, GsonFactory.getDefaultInstance(), requestInitializer)
+        return Drive.Builder(httpTransport, jsonFactory, requestInitializer)
             .setApplicationName(GoogleDriveBackupConfig.APPLICATION_NAME)
             .build()
     }
