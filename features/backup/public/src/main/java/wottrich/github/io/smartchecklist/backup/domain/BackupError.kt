@@ -6,9 +6,6 @@ package wottrich.github.io.smartchecklist.backup.domain
  */
 sealed class BackupError(exception: Exception? = null) : Exception(exception) {
 
-    /** No Google Drive account is connected (or the consent was not granted yet). */
-    class NotConnected : BackupError()
-
     /** The user must grant the `drive.appdata` consent interactively. */
     class NeedsConsent : BackupError()
 

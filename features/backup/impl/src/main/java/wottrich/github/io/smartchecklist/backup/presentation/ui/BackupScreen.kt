@@ -1,22 +1,22 @@
+@file:OptIn(ExperimentalMaterialApi::class)
+
 package wottrich.github.io.smartchecklist.backup.presentation.ui
 
+import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.AlertDialog
-import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Button
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.Divider
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.ListItem
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Snackbar
-import androidx.compose.material.SnackbarHost
-import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.material.rememberScaffoldState
@@ -28,8 +28,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.backup.R
 import wottrich.github.io.smartchecklist.backup.presentation.state.BackupUiActions
 import wottrich.github.io.smartchecklist.backup.presentation.state.BackupUiEffects
@@ -40,7 +42,9 @@ import wottrich.github.io.smartchecklist.baseui.icons.ArrowBackIcon
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
-import org.koin.androidx.compose.getViewModel
+import java.text.DateFormat
+import java.util.Date
+import java.util.Locale
 
 @Composable
 fun BackupScreen(onBackPressed: () -> Unit) {
@@ -56,8 +60,7 @@ private fun BackupScreenContent(
 ) {
     val state by viewModel.uiState.collectAsState()
     val scaffoldState = rememberScaffoldState()
-    val snackbarHostState = remember { SnackbarHostState() }
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
 
     // Consent resolution: launching the resolvable pending intent from
     // `AuthorizationClient`. The result data intent must be consumed by the
@@ -66,13 +69,12 @@ private fun BackupScreenContent(
     val consentLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
-        if (result.resultCode == android.app.Activity.RESULT_OK) {
+        if (result.resultCode == Activity.RESULT_OK) {
             viewModel.sendAction(BackupUiActions.Action.ConsentCompletedAction(result.data))
         } else {
             // GMS reports failures inside the consent flow (client/SHA-1 mismatch,
             // unregistered test user…) as RESULT_CANCELED carrying error extras.
-            val extras = result.data?.extras
-            if (extras != null) {
+            result.data?.extras?.let { extras ->
                 val extrasDescription = extras.keySet().joinToString(", ") { key ->
                     "$key=${extras.get(key)}"
                 }
@@ -85,23 +87,15 @@ private fun BackupScreenContent(
     var showRestoreConfirmation by remember { mutableStateOf(false) }
     var showDisconnectConfirmation by remember { mutableStateOf(false) }
 
-    val backupCompletedMessage = stringResource(id = R.string.backup_backup_completed)
-    val restoreCompletedMessage = stringResource(id = R.string.backup_restore_completed)
-    val disconnectedMessage = stringResource(id = R.string.backup_disconnected)
-
     LaunchedEffect(key1 = viewModel.uiEffects) {
         viewModel.uiEffects.collect { effect ->
             when (effect) {
                 is BackupUiEffects.RequestConsent -> consentLauncher.launch(
-                    androidx.activity.result.IntentSenderRequest.Builder(
-                        effect.resolvablePendingIntent.intentSender
-                    ).build()
+                    IntentSenderRequest.Builder(effect.resolvablePendingIntent.intentSender).build()
                 )
-                is BackupUiEffects.BackupCompleted -> snackbarHostState.showSnackbar(backupCompletedMessage)
-                is BackupUiEffects.RestoreCompleted -> snackbarHostState.showSnackbar(restoreCompletedMessage)
-                is BackupUiEffects.DisconnectCompleted -> snackbarHostState.showSnackbar(disconnectedMessage)
-                is BackupUiEffects.SnackbarError -> snackbarHostState.showSnackbar(
-                    context.getString(effect.errorMessage)
+
+                is BackupUiEffects.ShowSnackbar -> scaffoldState.snackbarHostState.showSnackbar(
+                    context.getString(effect.message)
                 )
             }
         }
@@ -119,11 +113,6 @@ private fun BackupScreenContent(
                 },
                 navigationIconAction = onBackPressed
             )
-        },
-        snackbarHost = { hostState ->
-            SnackbarHost(hostState = hostState) { snackbarData ->
-                Snackbar(snackbarData = snackbarData)
-            }
         }
     ) { paddingValues ->
         Column(
@@ -131,13 +120,17 @@ private fun BackupScreenContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            BackupOverviewContent(
-                state = state,
-                onConnect = { viewModel.sendAction(BackupUiActions.Action.ConnectAction) },
-                onDisconnect = { showDisconnectConfirmation = true },
-                onBackupNow = { viewModel.sendAction(BackupUiActions.Action.BackupNowAction) },
-                onRestore = { showRestoreConfirmation = true },
-            )
+            when (val currentState = state) {
+                is BackupUiState.Loading -> CircularProgressIndicator()
+
+                is BackupUiState.Overview -> BackupOverview(
+                    state = currentState,
+                    onConnect = { viewModel.sendAction(BackupUiActions.Action.ConnectAction) },
+                    onDisconnect = { showDisconnectConfirmation = true },
+                    onBackupNow = { viewModel.sendAction(BackupUiActions.Action.BackupNowAction) },
+                    onRestore = { showRestoreConfirmation = true },
+                )
+            }
         }
     }
 
@@ -164,27 +157,6 @@ private fun BackupScreenContent(
                 viewModel.sendAction(BackupUiActions.Action.DisconnectAction)
             },
             onNegative = { showDisconnectConfirmation = false }
-        )
-    }
-}
-
-@Composable
-private fun BackupOverviewContent(
-    state: BackupUiState,
-    onConnect: () -> Unit,
-    onDisconnect: () -> Unit,
-    onBackupNow: () -> Unit,
-    onRestore: () -> Unit,
-) {
-    when (state) {
-        is BackupUiState.Loading -> CircularProgressIndicator()
-
-        is BackupUiState.Overview -> BackupOverview(
-            state = state,
-            onConnect = onConnect,
-            onDisconnect = onDisconnect,
-            onBackupNow = onBackupNow,
-            onRestore = onRestore,
         )
     }
 }
@@ -227,35 +199,30 @@ private fun BackupOverview(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun AccountContent(
     state: BackupUiState.Overview,
     onConnect: () -> Unit,
     onDisconnect: () -> Unit,
 ) {
-    val connectedAccountEmail = state.connectedAccountEmail
-    if (connectedAccountEmail == null) {
+    if (!state.isConnected) {
         ListItem(
             text = {
                 Text(text = stringResource(id = R.string.backup_connect_google_drive))
             },
             trailing = {
-                Button(
-                    onClick = onConnect,
-                    colors = ButtonDefaults.buttonColors(
-                        backgroundColor = SmartChecklistTheme.colors.primary,
-                        contentColor = SmartChecklistTheme.colors.onPrimary
-                    )
-                ) {
-                    Text(text = stringResource(id = R.string.backup_connect_google_drive))
+                Button(onClick = onConnect) {
+                    Text(text = stringResource(id = R.string.backup_connect))
                 }
             }
         )
     } else {
+        val accountLabel = state.connectedAccountEmail
+            ?.let { stringResource(id = R.string.backup_connected_account, it) }
+            ?: stringResource(id = R.string.backup_connected)
         ListItem(
             text = {
-                Text(text = stringResource(id = R.string.backup_connected_account, connectedAccountEmail))
+                Text(text = accountLabel)
             },
             trailing = {
                 TextButton(onClick = onDisconnect) {
@@ -266,14 +233,13 @@ private fun AccountContent(
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun BackupNowContent(
     state: BackupUiState.Overview,
     onBackupNow: () -> Unit,
 ) {
     val lastBackupLabel = state.lastBackupDate?.let { lastBackupDate ->
-        stringResource(id = R.string.backup_last_backup_date, lastBackupDate.formatAsDate())
+        stringResource(id = R.string.backup_last_backup_date, formatAsDate(lastBackupDate))
     } ?: stringResource(id = R.string.backup_never_backed_up)
 
     ListItem(
@@ -294,7 +260,6 @@ private fun BackupNowContent(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun RestoreContent(
     state: BackupUiState.Overview,
@@ -315,7 +280,6 @@ private fun RestoreContent(
     )
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 private fun BackupConfirmationDialog(
     title: Int,
@@ -347,6 +311,7 @@ private fun BackupScreenPreview() {
     ApplicationTheme {
         BackupOverview(
             state = BackupUiState.Overview(
+                isConnected = true,
                 connectedAccountEmail = "user@gmail.com",
                 lastBackupDate = System.currentTimeMillis(),
                 isWorking = false
@@ -359,10 +324,7 @@ private fun BackupScreenPreview() {
     }
 }
 
-private fun Long.formatAsDate(): String {
-    val dateFormat = java.text.DateFormat.getDateInstance(
-        java.text.DateFormat.MEDIUM,
-        java.util.Locale.getDefault()
-    )
-    return dateFormat.format(java.util.Date(this))
+private fun formatAsDate(epochMillis: Long): String {
+    val dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM, Locale.getDefault())
+    return dateFormat.format(Date(epochMillis))
 }

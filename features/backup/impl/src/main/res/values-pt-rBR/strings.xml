@@ -2,7 +2,9 @@
 <resources>
     <string name="backup_screen_title">Backup</string>
     <string name="backup_connect_google_drive">Conectar Google Drive</string>
+    <string name="backup_connect">Conectar</string>
     <string name="backup_connected_account">Conectado como %s</string>
+    <string name="backup_connected">Conectado ao Google Drive</string>
     <string name="backup_disconnect">Desconectar</string>
     <string name="backup_backup_now">Fazer backup agora</string>
     <string name="backup_last_backup_date">Último backup: %s</string>

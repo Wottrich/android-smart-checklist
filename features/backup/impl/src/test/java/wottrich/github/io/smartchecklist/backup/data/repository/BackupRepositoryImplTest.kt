@@ -58,25 +58,34 @@ class BackupRepositoryImplTest : BaseUnitTest() {
     @Test
     fun `GIVEN stored preferences WHEN backup status is requested THEN it must return the persisted values`() =
         runBlockingUnitTest {
+            coEvery { backupPreferencesDatasource.isConnected() } returns true
             coEvery { backupPreferencesDatasource.getConnectedAccountEmail() } returns "user@gmail.com"
             coEvery { backupPreferencesDatasource.getLastBackupDate() } returns 1000L
 
             val status = sut.getBackupStatus()
 
+            assertEquals(true, status.isConnected)
             assertEquals("user@gmail.com", status.connectedAccountEmail)
             assertEquals(1000L, status.lastBackupDate)
         }
 
     @Test
-    fun `GIVEN a granted authorization WHEN connect is called THEN the account email must be persisted and returned`() =
+    fun `GIVEN a granted authorization WHEN connect is called THEN the connection must be persisted and the email kept when available`() =
         runBlockingUnitTest {
+            coEvery { backupPreferencesDatasource.isConnected() } returns true
             coEvery { backupPreferencesDatasource.getConnectedAccountEmail() } returns "user@gmail.com"
             coEvery { backupPreferencesDatasource.getLastBackupDate() } returns null
 
             val result = sut.connect()
 
-            verify(exactly = 1) { backupPreferencesDatasource.setConnectedAccountEmail("user@gmail.com") }
-            assertEquals("user@gmail.com", result.getOrNull()?.connectedAccountEmail)
+            verify(exactly = 1) {
+                backupPreferencesDatasource.setConnectionState(
+                    connected = true,
+                    connectedAccountEmail = "user@gmail.com",
+                    lastBackupDate = null
+                )
+            }
+            assertEquals(true, result.getOrNull()?.isConnected)
         }
 
     @Test
@@ -202,8 +211,13 @@ class BackupRepositoryImplTest : BaseUnitTest() {
 
             assertTrue(result.isSuccess)
             assertEquals(1, googleDriveAuthorization.revokeAccessCalls)
-            verify(exactly = 1) { backupPreferencesDatasource.setConnectedAccountEmail(null) }
-            verify(exactly = 1) { backupPreferencesDatasource.setLastBackupDate(null) }
+            verify(exactly = 1) {
+                backupPreferencesDatasource.setConnectionState(
+                    connected = false,
+                    connectedAccountEmail = null,
+                    lastBackupDate = null
+                )
+            }
         }
 
     private fun checklistWithTasks() = ChecklistWithTasks(

@@ -50,13 +50,11 @@ internal class GoogleDriveAuthorizationImpl(
         val request = AuthorizationRequest.Builder()
             .setRequestedScopes(listOf(Scope(DriveScopes.DRIVE_APPDATA)))
             .build()
-        val result = try {
-            val authorization = authorizationClient.authorize(request).await()
-            authorization
+        return try {
+            authorizationClient.authorize(request).await().toOutcome()
         } catch (exception: Exception) {
-            return AuthorizationOutcome.Failed(exception)
+            AuthorizationOutcome.Failed(exception)
         }
-        return result.toOutcome()
     }
 
     override suspend fun completeConsent(consentResultIntent: Intent?): AuthorizationOutcome {

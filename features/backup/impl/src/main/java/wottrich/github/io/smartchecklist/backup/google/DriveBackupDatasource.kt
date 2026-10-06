@@ -17,6 +17,4 @@ interface DriveBackupDatasource {
      * A missing file is reported as success(null) — only real I/O failures are errors.
      */
     suspend fun read(accessToken: String, fileName: String): Result<ByteArray?>
-
-    suspend fun delete(accessToken: String, fileName: String): Result<Unit>
 }

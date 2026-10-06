@@ -3,7 +3,6 @@ package wottrich.github.io.smartchecklist.datasource.repository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
-import java.util.Calendar
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
 import wottrich.github.io.smartchecklist.datasource.data.datasource.ChecklistDatasource
 import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
@@ -11,9 +10,9 @@ import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistSectionW
 import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistWithTasks
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistDTO
-import wottrich.github.io.smartchecklist.datasource.entity.ChecklistSectionWithTaskDTO
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistWithTasksDTO
 import wottrich.github.io.smartchecklist.datasource.entity.TaskDTO
+import java.util.Calendar
 
 private fun <T, R> T.mapDataTo(block: (T) -> R): R {
     return block(this)
@@ -116,48 +115,11 @@ class ChecklistDatasourceImpl(
     }
 
     private fun ChecklistWithTasks.mapToDTO() = ChecklistWithTasksDTO(
-        checklist = checklist.mapDataTo { checklist ->
-            ChecklistDTO(
-                uuid = checklist.uuid,
-                parentUuid = checklist.parentUuid,
-                name = checklist.name,
-                isSelected = checklist.isSelected,
-                createdDate = Calendar.getInstance().apply { timeInMillis = checklist.createdDate },
-                lastUpdate = Calendar.getInstance().apply { timeInMillis = checklist.lastUpdate },
-            )
-        },
-        tasks = tasks.map { task ->
-            TaskDTO(
-                uuid = task.uuid,
-                parentUuid = task.parentUuid,
-                name = task.name,
-                isCompleted = task.isCompleted,
-                dateCreated = Calendar.getInstance().apply { timeInMillis = task.dateCreated },
-            )
-        },
-        checklistSectionEmbedded = checklistSectionEmbedded.map { section ->
-            ChecklistSectionWithTaskDTO(
-                checklistSection = section.checklistSection.mapDataTo { checklist ->
-                    ChecklistDTO(
-                        uuid = checklist.uuid,
-                        parentUuid = checklist.parentUuid,
-                        name = checklist.name,
-                        isSelected = checklist.isSelected,
-                        createdDate = Calendar.getInstance().apply { timeInMillis = checklist.createdDate },
-                        lastUpdate = Calendar.getInstance().apply { timeInMillis = checklist.lastUpdate },
-                    )
-                },
-                tasks = section.tasks.map { task ->
-                    TaskDTO(
-                        uuid = task.uuid,
-                        parentUuid = task.parentUuid,
-                        name = task.name,
-                        isCompleted = task.isCompleted,
-                        dateCreated = Calendar.getInstance().apply { timeInMillis = task.dateCreated },
-                    )
-                }
-            )
-        }
+        checklist = checklist.mapToDTO(),
+        tasks = tasks.map { it.mapToDTO() },
+        // Restore only carries flat rows: sections are regular checklist rows and
+        // the DAO's replaceAllChecklists never reads this field.
+        checklistSectionEmbedded = listOf()
     )
 
     override suspend fun getSelectedChecklist(): Checklist? {
@@ -207,7 +169,25 @@ class ChecklistDatasourceImpl(
     private fun Checklist.mapToDTO() =
         ChecklistDTO(
             uuid = this.uuid,
+            parentUuid = this.parentUuid,
             name = this.name,
-            isSelected = this.isSelected
+            isSelected = this.isSelected,
+            createdDate = this.createdDate.toCalendarOrNow(),
+            lastUpdate = this.lastUpdate.toCalendarOrNow()
         )
+
+    private fun Task.mapToDTO() =
+        TaskDTO(
+            uuid = this.uuid,
+            parentUuid = this.parentUuid,
+            name = this.name,
+            isCompleted = this.isCompleted,
+            dateCreated = this.dateCreated.toCalendarOrNow()
+        )
+
+    /** `0` means unknown (models default dates to 0) — fall back to now. */
+    private fun Long.toCalendarOrNow(): Calendar =
+        Calendar.getInstance().apply {
+            timeInMillis = if (this@toCalendarOrNow > 0) this@toCalendarOrNow else System.currentTimeMillis()
+        }
 }

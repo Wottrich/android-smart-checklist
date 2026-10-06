@@ -8,11 +8,6 @@ sealed class BackupUiEffects {
     /** The user must grant the `drive.appdata` consent; launch [resolvablePendingIntent]. */
     data class RequestConsent(val resolvablePendingIntent: PendingIntent) : BackupUiEffects()
 
-    data object BackupCompleted : BackupUiEffects()
-
-    data object RestoreCompleted : BackupUiEffects()
-
-    data object DisconnectCompleted : BackupUiEffects()
-
-    data class SnackbarError(@StringRes val errorMessage: Int) : BackupUiEffects()
+    /** One-shot localized message (completed actions and failures alike). */
+    data class ShowSnackbar(@StringRes val message: Int) : BackupUiEffects()
 }

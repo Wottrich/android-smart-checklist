@@ -52,9 +52,17 @@ class BackupViewModelTest : BaseUnitTest() {
         )
     }
 
-    private fun stubStatus(email: String?, lastBackupDate: Long? = null) {
+    private fun stubStatus(
+        email: String?,
+        lastBackupDate: Long? = null,
+        isConnected: Boolean = true,
+    ) {
         coEvery { getBackupStatusUseCase() } returns Result.success(
-            BackupStatusModel(connectedAccountEmail = email, lastBackupDate = lastBackupDate)
+            BackupStatusModel(
+                isConnected = isConnected,
+                connectedAccountEmail = email,
+                lastBackupDate = lastBackupDate
+            )
         )
     }
 
@@ -72,18 +80,24 @@ class BackupViewModelTest : BaseUnitTest() {
         }
 
     @Test
-    fun `GIVEN connect succeeds WHEN ConnectAction is sent THEN state must show the connected email`() =
+    fun `GIVEN connect succeeds without account email WHEN ConnectAction is sent THEN state must show connected with null email`() =
         runBlockingUnitTest {
-            stubStatus(email = "user@gmail.com")
+            stubStatus(email = null)
             coEvery { connectGoogleDriveUseCase() } returns Result.success(
-                BackupStatusModel(connectedAccountEmail = "user@gmail.com", lastBackupDate = null)
+                BackupStatusModel(
+                    isConnected = true,
+                    connectedAccountEmail = null,
+                    lastBackupDate = null
+                )
             )
             buildSut()
 
             sut.sendAction(BackupUiActions.Action.ConnectAction)
 
             val state = sut.uiState.first()
-            assertTrue(state is BackupUiState.Overview && state.connectedAccountEmail == "user@gmail.com")
+            assertTrue(state is BackupUiState.Overview)
+            assertEquals(true, (state as BackupUiState.Overview).isConnected)
+            assertEquals(null, state.connectedAccountEmail)
         }
 
     @Test
@@ -112,7 +126,11 @@ class BackupViewModelTest : BaseUnitTest() {
             val consentResultIntent = mockk<android.content.Intent>()
             stubStatus(email = "user@gmail.com")
             coEvery { connectGoogleDriveUseCase() } returns Result.success(
-                BackupStatusModel(connectedAccountEmail = "user@gmail.com", lastBackupDate = null)
+                BackupStatusModel(
+                    isConnected = true,
+                    connectedAccountEmail = "user@gmail.com",
+                    lastBackupDate = null
+                )
             )
             buildSut()
             googleDriveAuthorization.consentOutcome =
@@ -136,7 +154,7 @@ class BackupViewModelTest : BaseUnitTest() {
 
             val effect = sut.uiEffects.first()
             assertEquals(
-                BackupUiEffects.SnackbarError(R.string.backup_error_drive_io),
+                BackupUiEffects.ShowSnackbar(R.string.backup_error_drive_io),
                 effect
             )
         }
@@ -151,7 +169,7 @@ class BackupViewModelTest : BaseUnitTest() {
             sut.sendAction(BackupUiActions.Action.RestoreAction)
 
             val effect = sut.uiEffects.first()
-            assertEquals(BackupUiEffects.RestoreCompleted, effect)
+            assertEquals(BackupUiEffects.ShowSnackbar(R.string.backup_restore_completed), effect)
         }
 
     @Test
@@ -164,7 +182,7 @@ class BackupViewModelTest : BaseUnitTest() {
             sut.sendAction(BackupUiActions.Action.BackupNowAction)
 
             val effect = sut.uiEffects.first()
-            assertEquals(BackupUiEffects.BackupCompleted, effect)
+            assertEquals(BackupUiEffects.ShowSnackbar(R.string.backup_backup_completed), effect)
             val state = sut.uiState.first()
             assertTrue(state is BackupUiState.Overview && state.lastBackupDate == 1000L)
         }
@@ -172,16 +190,16 @@ class BackupViewModelTest : BaseUnitTest() {
     @Test
     fun `GIVEN disconnect succeeds WHEN DisconnectAction is sent THEN DisconnectCompleted effect must be emitted and state must be cleared`() =
         runBlockingUnitTest {
-            stubStatus(email = null, lastBackupDate = null)
+            stubStatus(email = null, lastBackupDate = null, isConnected = false)
             coEvery { disconnectGoogleDriveUseCase() } returns successEmptyResult()
             buildSut()
 
             sut.sendAction(BackupUiActions.Action.DisconnectAction)
 
             val effect = sut.uiEffects.first()
-            assertEquals(BackupUiEffects.DisconnectCompleted, effect)
+            assertEquals(BackupUiEffects.ShowSnackbar(R.string.backup_disconnected), effect)
             val state = sut.uiState.first()
-            assertTrue(state is BackupUiState.Overview && state.connectedAccountEmail == null)
+            assertTrue(state is BackupUiState.Overview && !state.isConnected)
         }
 
     @Test
@@ -195,7 +213,7 @@ class BackupViewModelTest : BaseUnitTest() {
 
             val effect = sut.uiEffects.first()
             assertEquals(
-                BackupUiEffects.SnackbarError(R.string.backup_error_no_backup_found),
+                BackupUiEffects.ShowSnackbar(R.string.backup_error_no_backup_found),
                 effect
             )
         }

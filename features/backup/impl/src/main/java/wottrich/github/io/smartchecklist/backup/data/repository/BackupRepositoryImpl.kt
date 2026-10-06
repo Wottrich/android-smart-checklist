@@ -37,41 +37,45 @@ internal class BackupRepositoryImpl(
 ) : BackupRepository {
 
     override suspend fun getBackupStatus(): BackupStatusModel = BackupStatusModel(
+        isConnected = backupPreferencesDatasource.isConnected(),
         connectedAccountEmail = backupPreferencesDatasource.getConnectedAccountEmail(),
         lastBackupDate = backupPreferencesDatasource.getLastBackupDate()
     )
 
     override suspend fun connect(): Result<BackupStatusModel> {
-        return when (val outcome = googleDriveAuthorization.authorize()) {
-            is GoogleDriveAuthorization.AuthorizationOutcome.Granted -> {
-                outcome.accountEmail?.let { email ->
-                    backupPreferencesDatasource.setConnectedAccountEmail(email)
-                }
-                Result.success(getBackupStatus())
-            }
+        val tokenResult = accessTokenOrFailure()
+        val granted = tokenResult.getOrNull()
+            ?: return Result.failure(checkNotNull(tokenResult.exceptionOrNull()))
 
-            is GoogleDriveAuthorization.AuthorizationOutcome.NeedsConsent ->
-                Result.failure(BackupError.NeedsConsent())
-
-            is GoogleDriveAuthorization.AuthorizationOutcome.Failed ->
-                Result.failure(BackupError.DriveIoError(outcome.exception))
+        // The email is best-effort: the authorization result does not always carry
+        // the account, but the consent itself is what "connected" means.
+        val status = withContext(dispatchersProviders.io) {
+            backupPreferencesDatasource.setConnectionState(
+                connected = true,
+                connectedAccountEmail = granted.accountEmail,
+                lastBackupDate = backupPreferencesDatasource.getLastBackupDate()
+            )
+            getBackupStatus()
         }
+        return Result.success(status)
     }
 
     override suspend fun disconnect(): Result<UseCase.Empty> {
         return withContext(dispatchersProviders.io) {
             googleDriveAuthorization.revokeAccess()
-            backupPreferencesDatasource.setConnectedAccountEmail(null)
-            backupPreferencesDatasource.setLastBackupDate(null)
+            backupPreferencesDatasource.setConnectionState(
+                connected = false,
+                connectedAccountEmail = null,
+                lastBackupDate = null
+            )
             Result.success(UseCase.Empty())
         }
     }
 
-
     override suspend fun createBackup(): Result<UseCase.Empty> {
-        val outcome = googleDriveAuthorization.authorize()
-        val accessToken = (outcome as? GoogleDriveAuthorization.AuthorizationOutcome.Granted)?.accessToken
-            ?: return Result.failure(toAuthorizationError(outcome))
+        val tokenResult = accessTokenOrFailure()
+        val granted = tokenResult.getOrNull()
+            ?: return Result.failure(checkNotNull(tokenResult.exceptionOrNull()))
 
         return withContext(dispatchersProviders.io) {
             val now = System.currentTimeMillis()
@@ -85,38 +89,38 @@ internal class BackupRepositoryImpl(
                 return@withContext Result.failure(BackupError.DriveIoError(exception))
             }
             val writeResult = driveBackupDatasource.write(
-                accessToken = accessToken,
+                accessToken = granted.accessToken,
                 fileName = GoogleDriveBackupConfig.BACKUP_FILE_NAME,
                 content = content
             )
-            return@withContext when {
-                writeResult.isSuccess -> {
-                    backupPreferencesDatasource.setLastBackupDate(now)
-                    Result.success(UseCase.Empty())
-                }
-
-                else -> Result.failure(toDriveError(writeResult.exceptionOrNull() ?: unknownDriveError()))
+            if (writeResult.isFailure) {
+                return@withContext Result.failure(
+                    toDriveError(checkNotNull(writeResult.exceptionOrNull()))
+                )
             }
+            backupPreferencesDatasource.setLastBackupDate(now)
+            Result.success(UseCase.Empty())
         }
     }
 
     override suspend fun restoreBackup(): Result<UseCase.Empty> {
-        val outcome = googleDriveAuthorization.authorize()
-        val accessToken = (outcome as? GoogleDriveAuthorization.AuthorizationOutcome.Granted)?.accessToken
-            ?: return Result.failure(toAuthorizationError(outcome))
+        val tokenResult = accessTokenOrFailure()
+        val granted = tokenResult.getOrNull()
+            ?: return Result.failure(checkNotNull(tokenResult.exceptionOrNull()))
 
         return withContext(dispatchersProviders.io) {
             val contentResult = driveBackupDatasource.read(
-                accessToken = accessToken,
+                accessToken = granted.accessToken,
                 fileName = GoogleDriveBackupConfig.BACKUP_FILE_NAME
             )
+            if (contentResult.isFailure) {
+                return@withContext Result.failure(
+                    toDriveError(checkNotNull(contentResult.exceptionOrNull()))
+                )
+            }
             val content: ByteArray? = contentResult.getOrNull()
             if (content == null) {
-                // success(null) = no backup yet; a failure carries its own cause.
-                val outcome = contentResult.exceptionOrNull()
-                    ?.let { Result.failure<UseCase.Empty>(toDriveError(it)) }
-                    ?: Result.failure<UseCase.Empty>(BackupError.NoBackupFound())
-                return@withContext outcome
+                return@withContext Result.failure(BackupError.NoBackupFound())
             }
 
             val backupFile = try {
@@ -132,18 +136,24 @@ internal class BackupRepositoryImpl(
         }
     }
 
-    private fun toAuthorizationError(outcome: GoogleDriveAuthorization.AuthorizationOutcome): Exception =
-        when (outcome) {
-            is GoogleDriveAuthorization.AuthorizationOutcome.NeedsConsent -> BackupError.NeedsConsent()
-            is GoogleDriveAuthorization.AuthorizationOutcome.Failed -> BackupError.DriveIoError(outcome.exception)
-            is GoogleDriveAuthorization.AuthorizationOutcome.Granted ->
-                BackupError.DriveIoError(IllegalStateException("Granted without token"))
+    /**
+     * Silent-first authorization shared by every Drive operation. `Ok` carries the
+     * whole [GoogleDriveAuthorization.AuthorizationOutcome.Granted] (token + best
+     * effort email); `Err` carries the user-presentable [BackupError].
+     */
+    private suspend fun accessTokenOrFailure(): Result<GoogleDriveAuthorization.AuthorizationOutcome.Granted> {
+        return when (val outcome = googleDriveAuthorization.authorize()) {
+            is GoogleDriveAuthorization.AuthorizationOutcome.Granted -> Result.success(outcome)
+            is GoogleDriveAuthorization.AuthorizationOutcome.NeedsConsent ->
+                Result.failure(BackupError.NeedsConsent())
+
+            is GoogleDriveAuthorization.AuthorizationOutcome.Failed ->
+                Result.failure(BackupError.DriveIoError(outcome.exception))
         }
+    }
 
     private fun toDriveError(exception: Throwable): Exception = when (exception) {
         is BackupError -> exception
         else -> BackupError.DriveIoError(exception as? Exception ?: Exception(exception))
     }
-
-    private fun unknownDriveError(): Exception = IllegalStateException("Drive operation failed without exception")
 }

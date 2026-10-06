@@ -59,7 +59,8 @@ private fun Module.datasources() {
             dispatchersProviders = get()
         )
     }
-    factory<DriveBackupDatasource> { DriveBackupDatasourceImpl(get()) }
+    single<DriveBackupDatasource> { DriveBackupDatasourceImpl(get()) }
+    factory<BackupFileSerializer> { BackupFileSerializerImpl() }
 }
 
 private fun Module.repository() {
@@ -81,5 +82,4 @@ private fun Module.useCases() {
     factory<DisconnectGoogleDriveUseCase> { DisconnectGoogleDriveUseCaseImpl(get()) }
     factory<CreateBackupUseCase> { CreateBackupUseCaseImpl(get()) }
     factory<RestoreBackupUseCase> { RestoreBackupUseCaseImpl(get()) }
-    factory<BackupFileSerializer> { BackupFileSerializerImpl() }
 }
