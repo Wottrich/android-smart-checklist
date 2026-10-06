@@ -5,7 +5,7 @@ Um aplicativo para organizar o seu dia. Crie listas de tarefas e conclua elas co
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img alt="License" src="https://img.shields.io/badge/License-MIT-blue.svg"/></a>
-  <a href="https://android-arsenal.com/api?level=21"><img alt="API" src="https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat"/></a>
+  <a href="https://android-arsenal.com/api?level=23"><img alt="API" src="https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat"/></a>
 </p>
 
 <p align="center">
@@ -15,8 +15,8 @@ Um aplicativo para organizar o seu dia. Crie listas de tarefas e conclua elas co
 # Tech Stack
 
 Nivel de projeto
-- SDK Level minino: 21+.
-- 100% do aplicativo desenvolvido em Kotlin (v1.5.21).
+- SDK Level minino: 23+.
+- 100% do aplicativo desenvolvido em Kotlin.
 
 Jetpack
 - Compose - Para desvolvimento das UIs do app utilizei Compose.
@@ -34,6 +34,10 @@ Arquitetura
 ![kotlin](https://user-images.githubusercontent.com/24254062/142502967-31914480-d58b-4456-97ad-6c7237650c5a.png)
 ![jetpack](https://user-images.githubusercontent.com/24254062/142502983-a2c083c5-9116-4483-bfff-05ccd29c7b0b.png)
 ![app_bundle](https://user-images.githubusercontent.com/24254062/142503195-b254a0ac-29ee-4dbe-acb9-abb77ea1ef33.png)
+
+# Documentação
+
+A documentação completa do projeto está em [`docs/README.md`](docs/README.md): arquitetura, bibliotecas, build e CI, convenções, testes e glossário. Para agentes de IA, o ponto de entrada é [`AGENTS.md`](AGENTS.md).
 
 # Contributions
 
