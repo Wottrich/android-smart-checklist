@@ -1,7 +1,16 @@
+import java.util.Properties
+
 plugins {
     id("wottrich.github.io.smartchecklist.android.app")
     id("wottrich.github.io.smartchecklist.compose")
     alias(libs.plugins.ksp)
+}
+
+// Release signing secrets live in /keystore.properties (gitignored — see .gitignore).
+// Replace the mock values there with your real keystore path/passwords/alias.
+val keystoreProperties = Properties().apply {
+    val file = rootProject.file("keystore.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
 }
 
 android {
@@ -14,10 +23,26 @@ android {
         buildConfigField("String", "PRIVACY_POLICY_URL", "\"https://github.com/Wottrich/android-smart-checklist/blob/master/privacity_rules.txt\"")
     }
 
+    signingConfigs {
+        if (keystoreProperties.isNotEmpty()) {
+            create("release") {
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         getByName("release") {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (keystoreProperties.isNotEmpty()) {
+                signingConfigs.getByName("release")
+            } else {
+                // No keystore.properties configured (e.g. fresh clone/CI): fall back so the build still works.
+                signingConfigs.getByName("debug")
+            }
         }
     }
 

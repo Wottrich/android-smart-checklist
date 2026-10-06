@@ -76,3 +76,8 @@ lint/tmp/
 
 # macos
 *.DS_Store
+
+# Release signing secrets (never commit)
+/keystore.properties
+*.keystore
+
