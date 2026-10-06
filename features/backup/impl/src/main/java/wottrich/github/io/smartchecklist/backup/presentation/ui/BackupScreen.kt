@@ -68,6 +68,17 @@ private fun BackupScreenContent(
     ) { result ->
         if (result.resultCode == android.app.Activity.RESULT_OK) {
             viewModel.sendAction(BackupUiActions.Action.ConsentCompletedAction(result.data))
+        } else {
+            // GMS reports failures inside the consent flow (client/SHA-1 mismatch,
+            // unregistered test user…) as RESULT_CANCELED carrying error extras.
+            val extras = result.data?.extras
+            if (extras != null) {
+                val extrasDescription = extras.keySet().joinToString(", ") { key ->
+                    "$key=${extras.get(key)}"
+                }
+                android.util.Log.w("BackupConsent", "Consent canceled with extras: $extrasDescription")
+            }
+            viewModel.sendAction(BackupUiActions.Action.ConsentCanceledAction)
         }
     }
 

@@ -14,5 +14,8 @@ interface BackupUiActions {
 
         /** Carries the `onActivityResult` data of the consent screen (null = canceled). */
         data class ConsentCompletedAction(val consentResultIntent: Intent?) : Action()
+
+        /** The consent screen was closed without completing (user back, or GMS error). */
+        data object ConsentCanceledAction : Action()
     }
 }

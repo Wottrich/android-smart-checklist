@@ -19,6 +19,7 @@
     <string name="backup_backup_completed">Backup created successfully</string>
     <string name="backup_restore_completed">Backup restored successfully</string>
     <string name="backup_disconnected">Google Drive disconnected</string>
+    <string name="backup_connect_canceled">Google Drive connection was not completed.</string>
     <string name="backup_error_not_connected">Connect your Google account before using the backup.</string>
     <string name="backup_error_no_backup_found">No backup found on Google Drive.</string>
     <string name="backup_error_drive_io">Something went wrong while talking to Google Drive. Check your connection and try again.</string>

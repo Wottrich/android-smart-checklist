@@ -51,7 +51,8 @@ internal class GoogleDriveAuthorizationImpl(
             .setRequestedScopes(listOf(Scope(DriveScopes.DRIVE_APPDATA)))
             .build()
         val result = try {
-            authorizationClient.authorize(request).await()
+            val authorization = authorizationClient.authorize(request).await()
+            authorization
         } catch (exception: Exception) {
             return AuthorizationOutcome.Failed(exception)
         }

@@ -62,6 +62,7 @@ class BackupViewModel(
             BackupUiActions.Action.BackupNowAction -> onBackupNowAction()
             BackupUiActions.Action.RestoreAction -> onRestoreAction()
             is BackupUiActions.Action.ConsentCompletedAction -> onConsentCompletedAction(action)
+            BackupUiActions.Action.ConsentCanceledAction -> onConsentCanceledAction()
         }
     }
 
@@ -116,6 +117,14 @@ class BackupViewModel(
                 is GoogleDriveAuthorization.AuthorizationOutcome.Failed ->
                     handleFailure(outcome.exception)
             }
+        }
+    }
+
+    /** Consent screen closed without granting (user choice or a GMS-side error). */
+    private fun onConsentCanceledAction() {
+        setWorking(false)
+        launchIO {
+            _uiEffects.emit(BackupUiEffects.SnackbarError(R.string.backup_connect_canceled))
         }
     }
 
