@@ -20,6 +20,10 @@ coreTesting = "2.1.0"
 junit = "4.13.2"
 junitExt = "1.1.3-beta01"
 espressoCore = "3.4.0-beta01"
+playServicesAuth = "21.6.0"
+googleApiClientAndroid = "2.8.0"
+googleApiServicesDrive = "v3-rev20260916-2.0.0"
+kotlinxSerializationJson = "1.7.3"
 [libraries]
 # Android
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
@@ -27,6 +31,7 @@ android-core-ktx = { group="androidx.core", name="core-ktx", version.ref="coreKt
 android-app-compat = { group="androidx.appcompat", name="appcompat", version.ref="appCompat" }
 android-material = { group="com.google.android.material", name="material", version.ref="androidMaterial" }
 android-activity-ktx = { group="androidx.activity",  name="activity-ktx", version.ref="androidActivityKtx"}
+android-activity-compose = { group="androidx.activity", name="activity-compose", version.ref="androidActivityKtx" }
 # Compose
 compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "composeBom" }
 compose-ui-tooling = { group="androidx.compose.ui", name="ui-tooling" }
@@ -37,8 +42,14 @@ compose-icons = { group="androidx.compose.material", name="material-icons-core" 
 gradlePlugins-compose-compiler = { module = "org.jetbrains.kotlin:compose-compiler-gradle-plugin", version.ref = "kotlin" }
 # Coroutines
 coroutines-core = { group="org.jetbrains.kotlinx", name="kotlinx-coroutines-core", version.ref="coroutines" }
+coroutines-play-services = { group="org.jetbrains.kotlinx", name="kotlinx-coroutines-play-services", version.ref="coroutines" }
 # Gson
 gson = { group="com.squareup.retrofit2", name="converter-gson", version.ref="retrofit" }
+# Google Drive backup (issue #94) — the only allowed network feature
+play-services-auth = { group="com.google.android.gms", name="play-services-auth", version.ref="playServicesAuth" }
+google-api-client-android = { group="com.google.api-client", name="google-api-client-android", version.ref="googleApiClientAndroid" }
+google-api-services-drive = { group="com.google.apis", name="google-api-services-drive", version.ref="googleApiServicesDrive" }
+kotlinx-serialization-json = { group="org.jetbrains.kotlinx", name="kotlinx-serialization-json", version.ref="kotlinxSerializationJson" }
 # Koin
 koin-core = { group="io.insert-koin", name="koin-core", version.ref="koin" }
 koin-android = { group="io.insert-koin", name="koin-android", version.ref="koin" }
@@ -74,6 +85,7 @@ jetbrains-kotlin-jvm = { id="org.jetbrains.kotlin.jvm", version.ref="kotlin" }
 jetbrains-kotlin-parcelize = { id="org.jetbrains.kotlin.plugin.parcelize", version.ref="kotlin" }
 ksp = { id="com.google.devtools.ksp", version.ref="ksp" }
 compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 [bundles]
 compose-default = [ "compose-material", "compose-icons" ]
 compose-navigation-default = [ "compose-navigation"]

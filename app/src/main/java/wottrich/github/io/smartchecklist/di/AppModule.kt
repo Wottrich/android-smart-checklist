@@ -1,5 +1,6 @@
 package wottrich.github.io.smartchecklist.di
 
+import wottrich.github.io.smartchecklist.backup.di.backupModule
 import wottrich.github.io.smartchecklist.checklist.di.checklistModule
 import wottrich.github.io.smartchecklist.coroutines.di.coroutinesModule
 import wottrich.github.io.smartchecklist.datasource.injection.databaseModule
@@ -33,6 +34,7 @@ object AppModule {
         taskModule,
         supportModule,
         newChecklistModule,
+        backupModule,
 
         //Database
         databaseModule,
