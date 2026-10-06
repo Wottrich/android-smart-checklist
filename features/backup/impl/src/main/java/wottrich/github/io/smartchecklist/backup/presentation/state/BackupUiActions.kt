@@ -1,5 +1,7 @@
 package wottrich.github.io.smartchecklist.backup.presentation.state
 
+import android.content.Intent
+
 interface BackupUiActions {
 
     fun sendAction(action: Action)
@@ -9,5 +11,8 @@ interface BackupUiActions {
         data object DisconnectAction : Action()
         data object BackupNowAction : Action()
         data object RestoreAction : Action()
+
+        /** Carries the `onActivityResult` data of the consent screen (null = canceled). */
+        data class ConsentCompletedAction(val consentResultIntent: Intent?) : Action()
     }
 }

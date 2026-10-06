@@ -1,6 +1,7 @@
 package wottrich.github.io.smartchecklist.backup.google
 
 import android.content.Context
+import android.content.Intent
 import com.google.android.gms.auth.api.identity.AuthorizationRequest
 import com.google.android.gms.auth.api.identity.AuthorizationResult
 import com.google.android.gms.auth.api.identity.Identity
@@ -55,6 +56,19 @@ internal class GoogleDriveAuthorizationImpl(
             return AuthorizationOutcome.Failed(exception)
         }
         return result.toOutcome()
+    }
+
+    override suspend fun completeConsent(consentResultIntent: Intent?): AuthorizationOutcome {
+        if (consentResultIntent == null) {
+            return AuthorizationOutcome.Failed(IllegalStateException("Consent result finished without data"))
+        }
+        return withContext(dispatchersProviders.io) {
+            try {
+                authorizationClient.getAuthorizationResultFromIntent(consentResultIntent).toOutcome()
+            } catch (exception: Exception) {
+                AuthorizationOutcome.Failed(exception)
+            }
+        }
     }
 
     private fun AuthorizationResult.toOutcome(): AuthorizationOutcome {

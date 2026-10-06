@@ -60,12 +60,14 @@ private fun BackupScreenContent(
     val context = androidx.compose.ui.platform.LocalContext.current
 
     // Consent resolution: launching the resolvable pending intent from
-    // `AuthorizationClient`, then re-sending ConnectAction when the user granted the scope.
+    // `AuthorizationClient`. The result data intent must be consumed by the
+    // ViewModel (`getAuthorizationResultFromIntent`) — that is where the access
+    // token comes from.
     val consentLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartIntentSenderForResult()
     ) { result ->
         if (result.resultCode == android.app.Activity.RESULT_OK) {
-            viewModel.sendAction(BackupUiActions.Action.ConnectAction)
+            viewModel.sendAction(BackupUiActions.Action.ConsentCompletedAction(result.data))
         }
     }
 

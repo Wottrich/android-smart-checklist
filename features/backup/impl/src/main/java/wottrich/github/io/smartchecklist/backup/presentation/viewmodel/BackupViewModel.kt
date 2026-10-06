@@ -44,6 +44,9 @@ class BackupViewModel(
     private val _uiEffects = SingleShotEventBus<BackupUiEffects>()
     val uiEffects = _uiEffects.events
 
+    /** Action interrupted by the consent flow, re-dispatched after consent completes. */
+    private var actionPendingConsent: BackupUiActions.Action = BackupUiActions.Action.ConnectAction
+
     init {
         launchIO {
             getBackupStatusUseCase().onSuccess { status ->
@@ -58,6 +61,7 @@ class BackupViewModel(
             BackupUiActions.Action.DisconnectAction -> onDisconnectAction()
             BackupUiActions.Action.BackupNowAction -> onBackupNowAction()
             BackupUiActions.Action.RestoreAction -> onRestoreAction()
+            is BackupUiActions.Action.ConsentCompletedAction -> onConsentCompletedAction(action)
         }
     }
 
@@ -70,7 +74,7 @@ class BackupViewModel(
                 }
                 .onFailure { exception ->
                     if (exception is BackupError.NeedsConsent) {
-                        requestConsent()
+                        requestConsent(followUpAction = BackupUiActions.Action.ConnectAction)
                     } else {
                         handleFailure(exception)
                     }
@@ -78,13 +82,40 @@ class BackupViewModel(
         }
     }
 
-    private suspend fun requestConsent() {
+    /**
+     * Asks [GoogleDriveAuthorization] for the resolvable consent intent and emits
+     * [BackupUiEffects.RequestConsent]. [followUpAction] is re-dispatched once the
+     * consent result is consumed ([BackupUiActions.Action.ConsentCompletedAction]).
+     */
+    private suspend fun requestConsent(followUpAction: BackupUiActions.Action) {
         setWorking(false)
+        actionPendingConsent = followUpAction
         when (val outcome = googleDriveAuthorization.authorize()) {
             is GoogleDriveAuthorization.AuthorizationOutcome.NeedsConsent ->
                 _uiEffects.emit(BackupUiEffects.RequestConsent(outcome.resolvablePendingIntent))
 
-            else -> _uiEffects.emit(BackupUiEffects.SnackbarError(R.string.backup_error_drive_io))
+            // Consent is already granted (e.g. silent token refresh): no UI needed.
+            else -> sendAction(followUpAction)
+        }
+    }
+
+    /**
+     * Consumes the consent activity result — the access token comes from this
+     * result (`getAuthorizationResultFromIntent`), never from calling `authorize`
+     * again, or Play services would keep answering `hasResolution() == true`.
+     */
+    private fun onConsentCompletedAction(action: BackupUiActions.Action.ConsentCompletedAction) {
+        launchIO {
+            when (val outcome = googleDriveAuthorization.completeConsent(action.consentResultIntent)) {
+                is GoogleDriveAuthorization.AuthorizationOutcome.Granted ->
+                    sendAction(actionPendingConsent)
+
+                is GoogleDriveAuthorization.AuthorizationOutcome.NeedsConsent ->
+                    _uiEffects.emit(BackupUiEffects.RequestConsent(outcome.resolvablePendingIntent))
+
+                is GoogleDriveAuthorization.AuthorizationOutcome.Failed ->
+                    handleFailure(outcome.exception)
+            }
         }
     }
 
@@ -108,7 +139,7 @@ class BackupViewModel(
                     refreshOverview()
                     _uiEffects.emit(BackupUiEffects.BackupCompleted)
                 }
-                .onFailure { exception -> handleFailure(exception) }
+                .onFailure { exception -> handleFailureOrConsent(exception, BackupUiActions.Action.BackupNowAction) }
         }
     }
 
@@ -120,7 +151,18 @@ class BackupViewModel(
                     refreshOverview()
                     _uiEffects.emit(BackupUiEffects.RestoreCompleted)
                 }
-                .onFailure { exception -> handleFailure(exception) }
+                .onFailure { exception -> handleFailureOrConsent(exception, BackupUiActions.Action.RestoreAction) }
+        }
+    }
+
+    private suspend fun handleFailureOrConsent(
+        exception: Throwable,
+        followUpAction: BackupUiActions.Action,
+    ) {
+        if (exception is BackupError.NeedsConsent) {
+            requestConsent(followUpAction)
+        } else {
+            handleFailure(exception)
         }
     }
 

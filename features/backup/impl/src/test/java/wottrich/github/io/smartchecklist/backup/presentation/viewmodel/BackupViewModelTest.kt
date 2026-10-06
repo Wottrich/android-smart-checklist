@@ -107,6 +107,25 @@ class BackupViewModelTest : BaseUnitTest() {
         }
 
     @Test
+    fun `GIVEN the consent result is consumed successfully WHEN ConsentCompletedAction is sent THEN the pending connect must be re-dispatched`() =
+        runBlockingUnitTest {
+            val consentResultIntent = mockk<android.content.Intent>()
+            stubStatus(email = "user@gmail.com")
+            coEvery { connectGoogleDriveUseCase() } returns Result.success(
+                BackupStatusModel(connectedAccountEmail = "user@gmail.com", lastBackupDate = null)
+            )
+            buildSut()
+            googleDriveAuthorization.consentOutcome =
+                GoogleDriveAuthorization.AuthorizationOutcome.Granted("token", "user@gmail.com")
+
+            sut.sendAction(BackupUiActions.Action.ConsentCompletedAction(consentResultIntent))
+
+            val state = sut.uiState.first()
+            assertTrue(state is BackupUiState.Overview && state.connectedAccountEmail == "user@gmail.com")
+            assertEquals(listOf<android.content.Intent?>(consentResultIntent), googleDriveAuthorization.completeConsentIntents)
+        }
+
+    @Test
     fun `GIVEN connect fails WHEN ConnectAction is sent THEN a snackbar error effect must be emitted`() =
         runBlockingUnitTest {
             stubStatus(email = null)
