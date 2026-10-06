@@ -3,9 +3,8 @@ package wottrich.github.io.smartchecklist.backup.google
 import android.app.PendingIntent
 
 /**
- * Authorization seam of the backup feature — the only class hierarchy allowed to
- * talk to Credential Manager (account choice) and `AuthorizationClient`
- * (`drive.appdata` scope grant).
+ * Authorization seam of the backup feature — the only class allowed to talk to
+ * `AuthorizationClient` (`play-services-auth`) for the `drive.appdata` scope grant.
  *
  * Kept internal to `:features:backup:impl` on purpose: the public backup module is
  * pure Kotlin, so consent resolution travels through the ViewModel effects

@@ -23,8 +23,6 @@ dependencies {
     // Google Drive backup (issue #94) — the only networked feature of the app.
     implementation(libs.kotlinx.serialization.json)
     implementation(libs.coroutines.play.services)
-    implementation(libs.androidx.credentials)
-    implementation(libs.googleid)
     implementation(libs.play.services.auth) {
         exclude(group = "com.google.guava", module = "listenablefuture")
     }

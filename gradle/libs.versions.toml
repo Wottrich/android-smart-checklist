@@ -21,8 +21,6 @@ junit = "4.13.2"
 junitExt = "1.1.3-beta01"
 espressoCore = "3.4.0-beta01"
 playServicesAuth = "21.6.0"
-androidxCredentials = "1.3.0"
-googleid = "1.1.1"
 googleApiClientAndroid = "2.8.0"
 googleApiServicesDrive = "v3-rev20260916-2.0.0"
 kotlinxSerializationJson = "1.7.3"
@@ -49,8 +47,6 @@ coroutines-play-services = { group="org.jetbrains.kotlinx", name="kotlinx-corout
 gson = { group="com.squareup.retrofit2", name="converter-gson", version.ref="retrofit" }
 # Google Drive backup (issue #94) — the only allowed network feature
 play-services-auth = { group="com.google.android.gms", name="play-services-auth", version.ref="playServicesAuth" }
-androidx-credentials = { group="androidx.credentials", name="credentials", version.ref="androidxCredentials" }
-googleid = { group="com.google.android.libraries.identity.googleid", name="googleid", version.ref="googleid" }
 google-api-client-android = { group="com.google.api-client", name="google-api-client-android", version.ref="googleApiClientAndroid" }
 google-api-services-drive = { group="com.google.apis", name="google-api-services-drive", version.ref="googleApiServicesDrive" }
 kotlinx-serialization-json = { group="org.jetbrains.kotlinx", name="kotlinx-serialization-json", version.ref="kotlinxSerializationJson" }
