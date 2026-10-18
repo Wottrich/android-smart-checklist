@@ -1,0 +1,4 @@
+# Service account JSON is passed via env (never written to disk).
+json_key_data(ENV["PLAY_STORE_SERVICE_ACCOUNT_JSON"])
+
+package_name("wottrich.github.io.smartchecklist")
