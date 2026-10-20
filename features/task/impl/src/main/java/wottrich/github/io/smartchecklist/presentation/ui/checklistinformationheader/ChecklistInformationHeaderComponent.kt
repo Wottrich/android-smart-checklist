@@ -36,6 +36,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
@@ -83,7 +84,8 @@ private fun ChecklistInformationHeader(
                 modifier = Modifier.weight(1f),
                 textState = RowDefaults.text(
                     state.checklistName,
-                    style = MaterialTheme.typography.h5
+                    style = MaterialTheme.typography.h5,
+                    fontWeight = FontWeight.Bold
                 )
             )
             CompletableCountComponent(
@@ -94,12 +96,6 @@ private fun ChecklistInformationHeader(
                 onSortTaskClick = onSortTaskClick
             )
         }
-        Spacer(Modifier.height(Dimens.BaseFour.SizeOne))
-        CompletableProgressComponent(
-            itemWidth.intValue.toFloat(),
-            state.completedTasksCount,
-            state.totalTasksCount
-        )
     }
 }
 

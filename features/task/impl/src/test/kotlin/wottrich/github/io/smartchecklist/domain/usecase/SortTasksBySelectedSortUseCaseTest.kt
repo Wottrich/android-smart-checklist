@@ -29,7 +29,7 @@ class SortTasksBySelectedSortUseCaseTest : BaseUnitTest() {
             val tasks = buildTasksCompletedFirst()
             val tasksSorted =
                 sut(SortTasksBySelectedSortUseCase.Params(selectedSortItem, tasks)).getOrNull()
-            assertEquals(tasks.map { BaseTaskListItem.TaskItem(it) }, tasksSorted)
+            assertEquals(tasks.reversed().map { BaseTaskListItem.TaskItem(it) }, tasksSorted)
         }
 
     @Test

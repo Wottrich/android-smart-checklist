@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import wottrich.github.io.smartchecklist.android.BaseViewModel
 import wottrich.github.io.smartchecklist.coroutines.base.onSuccess
+import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistSectionWithTask
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.domain.usecase.ObserveChecklistWithTasksUseCase
 
@@ -25,7 +26,10 @@ class ChecklistInformationHeaderViewModel(
                         _uiState.value = uiState.value.copy(
                             isLoading = false,
                             checklistName = checklistWithTasks.checklist.name,
-                            completedTasksCount = getCompletedTasksCount(checklistWithTasks.tasks),
+                            completedTasksCount = getCompletedTasksCount(
+                                checklistWithTasks.tasks,
+                                checklistWithTasks.checklistSectionEmbedded
+                            ),
                             totalTasksCount = checklistWithTasks.tasks.size
                         )
                     }
@@ -34,8 +38,12 @@ class ChecklistInformationHeaderViewModel(
         }
     }
 
-    private fun getCompletedTasksCount(tasks: List<Task>): Int {
-        return tasks.filter { it.isCompleted }.size
+    private fun getCompletedTasksCount(
+        tasks: List<Task>,
+        checklistSection: List<ChecklistSectionWithTask>
+    ): Int {
+        val sectionTasks = checklistSection.map { it.tasks }.flatten()
+        return tasks.filter { it.isCompleted }.size + sectionTasks.filter { it.isCompleted }.size
     }
 }
 

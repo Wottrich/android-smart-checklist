@@ -64,6 +64,7 @@ private fun DeleteChecklistBottomSheetComponent(
     ApplicationTheme {
         Surface {
             Column(
+                modifier = Modifier.padding(bottom = Dimens.BaseFour.SizeFour),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 StyledText(textStyle = MaterialTheme.typography.h5) {
