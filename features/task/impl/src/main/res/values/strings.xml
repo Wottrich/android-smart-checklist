@@ -24,7 +24,11 @@
     <!--  Sort items  -->
     <string name="task_sort_completed_task_item">Completed tasks</string>
     <string name="task_sort_uncompleted_task_item">Uncompleted tasks</string>
+    <string name="task_sort_completed_bottomsheet_item">Show completed tasks first</string>
+    <string name="task_sort_uncompleted_bottomsheet_item">Show uncompleted tasks first</string>
+    <string name="task_sort_unselect_bottomsheet_item">Remove ordenation</string>
     <string name="task_sort_bottom_sheet_select_sort_failure">Select sort error, please try again!</string>
+    <string name="checklist_sort_task_option_content_description">Click to open screen to sort task</string>
 
     <!--  Completable Count Strings  -->
     <string name="completable_count_bottom_sheet_title">Task counter</string>

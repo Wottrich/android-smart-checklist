@@ -2,4 +2,5 @@
 <resources>
     <string name="checklist_name_screen_type_checklist_name_hint">Enter checklist name</string>
     <string name="checklist_name_create_checklist_button">Done</string>
+    <string name="checklist_name_create_checklist_failed_message">Failed creates new checklist. Try again, please!</string>
 </resources>

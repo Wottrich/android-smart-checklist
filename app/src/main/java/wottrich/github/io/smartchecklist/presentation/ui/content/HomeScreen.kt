@@ -23,7 +23,6 @@ import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.R.string
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.navigation.NavigationHome
-import wottrich.github.io.smartchecklist.navigation.NavigatorTask
 import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
@@ -60,12 +59,6 @@ fun HomeScreen(
             onHelpClick = {
                 navHostController.navigate(NavigationSupport.route)
             },
-            onTaskCounterClicked = {
-                navHostController.navigate(NavigatorTask.Destinations.CompletableCountBottomSheetScreen.route)
-            },
-            onOpenSortTaskList = {
-                navHostController.navigate(NavigatorTask.Destinations.SortTaskListBottomSheetScreen.route)
-            }
         )
     }
 }
@@ -73,11 +66,9 @@ fun HomeScreen(
 @Composable
 private fun Screen(
     onAddNewChecklist: () -> Unit,
-    onChecklistSettings: (checklistId: String) -> Unit,
+    onChecklistSettings: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
-    onTaskCounterClicked: () -> Unit,
-    onOpenSortTaskList: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -117,12 +108,9 @@ private fun Screen(
             TopBarActionContent(
                 checklistState = checklistState,
                 onChecklistSettings = {
-                    checklistState.checklist?.uuid?.let {
-                        onChecklistSettings(it)
-                    }
+                    onChecklistSettings()
                 },
-                homeViewModel = homeViewModel,
-                onOpenSortTaskList = onOpenSortTaskList
+                homeViewModel = homeViewModel
             )
         },
         snackbarHost = { snackbarHostState ->
@@ -139,7 +127,6 @@ private fun Screen(
             homeViewModel = homeViewModel,
             checklistState = checklistState,
             onAddNewChecklist = onAddNewChecklist,
-            onTaskCounterClicked = onTaskCounterClicked,
         )
     }
 }
@@ -180,13 +167,13 @@ private fun DrawerContent(
 private fun TopBarTitleContent(checklistState: HomeState) {
     when {
         checklistState.homeUiState == HomeUiState.Loading -> Unit
-        checklistState.checklist == null -> {
+        checklistState.checklistName.isNullOrBlank() -> {
             Text(text = stringResource(id = string.label_home_fragment))
         }
 
         else -> {
-            val checklist = checkNotNull(checklistState.checklist)
-            Text(text = checklist.name)
+            val checklist = checkNotNull(checklistState.checklistName)
+            Text(text = checklist)
         }
     }
 }
@@ -196,14 +183,12 @@ private fun RowScope.TopBarActionContent(
     checklistState: HomeState,
     onChecklistSettings: () -> Unit,
     homeViewModel: HomeViewModel,
-    onOpenSortTaskList: () -> Unit
 ) {
     if (checklistState.shouldShowActionContent()) {
         HomeTopBarActionsContent(
             isEditMode = checklistState.isEditUiState,
             onChecklistSettings = onChecklistSettings,
             onChangeState = { homeViewModel.sendAction(HomeUiActions.Action.OnChangeEditModeAction) },
-            onOpenSortTaskList = onOpenSortTaskList
         )
     }
 }

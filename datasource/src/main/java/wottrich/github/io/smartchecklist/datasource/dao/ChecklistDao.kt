@@ -24,7 +24,7 @@ import wottrich.github.io.smartchecklist.datasource.entity.ChecklistWithTasksDTO
 interface ChecklistDao {
 
     @Transaction
-    @Query("SELECT * FROM new_checklist")
+    @Query("SELECT * FROM new_checklist WHERE parent_uuid!=null")
     suspend fun selectAllChecklistWithTasks(): List<ChecklistWithTasksDTO>
 
     @Transaction

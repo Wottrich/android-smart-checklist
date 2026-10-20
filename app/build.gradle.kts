@@ -1,13 +1,19 @@
 plugins {
     id("wottrich.github.io.smartchecklist.android.app")
+    id("wottrich.github.io.smartchecklist.compose")
     alias(libs.plugins.ksp)
 }
 
+// Overridable at build time by CI (release pipeline): -PversionCode / -PversionName.
+// Committed values are the defaults used by local builds.
+val appVersionCode = providers.gradleProperty("versionCode").orElse("9").get().toInt()
+val appVersionName = providers.gradleProperty("versionName").orElse("2.0.1").get()
+
 android {
     defaultConfig {
-        applicationId = "wottrich.github.io.androidsmartchecklist"
-        versionCode = 9
-        versionName = "2.0.1"
+        applicationId = "wottrich.github.io.smartchecklist"
+        versionCode = appVersionCode
+        versionName = appVersionName
         multiDexEnabled = true
 
         buildConfigField("String", "PRIVACY_POLICY_URL", "\"https://github.com/Wottrich/android-smart-checklist/blob/master/privacity_rules.txt\"")
@@ -19,13 +25,7 @@ android {
         }
     }
 
-    buildFeatures {
-        compose = true
-        buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.composeCompiler.get()
-    }
+    android.buildFeatures.buildConfig = true
 
     packaging {
         resources.excludes.apply {
@@ -45,10 +45,10 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.android.core.ktx)
     implementation(libs.android.app.compat)
-    implementation(libs.compose.accompanist.system.ui.controller)
     implementation(libs.bundles.compose.default)
     implementation(libs.bundles.koin.default)
     implementation(libs.bundles.compose.navigation.default)
+    implementation(libs.android.activity.ktx)
     implementation(project(path = ":baseui"))
     implementation(project(path = ":datasource"))
     implementation(project(path = ":infrastructure:extensions:intent"))
@@ -58,7 +58,6 @@ dependencies {
     implementation(project(path = ":features:checklist:impl"))
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))
-    implementation(project(path = ":features:quicklychecklist:impl"))
     implementation(project(path = ":ui-privacy-policy:impl"))
     implementation(project(path = ":ui-aboutus"))
     implementation(project(path = ":ui-support"))

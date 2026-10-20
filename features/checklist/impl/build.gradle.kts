@@ -1,5 +1,6 @@
 plugins {
     id("wottrich.github.io.smartchecklist.feature.impl")
+    id("wottrich.github.io.smartchecklist.compose")
 }
 
 android {
@@ -10,8 +11,11 @@ dependencies {
     api(project(path = ":features:checklist:public"))
     implementation(libs.kotlin.stdlib.jdk8)
     implementation(libs.bundles.koin.default)
+    implementation(libs.bundles.compose.default)
     implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":datasource:public"))
+    implementation(project(path = ":infrastructure:components:android"))
+    implementation(project(path = ":infrastructure:components:kotlin"))
     implementation(project(path = ":baseui"))
     testImplementation(project(path = ":test-tools"))
     testImplementation(libs.bundles.test.default)

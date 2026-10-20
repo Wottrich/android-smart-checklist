@@ -6,7 +6,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
@@ -28,18 +28,11 @@ fun RowScope.HomeTopBarActionsContent(
     isEditMode: Boolean,
     onChecklistSettings: () -> Unit,
     onChangeState: () -> Unit,
-    onOpenSortTaskList: () -> Unit
 ) {
     IconButton(onClick = onChecklistSettings) {
         Icon(
             imageVector = Icons.Default.Settings,
             contentDescription = stringResource(R.string.checklist_settings_screen_content_description)
-        )
-    }
-    IconButton(onClick = onOpenSortTaskList) {
-        Icon(
-            imageVector = Icons.Default.List,
-            contentDescription = stringResource(id = R.string.checklist_sort_task_option_content_description)
         )
     }
     EditIconStateContent(isEditMode = isEditMode, onChangeState = onChangeState)
@@ -54,7 +47,6 @@ private fun HomeTopBarActionsContentPreview() {
                 isEditMode = false,
                 onChecklistSettings = { },
                 onChangeState = { },
-                onOpenSortTaskList = { }
             )
         }
         Row {
@@ -62,7 +54,6 @@ private fun HomeTopBarActionsContentPreview() {
                 isEditMode = true,
                 onChecklistSettings = { },
                 onChangeState = { },
-                onOpenSortTaskList = { }
             )
         }
     }

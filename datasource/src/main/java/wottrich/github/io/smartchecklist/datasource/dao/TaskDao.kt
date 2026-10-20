@@ -34,14 +34,8 @@ interface TaskDao {
     @Insert(entity = TaskDTO::class, onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(task: TaskDTO): Long?
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun insertMany(tasks: List<TaskDTO>)
-
     @Update
     suspend fun update(task: TaskDTO)
-
-    @Update
-    suspend fun updateTasks(tasks: List<TaskDTO>)
 
     @Delete
     suspend fun delete(task: TaskDTO)

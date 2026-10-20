@@ -1,17 +1,20 @@
 package wottrich.github.io.smartchecklist.testtools
 
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.TestDispatcher
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
 
-internal val testDispatchers: TestCoroutineDispatcher = TestCoroutineDispatcher()
+@OptIn(ExperimentalCoroutinesApi::class)
+internal val testDispatchers: TestDispatcher = UnconfinedTestDispatcher()
 
 internal fun getMainInjectionRule(
     dispatcher: DispatchersProviders
 ) = KoinTestRule(dispatcher)
 
 internal fun getDispatchersProvidersToTest(
-    testDispatchers: TestCoroutineDispatcher
+    testDispatchers: TestDispatcher
 ): DispatchersProviders {
     return object : DispatchersProviders {
         override val main: CoroutineDispatcher

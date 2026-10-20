@@ -19,22 +19,7 @@
         </activity>
         <activity android:name=".presentation.activity.MainHostActivity"
             android:windowSoftInputMode="adjustResize"
-            android:exported="true">
-            <intent-filter
-                android:autoVerify="true"
-                tools:targetApi="m">
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data
-                    android:scheme="https"
-                    android:host="wottrich.github.io"
-                    android:pathPrefix="/quicklychecklist"
-                    />
-            </intent-filter>
-        </activity>
+            android:exported="true"/>
     </application>
 
 </manifest>

@@ -21,9 +21,13 @@
     <string name="task_item_component_load_tasks_error">Erro ao carregar as tarefas, tente novamente, por favor!</string>
 
     <!--  Sort items  -->
-    <string name="task_sort_completed_task_item">Tasks completadas</string>
-    <string name="task_sort_uncompleted_task_item">Tasks incompletas</string>
+    <string name="task_sort_completed_task_item">Tarefas completadas</string>
+    <string name="task_sort_uncompleted_task_item">Tarefas incompletas</string>
+    <string name="task_sort_completed_bottomsheet_item">Mostrar tarefas completas primeiro</string>
+    <string name="task_sort_uncompleted_bottomsheet_item">Mostrar tarefas incompletas primeiro</string>
+    <string name="task_sort_unselect_bottomsheet_item">Mostrar sem ordenação</string>
     <string name="task_sort_bottom_sheet_select_sort_failure">Erro ao selecionar ordenação, tente novamente, por favor!</string>
+    <string name="checklist_sort_task_option_content_description">Clique para abrir a tela para ordernar as tarefas</string>
 
     <!--  Completable Count Strings  -->
     <string name="completable_count_bottom_sheet_title">Contador de tarefas</string>

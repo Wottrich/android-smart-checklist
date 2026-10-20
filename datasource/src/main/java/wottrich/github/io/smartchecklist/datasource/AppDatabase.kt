@@ -10,9 +10,7 @@ import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
 import wottrich.github.io.smartchecklist.datasource.dao.TaskDao
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistDTO
 import wottrich.github.io.smartchecklist.datasource.entity.TaskDTO
-import wottrich.github.io.smartchecklist.datasource.migration.MIGRATION_III_IV
-import wottrich.github.io.smartchecklist.datasource.migration.MIGRATION_II_III
-import wottrich.github.io.smartchecklist.datasource.migration.MIGRATION_I_II
+import wottrich.github.io.smartchecklist.datasource.migration.migrations
 import wottrich.github.io.smartchecklist.datasource.version.DatabaseVersions
 
 /**
@@ -50,9 +48,7 @@ abstract class AppDatabase : RoomDatabase() {
 
         private fun buildDatabase(context: Context): AppDatabase {
             return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-                .addMigrations(MIGRATION_I_II)
-                .addMigrations(MIGRATION_II_III)
-                .addMigrations(MIGRATION_III_IV)
+                .addMigrations(*migrations)
                 .build()
         }
 

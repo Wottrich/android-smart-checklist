@@ -2,6 +2,7 @@ package wottrich.github.io.smartchecklist.data.repository
 
 import wottrich.github.io.smartchecklist.datasource.data.datasource.TaskDatasource
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
+import wottrich.github.io.smartchecklist.domain.repository.TaskRepository
 
 class TaskRepositoryImpl(
     private val taskDatasource: TaskDatasource
@@ -14,16 +15,8 @@ class TaskRepositoryImpl(
         return taskDatasource.insertTask(task)
     }
 
-    override suspend fun insertManyTasks(tasks: List<Task>) {
-        return taskDatasource.insertManyTasks(tasks)
-    }
-
     override suspend fun updateTask(task: Task) {
         taskDatasource.updateTask(task)
-    }
-
-    override suspend fun updateTasks(tasks: List<Task>) {
-        taskDatasource.updateTasks(tasks)
     }
 
     override suspend fun deleteTask(task: Task) {

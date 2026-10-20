@@ -37,7 +37,8 @@ class GetChecklistDrawerUseCaseTest : BaseUnitTest() {
             dummyTask,
             dummyTask,
             dummyTask
-        )
+        ),
+        checklistSectionEmbedded = listOf()
     )
 
     @Before

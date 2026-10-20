@@ -27,7 +27,7 @@ import wottrich.github.io.smartchecklist.R
 import wottrich.github.io.smartchecklist.baseui.TextOneLine
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.Dimens
-import wottrich.github.io.smartchecklist.presentation.ui.model.HomeDrawerChecklistItemModel
+import wottrich.github.io.smartchecklist.domain.model.HomeDrawerChecklistItemModel
 import wottrich.github.io.smartchecklist.presentation.ui.shared.EditIconStateContent
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerEffect
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeDrawerEvent

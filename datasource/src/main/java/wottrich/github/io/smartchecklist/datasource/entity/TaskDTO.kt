@@ -3,6 +3,7 @@ package wottrich.github.io.smartchecklist.datasource.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 import wottrich.github.io.smartchecklist.datasource.data.model.TaskContract
 import java.util.Calendar
@@ -17,6 +18,9 @@ import wottrich.github.io.smartchecklist.uuid.UuidGenerator
             parentColumns = arrayOf("uuid"),
             childColumns = arrayOf("parent_uuid")
         )
+    ],
+    indices = [
+        Index(value = ["uuid"])
     ]
 )
 data class TaskDTO(

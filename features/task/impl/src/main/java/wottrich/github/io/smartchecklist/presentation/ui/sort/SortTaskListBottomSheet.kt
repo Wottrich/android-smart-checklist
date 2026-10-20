@@ -34,17 +34,19 @@ import wottrich.github.io.smartchecklist.task.R
 
 @Composable
 fun SortTaskListBottomSheet(
-    navController: NavController,
+    onCloseBottomSheet: () -> Unit,
     viewModel: SortTaskListViewModel = koinViewModel()
 ) {
+    LaunchedEffect(Unit) {
+        viewModel.sendAction(SortTaskListAction.Action.OnInit)
+    }
+
     val sortItems = viewModel.sortItems
     val snackbarHostState = remember { SnackbarHostState() }
     Effects(
         viewModel = viewModel,
         snackbarHostState = snackbarHostState,
-        onCloseBottomSheet = {
-            navController.popBackStack()
-        }
+        onCloseBottomSheet = onCloseBottomSheet
     )
     ApplicationTheme {
         SortTaskListComponent(
@@ -122,12 +124,15 @@ private fun SortTaskListComponent(
     }
 }
 
-private fun getTextFromSortType(sortItemType: SortItemType) =
-    when (sortItemType) {
-        SortItemType.UNSELECTED_SORT -> "Sem ordenação"
-        SortItemType.COMPLETED_TASKS -> "Completas"
-        SortItemType.UNCOMPLETED_TASKS -> "Incompletas"
+@Composable
+private fun getTextFromSortType(sortItemType: SortItemType): String {
+    val stringRes = when (sortItemType) {
+        SortItemType.UNSELECTED_SORT -> R.string.task_sort_unselect_bottomsheet_item
+        SortItemType.COMPLETED_TASKS -> R.string.task_sort_completed_bottomsheet_item
+        SortItemType.UNCOMPLETED_TASKS -> R.string.task_sort_uncompleted_bottomsheet_item
     }
+    return stringResource(stringRes)
+}
 
 @Preview(showBackground = true)
 @Composable

@@ -1,8 +1,16 @@
 package wottrich.github.io.smartchecklist.baseui
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.MaterialTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -21,14 +29,13 @@ fun RowComponent(
 
     val boxModifier = modifier
         .fillMaxWidth()
-        .background(MaterialTheme.colors.surface)
 
     Box(
         modifier = boxModifier
     ) {
         val rowModifier = Modifier
             .fillMaxWidth()
-            .padding(Dimens.BaseFour.SizeThree)
+            .padding(Dimens.BaseFour.SizeTwo)
         Row(
             modifier = rowModifier,
             verticalAlignment = Alignment.CenterVertically

@@ -6,6 +6,7 @@ import kotlinx.coroutines.flow.mapNotNull
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
 import wottrich.github.io.smartchecklist.datasource.data.datasource.ChecklistDatasource
 import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
+import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistSectionWithTask
 import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistWithTasks
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistDTO
@@ -47,7 +48,11 @@ class ChecklistDatasourceImpl(
 
     private fun ChecklistWithTasksDTO.mapToChecklist() = ChecklistWithTasks(
         this.checklist.mapDataTo {
-            Checklist(uuid = it.uuid, name = it.name, isSelected = it.isSelected)
+            Checklist(
+                uuid = it.uuid,
+                name = it.name,
+                isSelected = it.isSelected
+            )
         },
         this.tasks.map {
             Task(
@@ -55,6 +60,25 @@ class ChecklistDatasourceImpl(
                 parentUuid = it.parentUuid,
                 name = it.name,
                 isCompleted = it.isCompleted
+            )
+        },
+        this.checklistSectionEmbedded.map { embedded ->
+            ChecklistSectionWithTask(
+                checklistSection = embedded.checklistSection.mapDataTo { section ->
+                    Checklist(
+                        uuid = section.uuid,
+                        parentUuid = section.parentUuid,
+                        name = section.name
+                    )
+                },
+                tasks = embedded.tasks.map { task ->
+                    Task(
+                        uuid = task.uuid,
+                        parentUuid = task.parentUuid,
+                        name = task.name,
+                        isCompleted = task.isCompleted
+                    )
+                }
             )
         }
     )
@@ -94,9 +118,9 @@ class ChecklistDatasourceImpl(
         return checklistDao.observeSelectedChecklist().map { dto ->
             dto ?: return@map null
             Checklist(
-                dto.uuid,
-                dto.name,
-                dto.isSelected
+                uuid = dto.uuid,
+                name = dto.name,
+                isSelected = dto.isSelected
             )
         }
     }
@@ -113,15 +137,15 @@ class ChecklistDatasourceImpl(
 
     private fun ChecklistDTO.mapToModel() =
         Checklist(
-            this.uuid,
-            this.name,
-            this.isSelected
+            uuid = this.uuid,
+            name = this.name,
+            isSelected = this.isSelected
         )
 
     private fun Checklist.mapToDTO() =
         ChecklistDTO(
-            this.uuid,
-            this.name,
-            this.isSelected
+            uuid = this.uuid,
+            name = this.name,
+            isSelected = this.isSelected
         )
 }

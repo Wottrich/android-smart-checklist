@@ -3,9 +3,11 @@ package wottrich.github.io.smartchecklist.baseui.ui
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.Colors
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import wottrich.github.io.smartchecklist.baseui.ui.fonts.robotoFontFamily
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistColors
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.darkColors
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.lightColors
@@ -26,6 +28,9 @@ fun ApplicationTheme(
     ) {
         MaterialTheme(
             colors = LocalSmartChecklistColors.current.toMaterialTheme(),
+            typography = Typography(
+                defaultFontFamily = robotoFontFamily
+            ),
             content = content
         )
     }
@@ -33,19 +38,19 @@ fun ApplicationTheme(
 
 fun SmartChecklistColors.toMaterialTheme(): Colors {
     return Colors(
-        primary,
-        primaryVariant,
-        secondary,
-        secondaryVariant,
-        background,
-        surface,
-        error,
-        onPrimary,
-        onSecondary,
-        onBackground,
-        onSurface,
-        onError,
-        isLight
+        primary = primary,
+        primaryVariant = primaryVariant,
+        secondary = secondary,
+        secondaryVariant = secondaryVariant,
+        background = background,
+        surface = surface,
+        error = error,
+        onPrimary = onPrimary,
+        onSecondary = onSecondary,
+        onBackground = onBackground,
+        onSurface = onSurface,
+        onError = onError,
+        isLight = isLight
     )
 }
 

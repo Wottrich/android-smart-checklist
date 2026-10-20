@@ -10,8 +10,14 @@ data class ChecklistWithTasksDTO(
         parentColumn = "uuid",
         entityColumn = "parent_uuid"
     )
-    override val tasks: List<TaskDTO>
-): ChecklistWithNewTasksContract {
+    override val tasks: List<TaskDTO>,
+    @Relation(
+        parentColumn = "uuid",
+        entityColumn = "parent_uuid",
+        entity = ChecklistDTO::class
+    )
+    override val checklistSectionEmbedded: List<ChecklistSectionWithTaskDTO>
+) : ChecklistWithNewTasksContract {
     override fun toString(): String {
         val string = StringBuilder()
 
@@ -20,7 +26,7 @@ data class ChecklistWithTasksDTO(
         string.appendLine()
 
         tasks.forEach {
-            val isCompleted = if(it.isCompleted) "✓ - " else "✗ - "
+            val isCompleted = if (it.isCompleted) "✓ - " else "✗ - "
             string.append(isCompleted)
             string.appendLine(it.name)
         }

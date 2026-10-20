@@ -2,7 +2,7 @@ package wottrich.github.io.smartchecklist.testtools
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineScope
+import kotlinx.coroutines.test.TestScope
 import org.junit.Before
 import org.junit.Rule
 import wottrich.github.io.smartchecklist.coroutines.dispatcher.DispatchersProviders
@@ -38,10 +38,10 @@ abstract class BaseUnitTest(
     @get:Rule
     val injectionTestRule = injectionTestRuleImpl
 
-    fun runBlockingUnitTest(block: suspend TestCoroutineScope.() -> Unit) =
+    fun runBlockingUnitTest(block: suspend TestScope.() -> Unit) =
         coroutinesTestRule.runBlockingUnitTest(block)
 
-    fun <T> getSuspendValue(block: suspend TestCoroutineScope.() -> T): T {
+    fun <T> getSuspendValue(block: suspend TestScope.() -> T): T {
         var value: T? = null
         coroutinesTestRule.runBlockingUnitTest {
             value = block()

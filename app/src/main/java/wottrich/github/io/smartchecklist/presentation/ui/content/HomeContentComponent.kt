@@ -21,7 +21,6 @@ fun HomeContentComponent(
     checklistState: HomeState,
     onUpdateItemClicked: (Task) -> Unit,
     onError: (Int) -> Unit,
-    onTaskCounterClicked: () -> Unit,
     onNewChecklistClicked: () -> Unit
 ) {
     when (checklistState.homeUiState) {
@@ -30,7 +29,6 @@ fun HomeContentComponent(
             showDeleteIcon = checklistState.isEditUiState,
             onUpdateClicked = onUpdateItemClicked,
             onError = onError,
-            onTaskCounterClicked = onTaskCounterClicked
         )
 
         is HomeUiState.Empty -> HomeEmptyStateComponent(onNewChecklistClicked)
