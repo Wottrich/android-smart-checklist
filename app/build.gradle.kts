@@ -4,11 +4,16 @@ plugins {
     alias(libs.plugins.ksp)
 }
 
+// Overridable at build time by CI (release pipeline): -PversionCode / -PversionName.
+// Committed values are the defaults used by local builds.
+val appVersionCode = providers.gradleProperty("versionCode").orElse("9").get().toInt()
+val appVersionName = providers.gradleProperty("versionName").orElse("2.0.1").get()
+
 android {
     defaultConfig {
         applicationId = "wottrich.github.io.smartchecklist"
-        versionCode = 9
-        versionName = "2.0.1"
+        versionCode = appVersionCode
+        versionName = appVersionName
         multiDexEnabled = true
 
         buildConfigField("String", "PRIVACY_POLICY_URL", "\"https://github.com/Wottrich/android-smart-checklist/blob/master/privacity_rules.txt\"")
