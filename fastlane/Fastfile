@@ -7,6 +7,20 @@ platform :android do
     version_code = options[:version_code] || ENV["VERSION_CODE"]
     UI.user_error!("version_name and version_code are required (tag vX.Y.Z)") unless version_name && version_code
 
+    service_account = ENV["PLAY_STORE_SERVICE_ACCOUNT_JSON"].to_s
+    if service_account.empty?
+      UI.user_error!(
+        "PLAY_STORE_SERVICE_ACCOUNT_JSON is empty. Check that the GitHub secret exists " \
+        "(repo secrets, not environment secrets) and contains the full service account JSON."
+      )
+    end
+    unless service_account.include?("service_account") && service_account.include?("private_key")
+      UI.user_error!(
+        "PLAY_STORE_SERVICE_ACCOUNT_JSON does not look like a service account JSON " \
+        "(expected keys: type=service_account, private_key)."
+      )
+    end
+
     gradle(
       task: "bundle",
       build_type: "Release",
@@ -17,6 +31,7 @@ platform :android do
     )
 
     upload_to_play_store(
+      json_key_data: service_account,
       track: "internal",
       aab: "app/build/outputs/bundle/release/app-release.aab",
       skip_upload_metadata: true,

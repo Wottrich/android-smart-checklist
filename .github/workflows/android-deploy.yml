@@ -32,6 +32,41 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
 
+      - name: Preflight — check required secrets are present
+        env:
+          SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+          KEYSTORE_BASE64: ${{ secrets.PLAY_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.PLAY_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.PLAY_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.PLAY_KEY_PASSWORD }}
+        run: |
+          fail=0
+          check() {
+            local name="$1" value="$2"
+            if [ -z "$value" ]; then
+              echo "::error::secret '$name' is EMPTY or missing (check spelling and that it is a Repository secret)"
+              fail=1
+            else
+              echo "$name: ${#value} chars (ok)"
+            fi
+          }
+          check PLAY_STORE_SERVICE_ACCOUNT_JSON "$SERVICE_ACCOUNT_JSON"
+          check PLAY_KEYSTORE_BASE64 "$KEYSTORE_BASE64"
+          check PLAY_KEYSTORE_PASSWORD "$STORE_PASSWORD"
+          check PLAY_KEY_ALIAS "$KEY_ALIAS"
+          check PLAY_KEY_PASSWORD "$KEY_PASSWORD"
+          if [ "$fail" -eq 0 ]; then
+            echo "$SERVICE_ACCOUNT_JSON" | grep -q '"service_account"' || {
+              echo "::error::PLAY_STORE_SERVICE_ACCOUNT_JSON does not contain a service account JSON (expected \"type\": \"service_account\")"
+              fail=1
+            }
+            echo "$KEYSTORE_BASE64" | base64 -d > /dev/null 2>&1 || {
+              echo "::error::PLAY_KEYSTORE_BASE64 is not valid base64"
+              fail=1
+            }
+          fi
+          exit $fail
+
       - name: Decode release keystore
         env:
           KEYSTORE_BASE64: ${{ secrets.PLAY_KEYSTORE_BASE64 }}
