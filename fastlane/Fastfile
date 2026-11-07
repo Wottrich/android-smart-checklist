@@ -32,7 +32,7 @@ platform :android do
 
     upload_to_play_store(
       json_key_data: service_account,
-      package_name: "wottrich.github.io.smartchecklist",
+      package_name: "wottrich.github.io.androidsmartchecklist",
       track: "internal",
       aab: "app/build/outputs/bundle/release/app-release.aab",
       skip_upload_metadata: true,
