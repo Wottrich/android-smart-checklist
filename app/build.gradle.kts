@@ -11,7 +11,7 @@ val appVersionName = providers.gradleProperty("versionName").orElse("2.0.1").get
 
 android {
     defaultConfig {
-        applicationId = "wottrich.github.io.smartchecklist"
+        applicationId = "wottrich.github.io.androidsmartchecklist"
         versionCode = appVersionCode
         versionName = appVersionName
         multiDexEnabled = true
