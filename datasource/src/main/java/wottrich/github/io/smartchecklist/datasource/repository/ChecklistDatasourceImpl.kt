@@ -51,6 +51,7 @@ class ChecklistDatasourceImpl(
             Checklist(
                 uuid = it.uuid,
                 name = it.name,
+                parentUuid = it.parentUuid,
                 isSelected = it.isSelected
             )
         },
@@ -120,6 +121,7 @@ class ChecklistDatasourceImpl(
             Checklist(
                 uuid = dto.uuid,
                 name = dto.name,
+                parentUuid = dto.parentUuid,
                 isSelected = dto.isSelected
             )
         }
@@ -139,6 +141,7 @@ class ChecklistDatasourceImpl(
         Checklist(
             uuid = this.uuid,
             name = this.name,
+            parentUuid = this.parentUuid,
             isSelected = this.isSelected
         )
 
@@ -146,6 +149,7 @@ class ChecklistDatasourceImpl(
         ChecklistDTO(
             uuid = this.uuid,
             name = this.name,
+            parentUuid = this.parentUuid,
             isSelected = this.isSelected
         )
 }

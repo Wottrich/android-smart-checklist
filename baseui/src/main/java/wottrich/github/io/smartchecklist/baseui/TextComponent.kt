@@ -1,13 +1,22 @@
 package wottrich.github.io.smartchecklist.baseui
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.material.*
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.ContentAlpha
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.ProvideTextStyle
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.tooling.preview.Preview
+import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 
 @Composable
@@ -50,5 +59,23 @@ fun StyledText(
         LocalContentColor provides contentColor,
     ) {
         ProvideTextStyle(textStyle, content)
+    }
+}
+
+@Preview
+@Composable
+private fun TextComponentPreview() {
+    ApplicationTheme {
+        Scaffold() {
+            Column(
+                modifier = Modifier.padding(it)
+            ) {
+                TextOneLine(
+                    primary = {
+                        Text("Hellow")
+                    }
+                )
+            }
+        }
     }
 }

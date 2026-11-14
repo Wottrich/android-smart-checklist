@@ -32,7 +32,7 @@ class SortTasksBySelectedSortUseCase :
                 uncompletedTasks + BaseTaskListItem.SectionItem(R.string.task_sort_completed_task_item) + completedTasks
             }
 
-            SortItemType.UNSELECTED_SORT -> taskItems
+            SortItemType.UNSELECTED_SORT -> taskItems.reversed()
         }
     }
 
