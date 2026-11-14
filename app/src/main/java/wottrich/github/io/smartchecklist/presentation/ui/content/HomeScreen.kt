@@ -25,6 +25,7 @@ import wottrich.github.io.smartchecklist.backup.navigation.NavigationBackup
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.navigation.NavigationHome
 import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
+import wottrich.github.io.smartchecklist.serversync.navigation.NavigationServerSync
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiState
@@ -63,6 +64,9 @@ fun HomeScreen(
             onBackupClick = {
                 navHostController.navigate(NavigationBackup.route)
             },
+            onServerSyncClick = {
+                navHostController.navigate(NavigationServerSync.route)
+            },
         )
     }
 }
@@ -74,6 +78,7 @@ private fun Screen(
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
     onBackupClick: () -> Unit,
+    onServerSyncClick: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -105,6 +110,7 @@ private fun Screen(
                 onAboutUsClick = onAboutUsClick,
                 onHelpClick = onHelpClick,
                 onBackupClick = onBackupClick,
+                onServerSyncClick = onServerSyncClick,
             )
         },
         onTitleContent = {
@@ -145,6 +151,7 @@ private fun DrawerContent(
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
     onBackupClick: () -> Unit,
+    onServerSyncClick: () -> Unit,
 ) {
     fun closeDrawerState() {
         rememberCoroutineScope.launch {
@@ -169,6 +176,10 @@ private fun DrawerContent(
         },
         onBackupClick = {
             onBackupClick()
+            closeDrawerState()
+        },
+        onServerSyncClick = {
+            onServerSyncClick()
             closeDrawerState()
         },
     )

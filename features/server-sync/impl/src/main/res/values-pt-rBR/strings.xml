@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_sync_screen_title">Sincronização com servidor</string>
+    <string name="server_sync_server_url_label">URL do servidor</string>
+    <string name="server_sync_server_url_placeholder">http://192.168.0.10:8080</string>
+    <string name="server_sync_pair">Parear</string>
+    <string name="server_sync_test_connection">Testar conexão</string>
+    <string name="server_sync_disconnect">Desconectar</string>
+    <string name="server_sync_sync_now">Sincronizar agora</string>
+    <string name="server_sync_connection_connected">Conectado</string>
+    <string name="server_sync_connection_not_configured">Nenhum servidor configurado</string>
+    <string name="server_sync_connection_unreachable">Servidor inacessível — verifique o endereço e seu Wi-Fi</string>
+    <string name="server_sync_connection_unauthorized">O servidor rejeitou este dispositivo — pareie novamente</string>
+    <string name="server_sync_status_last_sync">Última sincronização: %s</string>
+    <string name="server_sync_status_never_synced">Nunca sincronizado</string>
+    <string name="server_sync_status_pending">%d alteração(ões) pendente(s)</string>
+    <string name="server_sync_status_last_error">último erro: %s</string>
+    <string name="server_sync_registered">Pareado com o servidor</string>
+    <string name="server_sync_disconnected">Desconectado — seus dados foram mantidos</string>
+    <string name="server_sync_sync_completed">Sincronização concluída</string>
+    <string name="server_sync_sync_failed">Falha na sincronização — tentaremos novamente automaticamente</string>
+    <string name="server_sync_disconnect_confirmation_title">Desconectar do servidor?</string>
+    <string name="server_sync_disconnect_confirmation_message">Este dispositivo parará de sincronizar. Suas listas e tarefas permanecem neste dispositivo.</string>
+    <string name="server_sync_disconnect_confirmation_positive">Desconectar</string>
+    <string name="server_sync_dialog_negative">Cancelar</string>
+</resources>

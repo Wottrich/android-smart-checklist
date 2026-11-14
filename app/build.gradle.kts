@@ -85,6 +85,7 @@ dependencies {
     implementation(project(path = ":infrastructure:components:kotlin"))
     implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":features:backup:impl"))
+    implementation(project(path = ":features:server-sync:impl"))
     implementation(project(path = ":features:checklist:impl"))
     implementation(project(path = ":features:task:impl"))
     implementation(project(path = ":features:newchecklist:impl"))

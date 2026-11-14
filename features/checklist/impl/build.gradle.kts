@@ -14,6 +14,7 @@ dependencies {
     implementation(libs.bundles.compose.default)
     implementation(project(path = ":domain:coroutines"))
     implementation(project(path = ":datasource:public"))
+    implementation(project(path = ":features:server-sync:public"))
     implementation(project(path = ":infrastructure:components:android"))
     implementation(project(path = ":infrastructure:components:kotlin"))
     implementation(project(path = ":baseui"))

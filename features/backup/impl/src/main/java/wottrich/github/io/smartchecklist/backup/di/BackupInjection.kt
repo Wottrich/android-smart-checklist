@@ -3,6 +3,7 @@ package wottrich.github.io.smartchecklist.backup.di
 import org.koin.android.ext.koin.androidContext
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.module.Module
+import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
@@ -64,7 +65,10 @@ private fun Module.datasources() {
 }
 
 private fun Module.repository() {
-    factory<BackupRepository> {
+    // Qualified Drive binding — the unqualified `BackupRepository` interface is
+    // bound by `serverSyncModule` (RoutingBackupRepository), which routes to this
+    // Drive impl by default and to the server impl when server settings are set.
+    factory(named("driveBackup")) {
         BackupRepositoryImpl(
             dispatchersProviders = get(),
             checklistDatasource = get(),

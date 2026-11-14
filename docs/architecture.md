@@ -12,7 +12,9 @@ Smart Checklist is a fully offline checklist app: 100% Jetpack Compose UI, no ne
 | `:datasource:public` | `feature.public` | Datasource contracts: `ChecklistDatasource`, `TaskDatasource`, data models (`Checklist`, `Task`, `ChecklistWithTasks`, …) |
 | `:domain:coroutines` | Kotlin JVM library | Use-case base classes (`UseCase`, `FlowableUseCase`, `KotlinResultUseCase`), custom `Result`, `DispatchersProviders` |
 | `:features:backup:public` | `feature.public` | Google Drive backup contracts: `BackupRepository`, use cases, `BackupError`, versioned `@Serializable` backup file schema (`BackupFileModel`) |
-| `:features:backup:impl` | `feature.impl` | Backup feature: `BackupRepositoryImpl`, Google Drive client (`appDataFolder`) + `AuthorizationClient` auth (`drive.appdata` scope), `BackupScreen`, `BackupContextNavigator`. The **only** networked module — see [Guardrails](../.claude/rules/offline-guardrails.md) |
+| `:features:backup:impl` | `feature.impl` | Backup feature: `BackupRepositoryImpl`, Google Drive client (`appDataFolder`) + `AuthorizationClient` auth (`drive.appdata` scope), `BackupScreen`, `BackupContextNavigator`. A networked module — see [Guardrails](../.claude/rules/offline-guardrails.md) |
+| `:features:server-sync:public` | `feature.public` | Server-sync contracts: `ServerSyncRepository`, `SyncOutbox` (mutation→outbox seam), `SyncScheduler`, wire DTOs (`SyncModels`, shapes = backend sync-contract v1), `SyncError`, `ServerConnectionState` |
+| `:features:server-sync:impl` | `feature.impl` | Server-sync feature: `ServerSyncRepositoryImpl` (outbox push + cursor pull engine), Ktor client 3.x (OkHttp engine), `SyncOutboxImpl`, WorkManager scheduling (`SyncWorker`), `ServerSettingsScreen` + ViewModel, `ServerSyncContextNavigator`, `RoutingBackupRepository` (backup flag flip) + `ServerBackupRepositoryImpl`. A networked module — see [Guardrails](../.claude/rules/offline-guardrails.md) |
 | `:features:checklist:public` | `feature.public` | `ChecklistRepository` contract + checklist use-case interfaces |
 | `:features:checklist:impl` | `feature.impl` | `ChecklistRepositoryImpl`, use-case impls, delete-checklist bottom sheet UI |
 | `:features:newchecklist:public` | `feature.public` | `NewChecklistModel`, `AddNewChecklistUseCase` interface |
@@ -85,4 +87,4 @@ Navigation is abstracted behind `SmartChecklistNavigation` (`:infrastructure:com
 2. `SplashActivity` — manifest LAUNCHER; collects `SplashViewModel.uiEffect` (`GoToHome`) and starts `MainHostActivity`.
 3. `MainHostActivity` — `AppCompatActivity` with `enableEdgeToEdge()`, `setContent { ApplicationTheme { NavHost(…) } }`; owns the shared `NavHostController` and handles deep links in `onNewIntent`.
 
-The manifest sets `allowBackup=false`, requests no permissions, and enables RTL support — the app is fully offline.
+The manifest sets `allowBackup=false`, requests no permissions beyond `INTERNET` (optional Drive backup and optional self-hosted server sync), and enables RTL support — the app is offline-first: every feature works with the network off.

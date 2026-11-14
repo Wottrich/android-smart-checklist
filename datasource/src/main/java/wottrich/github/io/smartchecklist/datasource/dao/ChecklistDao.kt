@@ -99,6 +99,14 @@ interface ChecklistDao {
     @Query("SELECT * FROM new_checklist WHERE uuid=:uuid")
     suspend fun getChecklist(uuid: String): ChecklistDTO
 
+    /** Null when missing — used by the server-sync engine (pull apply / payload reads). */
+    @Query("SELECT * FROM new_checklist WHERE uuid=:uuid")
+    suspend fun findChecklist(uuid: String): ChecklistDTO?
+
+    /** Direct delete by uuid; missing row is a no-op (idempotent for sync applies). */
+    @Query("DELETE FROM new_checklist WHERE uuid=:uuid")
+    suspend fun deleteByUuid(uuid: String)
+
     @Transaction
     @Query("SELECT * FROM new_checklist WHERE uuid=:uuid")
     suspend fun getChecklistWithTasks(uuid: String): ChecklistWithTasksDTO

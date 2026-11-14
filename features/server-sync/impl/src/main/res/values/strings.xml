@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_sync_screen_title">Server Sync</string>
+    <string name="server_sync_server_url_label">Server URL</string>
+    <string name="server_sync_server_url_placeholder">http://192.168.0.10:8080</string>
+    <string name="server_sync_pair">Pair</string>
+    <string name="server_sync_test_connection">Test connection</string>
+    <string name="server_sync_disconnect">Disconnect</string>
+    <string name="server_sync_sync_now">Sync now</string>
+    <string name="server_sync_connection_connected">Connected</string>
+    <string name="server_sync_connection_not_configured">No server configured</string>
+    <string name="server_sync_connection_unreachable">Server unreachable — check the address and your Wi-Fi</string>
+    <string name="server_sync_connection_unauthorized">Server rejected this device — pair again</string>
+    <string name="server_sync_status_last_sync">Last sync: %s</string>
+    <string name="server_sync_status_never_synced">Never synced</string>
+    <string name="server_sync_status_pending">%d pending change(s)</string>
+    <string name="server_sync_status_last_error">last error: %s</string>
+    <string name="server_sync_registered">Paired with server</string>
+    <string name="server_sync_disconnected">Disconnected — your data was kept</string>
+    <string name="server_sync_sync_completed">Sync completed</string>
+    <string name="server_sync_sync_failed">Sync failed — will retry automatically</string>
+    <string name="server_sync_disconnect_confirmation_title">Disconnect from the server?</string>
+    <string name="server_sync_disconnect_confirmation_message">This device will stop syncing. Your checklists and tasks stay on this device.</string>
+    <string name="server_sync_disconnect_confirmation_positive">Disconnect</string>
+    <string name="server_sync_dialog_negative">Cancel</string>
+</resources>

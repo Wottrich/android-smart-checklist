@@ -10,11 +10,12 @@ package wottrich.github.io.smartchecklist.datasource.version
  */
 
 object DatabaseVersions {
+    const val VI = 6
     const val V = 5
     const val IV = 4
     const val III = 3
     const val II = 2
     const val I = 1
 
-    const val currentVersion = V
+    const val currentVersion = VI
 }

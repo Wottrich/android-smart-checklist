@@ -29,6 +29,10 @@ Arquitetura
 - Arquiterura MVVM com UDF - (View-State-ViewModel-Model).
 - Koin - Para Injeção de dependencias.
 
+Funcionalidades opcionais (o app continua 100% funcional offline)
+- Backup no Google Drive - backup/restauração na pasta de dados do app.
+- Sincronização com servidor próprio - sincronização offline-first contra um servidor Ktor self-hosted na sua rede local (emparelhe em "Server Sync" no menu).
+
 # MAD Score
 ![summary](https://user-images.githubusercontent.com/24254062/142502944-ccefdf6c-1c58-46a1-a1ee-c767343ac894.png)
 ![kotlin](https://user-images.githubusercontent.com/24254062/142502967-31914480-d58b-4456-97ad-6c7237650c5a.png)

@@ -45,6 +45,7 @@
 
     <!-- Drawer bottom items -->
     <string name="drawer_bottom_items_backup">Backup</string>
+    <string name="drawer_bottom_items_server_sync">Server Sync</string>
     <string name="drawer_bottom_items_about_us">About us</string>
     <string name="drawer_bottom_items_help">Help</string>
 

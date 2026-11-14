@@ -47,9 +47,26 @@ private val MIGRATION_IV_V = object : Migration(DatabaseVersions.IV, DatabaseVer
     }
 }
 
+private val MIGRATION_V_VI = object : Migration(DatabaseVersions.V, DatabaseVersions.VI) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Outbox of local mutations waiting to be pushed to the server-sync backend.
+        // No FK on purpose: tombstones of deleted parents must survive their cascade.
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `sync_outbox` (" +
+                "`id` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, " +
+                "`entity` TEXT NOT NULL, " +
+                "`entity_uuid` TEXT NOT NULL, " +
+                "`op` TEXT NOT NULL, " +
+                "`at` INTEGER NOT NULL, " +
+                "`payload` TEXT NOT NULL)"
+        )
+    }
+}
+
 val migrations = arrayOf(
     MIGRATION_I_II,
     MIGRATION_II_III,
     MIGRATION_III_IV,
-    MIGRATION_IV_V
+    MIGRATION_IV_V,
+    MIGRATION_V_VI
 )

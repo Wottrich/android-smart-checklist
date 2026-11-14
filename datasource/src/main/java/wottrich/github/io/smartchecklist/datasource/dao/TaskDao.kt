@@ -34,6 +34,14 @@ interface TaskDao {
     @Insert(entity = TaskDTO::class, onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(task: TaskDTO): Long?
 
+    /** Null when missing — used by the server-sync engine (pull apply / payload reads). */
+    @Query("SELECT * FROM new_task WHERE uuid=:uuid")
+    suspend fun findTask(uuid: String): TaskDTO?
+
+    /** Direct delete by uuid; missing row is a no-op (idempotent for sync applies). */
+    @Query("DELETE FROM new_task WHERE uuid=:uuid")
+    suspend fun deleteByUuid(uuid: String)
+
     @Update
     suspend fun update(task: TaskDTO)
 
