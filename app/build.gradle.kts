@@ -1,48 +1,27 @@
-import java.util.Properties
-
 plugins {
     id("wottrich.github.io.smartchecklist.android.app")
     id("wottrich.github.io.smartchecklist.compose")
     alias(libs.plugins.ksp)
 }
 
-// Release signing secrets live in /keystore.properties (gitignored — see .gitignore).
-// Replace the mock values there with your real keystore path/passwords/alias.
-val keystoreProperties = Properties().apply {
-    val file = rootProject.file("keystore.properties")
-    if (file.exists()) file.inputStream().use { load(it) }
-}
+// Overridable at build time by CI (release pipeline): -PversionCode / -PversionName.
+// Committed values are the defaults used by local builds.
+val appVersionCode = providers.gradleProperty("versionCode").orElse("9").get().toInt()
+val appVersionName = providers.gradleProperty("versionName").orElse("2.0.1").get()
 
 android {
     defaultConfig {
-        applicationId = "wottrich.github.io.smartchecklist"
-        versionCode = 9
-        versionName = "2.0.1"
+        applicationId = "wottrich.github.io.androidsmartchecklist"
+        versionCode = appVersionCode
+        versionName = appVersionName
         multiDexEnabled = true
 
         buildConfigField("String", "PRIVACY_POLICY_URL", "\"https://github.com/Wottrich/android-smart-checklist/blob/master/privacity_rules.txt\"")
     }
 
-    signingConfigs {
-        if (keystoreProperties.isNotEmpty()) {
-            create("release") {
-                storeFile = file(keystoreProperties.getProperty("storeFile"))
-                storePassword = keystoreProperties.getProperty("storePassword")
-                keyAlias = keystoreProperties.getProperty("keyAlias")
-                keyPassword = keystoreProperties.getProperty("keyPassword")
-            }
-        }
-    }
-
     buildTypes {
         getByName("release") {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-            signingConfig = if (keystoreProperties.isNotEmpty()) {
-                signingConfigs.getByName("release")
-            } else {
-                // No keystore.properties configured (e.g. fresh clone/CI): fall back so the build still works.
-                signingConfigs.getByName("debug")
-            }
         }
     }
 

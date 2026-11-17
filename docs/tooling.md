@@ -31,7 +31,22 @@ To change SDK levels, JDK version, or build-type config, edit the convention plu
 
 There are no product flavors and no custom Gradle tasks. Build types:
 - **debug** — applicationId suffix `.debug`, `-debug` versionName suffix
-- **release** — minified (`minifyEnabled`) with `proguard-android-optimize`; **no signing config exists**, release builds require a local keystore
+- **release** — minified (`minifyEnabled`) with `proguard-android-optimize`; signed with the keystore from `keystore.properties` (see [Signing](#signing)), falling back to debug signing with a warning when it is absent
+
+Versioning: `app/build.gradle.kts` reads optional Gradle properties `-PversionCode` / `-PversionName` (used by the release pipeline); committed values are the defaults used by local builds.
+
+## Signing
+
+`keystore.properties` at the repo root (gitignored) configures release signing:
+
+```properties
+storeFile=signing.keystore   # resolved relative to the repo root
+storePassword=…
+keyAlias=…
+keyPassword=…
+```
+
+When the file (or its `storeFile`) is missing, the `android.app` convention plugin logs a warning and the release build signs with the debug key instead. Local machines can therefore always build; CI provides the real keystore via secrets.
 
 ## CI (`.github/workflows/`)
 
@@ -39,8 +54,28 @@ There are no product flavors and no custom Gradle tasks. Build types:
 |---|---|---|
 | `android-feature.yml` | PR to `develop` / `master` | `test` on `ubuntu-22.04`, Zulu JDK 17, `./gradlew test --stacktrace` |
 | `android-artifactory.yml` | push **and** PR to `develop` / `master` | `apk` on `ubuntu-22.04`, Zulu JDK 17, `./gradlew assembleDebug --stacktrace`, uploads `app-debug.apk` as artifact (10-day retention) |
+| `android-deploy.yml` | push of tag `v*` | `internal` on `ubuntu-22.04`: builds signed release AAB via Fastlane and uploads it to the Play Store **internal** track (see [Publishing](#publishing-play-store)) |
 
-There is no release automation, no tagging workflow, and no Play Store deployment in CI — releases are handled manually.
+## Publishing (Play Store)
+
+Releases are automated with [Fastlane](https://docs.fastlane.tools/) (`Gemfile`, `fastlane/Fastfile`) + GitHub Actions:
+
+1. Tag a commit on `master` as `vX.Y.Z` and push the tag (`git push origin vX.Y.Z`)
+2. The deploy workflow derives `versionName = X.Y.Z` and `versionCode = X*10000 + Y*100 + Z` (e.g. `v2.0.2` → 20002; minor/patch must stay ≤ 99)
+3. The AAB is built (`bundleRelease`) with those versions, signed with the release keystore, and uploaded to the **internal** track via the `fastlane android internal` lane
+4. Promotion to beta/production is done manually in the Play Console
+
+**Required GitHub secrets:**
+
+| Secret | Content |
+|---|---|
+| `PLAY_KEYSTORE_BASE64` | base64 of the release keystore (`base64 -w0 release.jks`) |
+| `PLAY_KEYSTORE_PASSWORD` | keystore store password |
+| `PLAY_KEY_ALIAS` | key alias |
+| `PLAY_KEY_PASSWORD` | key password |
+| `PLAY_STORE_SERVICE_ACCOUNT_JSON` | full service-account JSON key contents (never written to disk; passed to fastlane via env) |
+
+**One-time Play Console setup:** in Google Cloud, create a service account and a JSON key for it; in Play Console → *Users & permissions*, invite the service account with release permission for this app (Admin, or at minimum "Create/edit draft releases" + view app info). The Play API can only upload to an existing app entry — this app is already published, so no manual first upload is needed.
 
 ## Git workflow
 
