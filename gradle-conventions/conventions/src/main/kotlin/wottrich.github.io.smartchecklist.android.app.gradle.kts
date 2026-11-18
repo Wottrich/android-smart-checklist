@@ -48,8 +48,8 @@ extensions.configure<ApplicationExtension> {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = true
-            isDebuggable = false
+            isMinifyEnabled = false
+            isDebuggable = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

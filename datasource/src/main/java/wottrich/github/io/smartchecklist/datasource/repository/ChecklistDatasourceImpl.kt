@@ -11,6 +11,8 @@ import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistWithTask
 import wottrich.github.io.smartchecklist.datasource.data.model.Task
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistDTO
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistWithTasksDTO
+import wottrich.github.io.smartchecklist.datasource.entity.TaskDTO
+import java.util.Calendar
 
 private fun <T, R> T.mapDataTo(block: (T) -> R): R {
     return block(this)
@@ -51,7 +53,9 @@ class ChecklistDatasourceImpl(
             Checklist(
                 uuid = it.uuid,
                 name = it.name,
-                isSelected = it.isSelected
+                isSelected = it.isSelected,
+                createdDate = it.createdDate.timeInMillis,
+                lastUpdate = it.lastUpdate.timeInMillis
             )
         },
         this.tasks.map {
@@ -59,7 +63,8 @@ class ChecklistDatasourceImpl(
                 uuid = it.uuid,
                 parentUuid = it.parentUuid,
                 name = it.name,
-                isCompleted = it.isCompleted
+                isCompleted = it.isCompleted,
+                dateCreated = it.dateCreated.timeInMillis
             )
         },
         this.checklistSectionEmbedded.map { embedded ->
@@ -68,7 +73,9 @@ class ChecklistDatasourceImpl(
                     Checklist(
                         uuid = section.uuid,
                         parentUuid = section.parentUuid,
-                        name = section.name
+                        name = section.name,
+                        createdDate = section.createdDate.timeInMillis,
+                        lastUpdate = section.lastUpdate.timeInMillis
                     )
                 },
                 tasks = embedded.tasks.map { task ->
@@ -76,7 +83,8 @@ class ChecklistDatasourceImpl(
                         uuid = task.uuid,
                         parentUuid = task.parentUuid,
                         name = task.name,
-                        isCompleted = task.isCompleted
+                        isCompleted = task.isCompleted,
+                        dateCreated = task.dateCreated.timeInMillis
                     )
                 }
             )
@@ -97,6 +105,22 @@ class ChecklistDatasourceImpl(
     override suspend fun deleteChecklistByUuid(checklistUuid: String) {
         checklistDao.deleteChecklistByUuid(checklistUuid)
     }
+
+    override suspend fun getAllChecklistsWithTasks(): List<ChecklistWithTasks> {
+        return checklistDao.getAllChecklistsWithTasks().map { it.mapToChecklist() }
+    }
+
+    override suspend fun replaceAllChecklists(checklists: List<ChecklistWithTasks>) {
+        checklistDao.replaceAllChecklists(checklists.map { it.mapToDTO() })
+    }
+
+    private fun ChecklistWithTasks.mapToDTO() = ChecklistWithTasksDTO(
+        checklist = checklist.mapToDTO(),
+        tasks = tasks.map { it.mapToDTO() },
+        // Restore only carries flat rows: sections are regular checklist rows and
+        // the DAO's replaceAllChecklists never reads this field.
+        checklistSectionEmbedded = listOf()
+    )
 
     override suspend fun getSelectedChecklist(): Checklist? {
         return checklistDao.getSelectedChecklist()?.mapToModel()
@@ -145,7 +169,25 @@ class ChecklistDatasourceImpl(
     private fun Checklist.mapToDTO() =
         ChecklistDTO(
             uuid = this.uuid,
+            parentUuid = this.parentUuid,
             name = this.name,
-            isSelected = this.isSelected
+            isSelected = this.isSelected,
+            createdDate = this.createdDate.toCalendarOrNow(),
+            lastUpdate = this.lastUpdate.toCalendarOrNow()
         )
+
+    private fun Task.mapToDTO() =
+        TaskDTO(
+            uuid = this.uuid,
+            parentUuid = this.parentUuid,
+            name = this.name,
+            isCompleted = this.isCompleted,
+            dateCreated = this.dateCreated.toCalendarOrNow()
+        )
+
+    /** `0` means unknown (models default dates to 0) — fall back to now. */
+    private fun Long.toCalendarOrNow(): Calendar =
+        Calendar.getInstance().apply {
+            timeInMillis = if (this@toCalendarOrNow > 0) this@toCalendarOrNow else System.currentTimeMillis()
+        }
 }

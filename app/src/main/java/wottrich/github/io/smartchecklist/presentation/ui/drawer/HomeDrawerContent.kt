@@ -49,6 +49,7 @@ fun HomeDrawerStatefulContent(
     onAddNewChecklist: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onBackupClick: () -> Unit,
     viewModel: HomeDrawerViewModel = getViewModel()
 ) {
     val state by viewModel.drawerStateFlow.collectAsState()
@@ -78,6 +79,7 @@ fun HomeDrawerStatefulContent(
             },
             onAboutUsClick = onAboutUsClick,
             onHelpClick = onHelpClick,
+            onBackupClick = onBackupClick,
         )
     }
 }
@@ -91,6 +93,7 @@ private fun HomeDrawerStateless(
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onBackupClick: () -> Unit,
 ) {
     when (state) {
         is HomeDrawerState.Loading -> CircularProgressIndicator()
@@ -103,6 +106,7 @@ private fun HomeDrawerStateless(
             onEditMode = onEditMode,
             onAboutUsClick = onAboutUsClick,
             onHelpClick = onHelpClick,
+            onBackupClick = onBackupClick,
         )
     }
 }
@@ -117,6 +121,7 @@ private fun HomeDrawerSuccessContent(
     onEditMode: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onBackupClick: () -> Unit,
 ) {
     Scaffold { innerPaddings ->
         Column(
@@ -147,7 +152,8 @@ private fun HomeDrawerSuccessContent(
             Divider(modifier = Modifier.fillMaxWidth())
             HelpAboutUsContent(
                 onAboutUsClick = onAboutUsClick,
-                onHelpClick = onHelpClick
+                onHelpClick = onHelpClick,
+                onBackupClick = onBackupClick
             )
         }
     }

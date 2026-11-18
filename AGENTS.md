@@ -20,7 +20,7 @@ Always use the wrapper. JDK 17 required (CI uses Zulu 17).
 - **New Koin modules must be registered in `AppModule.appModule`** (`:app`) or they won't load.
 - **Localize every user-facing string** in both `values/` and `values-pt-rBR/`.
 - **Inject `DispatchersProviders`, never raw `Dispatchers`** — tests depend on this.
-- **No new permissions, network calls, or analytics** — the app is offline by design; `allowBackup=false` is intentional.
+- **No new permissions, network calls, or analytics** — the app is offline by design; `allowBackup=false` is intentional. Sole exception: the Google Drive backup (issue #94) lives in `:features:backup:impl` and uses the `INTERNET` permission.
 - **Colors via `SmartChecklistTheme.colors`** (see [Conventions](docs/conventions.md)), not raw `MaterialTheme.colors`.
 
 ## Key patterns

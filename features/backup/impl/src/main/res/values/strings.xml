@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="backup_screen_title">Backup</string>
+    <string name="backup_connect_google_drive">Connect Google Drive</string>
+    <string name="backup_connect">Connect</string>
+    <string name="backup_connected_account">Connected as %s</string>
+    <string name="backup_connected">Connected to Google Drive</string>
+    <string name="backup_disconnect">Disconnect</string>
+    <string name="backup_backup_now">Backup now</string>
+    <string name="backup_last_backup_date">Last backup: %s</string>
+    <string name="backup_never_backed_up">Never backed up</string>
+    <string name="backup_restore">Restore backup</string>
+    <string name="backup_stored_in_drive_app_data">Your backup is stored in your Google Drive app data folder and is only visible to this app.</string>
+    <string name="backup_restore_confirmation_title">Restore backup?</string>
+    <string name="backup_restore_confirmation_message">This will replace ALL your current checklists and tasks with the ones from the backup. This cannot be undone.</string>
+    <string name="backup_disconnect_confirmation_title">Disconnect Google Drive?</string>
+    <string name="backup_disconnect_confirmation_message">The app access to your Google Drive will be revoked.</string>
+    <string name="backup_restore_confirmation_positive">Restore</string>
+    <string name="backup_disconnect_confirmation_positive">Disconnect</string>
+    <string name="backup_dialog_negative">Cancel</string>
+    <string name="backup_backup_completed">Backup created successfully</string>
+    <string name="backup_restore_completed">Backup restored successfully</string>
+    <string name="backup_disconnected">Google Drive disconnected</string>
+    <string name="backup_connect_canceled">Google Drive connection was not completed.</string>
+    <string name="backup_error_not_connected">Connect your Google account before using the backup.</string>
+    <string name="backup_error_no_backup_found">No backup found on Google Drive.</string>
+    <string name="backup_error_drive_io">Something went wrong while talking to Google Drive. Check your connection and try again.</string>
+    <string name="backup_error_corrupted_backup">The stored backup file is corrupted or was created by a newer app version.</string>
+</resources>

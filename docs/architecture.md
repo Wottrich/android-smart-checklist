@@ -11,6 +11,8 @@ Smart Checklist is a fully offline checklist app: 100% Jetpack Compose UI, no ne
 | `:datasource` | Android library | Room implementation: `AppDatabase`, DAOs, DTOs, converters, migrations, `DatabaseModule` |
 | `:datasource:public` | `feature.public` | Datasource contracts: `ChecklistDatasource`, `TaskDatasource`, data models (`Checklist`, `Task`, `ChecklistWithTasks`, …) |
 | `:domain:coroutines` | Kotlin JVM library | Use-case base classes (`UseCase`, `FlowableUseCase`, `KotlinResultUseCase`), custom `Result`, `DispatchersProviders` |
+| `:features:backup:public` | `feature.public` | Google Drive backup contracts: `BackupRepository`, use cases, `BackupError`, versioned `@Serializable` backup file schema (`BackupFileModel`) |
+| `:features:backup:impl` | `feature.impl` | Backup feature: `BackupRepositoryImpl`, Google Drive client (`appDataFolder`) + `AuthorizationClient` auth (`drive.appdata` scope), `BackupScreen`, `BackupContextNavigator`. The **only** networked module — see [Guardrails](../.claude/rules/offline-guardrails.md) |
 | `:features:checklist:public` | `feature.public` | `ChecklistRepository` contract + checklist use-case interfaces |
 | `:features:checklist:impl` | `feature.impl` | `ChecklistRepositoryImpl`, use-case impls, delete-checklist bottom sheet UI |
 | `:features:newchecklist:public` | `feature.public` | `NewChecklistModel`, `AddNewChecklistUseCase` interface |
@@ -75,7 +77,7 @@ All ViewModels extend `BaseViewModel` (`:infrastructure:components:android`), wh
 
 ## Navigation
 
-Navigation is abstracted behind `SmartChecklistNavigation` (`:infrastructure:components:android`). Each feature provides a navigator implementation (`HomeContextNavigator`, `NewChecklistContextNavigator`, `SupportContextNavigator`). `AppNavigator` (`:app`) collects **all** of them via `koin.getAll<SmartChecklistNavigation>()` and assembles the `NavHost` graph in `MainHostActivity`. Features navigate without knowing the graph.
+Navigation is abstracted behind `SmartChecklistNavigation` (`:infrastructure:components:android`). Each feature provides a navigator implementation (`HomeContextNavigator`, `NewChecklistContextNavigator`, `SupportContextNavigator`, `BackupContextNavigator`). `AppNavigator` (`:app`) collects **all** of them via `koin.getAll<SmartChecklistNavigation>()` and assembles the `NavHost` graph in `MainHostActivity`. Features navigate without knowing the graph.
 
 ## App entry points
 

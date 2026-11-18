@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- Required only for the optional Google Drive backup (issue #94). App remains offline-first; no other network use. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name="wottrich.github.io.smartchecklist.SmartChecklistApplication"
         android:allowBackup="false"

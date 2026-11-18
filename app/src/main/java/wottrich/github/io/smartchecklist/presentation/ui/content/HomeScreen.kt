@@ -21,6 +21,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 import wottrich.github.io.smartchecklist.R.string
+import wottrich.github.io.smartchecklist.backup.navigation.NavigationBackup
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.navigation.NavigationHome
 import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
@@ -59,6 +60,9 @@ fun HomeScreen(
             onHelpClick = {
                 navHostController.navigate(NavigationSupport.route)
             },
+            onBackupClick = {
+                navHostController.navigate(NavigationBackup.route)
+            },
         )
     }
 }
@@ -69,6 +73,7 @@ private fun Screen(
     onChecklistSettings: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onBackupClick: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -99,6 +104,7 @@ private fun Screen(
                 onAddNewChecklist = onAddNewChecklist,
                 onAboutUsClick = onAboutUsClick,
                 onHelpClick = onHelpClick,
+                onBackupClick = onBackupClick,
             )
         },
         onTitleContent = {
@@ -138,6 +144,7 @@ private fun DrawerContent(
     onAddNewChecklist: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
+    onBackupClick: () -> Unit,
 ) {
     fun closeDrawerState() {
         rememberCoroutineScope.launch {
@@ -158,6 +165,10 @@ private fun DrawerContent(
         },
         onHelpClick = {
             onHelpClick()
+            closeDrawerState()
+        },
+        onBackupClick = {
+            onBackupClick()
             closeDrawerState()
         },
     )

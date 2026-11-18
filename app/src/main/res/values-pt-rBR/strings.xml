@@ -45,6 +45,7 @@
     <string name="drawer_checklist_uncompleted">Incompleta</string>
 
     <!-- Drawer bottom items -->
+    <string name="drawer_bottom_items_backup">Backup</string>
     <string name="drawer_bottom_items_about_us">Sobre nós</string>
     <string name="drawer_bottom_items_help">Ajuda</string>
 
