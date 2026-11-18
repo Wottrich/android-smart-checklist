@@ -26,7 +26,7 @@ private fun Module.injectUseCases() {
     factory<UpdateSelectedChecklistUseCase> { UpdateSelectedChecklistUseCaseImpl(get()) }
     factoryOf(::GetChecklistAsTextUseCaseImpl) bind GetChecklistAsTextUseCase::class
     factory<ObserveSelectedChecklistUuidUseCase> { ObserveSelectedChecklistUuidUseCaseImpl(get()) }
-    factory<ChecklistRepository> { ChecklistRepositoryImpl(get()) }
+    factory<ChecklistRepository> { ChecklistRepositoryImpl(get(), get()) }
     factory<GetSelectedChecklistUseCase> {
         GetSelectedChecklistUseCaseImpl(get())
     }

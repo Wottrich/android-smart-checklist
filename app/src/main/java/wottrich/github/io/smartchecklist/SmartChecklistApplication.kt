@@ -2,6 +2,7 @@ package wottrich.github.io.smartchecklist
 
 import android.app.Application
 import org.koin.android.ext.koin.androidContext
+import wottrich.github.io.smartchecklist.serversync.api.SyncScheduler
 import org.koin.core.context.startKoin
 import wottrich.github.io.smartchecklist.di.AppModule
 
@@ -22,6 +23,9 @@ class SmartChecklistApplication : Application() {
             androidContext(this@SmartChecklistApplication)
             modules(AppModule.appModule)
         }
+        // Server-sync safety net: repeats every 15 min on unmetered networks.
+        // The worker exits early while no server is configured, so this is always safe.
+        org.koin.core.context.GlobalContext.get().get<SyncScheduler>().schedulePeriodicSync()
     }
 
 }

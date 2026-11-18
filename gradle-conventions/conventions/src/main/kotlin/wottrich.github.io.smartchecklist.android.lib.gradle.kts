@@ -28,6 +28,12 @@ extensions.configure<LibraryExtension> {
         }
     }
 
+    testOptions {
+        // AGP's default unit-test heap is too small for mock-heavy test classes
+        // (relaxed mocks + inline instrumentation exhaust 512m quickly).
+        unitTests.all { it.maxHeapSize = "2g" }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

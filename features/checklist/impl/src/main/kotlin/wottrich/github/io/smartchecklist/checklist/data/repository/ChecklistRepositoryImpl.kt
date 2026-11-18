@@ -4,12 +4,21 @@ import kotlinx.coroutines.flow.Flow
 import wottrich.github.io.smartchecklist.datasource.data.datasource.ChecklistDatasource
 import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
 import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistWithTasks
+import wottrich.github.io.smartchecklist.serversync.api.SyncOutbox
 
 class ChecklistRepositoryImpl(
-    private val datasource: ChecklistDatasource
+    private val datasource: ChecklistDatasource,
+    private val syncOutbox: SyncOutbox
 ) : ChecklistRepository {
+
+    /**
+     * Server-sync (Phase E): every user mutation lands in Room first, then queues an
+     * outbox entry with the final row state. No-ops when the server is not configured.
+     */
     override suspend fun insertChecklist(checklist: Checklist): Long? {
-        return datasource.insertChecklist(checklist)
+        val rowId = datasource.insertChecklist(checklist)
+        if (rowId != null) syncOutbox.onChecklistUpserted(checklist.uuid)
+        return rowId
     }
 
     override suspend fun getChecklistWithTasksByUuid(uuid: String): ChecklistWithTasks {
@@ -25,11 +34,13 @@ class ChecklistRepositoryImpl(
     }
 
     override suspend fun updateSelectedChecklist(checklistUuid: String) {
-        return datasource.updateSelectedChecklist(checklistUuid)
+        datasource.updateSelectedChecklist(checklistUuid)
+        syncOutbox.onChecklistUpserted(checklistUuid)
     }
 
     override suspend fun deleteChecklistByUuid(checklistUuid: String) {
-        return datasource.deleteChecklistByUuid(checklistUuid)
+        datasource.deleteChecklistByUuid(checklistUuid)
+        syncOutbox.onChecklistDeleted(checklistUuid)
     }
 
     override fun observeSelectedChecklistWithTasks(): Flow<ChecklistWithTasks?> {

@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.mapNotNull
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
 import wottrich.github.io.smartchecklist.datasource.data.datasource.ChecklistDatasource
+import wottrich.github.io.smartchecklist.datasource.data.datasource.SyncOutboxDatasource
 import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
 import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistSectionWithTask
 import wottrich.github.io.smartchecklist.datasource.data.model.ChecklistWithTasks
@@ -19,7 +20,8 @@ private fun <T, R> T.mapDataTo(block: (T) -> R): R {
 }
 
 class ChecklistDatasourceImpl(
-    private val checklistDao: ChecklistDao
+    private val checklistDao: ChecklistDao,
+    private val syncOutboxDatasource: SyncOutboxDatasource
 ) : ChecklistDatasource {
     override suspend fun insertChecklist(checklist: Checklist): Long? {
         return checklistDao.insert(checklist.mapToDTO())
@@ -112,6 +114,9 @@ class ChecklistDatasourceImpl(
 
     override suspend fun replaceAllChecklists(checklists: List<ChecklistWithTasks>) {
         checklistDao.replaceAllChecklists(checklists.map { it.mapToDTO() })
+        // Full replace (backup restore): stale outbox entries would resurrect
+        // pre-restore rows server-side — drop them.
+        syncOutboxDatasource.clearAll()
     }
 
     private fun ChecklistWithTasks.mapToDTO() = ChecklistWithTasksDTO(

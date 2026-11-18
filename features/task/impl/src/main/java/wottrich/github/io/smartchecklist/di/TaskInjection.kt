@@ -26,7 +26,7 @@ import wottrich.github.io.smartchecklist.presentation.viewmodel.TaskComponentVie
 
 val taskModule = module {
     single { SortItemSource }
-    factory<TaskRepository> { TaskRepositoryImpl(get()) }
+    factory<TaskRepository> { TaskRepositoryImpl(get(), get()) }
     factory<SortItemRepository> { SortItemRepositoryImpl(get()) }
     injectUseCases()
     injectViewModels()
