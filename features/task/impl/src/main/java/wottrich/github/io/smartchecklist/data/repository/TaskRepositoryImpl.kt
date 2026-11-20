@@ -30,6 +30,6 @@ class TaskRepositoryImpl(
 
     override suspend fun deleteTask(task: Task) {
         taskDatasource.deleteTask(task)
-        syncOutbox.onTaskDeleted(task.uuid)
+        syncOutbox.onTaskDeleted(task.uuid, task.parentUuid)
     }
 }

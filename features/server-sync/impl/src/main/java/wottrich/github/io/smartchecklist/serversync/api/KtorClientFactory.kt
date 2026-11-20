@@ -5,17 +5,6 @@ import io.ktor.client.engine.okhttp.OkHttp
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.serialization.kotlinx.json.json
-import kotlinx.serialization.json.Json
-
-/**
- * The one JSON config for the server-sync feature. `ignoreUnknownKeys` keeps older
- * apps forward-compatible when the server adds fields; `encodeDefaults` keeps
- * payloads explicit (matching the contract examples, e.g. `parentUuid: null`).
- */
-val ServerSyncJson: Json = Json {
-    ignoreUnknownKeys = true
-    encodeDefaults = true
-}
 
 /**
  * Shared Ktor client (OkHttp engine) for the LAN server. Plain HTTP to a

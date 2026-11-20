@@ -16,29 +16,6 @@ import kotlinx.serialization.SerializationException
 import wottrich.github.io.smartchecklist.serversync.domain.SyncError
 import java.io.IOException
 
-/**
- * Raw HTTP surface of the backend (`smart-checklist-backend`, contract v1).
- * Every method maps failures to [SyncError]; transport problems (refused,
- * timeout, DNS) become [SyncError.ServerUnreachable].
- */
-interface ServerApi {
-
-    suspend fun register(baseUrl: String, deviceName: String?): RegisterResponse
-
-    suspend fun me(baseUrl: String, token: String): MeResponse
-
-    suspend fun push(baseUrl: String, token: String, body: SyncPushBody): SyncPushResponse
-
-    suspend fun pull(baseUrl: String, token: String, since: Long, limit: Int): SyncPullResponse
-
-    /** @throws SyncError.NoBackupFound when the server has no backup stored. */
-    suspend fun downloadBackup(baseUrl: String, token: String): String
-
-    suspend fun uploadBackup(baseUrl: String, token: String, backupJson: String)
-
-    suspend fun backupStatus(baseUrl: String, token: String): BackupStatusResponse
-}
-
 internal class ServerApiImpl(
     private val client: HttpClient
 ) : ServerApi {
@@ -63,9 +40,11 @@ internal class ServerApiImpl(
         baseUrl: String,
         token: String,
         since: Long,
-        limit: Int
+        limit: Int,
+        shareId: String?
     ): SyncPullResponse {
-        return getJson(url(baseUrl, PATH_PULL) + "?since=$since&limit=$limit", token)
+        val shareQuery = shareId?.let { "&shareId=$it" }.orEmpty()
+        return getJson(url(baseUrl, PATH_PULL) + "?since=$since&limit=$limit$shareQuery", token)
     }
 
     override suspend fun downloadBackup(baseUrl: String, token: String): String {
@@ -134,6 +113,8 @@ internal class ServerApiImpl(
         return when {
             status == HttpStatusCode.Unauthorized.value -> SyncError.ServerUnauthorized()
             status == HttpStatusCode.NotFound.value && notFoundIsNoBackup -> SyncError.NoBackupFound()
+            status == HttpStatusCode.NotFound.value -> SyncError.ShareNotFound()
+            status == HttpStatusCode.Forbidden.value -> SyncError.ShareRevoked()
             status == HttpStatusCode.UnprocessableEntity.value &&
                 error?.code == CODE_SCHEMA_VERSION_UNSUPPORTED -> SyncError.CorruptedBackupFile()
             status == HttpStatusCode.UnprocessableEntity.value ->

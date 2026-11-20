@@ -8,6 +8,7 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.coroutines.core)
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.ktor.client.core)
     implementation(project(path = ":domain:coroutines"))
     testImplementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit)

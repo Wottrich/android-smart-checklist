@@ -25,6 +25,22 @@ sealed class SyncError(exception: Exception? = null) : Exception(exception) {
         override val kind: String = "no_backup_found"
     }
 
+    /**
+     * `404 share_not_found` — the device host no longer serves this share
+     * (sharing ended / owner reinstalled). Guests detach: keep a frozen copy.
+     */
+    class ShareNotFound : SyncError() {
+        override val kind: String = "share_not_found"
+    }
+
+    /**
+     * `403 device_revoked` — the owner reset pairing / revoked this device
+     * (v2 hardening). Guests detach: keep a frozen copy, must re-pair to sync.
+     */
+    class ShareRevoked : SyncError() {
+        override val kind: String = "device_revoked"
+    }
+
     /** `422 schema_version_unsupported` — backup version beyond what this app knows. */
     class CorruptedBackupFile : SyncError() {
         override val kind: String = "corrupted_backup_file"

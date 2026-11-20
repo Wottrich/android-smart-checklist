@@ -13,8 +13,8 @@ class SyncOutboxDatasourceImpl(
         dao.insert(entry.mapToDTO())
     }
 
-    override suspend fun pending(limit: Int): List<SyncOutboxEntry> {
-        return dao.pending(limit).map { it.mapToEntry() }
+    override suspend fun pending(hostId: String?, limit: Int): List<SyncOutboxEntry> {
+        return dao.pending(hostId, limit).map { it.mapToEntry() }
     }
 
     override suspend fun deleteByIds(ids: List<Long>) {
@@ -25,7 +25,7 @@ class SyncOutboxDatasourceImpl(
         dao.deleteAll()
     }
 
-    override suspend fun count(): Int = dao.count()
+    override suspend fun count(hostId: String?): Int = dao.count(hostId)
 }
 
 private fun SyncOutboxEntry.mapToDTO() = SyncOutboxDTO(
@@ -35,6 +35,7 @@ private fun SyncOutboxEntry.mapToDTO() = SyncOutboxDTO(
     op = op,
     at = at,
     payload = payload,
+    hostId = hostId,
 )
 
 private fun SyncOutboxDTO.mapToEntry() = SyncOutboxEntry(
@@ -44,4 +45,5 @@ private fun SyncOutboxDTO.mapToEntry() = SyncOutboxEntry(
     op = op,
     at = at,
     payload = payload,
+    hostId = hostId,
 )

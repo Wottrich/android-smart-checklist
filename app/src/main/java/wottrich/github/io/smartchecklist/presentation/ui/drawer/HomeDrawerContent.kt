@@ -51,6 +51,7 @@ fun HomeDrawerStatefulContent(
     onHelpClick: () -> Unit,
     onBackupClick: () -> Unit,
     onServerSyncClick: () -> Unit,
+    onNearbyShareClick: () -> Unit,
     viewModel: HomeDrawerViewModel = getViewModel()
 ) {
     val state by viewModel.drawerStateFlow.collectAsState()
@@ -82,6 +83,7 @@ fun HomeDrawerStatefulContent(
             onHelpClick = onHelpClick,
             onBackupClick = onBackupClick,
             onServerSyncClick = onServerSyncClick,
+            onNearbyShareClick = onNearbyShareClick,
         )
     }
 }
@@ -97,6 +99,7 @@ private fun HomeDrawerStateless(
     onHelpClick: () -> Unit,
     onBackupClick: () -> Unit,
     onServerSyncClick: () -> Unit,
+    onNearbyShareClick: () -> Unit,
 ) {
     when (state) {
         is HomeDrawerState.Loading -> CircularProgressIndicator()
@@ -111,6 +114,7 @@ private fun HomeDrawerStateless(
             onHelpClick = onHelpClick,
             onBackupClick = onBackupClick,
             onServerSyncClick = onServerSyncClick,
+            onNearbyShareClick = onNearbyShareClick,
         )
     }
 }
@@ -127,6 +131,7 @@ private fun HomeDrawerSuccessContent(
     onHelpClick: () -> Unit,
     onBackupClick: () -> Unit,
     onServerSyncClick: () -> Unit,
+    onNearbyShareClick: () -> Unit,
 ) {
     Scaffold { innerPaddings ->
         Column(
@@ -159,7 +164,8 @@ private fun HomeDrawerSuccessContent(
                 onAboutUsClick = onAboutUsClick,
                 onHelpClick = onHelpClick,
                 onBackupClick = onBackupClick,
-                onServerSyncClick = onServerSyncClick
+                onServerSyncClick = onServerSyncClick,
+                onNearbyShareClick = onNearbyShareClick
             )
         }
     }

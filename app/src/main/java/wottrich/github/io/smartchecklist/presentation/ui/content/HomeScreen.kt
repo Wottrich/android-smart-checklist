@@ -25,12 +25,13 @@ import wottrich.github.io.smartchecklist.backup.navigation.NavigationBackup
 import wottrich.github.io.smartchecklist.baseui.ui.ApplicationTheme
 import wottrich.github.io.smartchecklist.navigation.NavigationHome
 import wottrich.github.io.smartchecklist.newchecklist.navigation.NavigatorNewChecklist
-import wottrich.github.io.smartchecklist.serversync.navigation.NavigationServerSync
 import wottrich.github.io.smartchecklist.presentation.state.HomeState
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiActions
 import wottrich.github.io.smartchecklist.presentation.state.HomeUiState
 import wottrich.github.io.smartchecklist.presentation.ui.drawer.HomeDrawerStatefulContent
 import wottrich.github.io.smartchecklist.presentation.viewmodel.HomeViewModel
+import wottrich.github.io.smartchecklist.serversync.navigation.NavigationServerSync
+import wottrich.github.io.smartchecklist.share.navigation.NavigationShare
 import wottrich.github.io.smartchecklist.uisupport.navigation.NavigationSupport
 
 /**
@@ -67,6 +68,9 @@ fun HomeScreen(
             onServerSyncClick = {
                 navHostController.navigate(NavigationServerSync.route)
             },
+            onNearbyShareClick = {
+                navHostController.navigate(NavigationShare.Destinations.NearbyScreen.route)
+            },
         )
     }
 }
@@ -79,6 +83,7 @@ private fun Screen(
     onHelpClick: () -> Unit,
     onBackupClick: () -> Unit,
     onServerSyncClick: () -> Unit,
+    onNearbyShareClick: () -> Unit,
     homeViewModel: HomeViewModel = getViewModel()
 ) {
     val checklistState by homeViewModel.homeStateFlow.collectAsState()
@@ -111,6 +116,7 @@ private fun Screen(
                 onHelpClick = onHelpClick,
                 onBackupClick = onBackupClick,
                 onServerSyncClick = onServerSyncClick,
+                onNearbyShareClick = onNearbyShareClick,
             )
         },
         onTitleContent = {
@@ -152,6 +158,7 @@ private fun DrawerContent(
     onHelpClick: () -> Unit,
     onBackupClick: () -> Unit,
     onServerSyncClick: () -> Unit,
+    onNearbyShareClick: () -> Unit,
 ) {
     fun closeDrawerState() {
         rememberCoroutineScope.launch {
@@ -180,6 +187,10 @@ private fun DrawerContent(
         },
         onServerSyncClick = {
             onServerSyncClick()
+            closeDrawerState()
+        },
+        onNearbyShareClick = {
+            onNearbyShareClick()
             closeDrawerState()
         },
     )

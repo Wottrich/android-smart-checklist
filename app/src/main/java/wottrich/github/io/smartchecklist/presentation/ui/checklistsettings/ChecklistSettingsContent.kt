@@ -16,6 +16,7 @@ import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -44,6 +45,7 @@ import wottrich.github.io.smartchecklist.presentation.viewmodel.ChecklistSetting
 @Composable
 fun ChecklistSettingsScreen(
     onCloseScreen: () -> Unit,
+    onOpenShareScreen: () -> Unit = {},
     shareIntentTextNavigator: ShareIntentTextNavigator = koinInject()
 ) {
     ApplicationTheme {
@@ -51,7 +53,8 @@ fun ChecklistSettingsScreen(
             onCloseScreen,
             onShareChecklistAsText = {
                 shareIntentTextNavigator.shareIntentText(it)
-            }
+            },
+            onOpenShareScreen = onOpenShareScreen
         )
     }
 }
@@ -60,6 +63,7 @@ fun ChecklistSettingsScreen(
 private fun ScreenAndEffects(
     onCloseScreen: () -> Unit,
     onShareChecklistAsText: (String) -> Unit,
+    onOpenShareScreen: () -> Unit,
     viewModel: ChecklistSettingsViewModel = getViewModel()
 ) {
     val modalBottomSheetState = rememberModalBottomSheetState(
@@ -91,6 +95,7 @@ private fun ScreenAndEffects(
                 scaffoldState = scaffoldState,
                 onCopyChecklist = { viewModel.onCopyChecklistClicked() },
                 onBackButton = onCloseScreen,
+                onOpenShareScreen = onOpenShareScreen,
                 onDeleteChecklist = {
                     coroutineScope.launch {
                         modalBottomSheetState.show()
@@ -128,6 +133,7 @@ private fun ScreenScaffold(
     scaffoldState: ScaffoldState,
     onCopyChecklist: () -> Unit,
     onBackButton: () -> Unit,
+    onOpenShareScreen: () -> Unit,
     onDeleteChecklist: () -> Unit,
 ) {
     Scaffold(
@@ -149,6 +155,7 @@ private fun ScreenScaffold(
         ) {
             SettingsComponent(
                 onCopyChecklist = onCopyChecklist,
+                onOpenShareScreen = onOpenShareScreen,
                 onDeleteChecklist = onDeleteChecklist
             )
         }
@@ -159,6 +166,7 @@ private fun ScreenScaffold(
 @Composable
 private fun ColumnScope.SettingsComponent(
     onCopyChecklist: () -> Unit,
+    onOpenShareScreen: () -> Unit,
     onDeleteChecklist: () -> Unit
 ) {
     Column(
@@ -176,6 +184,18 @@ private fun ColumnScope.SettingsComponent(
             },
             trailing = {
                 Icon(imageVector = Icons.Default.Send, contentDescription = null)
+            }
+        )
+        ListItem(
+            modifier = Modifier.clickable(onClick = onOpenShareScreen),
+            text = {
+                Text(text = stringResource(id = R.string.checklist_settings_share_checklist_title))
+            },
+            secondaryText = {
+                Text(text = stringResource(id = R.string.checklist_settings_share_checklist_subtitle))
+            },
+            trailing = {
+                Icon(imageVector = Icons.Default.Share, contentDescription = null)
             }
         )
     }
