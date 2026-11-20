@@ -6,6 +6,6 @@
     hardcoded https and unaffected by this (HTTPS is still used whenever the URL
     asks for it). TLS hardening is planned server-side.
 -->
-<networkSecurityConfig>
+<network-security-config>
     <base-config cleartextTrafficPermitted="true" />
-</networkSecurityConfig>
+</network-security-config>

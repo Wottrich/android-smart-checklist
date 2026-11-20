@@ -35,12 +35,15 @@ class ChecklistRepositoryImpl(
 
     override suspend fun updateSelectedChecklist(checklistUuid: String) {
         datasource.updateSelectedChecklist(checklistUuid)
-        syncOutbox.onChecklistUpserted(checklistUuid)
+        // selection is device-local for shared checklists — the hook skips those
+        syncOutbox.onChecklistSelectionChanged(checklistUuid)
     }
 
     override suspend fun deleteChecklistByUuid(checklistUuid: String) {
+        // parent read before the delete: the tombstone hook needs it to route
+        val parentUuid = datasource.getChecklistByUuid(checklistUuid)?.parentUuid
         datasource.deleteChecklistByUuid(checklistUuid)
-        syncOutbox.onChecklistDeleted(checklistUuid)
+        syncOutbox.onChecklistDeleted(checklistUuid, parentUuid)
     }
 
     override fun observeSelectedChecklistWithTasks(): Flow<ChecklistWithTasks?> {

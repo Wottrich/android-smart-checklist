@@ -1,12 +1,13 @@
 package wottrich.github.io.smartchecklist.di
 
 import wottrich.github.io.smartchecklist.backup.di.backupModule
-import wottrich.github.io.smartchecklist.serversync.di.serverSyncModule
 import wottrich.github.io.smartchecklist.checklist.di.checklistModule
 import wottrich.github.io.smartchecklist.coroutines.di.coroutinesModule
 import wottrich.github.io.smartchecklist.datasource.injection.databaseModule
 import wottrich.github.io.smartchecklist.intent.di.intentExtensionsModule
 import wottrich.github.io.smartchecklist.newchecklist.di.newChecklistModule
+import wottrich.github.io.smartchecklist.serversync.di.serverSyncModule
+import wottrich.github.io.smartchecklist.share.di.shareModule
 import wottrich.github.io.smartchecklist.uisupport.di.supportModule
 
 /**
@@ -37,6 +38,7 @@ object AppModule {
         newChecklistModule,
         backupModule,
         serverSyncModule,
+        shareModule,
 
         //Database
         databaseModule,

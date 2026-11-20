@@ -77,10 +77,34 @@ private val MIGRATION_V_VI = object : Migration(DatabaseVersions.V, DatabaseVers
     }
 }
 
+private val MIGRATION_VI_VII = object : Migration(DatabaseVersions.VI, DatabaseVersions.VII) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        // Wi-Fi share routing: null host_id = PC backend (primary server); a device
+        // host id routes the entry to a Wi-Fi share host. Existing entries — all
+        // personal — keep PC-backend routing.
+        db.execSQL("ALTER TABLE `sync_outbox` ADD COLUMN `host_id` TEXT")
+        // Per-checklist share state (owner + guests): routing table for the outbox,
+        // pull cursors per (host, share) and detached-copy flags.
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS `shared_checklist_meta` (" +
+                "`checklist_uuid` TEXT NOT NULL PRIMARY KEY, " +
+                "`host_device_id` TEXT NOT NULL, " +
+                "`host_address` TEXT NOT NULL, " +
+                "`share_id` TEXT NOT NULL, " +
+                "`host_token` TEXT NOT NULL, " +
+                "`cursor` INTEGER NOT NULL DEFAULT 0, " +
+                "`is_owner` INTEGER NOT NULL DEFAULT 0, " +
+                "`detached` INTEGER NOT NULL DEFAULT 0, " +
+                "`last_sync_at` INTEGER)"
+        )
+    }
+}
+
 val migrations = arrayOf(
     MIGRATION_I_II,
     MIGRATION_II_III,
     MIGRATION_III_IV,
     MIGRATION_IV_V,
-    MIGRATION_V_VI
+    MIGRATION_V_VI,
+    MIGRATION_VI_VII
 )

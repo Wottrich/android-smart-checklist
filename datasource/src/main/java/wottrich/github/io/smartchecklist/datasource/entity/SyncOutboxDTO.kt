@@ -28,4 +28,10 @@ data class SyncOutboxDTO(
     /** JSON snapshot of the row, frozen at enqueue time. */
     @ColumnInfo(name = "payload")
     val payload: String,
+    /**
+     * Routing key: `null` = the PC backend (primary server); a device host id routes
+     * the entry to a Wi-Fi share host (resolved from `shared_checklist_meta` at enqueue).
+     */
+    @ColumnInfo(name = "host_id")
+    val hostId: String? = null,
 )

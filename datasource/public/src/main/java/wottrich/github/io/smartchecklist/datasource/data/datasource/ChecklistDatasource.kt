@@ -9,6 +9,10 @@ interface ChecklistDatasource {
     suspend fun getChecklistWithTasksByUuid(uuid: String): ChecklistWithTasks
     suspend fun getSelectedChecklistWithTasks(): ChecklistWithTasks?
     suspend fun updateSelectedChecklist(checklistUuid: String)
+
+    /** Full row (dates included) or null when missing — read before deleting, so the sync outbox can route the tombstone. */
+    suspend fun getChecklistByUuid(uuid: String): Checklist?
+
     suspend fun deleteChecklistByUuid(checklistUuid: String)
     suspend fun getSelectedChecklist(): Checklist?
     fun observeSelectedChecklistWithTasks(): Flow<ChecklistWithTasks?>

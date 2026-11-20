@@ -8,6 +8,7 @@ import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
 import wottrich.github.io.smartchecklist.baseui.navigation.defaultComposableAnimation
 import wottrich.github.io.smartchecklist.presentation.ui.checklistsettings.ChecklistSettingsScreen
 import wottrich.github.io.smartchecklist.presentation.ui.content.HomeScreen
+import wottrich.github.io.smartchecklist.share.navigation.NavigationShare
 import wottrich.github.io.smartchecklist.uiaboutus.data.model.AboutUsContentModel
 import wottrich.github.io.smartchecklist.uiaboutus.presentation.ui.AboutUsScreen
 import wottrich.github.io.smartchecklist.uiprivacypolicy.ui.PrivacyPolicyScreen
@@ -73,6 +74,9 @@ class HomeContextNavigator(
                         ChecklistSettingsScreen(
                             onCloseScreen = {
                                 navHostController.navigateUp()
+                            },
+                            onOpenShareScreen = {
+                                navHostController.navigate(NavigationShare.route)
                             }
                         )
                     }

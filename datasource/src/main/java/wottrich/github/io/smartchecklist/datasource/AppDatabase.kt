@@ -7,9 +7,11 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import wottrich.github.io.smartchecklist.datasource.converter.Converters
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
+import wottrich.github.io.smartchecklist.datasource.dao.SharedChecklistMetaDao
 import wottrich.github.io.smartchecklist.datasource.dao.SyncOutboxDao
 import wottrich.github.io.smartchecklist.datasource.dao.TaskDao
 import wottrich.github.io.smartchecklist.datasource.entity.ChecklistDTO
+import wottrich.github.io.smartchecklist.datasource.entity.SharedChecklistMetaDTO
 import wottrich.github.io.smartchecklist.datasource.entity.SyncOutboxDTO
 import wottrich.github.io.smartchecklist.datasource.entity.TaskDTO
 import wottrich.github.io.smartchecklist.datasource.migration.migrations
@@ -25,7 +27,7 @@ import wottrich.github.io.smartchecklist.datasource.version.DatabaseVersions
  */
 
 @Database(
-    entities = [ChecklistDTO::class, TaskDTO::class, SyncOutboxDTO::class],
+    entities = [ChecklistDTO::class, TaskDTO::class, SyncOutboxDTO::class, SharedChecklistMetaDTO::class],
     version = DatabaseVersions.currentVersion,
     exportSchema = true
 )
@@ -36,6 +38,8 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
 
     abstract fun syncOutboxDao(): SyncOutboxDao
+
+    abstract fun sharedChecklistMetaDao(): SharedChecklistMetaDao
 
     companion object {
 

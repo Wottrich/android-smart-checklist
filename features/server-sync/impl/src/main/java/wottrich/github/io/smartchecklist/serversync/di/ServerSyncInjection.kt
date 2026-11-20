@@ -8,8 +8,8 @@ import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 import wottrich.github.io.smartchecklist.android.SmartChecklistNavigation
-import wottrich.github.io.smartchecklist.datasource.data.datasource.SyncDatasource
-import wottrich.github.io.smartchecklist.datasource.data.datasource.SyncOutboxDatasource
+import wottrich.github.io.smartchecklist.backup.data.repository.BackupRepository
+import wottrich.github.io.smartchecklist.serversync.api.HostSyncEngine
 import wottrich.github.io.smartchecklist.serversync.api.KtorClientFactory
 import wottrich.github.io.smartchecklist.serversync.api.ServerApi
 import wottrich.github.io.smartchecklist.serversync.api.ServerApiImpl
@@ -20,10 +20,10 @@ import wottrich.github.io.smartchecklist.serversync.data.ServerBackupFileSeriali
 import wottrich.github.io.smartchecklist.serversync.data.ServerSettingsDatasource
 import wottrich.github.io.smartchecklist.serversync.data.ServerSettingsDatasourceImpl
 import wottrich.github.io.smartchecklist.serversync.data.SyncOutboxImpl
+import wottrich.github.io.smartchecklist.serversync.data.repository.HostSyncSession
+import wottrich.github.io.smartchecklist.serversync.data.repository.RoutingBackupRepository
 import wottrich.github.io.smartchecklist.serversync.data.repository.ServerBackupRepositoryImpl
 import wottrich.github.io.smartchecklist.serversync.data.repository.ServerSyncRepositoryImpl
-import wottrich.github.io.smartchecklist.serversync.data.repository.RoutingBackupRepository
-import wottrich.github.io.smartchecklist.backup.data.repository.BackupRepository
 import wottrich.github.io.smartchecklist.serversync.domain.usecase.DisconnectServerUseCase
 import wottrich.github.io.smartchecklist.serversync.domain.usecase.DisconnectServerUseCaseImpl
 import wottrich.github.io.smartchecklist.serversync.domain.usecase.RegisterDeviceUseCase
@@ -62,11 +62,13 @@ private fun Module.datasources() {
     single<SyncScheduler> { WorkManagerSyncScheduler(androidContext()) }
     single<HttpClient> { KtorClientFactory().create() }
     single<ServerApi> { ServerApiImpl(get()) }
+    single<HostSyncEngine> { HostSyncSession(get(), get(), get()) }
     single<SyncOutbox> {
         SyncOutboxImpl(
             serverSettingsDatasource = get(),
             syncDatasource = get(),
             syncOutboxDatasource = get(),
+            sharedChecklistMetaDatasource = get(),
             syncScheduler = get()
         )
     }
@@ -84,7 +86,7 @@ private fun Module.repository() {
             dispatchersProviders = get(),
             serverSettingsDatasource = get(),
             syncOutboxDatasource = get(),
-            syncDatasource = get(),
+            hostSyncEngine = get(),
             serverApi = get()
         )
     }

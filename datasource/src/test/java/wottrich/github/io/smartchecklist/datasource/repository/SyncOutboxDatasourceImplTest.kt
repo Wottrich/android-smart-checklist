@@ -54,11 +54,11 @@ class SyncOutboxDatasourceImplTest {
                 payload = """{"uuid": "t-1"}""",
             )
         )
-        coEvery { dao.pending(10) } returns rows
+        coEvery { dao.pending(null, 10) } returns rows
 
-        val result = sut.pending(10)
+        val result = sut.pending(hostId = null, limit = 10)
 
-        coVerify { dao.pending(10) }
+        coVerify { dao.pending(null, 10) }
         assertEquals(1, result.size)
         assertEquals(1L, result[0].id)
         assertEquals("t-1", result[0].entityUuid)
@@ -84,7 +84,34 @@ class SyncOutboxDatasourceImplTest {
 
     @Test
     fun `GIVEN dao count WHEN count is called THEN it is returned`() = runTest {
-        coEvery { dao.count() } returns 7
-        assertEquals(7, sut.count())
+        coEvery { dao.count(null) } returns 7
+        assertEquals(7, sut.count(hostId = null))
+    }
+
+    @Test
+    fun `GIVEN an entry routed to a share host WHEN enqueue is called THEN hostId is kept`() = runTest {
+        val entry = SyncOutboxEntry(
+            entity = SyncOutboxEntry.ENTITY_TASK,
+            entityUuid = "t-1",
+            op = SyncOutboxEntry.OP_UPSERT,
+            at = 1700000000000L,
+            payload = """{"uuid":"t-1"}""",
+            hostId = "device-owner",
+        )
+        val slot = slot<SyncOutboxDTO>()
+        coEvery { dao.insert(capture(slot)) } returns Unit
+
+        sut.enqueue(entry)
+
+        assertEquals("device-owner", slot.captured.hostId)
+    }
+
+    @Test
+    fun `GIVEN pending rows for a share host WHEN pending is called THEN the hostId is forwarded`() = runTest {
+        coEvery { dao.pending("device-owner", 10) } returns emptyList()
+
+        sut.pending(hostId = "device-owner", limit = 10)
+
+        coVerify { dao.pending("device-owner", 10) }
     }
 }

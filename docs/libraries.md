@@ -20,6 +20,10 @@ All dependency coordinates and versions live in [`gradle/libs.versions.toml`](..
 | `kotlinx-serialization-json` (+ `kotlin-serialization` plugin) | Backup file JSON encoding (`BackupFileModel` schema, versioned) | `:features:backup:public`, `:features:backup:impl` |
 | `play-services-auth` | `AuthorizationClient`: `drive.appdata` OAuth grant + access token for the backup feature (account selection happens inside its consent flow — no Credential Manager needed) | `:features:backup:impl` |
 | `google-api-client-android`, `google-api-services-drive` | Google Drive REST client — writes/reads the hidden `appDataFolder` backup file (both artifacts exclude `guava:listenablefuture` to avoid the classpath clash) | `:features:backup:impl` |
+| `ktor-client-*` (core, okhttp, content-negotiation, logging), `ktor-serialization-kotlinx-json` | Ktor client 3.x for the self-hosted server sync and share host clients (OkHttp engine; plain HTTP to user-configured LAN hosts) | `:features:server-sync:impl`, `:features:share:impl` |
+| `ktor-server-core`, `ktor-server-cio`, `ktor-server-content-negotiation` | Embedded **CIO** server hosting Wi-Fi share offers (`EmbeddedShareServer`) — CIO, not Netty, which is unreliable on Android | `:features:share:impl` |
+| `work-runtime-ktx` | WorkManager: periodic + expedited one-shot sync scheduling | `:features:server-sync:impl` |
+| `androidx.core:core-ktx` NSD (platform API, no artifact) | `_smartchecklist._tcp` advertise (owner) and browse (guest) — no runtime permission | `:features:share:impl` |
 
 ## Toolchain / build-time
 

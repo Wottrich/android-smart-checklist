@@ -104,6 +104,19 @@ class ChecklistDatasourceImpl(
         }
     }
 
+    override suspend fun getChecklistByUuid(uuid: String): Checklist? {
+        return checklistDao.findChecklist(uuid)?.mapDataTo {
+            Checklist(
+                uuid = it.uuid,
+                parentUuid = it.parentUuid,
+                name = it.name,
+                isSelected = it.isSelected,
+                createdDate = it.createdDate.timeInMillis,
+                lastUpdate = it.lastUpdate.timeInMillis
+            )
+        }
+    }
+
     override suspend fun deleteChecklistByUuid(checklistUuid: String) {
         checklistDao.deleteChecklistByUuid(checklistUuid)
     }

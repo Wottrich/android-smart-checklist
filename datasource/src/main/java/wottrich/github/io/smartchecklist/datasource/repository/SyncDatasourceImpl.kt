@@ -3,6 +3,7 @@ package wottrich.github.io.smartchecklist.datasource.repository
 import androidx.room.withTransaction
 import wottrich.github.io.smartchecklist.datasource.AppDatabase
 import wottrich.github.io.smartchecklist.datasource.dao.ChecklistDao
+import wottrich.github.io.smartchecklist.datasource.dao.SharedChecklistMetaDao
 import wottrich.github.io.smartchecklist.datasource.dao.TaskDao
 import wottrich.github.io.smartchecklist.datasource.data.datasource.SyncDatasource
 import wottrich.github.io.smartchecklist.datasource.data.model.Checklist
@@ -20,7 +21,8 @@ import java.util.Calendar
 class SyncDatasourceImpl(
     private val database: AppDatabase,
     private val checklistDao: ChecklistDao,
-    private val taskDao: TaskDao
+    private val taskDao: TaskDao,
+    private val sharedChecklistMetaDao: SharedChecklistMetaDao
 ) : SyncDatasource {
 
     override suspend fun getChecklistRow(uuid: String): Checklist? {
@@ -42,7 +44,7 @@ class SyncDatasourceImpl(
                 // parents first, so the self foreign key never fails mid-page
                 .sortedBy { it.parentUuid != null }
                 .forEach { row ->
-                    val dto = row.mapToDTO()
+                    val dto = withLocalSelection(row).mapToDTO()
                     if (checklistDao.insert(dto) == INSERT_CONFLICT) {
                         checklistDao.update(dto)
                     }
@@ -69,6 +71,18 @@ class SyncDatasourceImpl(
     private companion object {
         /** `OnConflictStrategy.IGNORE` returns -1 when the row already exists. */
         const val INSERT_CONFLICT = -1L
+    }
+
+    /**
+     * Selection is device-local for shared checklists (Wi-Fi sharing): two devices
+     * selecting different checklists must not fight via LWW, so a pulled upsert of
+     * a shared row never overwrites the local flag. Share payloads always carry
+     * `isSelected = false`.
+     */
+    private suspend fun withLocalSelection(row: Checklist): Checklist {
+        val meta = sharedChecklistMetaDao.getByChecklistUuid(row.uuid) ?: return row
+        val existing = checklistDao.findChecklist(row.uuid)
+        return row.copy(isSelected = existing?.isSelected ?: false)
     }
 }
 

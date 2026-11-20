@@ -17,6 +17,7 @@ import wottrich.github.io.smartchecklist.baseui.ui.pallet.SmartChecklistTheme
 fun HelpAboutUsContent(
     onBackupClick: () -> Unit,
     onServerSyncClick: () -> Unit,
+    onNearbyShareClick: () -> Unit,
     onAboutUsClick: () -> Unit,
     onHelpClick: () -> Unit,
 ) {
@@ -25,6 +26,7 @@ fun HelpAboutUsContent(
     ) {
         DrawerBottomTextButton(label = string.drawer_bottom_items_backup, onClick = onBackupClick)
         DrawerBottomTextButton(label = string.drawer_bottom_items_server_sync, onClick = onServerSyncClick)
+        DrawerBottomTextButton(label = string.drawer_bottom_items_nearby, onClick = onNearbyShareClick)
         DrawerBottomTextButton(label = string.drawer_bottom_items_about_us, onClick = onAboutUsClick)
         DrawerBottomTextButton(label = string.drawer_bottom_items_help, onClick = onHelpClick)
     }
